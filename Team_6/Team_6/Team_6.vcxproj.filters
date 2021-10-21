@@ -55,6 +55,9 @@
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05_Character\Jailer">
+      <UniqueIdentifier>{6f50a527-081a-4223-a533-7a7aafa705b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -174,6 +177,9 @@
     <ClCompile Include="object.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
+    <ClCompile Include="jailer.cpp">
+      <Filter>05_Character\Jailer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -292,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="object.h">
       <Filter>06_Model</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer.h">
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

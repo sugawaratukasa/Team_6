@@ -44,6 +44,7 @@ CXfile::CXfile()
 	m_aHierarchyXfileName =
 	{
 		{ "data/Text/Player/motion_Player.txt" },			// ƒvƒŒƒCƒ„[
+		{ "data/Text/Jailer/motion_Jailer.txt" },			// ŠÅç
 	};
 }
 

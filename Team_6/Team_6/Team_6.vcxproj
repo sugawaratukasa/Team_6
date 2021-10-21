@@ -155,6 +155,7 @@
     <ClCompile Include="floor.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="jailer.cpp" />
     <ClCompile Include="joypad.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="library.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="floor.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="jailer.h" />
     <ClInclude Include="joypad.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="library.h" />

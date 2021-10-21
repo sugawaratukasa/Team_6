@@ -69,11 +69,16 @@ void CDebugProc::Uninit(void)
 //=============================================================================
 void CDebugProc::Print(char * fmt, ...)
 {
+	char aMoji[1024];
 	va_list list;
 	// 可変長引数の取得
 	va_start(list, fmt);
 	// 可変長引数のリストを書き込む
-	vsprintf(m_astr, fmt, list);
+	vsprintf(aMoji, fmt, list);
+
+	//文字列の結合
+	strcat(m_astr, aMoji);
+
 	va_end(list);
 }
 
@@ -85,5 +90,8 @@ void CDebugProc::Draw(void)
 {
 	RECT rect = { SCREEN_WIDTH - 500, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	// テキスト描画
-	m_pFont->DrawText(NULL, m_astr, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	m_pFont->DrawText(NULL, m_astr, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0x00, 0x00, 0x00));
+
+	//すべての情報を表示し終わったらメモリをクリアする
+	ZeroMemory(m_astr, sizeof(m_astr));
 }

@@ -26,6 +26,8 @@
 #include "floor.h"
 #include "fade.h"
 #include "object.h"
+#include "jailer.h"
+
 //=======================================================================================
 // ƒ}ƒNƒ’è‹`
 //=======================================================================================
@@ -75,6 +77,9 @@ HRESULT CGame::Init(void)
 
 	// ¶¬
 	CreateGround();
+
+	//ŠÅç‚Ì¶¬
+	CJailer::Create(ZeroVector3, ZeroVector3);
 
 	return S_OK;
 }
@@ -194,5 +199,5 @@ void CGame::DrawPlayerPos(void)
 	D3DXVECTOR3 PlayerPos = m_pPlayer->GetPos();
 
 	// ‘‚«‚İ
-	CDebugProc::Print("POS:X%.1f Y%.1f Z%.1f", PlayerPos.x, PlayerPos.y, PlayerPos.z);
+	CDebugProc::Print("POS:X%.1f Y%.1f Z%.1f\n", PlayerPos.x, PlayerPos.y, PlayerPos.z);
 }
