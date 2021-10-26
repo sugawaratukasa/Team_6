@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_game.cpp" />
@@ -157,6 +158,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="jailer.cpp" />
+    <ClCompile Include="jailer_WaitState.cpp" />
+    <ClCompile Include="jalier_ChaseState.cpp" />
     <ClCompile Include="joypad.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="library.cpp" />
@@ -167,6 +170,7 @@
     <ClCompile Include="model_anime.cpp" />
     <ClCompile Include="mode_base.cpp" />
     <ClCompile Include="motion.cpp" />
+    <ClCompile Include="jalier_MoveState.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -200,6 +204,11 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="jailer.h" />
+    <ClInclude Include="jailer_AttackState.h" />
+    <ClInclude Include="jailer_State.h" />
+    <ClInclude Include="jailer_WaitState.h" />
+    <ClInclude Include="jalier_ChaseState.h" />
+    <ClInclude Include="Jalier_MoveState.h" />
     <ClInclude Include="joypad.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="library.h" />

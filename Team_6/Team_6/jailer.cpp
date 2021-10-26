@@ -10,7 +10,8 @@
 #include "xfile.h"
 #include "debug_proc.h"
 #include "keyboard.h"
-#include "scene3d.h"
+#include "player.h"
+#include "jailer_State.h"
 
 //=============================================================================
 //マクロ定義
@@ -130,6 +131,8 @@ void CJailer::Update(void)
 
 	//移動処理
 	Move();
+
+	//m_pState->Update(this);
 }
 
 //=============================================================================
@@ -141,9 +144,7 @@ void CJailer::Draw(void)
 	CCharacter::Draw();
 }
 
-//=============================================================================
-//状態の更新処理
-//=============================================================================
+
 void CJailer::UpdateState(void)
 {
 }
@@ -234,8 +235,8 @@ void CJailer::Move(void)
 	
 	if (m_pFan3d)
 	{
-		m_pFan3d->SetRotation(rot);
-		m_pFan3d->SetPosition(D3DXVECTOR3(pos.x, 500.0f, pos.z));
+		m_pFan3d->SetRotation(rot);									//扇の向きの設定
+		m_pFan3d->SetPosition(D3DXVECTOR3(pos.x, 500.0f, pos.z));	//扇の位置の設定
 	}
 
 	CDebugProc::Print("=====================Jailer=====================\n");
@@ -253,4 +254,38 @@ void CJailer::Move(void)
 //=============================================================================
 void CJailer::Death(void)
 {
+}
+
+//=============================================================================
+// 状態切り替え関数
+//=============================================================================
+void CJailer::ChangeState(CJailerState * state)
+{
+	m_pState = state;
+	m_pState->Init(this);
+}
+
+//=============================================================================
+// 追跡
+//=============================================================================
+void CJailer::Chase()
+{
+}
+
+bool CJailer::IsDistanceToPlayer(float distance, bool outside)
+{
+	if (outside == true)
+	{
+		return GetDistance() <= distance ? true : false;
+	}
+	return GetDistance() >= distance ? true : false;
+}
+
+//プレイヤーとの距離感
+float CJailer::GetDistance()
+{
+	float X = (m_posX - m_pPlayer->GetPos().x)*(m_posX - m_pPlayer->GetPos().x);
+	float Z = (m_posZ - m_pPlayer->GetPos().z)*(m_posZ - m_pPlayer->GetPos().z);
+
+	return sqrt(X+Z);
 }
