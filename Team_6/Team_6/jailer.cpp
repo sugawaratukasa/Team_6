@@ -10,6 +10,8 @@
 #include "xfile.h"
 #include "debug_proc.h"
 #include "keyboard.h"
+#include "player.h"
+#include "jailer_State.h"
 
 //=============================================================================
 //マクロ定義
@@ -124,6 +126,8 @@ void CJailer::Update(void)
 
 	//移動処理
 	Move();
+
+	//m_pState->Update(this);
 }
 
 //=============================================================================
@@ -135,9 +139,7 @@ void CJailer::Draw(void)
 	CCharacter::Draw();
 }
 
-//=============================================================================
-//状態の更新処理
-//=============================================================================
+
 void CJailer::UpdateState(void)
 {
 }
@@ -241,4 +243,38 @@ void CJailer::Move(void)
 //=============================================================================
 void CJailer::Death(void)
 {
+}
+
+//=============================================================================
+// 状態切り替え関数
+//=============================================================================
+void CJailer::ChangeState(CJailerState * state)
+{
+	m_pState = state;
+	m_pState->Init(this);
+}
+
+//=============================================================================
+// 追跡
+//=============================================================================
+void CJailer::Chase()
+{
+}
+
+bool CJailer::IsDistanceToPlayer(float distance, bool outside)
+{
+	if (outside == true)
+	{
+		return GetDistance() <= distance ? true : false;
+	}
+	return GetDistance() >= distance ? true : false;
+}
+
+//プレイヤーとの距離感
+float CJailer::GetDistance()
+{
+	float X = (m_posX - m_pPlayer->GetPos().x)*(m_posX - m_pPlayer->GetPos().x);
+	float Z = (m_posZ - m_pPlayer->GetPos().z)*(m_posZ - m_pPlayer->GetPos().z);
+
+	return sqrt(X+Z);
 }

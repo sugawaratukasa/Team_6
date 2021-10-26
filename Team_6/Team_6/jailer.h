@@ -1,16 +1,19 @@
-#ifndef _JAILER_H_
-#define _JAILER_H_
+#ifndef JAILER_H_
+#define JAILER_H_
 //=============================================================================
 //
 // 看守クラスヘッダー [jailer.h]
 // Author : Yamada Ryota
 //
 //=============================================================================
+class CJailerState;
+class CPlayer;
 
 //=============================================================================
 //インクルードファイル
 //=============================================================================
 #include "character.h"
+#include "jailer_WaitState.h"
 
 class CJailer :public CCharacter
 {
@@ -29,6 +32,14 @@ public:
 		POS_DEST_RIGHT_TOP,
 		POS_DEST_MAX,
 	};
+
+	CJailer(float pos_x, float pos_z, CPlayer *player) :
+		m_posX(pos_x),
+		m_posZ(pos_z),
+		m_pPlayer(player),
+		m_pState(CWaitState::GetInstance())
+	{};
+
 	CJailer();
 	~CJailer();
 
@@ -39,13 +50,39 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	void UpdateState(void);								// キャラクター状態
+	void UpdateState(void);								// 状態の更新
 	void Attack(void);									// 攻撃の処理
 	void Move(void);									// 移動関数
 	void Death(void);									// 死んだときの処理
+
+	//プレイヤーとの距離チェック
+	bool IsDistanceToPlayer(float distance, bool out_side = false);
+
+	//状態遷移
+	void ChangeState(CJailerState *state);
+
+	//追跡
+	void Chase();
+	int GetTimer() { return m_Timer; }
+	void SetTimer(int time) { m_Timer = time; }
+	int AddTimer(int add) 
+	{
+		m_Timer += add;
+		return m_Timer;
+	};
+
+private:
+	//プレイヤーとの距離取得
+	float GetDistance();
+
 private:
 	D3DXVECTOR3 m_rotDest;
 	int m_nIndex;
 	D3DXVECTOR3 m_posDest;
+	int m_Timer;
+	CPlayer *m_pPlayer;
+	CJailerState *m_pState;
+	float m_posX;
+	float m_posZ;
 };
 #endif // !_JAILER_H_

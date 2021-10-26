@@ -49,14 +49,11 @@
     <Filter Include="05_Character\Player">
       <UniqueIdentifier>{125a8a3e-0f8f-48d4-930a-82cb68d9d01b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07_Effect">
-      <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Character\Jailer">
-      <UniqueIdentifier>{6f50a527-081a-4223-a533-7a7aafa705b0}</UniqueIdentifier>
+    <Filter Include="06_Model\07_Effect">
+      <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -154,13 +151,13 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
     <ClCompile Include="shadow.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_polygon.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_volume.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>00_Important\Camera</Filter>
@@ -178,7 +175,19 @@
       <Filter>06_Model</Filter>
     </ClCompile>
     <ClCompile Include="jailer.cpp">
-      <Filter>05_Character\Jailer</Filter>
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_WaitState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_MoveState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_ChaseState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_AttackState.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,13 +285,13 @@
       <Filter>04_Scene</Filter>
     </ClInclude>
     <ClInclude Include="shadow.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_polygon.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_volume.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>00_Important\Camera</Filter>
@@ -300,7 +309,22 @@
       <Filter>06_Model</Filter>
     </ClInclude>
     <ClInclude Include="jailer.h">
-      <Filter>05_Character\Jailer</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_State.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_WaitState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jalier_ChaseState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Jalier_MoveState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_AttackState.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
