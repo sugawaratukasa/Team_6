@@ -11,16 +11,25 @@
 //インクルードファイル
 //=============================================================================
 #include "character.h"
+#include "fan3d.h"
 
+//=============================================================================
+//看守クラス
+//=============================================================================
 class CJailer :public CCharacter
 {
 public:
+
+	//=========================================================================
+	//モーションの種類
+	//=========================================================================
 	enum JAILER_MOTION
 	{
 		JAILER_MOTION_IDOL = 0,
 		JAILER_MOTION_MOVE,
 		JAILER_MOTION_MAX,
 	};
+
 	enum POS_DEST
 	{
 		POS_DEST_LEFT_TOP = 0,
@@ -47,5 +56,6 @@ private:
 	D3DXVECTOR3 m_rotDest;
 	int m_nIndex;
 	D3DXVECTOR3 m_posDest;
+	CFan3D *m_pFan3d;	
 };
 #endif // !_JAILER_H_

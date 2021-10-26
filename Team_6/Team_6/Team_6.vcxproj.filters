@@ -180,6 +180,9 @@
     <ClCompile Include="jailer.cpp">
       <Filter>05_Character\Jailer</Filter>
     </ClCompile>
+    <ClCompile Include="fan3d.cpp">
+      <Filter>04_Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="jailer.h">
       <Filter>05_Character\Jailer</Filter>
+    </ClInclude>
+    <ClInclude Include="fan3d.h">
+      <Filter>04_Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

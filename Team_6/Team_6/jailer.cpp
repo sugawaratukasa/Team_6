@@ -10,6 +10,7 @@
 #include "xfile.h"
 #include "debug_proc.h"
 #include "keyboard.h"
+#include "scene3d.h"
 
 //=============================================================================
 //マクロ定義
@@ -33,6 +34,7 @@ CJailer::CJailer()
 	m_rotDest = ZeroVector3;
 	m_nIndex = 0;
 	m_posDest = ZeroVector3;
+	m_pFan3d = nullptr;
 }
 
 //=============================================================================
@@ -93,6 +95,10 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_posDest = posdest[0];
 
 	SetPos(m_posDest);
+
+	//視界のクリエイト
+	m_pFan3d = CFan3D::Create(D3DXVECTOR3(m_posDest.x, 20.0f, m_posDest.z), ZeroVector3, 8, D3DCOLOR_RGBA(255, 0, 0, 255));
+
 	return S_OK;
 }
 
@@ -226,6 +232,12 @@ void CJailer::Move(void)
 	//移動量の設定
 	SetMove(move);
 	
+	if (m_pFan3d)
+	{
+		m_pFan3d->SetRotation(rot);
+		m_pFan3d->SetPosition(D3DXVECTOR3(pos.x, 500.0f, pos.z));
+	}
+
 	CDebugProc::Print("=====================Jailer=====================\n");
 	CDebugProc::Print("【向き】 X:%f,Y:%f,Z:%f\n", rot.x, rot.y, rot.z);
 	CDebugProc::Print("【目的の向き（度数法）】 %f\n", D3DXToDegree(m_rotDest.y));
