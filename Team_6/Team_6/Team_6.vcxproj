@@ -158,6 +158,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="jailer.cpp" />
+    <ClCompile Include="jailer_LostTargetState.cpp" />
+    <ClCompile Include="jailer_view.cpp" />
     <ClCompile Include="jailer_WaitState.cpp" />
     <ClCompile Include="jalier_ChaseState.cpp" />
     <ClCompile Include="joypad.cpp" />
@@ -205,7 +207,9 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
+    <ClInclude Include="jailer_LostTargetState.h" />
     <ClInclude Include="jailer_State.h" />
+    <ClInclude Include="jailer_view.h" />
     <ClInclude Include="jailer_WaitState.h" />
     <ClInclude Include="jalier_ChaseState.h" />
     <ClInclude Include="Jalier_MoveState.h" />

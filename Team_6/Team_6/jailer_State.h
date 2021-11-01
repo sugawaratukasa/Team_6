@@ -16,7 +16,7 @@
 //前方宣言
 //=============================================================================
 class CJailer;
-class CFan3D;
+class CJailerView;
 
 //=============================================================================
 //クラス宣言
@@ -29,9 +29,9 @@ public:
 	//デストラクタ
 	virtual ~CJailerState() {};
 	//初期化
-	virtual void Init(CJailer *jailer,CFan3D *fan3d) {};
+	virtual void Init(CJailer *pJailer, CJailerView *pJailerView) {};
 	//更新
-	virtual void Update(CJailer *jailer, CFan3D *fan3d) {};
+	virtual void Update(CJailer *pJailer, CJailerView *pJailerView) {};
 
 private:
 };

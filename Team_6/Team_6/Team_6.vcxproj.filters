@@ -55,6 +55,9 @@
     <Filter Include="06_Model\07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05_Character\Jjailer">
+      <UniqueIdentifier>{f9cc20fe-7f25-43ed-acf5-0ddb24be7a91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -174,23 +177,29 @@
     <ClCompile Include="object.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-    <ClCompile Include="jailer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="jailer_WaitState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="jalier_MoveState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="jalier_ChaseState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="jailer_AttackState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="fan3d.cpp">
       <Filter>04_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_AttackState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_WaitState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_ChaseState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_MoveState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_view.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_LostTargetState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,26 +320,32 @@
     <ClInclude Include="object.h">
       <Filter>06_Model</Filter>
     </ClInclude>
-    <ClInclude Include="jailer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="jailer_State.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="jailer_WaitState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="jalier_ChaseState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Jalier_MoveState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="jailer_AttackState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="fan3d.h">
       <Filter>04_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_AttackState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_State.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_WaitState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jalier_ChaseState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="Jalier_MoveState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_view.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_LostTargetState.h">
+      <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

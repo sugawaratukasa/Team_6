@@ -25,8 +25,8 @@ public:
 	//インスタンス生成
 	static CAttackState *GetInstance();
 
-	virtual void Init(CJailer *Jailer, CFan3D *fan3d);
-	virtual void Update(CJailer *Jailer, CFan3D *fan3d);
+	virtual void Init(CJailer *pJailer, CJailerView *pJailerView);
+	virtual void Update(CJailer *pJailer, CJailerView *pJailerView);
 
 private:
 	CAttackState() {};

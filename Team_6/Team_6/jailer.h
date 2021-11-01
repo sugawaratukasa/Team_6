@@ -12,7 +12,7 @@ class CJailerState;
 //インクルードファイル
 //=============================================================================
 #include "character.h"
-#include "fan3d.h"
+#include "jailer_view.h"
 #include "jailer_WaitState.h"
 
 //=============================================================================
@@ -79,15 +79,16 @@ public:
 	void DebugpPrint(void);
 
 private:
+	static int m_nJailerTotal;	//看守の総数
 	D3DXVECTOR3 m_rotDest;		//向きの目的地
 	D3DXVECTOR3 m_posDest;		//位置の目的地
 	D3DXVECTOR3 m_posDestOld;	//前回の位置の目的地
 	D3DXVECTOR3 m_Distance;		//目的地までの距離
 	int m_nIndex;				//インデックス
 	int m_SwitchingTimer;		//状態の切り替えタイマー
-
+	int m_nNumber;				
 	std::string m_cStateName;		//デバック用状態名称
-	CFan3D *m_pFan3d;		//扇クラスのポインタ変数
+	CJailerView *m_pView;		//看守の視線クラスのポインタ変数
 	CJailerState *m_pState;		//状態のポインタ
 };
 #endif // !_JAILER_H_

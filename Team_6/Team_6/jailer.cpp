@@ -15,11 +15,14 @@
 #include "fan3d.h"
 #include "mode_base.h"
 
+int CJailer::m_nJailerTotal = -1;
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define JAILER_SPEED (10.0f)	//速さ
+#define JAILER_NORMAL_SPEED (10.0f)				//通常時の移動速度
+#define JAILER_CHASE_SPEED (20.0f)				//追跡時の移動速度
 
+#define JAILER_ROTSTION_RATE (0.1f)	//回転の係数
 const D3DXVECTOR3 posdest[CJailer::POS_DEST_MAX] =
 {
 	D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f),
@@ -38,9 +41,11 @@ CJailer::CJailer()
 	m_posDestOld = ZeroVector3;
 	m_nIndex = 0;
 	m_SwitchingTimer = 0;
+	m_nNumber = 0;
 	m_cStateName.clear();		//デバック用状態名称
-	m_pFan3d = nullptr;		//扇クラスのポインタ変数
+	m_pView = nullptr;		//扇クラスのポインタ変数
 	m_pState = nullptr;
+	m_nJailerTotal++;
 }
 
 //=============================================================================
@@ -48,6 +53,7 @@ CJailer::CJailer()
 //=============================================================================
 CJailer::~CJailer()
 {
+	m_nJailerTotal--;
 }
 
 //=============================================================================
@@ -92,18 +98,33 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetMotion(JAILER_MOTION_IDOL);
 
 	//速さの設定
-	SetSpeed(JAILER_SPEED);
+	SetSpeed(JAILER_NORMAL_SPEED);
 
 	SetUseShadow();
 
 	// 影の向き
 	SetShadowRotCalculation();
-	m_posDest = posdest[0];
 
+	//自分の番号を設定
+	m_nNumber = m_nJailerTotal;
+
+	if (m_nNumber == 0)
+	{
+		m_nIndex = 0;
+	}
+	else
+	{
+		m_nIndex = 2;
+	}
+	
+	//目的地を設定
+	m_posDest = posdest[m_nIndex];
+
+	//位置の設定
 	SetPos(m_posDest);
 
 	//視界のクリエイト
-	m_pFan3d = CFan3D::Create(D3DXVECTOR3(m_posDest.x, 20.0f, m_posDest.z), ZeroVector3, 8, D3DCOLOR_RGBA(255, 0, 0, 255));
+	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, 2.0f, m_posDest.z), ZeroVector3, 8, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	//状態設定
 	m_pState = CWaitState::GetInstance();
@@ -139,13 +160,24 @@ void CJailer::Update(void)
 
 	DebugpPrint();
 
+	//回転処理
 	Rotation();
-	m_pState->Update(this, m_pFan3d);
+
+	//状態処理の更新
+	m_pState->Update(this, m_pView);
 	
-	if (m_pFan3d)
+	if (m_pView)
 	{
-		m_pFan3d->SetRotation(GetRot());							//扇の向きの設定
-		m_pFan3d->SetPosition(D3DXVECTOR3(pos.x, 500.0f, pos.z));	//扇の位置の設定
+		m_pView->SetRotation(GetRot());							//扇の向きの設定
+		m_pView->SetPosition(D3DXVECTOR3(pos.x, 70.0f, pos.z));	//扇の位置の設定
+	}
+
+	// キーボード取得
+	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+
+	if (pKeyboard->GetTrigger(DIK_NUMPAD7))
+	{
+		SettingPosDest();
 	}
 }
 
@@ -178,7 +210,6 @@ void CJailer::Rotation(void)
 {	
 	D3DXVECTOR3	nor = ZeroVector3;
 
-
 	//移動方向のベクトルの正規化
 	D3DXVec3Normalize(&nor, &m_Distance);
 
@@ -192,19 +223,18 @@ void CJailer::Rotation(void)
 	D3DXVECTOR3 rot = GetRot();
 
 	// 向き補間
-	while (m_rotDest.y - rot.y > D3DXToRadian(180))
+	while ((m_rotDest.y - rot.y) > D3DXToRadian(180))
 	{
 		m_rotDest.y -= D3DXToRadian(360);
 	}
 
-	while (m_rotDest.y - rot.y < -D3DXToRadian(180))
+	while ((m_rotDest.y - rot.y) < -D3DXToRadian(180))
 	{
 		m_rotDest.y += D3DXToRadian(360);
 	}
 
-
 	//向きの回転
-	rot += (m_rotDest - rot)*0.05f;
+	rot += (m_rotDest - rot) * JAILER_ROTSTION_RATE;
 
 	//向き設定
 	SetRot(rot);
@@ -224,27 +254,30 @@ void CJailer::Death(void)
 void CJailer::ChangeState(CJailerState * jailerstate)
 {
 	m_pState = jailerstate;
-	m_pState->Init(this, m_pFan3d);
+	m_pState->Init(this, m_pView);
 }
+
 //=============================================================================
 //移動処理
 //=============================================================================
 void CJailer::Move(void)
 {
 	D3DXVECTOR3 move = ZeroVector3;
+
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
-	float angle = 0.0f;
+
 	//位置の取得
 	D3DXVECTOR3 pos = GetPos();
 
+	//現在地と目的地までのベクトルを計算
 	m_Distance = (m_posDest - pos);
 
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
 
 	//速さの設定
-	SetSpeed(JAILER_SPEED);
+	SetSpeed(JAILER_NORMAL_SPEED);
 
 	//移動方向のベクトルの正規化
 	D3DXVec3Normalize(&nor, &m_Distance);
@@ -287,16 +320,26 @@ void CJailer::Chase()
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
 
+	//検出した位置
+	D3DXVECTOR3 detectedPos = ZeroVector3;
+
 	//位置の取得
 	D3DXVECTOR3 pos = GetPos();
 	
-	m_Distance = (GET_PLAYER_PTR->GetPos() - pos);
+	if (m_pView)
+	{
+		//検出した位置の取得
+		detectedPos = m_pView->GetDetectionPos();
+	}
+
+	//現在位置と検出した位置までのベクトルを計算
+	m_Distance = (detectedPos - pos);
 
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
 
 	//速さの設定
-	SetSpeed(5);
+	SetSpeed(JAILER_CHASE_SPEED);
 
 	//移動方向のベクトルの正規化
 	D3DXVec3Normalize(&nor, &m_Distance);

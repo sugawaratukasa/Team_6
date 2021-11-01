@@ -30,32 +30,32 @@ CMoveState * CMoveState::GetInstance()
 //=============================================================================
 //‰Šú‰»ŠÖ”
 //=============================================================================
-void CMoveState::Init(CJailer * jailer, CFan3D *fan3d)
+void CMoveState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	jailer->SetTimer(ZERO_INT);
+	pJailer->SetTimer(ZERO_INT);
 }
 
 //=============================================================================
 //XVŠÖ”
 //=============================================================================
-void CMoveState::Update(CJailer *jailer, CFan3D *fan3d)
+void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
-	int time = jailer->AddTimer(ADD_TIME);
+	int time = pJailer->AddTimer(ADD_TIME);
 	
-	if (fan3d->GetDetection() == false)
+	if (pJailerView->GetIsDetection() == false)
 	{
-		jailer->Move();
+		pJailer->Move();
 		//ˆÚ“®ŽžŠÔ
 		if (time >= MOVE_TIME)
 		{
 			//‘Ò‹@ó‘Ô‚Ö
-			jailer->ChangeState(CWaitState::GetInstance());
+			pJailer->ChangeState(CWaitState::GetInstance());
 		}
 	}
 	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
 	else 
 	{
 		//’ÇÕó‘Ô‚Ö
-		jailer->ChangeState(CChaseState::GetInstance());
+		pJailer->ChangeState(CChaseState::GetInstance());
 	}
 }

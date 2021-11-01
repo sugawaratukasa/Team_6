@@ -12,7 +12,7 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define CHASE_TIME (10)
+#define CHASE_TIME (90)
 
 //=============================================================================
 //インスタンス生成関数
@@ -26,7 +26,7 @@ CChaseState * CChaseState::GetInstance()
 //=============================================================================
 //初期化関数
 //=============================================================================
-void CChaseState::Init(CJailer *jailer, CFan3D *fan3d)
+void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
 	
 }
@@ -34,24 +34,27 @@ void CChaseState::Init(CJailer *jailer, CFan3D *fan3d)
 //=============================================================================
 //更新関数
 //=============================================================================
-void CChaseState::Update(CJailer *jailer, CFan3D *fan3d)
+void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
 	//追跡時間
-	if (jailer->AddTimer(ADD_TIME) >= CHASE_TIME)
+	if (pJailer->AddTimer(ADD_TIME) >= CHASE_TIME)
 	{
+		//発見状態をリセットする
+		pJailerView->ResetDetection();
+
 		//索敵対象がいない場合
-		if (fan3d->GetDetection() == false)
+		if (pJailerView->GetIsDetection() == false)
 		{
 			//近いインデックスを検索
 
 			//待機状態へ
-			jailer->ChangeState(CWaitState::GetInstance());
+			pJailer->ChangeState(CWaitState::GetInstance());
 		}
 	}
 	else
 	{
 		//追跡する
-		jailer->Chase();
+		pJailer->Chase();
 	}
 }
 

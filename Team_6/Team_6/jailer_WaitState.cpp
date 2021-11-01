@@ -25,34 +25,34 @@ CWaitState * CWaitState::GetInstance()
 //=============================================================================
 //‰Šú‰»ŠÖ”
 //=============================================================================
-void CWaitState::Init(CJailer *jailer, CFan3D *fan3d)
+void CWaitState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	jailer->SetTimer(ZERO_INT);
+	pJailer->SetTimer(ZERO_INT);
 }
 //=============================================================================
 //XVŠÖ”
 //=============================================================================
-void CWaitState::Update(CJailer *jailer, CFan3D *fan3d)
+void CWaitState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	if (fan3d->GetDetection() == false)
+	if (pJailerView->GetIsDetection() == false)
 	{	
 		//‘Ò‹@ŽžŠÔ
-		if (jailer->AddTimer(ADD_TIME) >= WAIT_TIME)
+		if (pJailer->AddTimer(ADD_TIME) >= WAIT_TIME)
 		{
-			jailer->SettingPosDest();
+			pJailer->SettingPosDest();
 			//„‰ñó‘Ô‚Ö
-			jailer->ChangeState(CMoveState::GetInstance());
+			pJailer->ChangeState(CMoveState::GetInstance());
 		}
 		else
 		{
-			jailer->Wait();
+			pJailer->Wait();
 		}
 	}
 	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	else if (fan3d->GetDetection() == true)
+	else if (pJailerView->GetIsDetection() == true)
 	{
 		//’ÇÕó‘Ô‚Ö
-		jailer->ChangeState(CChaseState::GetInstance());
+		pJailer->ChangeState(CChaseState::GetInstance());
 	}
 
 }

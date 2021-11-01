@@ -24,18 +24,18 @@ CAttackState * CAttackState::GetInstance()
 //=============================================================================
 //‰Šú‰»ŠÖ”
 //=============================================================================
-void CAttackState::Init(CJailer *jailer, CFan3D *fan3d)
+void CAttackState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	jailer->SetTimer(ZERO_INT);
+	pJailer->SetTimer(ZERO_INT);
 }
 
 //=============================================================================
 //XVŠÖ”
 //=============================================================================
-void CAttackState::Update(CJailer *jailer, CFan3D *fan3d)
+void CAttackState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
-	if (jailer->AddTimer(1) >= 10)
+	if (pJailer->AddTimer(1) >= 10)
 	{
-		jailer->ChangeState(CWaitState::GetInstance());
+		pJailer->ChangeState(CWaitState::GetInstance());
 	}
 }
