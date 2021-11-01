@@ -1,3 +1,9 @@
+//=============================================================================
+//
+// 看守階層用基底状態クラス [jailer_Hierachystate.cpp]
+// Author : OgumaAkira
+//
+//=============================================================================
 #ifndef JAILER_ATTACKSTATE_H_
 #define JAILER_ATTACKSTATE_H_
 //=============================================================================
@@ -10,19 +16,20 @@
 //=============================================================================
 class CJailer;
 
+//=============================================================================
+//攻撃状態クラス
+//=============================================================================
 class CAttackState : public CJailerState
 {
 public:
-	static CAttackState *GetInstance()
-	{
-		static CAttackState instance;
-		return &instance;
-	}
+	//インスタンス生成
+	static CAttackState *GetInstance();
 
-	virtual void Init(CJailer *jailer);
-	virtual void Update(CJailer *jailer);
+	virtual void Init(CJailer *Jailer, CFan3D *fan3d);
+	virtual void Update(CJailer *Jailer, CFan3D *fan3d);
 
 private:
-	CAttackState() {}
+	CAttackState() {};
+	~CAttackState() {};
 };
 #endif // !JAILER_WAITSTATE_H_

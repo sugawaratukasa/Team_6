@@ -7,7 +7,6 @@
 //
 //=============================================================================
 class CJailerState;
-class CPlayer;
 
 //=============================================================================
 //インクルードファイル
@@ -42,13 +41,6 @@ public:
 		POS_DEST_MAX,
 	};
 
-	CJailer(float pos_x, float pos_z, CPlayer *player) :
-		m_posX(pos_x),
-		m_posZ(pos_z),
-		m_pPlayer(player),
-		m_pState(CWaitState::GetInstance())
-	{};
-
 	CJailer();
 	~CJailer();
 
@@ -63,36 +55,39 @@ public:
 	void Attack(void);									// 攻撃の処理
 	void Move(void);									// 移動関数
 	void Death(void);									// 死んだときの処理
-
-	//プレイヤーとの距離チェック
-	bool IsDistanceToPlayer(float distance, bool out_side = false);
-
+	void Rotation(void);//回転
 	//状態遷移
-	void ChangeState(CJailerState *state);
+	void ChangeState(CJailerState *jailerstate);
 
+	//待機
+	void Wait(void);
 	//追跡
-	void Chase();
-	int GetTimer() { return m_Timer; }
-	void SetTimer(int time) { m_Timer = time; }
-	int AddTimer(int add) 
-	{
-		m_Timer += add;
-		return m_Timer;
-	};
+	void Chase(void);
+
+	//タイマーゲット
+	int GetTimer(void) { return m_SwitchingTimer; }
+	//タイマーセット
+	void SetTimer(int time) { m_SwitchingTimer = time; }
+	//秒数加算
+	int AddTimer(int add);
+
+	//インデックスの加算
+	void AddIndex(void);
+
+	//デバック用
+	//状態名称
+	void DebugpPrint(void);
 
 private:
-	//プレイヤーとの距離取得
-	float GetDistance();
+	D3DXVECTOR3 m_rotDest;		//向きの目的地
+	D3DXVECTOR3 m_posDest;		//位置の目的地
+	D3DXVECTOR3 m_posDestOld;	//前回の位置の目的地
+	D3DXVECTOR3 m_Distance;		//目的地までの距離
+	int m_nIndex;				//インデックス
+	int m_SwitchingTimer;		//状態の切り替えタイマー
 
-private:
-	D3DXVECTOR3 m_rotDest;
-	int m_nIndex;
-	D3DXVECTOR3 m_posDest;
+	std::string m_cStateName;		//デバック用状態名称
 	CFan3D *m_pFan3d;		//扇クラスのポインタ変数
-	int m_Timer;
-	CPlayer *m_pPlayer;
-	CJailerState *m_pState;
-	float m_posX;
-	float m_posZ;
+	CJailerState *m_pState;		//状態のポインタ
 };
 #endif // !_JAILER_H_

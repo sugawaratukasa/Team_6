@@ -11,24 +11,26 @@
 //インクルードファイル
 //=============================================================================
 #include "jailer_State.h"
+#include "fan3d.h"
 
 //=============================================================================
 //前方宣言
 //=============================================================================
 
+//=============================================================================
+//待機状態クラス
+//=============================================================================
 class CWaitState : public CJailerState
 {
 public:
-	static CWaitState *GetInstance()
-	{
-		static CWaitState instance;
-		return &instance;
-	}
+	//インスタンス生成
+	static CWaitState *GetInstance();
 
-	virtual void Init(CJailer *jailer);
-	virtual void Update(CJailer *jailer);
+	virtual void Init(CJailer *Jailer, CFan3D *fan3d);
+	virtual void Update(CJailer *Jailer, CFan3D *fan3d);
 
 private:
-	CWaitState() {}
+	CWaitState(){}
+	~CWaitState(){}
 };
 #endif // !JAILER_WAITSTATE_H_

@@ -1,27 +1,56 @@
+//=============================================================================
+//
+// 看守追跡状態クラス [jailer_Hierachystate.cpp]
+// Author : OgumaAkira
+//
+//=============================================================================
 #include "jailer_WaitState.h"
 #include "jailer.h"
 #include "jalier_ChaseState.h"
 #include "Jailer_AttackState.h"
 
+//=============================================================================
+//マクロ定義
+//=============================================================================
+#define CHASE_TIME (10)
 
-
-void CChaseState::Init(CJailer *jailer)
+//=============================================================================
+//インスタンス生成関数
+//=============================================================================
+CChaseState * CChaseState::GetInstance()
 {
-
+	static CChaseState instance;
+	return &instance;
 }
 
-void CChaseState::Update(CJailer *jailer)
+//=============================================================================
+//初期化関数
+//=============================================================================
+void CChaseState::Init(CJailer *jailer, CFan3D *fan3d)
 {
-	if (jailer->IsDistanceToPlayer(2.0f))
+	
+}
+
+//=============================================================================
+//更新関数
+//=============================================================================
+void CChaseState::Update(CJailer *jailer, CFan3D *fan3d)
+{
+	//追跡時間
+	if (jailer->AddTimer(ADD_TIME) >= CHASE_TIME)
 	{
-		jailer->ChangeState(CAttackState::GetInstance());
-	}
-	else if (jailer->IsDistanceToPlayer(15.0f,true))
-	{
-		jailer->ChangeState(CWaitState::GetInstance());
+		//索敵対象がいない場合
+		if (fan3d->GetDetection() == false)
+		{
+			//近いインデックスを検索
+
+			//待機状態へ
+			jailer->ChangeState(CWaitState::GetInstance());
+		}
 	}
 	else
 	{
+		//追跡する
 		jailer->Chase();
 	}
 }

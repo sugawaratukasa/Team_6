@@ -8,13 +8,15 @@
 #define JAILER_STATE_H_
 
 //=============================================================================
-//インクルードファイル
+//マクロ定義
 //=============================================================================
+#define ADD_TIME (1)			//加算秒数
 
 //=============================================================================
 //前方宣言
 //=============================================================================
 class CJailer;
+class CFan3D;
 
 //=============================================================================
 //クラス宣言
@@ -22,11 +24,14 @@ class CJailer;
 class CJailerState
 {
 public:
-	virtual ~CJailerState() {}
+	//コンストラクタ
+	CJailerState() {};
+	//デストラクタ
+	virtual ~CJailerState() {};
 	//初期化
-	virtual void Init(CJailer *jailer) {};
+	virtual void Init(CJailer *jailer,CFan3D *fan3d) {};
 	//更新
-	virtual void Update(CJailer *jailer) {};
+	virtual void Update(CJailer *jailer, CFan3D *fan3d) {};
 
 private:
 };

@@ -1,14 +1,61 @@
+//=============================================================================
+//
+// 看守巡回状態クラス [jalier_MoveState.cpp]
+// Author : OgumaAkira
+//
+//=============================================================================
+
+//=============================================================================
+//マクロ定義
+//=============================================================================
+#define MOVE_TIME (200)	//移動する時間
+
+//=============================================================================
+//インクルードファイル
+//=============================================================================
 #include "jailer_WaitState.h"
 #include "jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer.h"
 
-void CMoveState::Init(CJailer * jailer)
+//=============================================================================
+//インスタンス生成関数
+//=============================================================================
+CMoveState * CMoveState::GetInstance()
 {
-	jailer->SetTimer(0);
+	static CMoveState instance;
+	return &instance;
 }
 
-void CMoveState::Update(CJailer *jailer)
+//=============================================================================
+//初期化関数
+//=============================================================================
+void CMoveState::Init(CJailer * jailer, CFan3D *fan3d)
 {
-	int time = jailer->AddTimer(1);
+	jailer->SetTimer(ZERO_INT);
+}
+
+//=============================================================================
+//更新関数
+//=============================================================================
+void CMoveState::Update(CJailer *jailer, CFan3D *fan3d)
+{
+	int time = jailer->AddTimer(ADD_TIME);
+	
+	if (fan3d->GetDetection() == false)
+	{
+		jailer->Move();
+		//移動時間
+		if (time >= MOVE_TIME)
+		{
+			//待機状態へ
+			jailer->ChangeState(CWaitState::GetInstance());
+		}
+	}
+	//索敵範囲にがいる場合
+	else 
+	{
+		//追跡状態へ
+		jailer->ChangeState(CChaseState::GetInstance());
+	}
 }

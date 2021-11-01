@@ -20,8 +20,8 @@
 #define MIN_CENTER_ANGLE (30.0f)		//中心角の最小値
 #define MAX_CENTER_ANGLE (120.0f)		//中心角の最小値
 #define DEFAULT_LNGTH (1000.0f)			//長さのデフォルト値
-#define MIN_LNGTH (500.0f)				//長さの最小値
-#define MAX_LNGTH (2000.0f)				//長さの最大値
+#define MIN_LNGTH (2000.0f)				//長さの最小値
+#define MAX_LNGTH (4000.0f)				//長さの最大値
 
 //=============================================================================
 //クリエイト処理
