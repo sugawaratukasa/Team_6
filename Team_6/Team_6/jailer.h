@@ -71,8 +71,8 @@ public:
 	//秒数加算
 	int AddTimer(int add);
 
-	//インデックスの加算
-	void AddIndex(void);
+	//目的地の設定
+	void SettingPosDest(void);
 
 	//デバック用
 	//状態名称

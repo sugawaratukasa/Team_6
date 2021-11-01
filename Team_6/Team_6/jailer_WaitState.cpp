@@ -39,7 +39,7 @@ void CWaitState::Update(CJailer *jailer, CFan3D *fan3d)
 		//‘Ò‹@ŽžŠÔ
 		if (jailer->AddTimer(ADD_TIME) >= WAIT_TIME)
 		{
-			jailer->AddIndex();
+			jailer->SettingPosDest();
 			//„‰ñó‘Ô‚Ö
 			jailer->ChangeState(CMoveState::GetInstance());
 		}
