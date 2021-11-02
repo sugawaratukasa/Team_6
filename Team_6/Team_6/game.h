@@ -11,6 +11,7 @@
 // インクルードファイル
 //=======================================================================================
 #include "mode_base.h"
+#include "player.h"
 
 //=======================================================================================
 // マクロ定義
@@ -22,11 +23,7 @@
 class CCamera;
 class CCameraGame;
 class CLight;
-class CMeshField;
-class CBg;
 class CPlayer;
-class CMap;
-class CBoss_Shark;
 
 //=======================================================================================
 // ゲームクラス
@@ -63,21 +60,19 @@ public:
 	void SetGame(void);								// ゲームの設定
 
 	void CreatePlayer(void);						// プレイヤーの生成	
+	void CreateItem(void);							// プレイヤーの生成	
 	void CreateMap(void);							// マップの生成	
 	void CreateGround(void);						// 地面の生成
-	void DrawPlayerPos(void);						// プレイヤーの位置書き込み
 
 	// Get関数
 	CCamera *GetCamera(void) { return (CCamera*)m_pCamera; }	// カメラのポインタ情報
 	CLight *GetLight(void) { return m_pLight; }			// ライトのポインタ情報
-	CPlayer *GetPlayer(void) { return m_pPlayer; }			// プレイヤーのポインタ情報
-
+	CPlayer * GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }
 private:
 	// ポインタ
 	CCameraGame *m_pCamera;					// カメラのポインタ	
 	CLight *m_pLight;						// ライトのポインタ
-	CPlayer *m_pPlayer;						// プレイヤーのポインタ
-
+	CPlayer *m_apPlayer[MAX_PLAYER];					// プレイヤーのポインタ
 	LPD3DXFONT m_pFont;						// デバック用フォント
 };
 #endif

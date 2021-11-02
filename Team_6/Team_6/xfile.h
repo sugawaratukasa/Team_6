@@ -46,7 +46,11 @@ public:
 	enum XFILE_NUM
 	{
 		XFILE_NUM_NONE = -1,			// 初期値
+		XFILE_NUM_BOX,
 		XFILE_NUM_ROCK,
+		XFILE_KEY_OBJECT,
+		XFILE_MAP_OBJECT,
+		XFILE_BATON_OBJECT,
 		XFILE_NUM_MAX
 	};
 
@@ -56,7 +60,8 @@ public:
 	enum HIERARCHY_XFILE_NUM
 	{
 		HIERARCHY_XFILE_NUM_NONE = -1,			// 初期値
-		HIERARCHY_XFILE_NUM_PLAYER,				// プレイヤーモデル
+		HIERARCHY_XFILE_NUM_PLAYER1,			// プレイヤーモデル
+		HIERARCHY_XFILE_NUM_PLAYER2,			// プレイヤーモデル
 		HIERARCHY_XFILE_NUM_MAX					// 最大数
 	};
 

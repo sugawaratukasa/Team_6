@@ -78,7 +78,7 @@ public:
 	bool GetPushCross(int nButton, int nId);
 	bool GetPushRelease(int nButton, int nId);
 	static LPDIRECTINPUTDEVICE8 GetController(int nNumber);
-
+	static LPDIRECTINPUTEFFECT GetEffect(int nNumber) { return m_IpDIEffect[nNumber]; }
 	static BOOL CALLBACK EnumJoysticksCallback(const DIDEVICEINSTANCE *pdidInstance, VOID *pContext);
 	static BOOL CALLBACK EnumAxesCallback(const DIDEVICEOBJECTINSTANCE *pdidoi, VOID *pContext);
 
@@ -91,6 +91,7 @@ public:
 
 private:
 	static LPDIRECTINPUTDEVICE8 m_apDevice[MAX_JOYSTICK_NUM];	// デバイス
+	static LPDIRECTINPUTEFFECT m_IpDIEffect[MAX_JOYSTICK_NUM];	//エフェクト
 	JoyStickState m_JoyPadState[MAX_JOYSTICK_NUM];				// ジョイパッドの状態
 	DIDEVCAPS   m_diDevCaps;
 	static int m_nJoyStickCont;

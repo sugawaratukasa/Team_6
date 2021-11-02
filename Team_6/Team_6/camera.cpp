@@ -79,24 +79,6 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
-	// プレイヤーのポインタ取得
-	CPlayer *pPlayer = GET_PLAYER_PTR;
-
-	// プレイヤーが使われていたら
-	if (pPlayer != nullptr)
-	{
-		D3DXVECTOR3 PlayerPos = ZeroVector3;	//プレイヤー位置
-		D3DXVECTOR3 PlayerRot = ZeroVector3;	//プレイヤー角度
-
-		//プレイヤー1位置取得
-		PlayerPos = pPlayer->GetPos();
-
-		//プレイヤー1角度取得
-		PlayerRot = pPlayer->GetRot();
-
-		// 通常状態のカメラ移動
-		this->NomalUpdate(PlayerPos, PlayerRot);
-	}
 }
 
 //=============================================================================

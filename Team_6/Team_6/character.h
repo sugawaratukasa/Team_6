@@ -70,12 +70,6 @@ public:
 	void SetMotion(int nMotionState);								// モーションの設定
 	void SetShadowRotCalculation(void);
 
-	// 純粋仮想関数
-	virtual void UpdateState(void) = 0;								// キャラクター状態
-	virtual void Attack(void) = 0;									// 攻撃の処理
-	virtual void Move(void) = 0;									// 移動関数
-	virtual void Death(void) = 0;									// 死んだときの処理
-
 	// Set関数
 	void SetPos(D3DXVECTOR3 &pos) { m_pos = pos; }					// 座標の設定
 	void SetPosOld(D3DXVECTOR3 &posOld) { m_posOld = posOld; }		// 座標の設定

@@ -173,12 +173,6 @@ void CTitle::Create3DObject(void)
 		m_pLight = CLight::Create();
 		m_pLight->SetVecDir(TITLE_LIGHT_VECDIR);
 	}
-
-	// プレイヤーの生成
-	if (!m_pShip)
-	{
-		m_pShip = CPlayer::Create(TITLE_PLAYER_POS, ZeroVector3);
-	}
 }
 //=============================================================================
 // モード遷移

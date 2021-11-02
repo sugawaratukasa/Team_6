@@ -55,6 +55,15 @@
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09_Object">
+      <UniqueIdentifier>{1c371c8f-2faa-4dc5-8d8e-145204c091a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08_Item_object">
+      <UniqueIdentifier>{52751c1d-2b25-46df-857d-4c8d3946f5c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_UI">
+      <UniqueIdentifier>{0ee0b20b-ad1c-4eb2-9c4d-935473054965}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -172,6 +181,45 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object_door.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="door_pc_room.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="player_1.cpp">
+      <Filter>05_Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="player_2.cpp">
+      <Filter>05_Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_pc_room_key.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_map.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_prison_key.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_jailer_room_key.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_storage_key.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_baton.cpp">
+      <Filter>08_Item_object</Filter>
+    </ClCompile>
+    <ClCompile Include="character_collision_box.cpp">
+      <Filter>06_Model</Filter>
+    </ClCompile>
+    <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
   </ItemGroup>
@@ -290,7 +338,46 @@
     <ClInclude Include="floor.h">
       <Filter>04_Scene</Filter>
     </ClInclude>
+    <ClInclude Include="object_door.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
     <ClInclude Include="object.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="door_pc_room.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="player_1.h">
+      <Filter>05_Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="player_2.h">
+      <Filter>05_Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_pc_room_key.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_map.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_prison_key.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_jailer_room_key.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_baton.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_storage_key.h">
+      <Filter>08_Item_object</Filter>
+    </ClInclude>
+    <ClInclude Include="character_collision_box.h">
+      <Filter>06_Model</Filter>
+    </ClInclude>
+    <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
   </ItemGroup>
