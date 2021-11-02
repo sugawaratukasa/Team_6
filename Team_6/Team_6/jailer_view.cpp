@@ -127,12 +127,6 @@ void CJailerView::Update(void)
 	SetLength(fLength);
 
 	CDebugProc::Print("=====================JailerView=====================\n");
-	CDebugProc::Print("y‹–ìŠpz%0.2f\n", fCenterAngle);
-	CDebugProc::Print("yNum4‚Å‹–ìŠp‚ÌŠg‘åz\n");
-	CDebugProc::Print("yNum6‚Å‹–ìŠp‚Ìk¬z\n");
-	CDebugProc::Print("y’·‚³z%0.2f\n", fLength);
-	CDebugProc::Print("yNum1‚Å’·‚³‚ÌŠg‘åz\n");
-	CDebugProc::Print("yNum3‚Å’·‚³‚Ìk¬z\n");
 
 	if (m_bIsDetection)
 	{
@@ -171,17 +165,12 @@ void CJailerView::PlayerDetection(void)
 	//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğŒvZ(‚‚³‚Í•K—v‚È‚µ‚Ì‚½‚ßœŠO)
 	float fVecLength = sqrtf((fanToPlayer.x * fanToPlayer.x) + (fanToPlayer.z * fanToPlayer.z));
 
-	CDebugProc::Print("y”¼Œa‚Ì’·‚³z%f\n", fVecLength);
-
 	//ƒxƒNƒgƒ‹‚Ì’·‚³‚ª”¼Œa‚æ‚è‘å‚«‚¢‚Æ¸”s
 	if (fVecLength > GetLength())
 	{
-		CDebugProc::Print("”¼Œa”»’è‚Å¸”s\n");
-
 		//ˆ—I—¹
 		return;
 	}
-	CDebugProc::Print("”¼Œa”»’è‚Å¬Œ÷\n");
 
 	//‰ñ“]Šp“x0“x‚Ì’PˆÊƒxƒNƒgƒ‹
 	D3DXVECTOR3 fanDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
@@ -210,13 +199,9 @@ void CJailerView::PlayerDetection(void)
 	//‚È‚·Šp‚ªî‚ÌŠp“x‚æ‚è‘å‚«‚¢‚Æ¸”s
 	if (fFanCos > fDot)
 	{
-		CDebugProc::Print("Šp“x”»’è‚Å¸”s\n");
-
 		//ˆ—I—¹
 		return;
 	}
-
-	CDebugProc::Print("‘S‚Ä‚Ì”»’è‚ª¬Œ÷\n");
 
 	//ŒŸo‚µ‚½ˆÊ’u‚Ì•Û‘¶
 	m_detectedPos = playerPos;

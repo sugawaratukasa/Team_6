@@ -15,21 +15,27 @@
 #include "fan3d.h"
 #include "mode_base.h"
 
-int CJailer::m_nJailerTotal = -1;
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define JAILER_NORMAL_SPEED (10.0f)				//通常時の移動速度
-#define JAILER_CHASE_SPEED (20.0f)				//追跡時の移動速度
-
+#define JAILER_NORMAL_SPEED (10.0f)	//通常時の移動速度
+#define JAILER_CHASE_SPEED (20.0f)	//追跡時の移動速度
 #define JAILER_ROTSTION_RATE (0.1f)	//回転の係数
-const D3DXVECTOR3 posdest[CJailer::POS_DEST_MAX] =
+#define VIEW_POS_Y (70.0f)			//視線の高さ
+#define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
+
+const D3DXVECTOR3 aMoveSpot[CJailer::POS_DEST_MAX] =
 {
 	D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f),
 	D3DXVECTOR3(-1000.0f, 0.0f, -1000.0f),
 	D3DXVECTOR3(1000.0f, 0.0f, -1000.0f),
 	D3DXVECTOR3(1000.0f, 0.0f, 1000.0f),
 };
+
+//=============================================================================
+//静的メンバ変数宣言
+//=============================================================================
+int CJailer::m_nJailerTotal = -1;
 
 //=============================================================================
 //コンストラクタ
@@ -39,12 +45,13 @@ CJailer::CJailer()
 	m_rotDest = ZeroVector3;
 	m_posDest = ZeroVector3;
 	m_posDestOld = ZeroVector3;
-	m_nIndex = 0;
-	m_SwitchingTimer = 0;
-	m_nNumber = 0;
-	m_cStateName.clear();		//デバック用状態名称
+	m_nIndex = ZERO_INT;
+	m_nSwitchingTimer = ZERO_INT;
+	m_nNumber = ZERO_INT;
 	m_pView = nullptr;		//扇クラスのポインタ変数
-	m_pState = nullptr;
+	m_pJailerState = nullptr;
+
+	//総数の加算
 	m_nJailerTotal++;
 }
 
@@ -53,6 +60,7 @@ CJailer::CJailer()
 //=============================================================================
 CJailer::~CJailer()
 {
+	//総数の減算
 	m_nJailerTotal--;
 }
 
@@ -108,26 +116,20 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//自分の番号を設定
 	m_nNumber = m_nJailerTotal;
 
-	if (m_nNumber == 0)
-	{
-		m_nIndex = 0;
-	}
-	else
-	{
-		m_nIndex = 2;
-	}
+	m_nIndex = m_nNumber;
 	
 	//目的地を設定
-	m_posDest = posdest[m_nIndex];
+	m_posDest = aMoveSpot[m_nIndex];
 
 	//位置の設定
 	SetPos(m_posDest);
 
 	//視界のクリエイト
-	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, 2.0f, m_posDest.z), ZeroVector3, 8, D3DCOLOR_RGBA(255, 0, 0, 255));
+	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, VIEW_POS_Y, m_posDest.z), 
+		ZeroVector3, VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	//状態設定
-	m_pState = CWaitState::GetInstance();
+	m_pJailerState = CWaitState::GetInstance();
 
 	return S_OK;
 }
@@ -158,20 +160,22 @@ void CJailer::Update(void)
 	//アニメーションの更新
 	ModelAnimeUpdate();
 
-	DebugpPrint();
-
 	//回転処理
 	Rotation();
 
 	//状態処理の更新
-	m_pState->Update(this, m_pView);
+	if (m_pJailerState != nullptr)
+	{
+		m_pJailerState->Update(this, m_pView);
+	}
 	
 	if (m_pView)
 	{
-		m_pView->SetRotation(GetRot());							//扇の向きの設定
-		m_pView->SetPosition(D3DXVECTOR3(pos.x, 70.0f, pos.z));	//扇の位置の設定
+		m_pView->SetRotation(GetRot());									//扇の向きの設定
+		m_pView->SetPosition(D3DXVECTOR3(pos.x, VIEW_POS_Y, pos.z));	//扇の位置の設定
 	}
 
+#ifdef _DEBUG
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 
@@ -179,6 +183,9 @@ void CJailer::Update(void)
 	{
 		SettingPosDest();
 	}
+
+	//DebugpPrint();
+#endif
 }
 
 //=============================================================================
@@ -190,7 +197,9 @@ void CJailer::Draw(void)
 	CCharacter::Draw();
 }
 
-
+//=============================================================================
+//キャラクターの状態
+//=============================================================================
 void CJailer::UpdateState(void)
 {
 
@@ -208,33 +217,31 @@ void CJailer::Attack(void)
 //=============================================================================
 void CJailer::Rotation(void)
 {	
-	D3DXVECTOR3	nor = ZeroVector3;
-
-	//移動方向のベクトルの正規化
-	D3DXVec3Normalize(&nor, &m_Distance);
-
-	//移動方向に対しての回転角を求める
-	float angle = atan2f(-nor.x, -nor.z);
-
-	//目的の角度へ設定
-	m_rotDest.y = angle;
-
 	//向きを取得
 	D3DXVECTOR3 rot = GetRot();
 
 	// 向き補間
-	while ((m_rotDest.y - rot.y) > D3DXToRadian(180))
+	while ((m_rotDest.y - rot.y) > D3DXToRadian(180.0f))
 	{
-		m_rotDest.y -= D3DXToRadian(360);
+		m_rotDest.y -= D3DXToRadian(360.0f);
 	}
 
-	while ((m_rotDest.y - rot.y) < -D3DXToRadian(180))
+	while ((m_rotDest.y - rot.y) < -D3DXToRadian(180.0f))
 	{
-		m_rotDest.y += D3DXToRadian(360);
+		m_rotDest.y += D3DXToRadian(360.0f);
 	}
 
 	//向きの回転
 	rot += (m_rotDest - rot) * JAILER_ROTSTION_RATE;
+
+	if (rot.y > D3DXToRadian(360.0f))
+	{
+		rot.y = D3DXToRadian(0.0f);
+	}
+	if (rot.y < D3DXToRadian(0.0f))
+	{
+		rot.y = D3DXToRadian(360.0f);
+	}
 
 	//向き設定
 	SetRot(rot);
@@ -253,8 +260,8 @@ void CJailer::Death(void)
 //=============================================================================
 void CJailer::ChangeState(CJailerState * jailerstate)
 {
-	m_pState = jailerstate;
-	m_pState->Init(this, m_pView);
+	m_pJailerState = jailerstate;
+	m_pJailerState->Init(this, m_pView);
 }
 
 //=============================================================================
@@ -262,6 +269,9 @@ void CJailer::ChangeState(CJailerState * jailerstate)
 //=============================================================================
 void CJailer::Move(void)
 {
+#ifdef _DEBUG
+	CDebugProc::Print("巡回状態\n");
+#endif
 	D3DXVECTOR3 move = ZeroVector3;
 
 	//単位ベクトル
@@ -272,6 +282,9 @@ void CJailer::Move(void)
 
 	//現在地と目的地までのベクトルを計算
 	m_Distance = (m_posDest - pos);
+
+	//向きの目的の値の計算
+	SetRotDest();
 
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
@@ -295,11 +308,17 @@ void CJailer::Move(void)
 //=============================================================================
 void CJailer::Wait(void)
 {
+#ifdef _DEBUG
+	CDebugProc::Print("待機状態\n");
+#endif
 	//位置の取得
 	D3DXVECTOR3 pos = GetPos();
 
 	//前回の向きへ確認
 	m_Distance = (m_posDestOld - pos);
+
+	//向きの目的の値の計算
+	SetRotDest();
 
 	//速さの設定
 	SetSpeed(ZERO_FLOAT);
@@ -316,6 +335,9 @@ void CJailer::Wait(void)
 //=============================================================================
 void CJailer::Chase()
 {
+#ifdef _DEBUG
+	CDebugProc::Print("追跡状態\n");
+#endif
 	D3DXVECTOR3 move = ZeroVector3;
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
@@ -335,6 +357,9 @@ void CJailer::Chase()
 	//現在位置と検出した位置までのベクトルを計算
 	m_Distance = (detectedPos - pos);
 
+	//向きの目的の値の計算
+	SetRotDest();
+
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
 
@@ -352,14 +377,34 @@ void CJailer::Chase()
 	SetMove(move);
 }
 
+//=============================================================================
+// 警戒状態
+//=============================================================================
+void CJailer::Caution(void)
+{
+#ifdef _DEBUG
+	CDebugProc::Print("警戒状態\n");
+#endif
+	const D3DXVECTOR3 rot = GetRot();
+
+	if (m_nSwitchingTimer <= 30)
+	{
+		m_rotDest.y = rot.y+D3DXToRadian(10.0f);
+	}
+	else
+	{
+		m_rotDest.y = rot.y -D3DXToRadian(10.0f);
+	}
+	
+}
 
 //=============================================================================
 // 秒数加算
 //=============================================================================
 int CJailer::AddTimer(int add)
 {
-	m_SwitchingTimer += add;
-	return m_SwitchingTimer;
+	m_nSwitchingTimer += add;
+	return m_nSwitchingTimer;
 }
 
 //=============================================================================
@@ -375,7 +420,7 @@ void CJailer::SettingPosDest(void)
 		m_nIndex = CJailer::POS_DEST_LEFT_TOP;
 	}
 	//次の目的の位置を設定
-	m_posDest = posdest[m_nIndex];
+	m_posDest = aMoveSpot[m_nIndex];
 
 	//前回のインデックスを計算
 	int IndexOld = m_nIndex - 1;
@@ -387,10 +432,27 @@ void CJailer::SettingPosDest(void)
 	}
 
 	//前回の目的地を設定する
-	m_posDestOld = posdest[IndexOld];
+	m_posDestOld = aMoveSpot[IndexOld];
 }
 
+//=============================================================================
+// 向きの目的の値の設定
+//=============================================================================
+void CJailer::SetRotDest()
+{
+	D3DXVECTOR3	nor = ZeroVector3;
 
+	//移動方向のベクトルの正規化
+	D3DXVec3Normalize(&nor, &m_Distance);
+
+	//移動方向に対しての回転角を求める
+	float angle = atan2f(-nor.x, -nor.z);
+
+	//目的の角度へ設定
+	m_rotDest.y = angle;
+}
+
+#ifdef _DEBUG
 //=============================================================================
 //デバック画面
 //=============================================================================
@@ -407,10 +469,10 @@ void CJailer::DebugpPrint(void)
 	CDebugProc::Print("【目的の向き（度数法）】 %f\n", D3DXToDegree(m_rotDest.y));
 	CDebugProc::Print("【現在の向き（度数法）】 %f\n", D3DXToDegree(rot.y));
 	CDebugProc::Print("【位置】 X:%f,Y:%f,Z:%f\n", pos.x, pos.y, pos.z);
-	CDebugProc::Print("【目的の位置】 X:%f,Y:%f,Z:%f\n", posdest[m_nIndex].x, posdest[m_nIndex].y, posdest[m_nIndex].z);
+	CDebugProc::Print("【目的の位置】 X:%f,Y:%f,Z:%f\n", aMoveSpot[m_nIndex].x, aMoveSpot[m_nIndex].y, aMoveSpot[m_nIndex].z);
 	CDebugProc::Print("【Index】 %d\n", m_nIndex);
 	CDebugProc::Print("【移動量】 X:%f,Y:%f,Z:%f\n", move.x, move.y, move.z);
 	CDebugProc::Print("【Speed】 %f\n", Speed);
-	CDebugProc::Print("【カウント】 %d\n", m_SwitchingTimer);
+	CDebugProc::Print("【カウント】 %d\n", m_nSwitchingTimer);
 }
-
+#endif

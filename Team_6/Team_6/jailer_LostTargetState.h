@@ -25,7 +25,8 @@ public:
 	~CJailer_LostTarget();	//デストラクタ
 
 	//インスタンス生成
-	static CJailer_LostTarget *GetInstance();
+	static CJailer_LostTarget *GetInstance(void);
+	static void Release(void);
 
 	virtual void Init(CJailer *pJailer, CJailerView *pJailerView);
 	virtual void Update(CJailer *pJailer, CJailerView *pJailerView);

@@ -8,6 +8,7 @@
 #include "jailer.h"
 #include "jalier_ChaseState.h"
 #include "Jailer_AttackState.h"
+#include "jailer_LostTargetState.h"
 
 //=============================================================================
 //マクロ定義
@@ -47,8 +48,11 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		{
 			//近いインデックスを検索
 
-			//待機状態へ
-			pJailer->ChangeState(CWaitState::GetInstance());
+			////待機状態へ
+			//pJailer->ChangeState(CWaitState::GetInstance());
+
+			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
+
 		}
 	}
 	else

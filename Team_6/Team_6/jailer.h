@@ -21,7 +21,6 @@ class CJailerState;
 class CJailer :public CCharacter
 {
 public:
-
 	//=========================================================================
 	//モーションの種類
 	//=========================================================================
@@ -41,54 +40,54 @@ public:
 		POS_DEST_MAX,
 	};
 
-	CJailer();
-	~CJailer();
+	//=========================================================================
+	//メンバ関数宣言
+	//=========================================================================
+	CJailer();	//コンストラクタ
+	~CJailer();	//デストラクタ
 
-	static CJailer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot);
+	static CJailer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot);	//クリエイト処理
 
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	//初期化処理
+	void Uninit(void);								//終了処理
+	void Update(void);								//更新処理
+	void Draw(void);								//描画処理
 
-	void UpdateState(void);								// 状態の更新
-	void Attack(void);									// 攻撃の処理
-	void Move(void);									// 移動関数
-	void Death(void);									// 死んだときの処理
-	void Rotation(void);//回転
-	//状態遷移
-	void ChangeState(CJailerState *jailerstate);
+	void UpdateState(void);							// 状態の更新
+	void Attack(void);								// 攻撃の処理
+	void Move(void);								// 移動関数
+	void Death(void);								// 死んだときの処理
+	void Rotation(void);							//回転
+	void ChangeState(CJailerState *jailerstate);	//状態遷移
+	void Wait(void);								//待機
+	void Chase(void);								//追跡
+	void Caution(void);								//警戒状態
+	int AddTimer(int add);							//秒数加算
+	void SettingPosDest(void);						//目的地の設定
+	void SetRotDest();
+	//publicセッター
+	void SetTimer(int time) { m_nSwitchingTimer = time; }//タイマーセット
 
-	//待機
-	void Wait(void);
-	//追跡
-	void Chase(void);
-
-	//タイマーゲット
-	int GetTimer(void) { return m_SwitchingTimer; }
-	//タイマーセット
-	void SetTimer(int time) { m_SwitchingTimer = time; }
-	//秒数加算
-	int AddTimer(int add);
-
-	//目的地の設定
-	void SettingPosDest(void);
-
-	//デバック用
-	//状態名称
-	void DebugpPrint(void);
+	//publicゲッター
+	int GetTimer(void) { return m_nSwitchingTimer; }	//タイマーゲット
+	
+#ifdef _DEBUG
+	void DebugpPrint(void);	//状態名称
+#endif
 
 private:
-	static int m_nJailerTotal;	//看守の総数
-	D3DXVECTOR3 m_rotDest;		//向きの目的地
-	D3DXVECTOR3 m_posDest;		//位置の目的地
-	D3DXVECTOR3 m_posDestOld;	//前回の位置の目的地
-	D3DXVECTOR3 m_Distance;		//目的地までの距離
-	int m_nIndex;				//インデックス
-	int m_SwitchingTimer;		//状態の切り替えタイマー
-	int m_nNumber;				
-	std::string m_cStateName;		//デバック用状態名称
-	CJailerView *m_pView;		//看守の視線クラスのポインタ変数
-	CJailerState *m_pState;		//状態のポインタ
+	//=========================================================================
+	//メンバ変数宣言
+	//=========================================================================
+	static int m_nJailerTotal;		//看守の総数
+	D3DXVECTOR3 m_rotDest;			//向きの目的地
+	D3DXVECTOR3 m_posDest;			//位置の目的地
+	D3DXVECTOR3 m_posDestOld;		//前回の位置の目的地
+	D3DXVECTOR3 m_Distance;			//目的地までの距離
+	int m_nIndex;					//インデックス
+	int m_nSwitchingTimer;			//状態の切り替えタイマー
+	int m_nNumber;					//自分の番号		
+	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
+	CJailerState *m_pJailerState;	//状態のポインタ
 };
 #endif // !_JAILER_H_

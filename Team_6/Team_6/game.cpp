@@ -81,7 +81,7 @@ HRESULT CGame::Init(void)
 	//ä≈éÁÇÃê∂ê¨
 	CJailer::Create(ZeroVector3, ZeroVector3);
 
-	//CJailer::Create(D3DXVECTOR3(100.0f,0.0f,0.0f), ZeroVector3);
+	//CJailer::Create(ZeroVector3, ZeroVector3);
 	return S_OK;
 }
 //=======================================================================================
