@@ -37,13 +37,18 @@ CXfile::CXfile()
 	// Xファイルネームを取得
 	m_aXfileName =
 	{
-		{"data/Model/Object/Rock.x"},	// 岩
+		{"data/Model/Box/box.x"},
+		{"data/Model/Object/Rock.x"},			// 岩
+		{"data/Model/Object/key_Item.x"},		// 鍵
+		{ "data/Model/Object/map_object.x" },	// マップ
+		{ "data/Model/Object/baton_Item.x" },	// 警棒
 	};
 
 	// 階層構造モデル
 	m_aHierarchyXfileName =
 	{
-		{ "data/Text/Player/motion_Player.txt" },			// プレイヤー
+		{ "data/Text/Player/motion_player1.txt" },			// プレイヤー
+		{ "data/Text/Player/motion_player2.txt" },			// プレイヤー
 	};
 }
 

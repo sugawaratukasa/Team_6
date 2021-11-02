@@ -12,6 +12,27 @@
 //=============================================================================
 #include "character.h"
 #include "model_anime.h"
+#include "item_object.h"
+
+//=============================================================================
+// マクロ定義
+//=============================================================================
+#define ANGLE_45                (D3DXToRadian(45.0f))                    // 角度45
+#define ANGLE_90                (D3DXToRadian(90.0f))                    // 角度90
+#define ANGLE_135                (D3DXToRadian(135.0f))                  // 角度90
+#define ANGLE_180                (D3DXToRadian(180.0f))                  // 角度180
+#define ANGLE_270                (D3DXToRadian(270.0f))                  // 角度270
+#define PLAYER_ROT_SPEED        (0.1f)                                   // キャラクターの回転する速度
+#define PLAYER_SPEED            (50.0f)                                  // プレイヤーの移動量
+#define INCAPACITATED_TIME		(1200)									 // 行動不能時間
+#define MAX_PLAYER (2)
+#define MAX_ITEM (3)
+
+//=============================================================================
+// 前方宣言
+//=============================================================================
+class CItem;
+
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
@@ -27,28 +48,23 @@ public:
 		MOTION_IDOL,				// アイドルモーション
 		MOTION_MAX					// モーション最大数
 	};
-
 	CPlayer(PRIORITY Priority = PRIORITY_CHARACTER);				// コンストラクタ
 	~CPlayer();														// デストラクタ
-
-	static CPlayer*Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);		// クリエイト
-
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
 	void Uninit(void);												// 終了処理
-	void Update(void);												// 更新処理
+	void Update(void);												// プレイヤーの制御
 	void Draw(void);												// 描画処理
-	void UpdateState(void);											// プレイヤーの状態
-	void PlayerControl(void);										// プレイヤーの制御
-	void UpdateRot(void);											// 角度の更新処理
-
-	void Hit(int nDamage);											// ヒット処理関数
-	void Death(void)override;										// 死亡関数
-	void Move(void)override;										// 移動処理
-	void KeyboardMove(float fSpeed,float fAngle);	// キーボード移動
-	void PadMove(float fSpeed, float fAngle);		// パッド移動
-	void Attack(void)override;										// 攻撃処理
-
+	bool GetbIncapacitated(void) { return m_bIncapacitated; }		// 行動不能状態取得処理
+	virtual void KeyboardMove(float fSpeed, float fAngle) = 0;
+	virtual void PadMove(float fSpeed, float fAngle) = 0;
+	//=============================================================================
+	//　Set関数
+	//=============================================================================
+	void SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem) { m_apItem[ItemList] = pItem;}	// アイテム設定処理
 private:
-	D3DXVECTOR3 m_rotDest;							// 回転(目標値)
+	CItemObject *  m_apItem[CItemObject::ITEM_OBJECT_MAX];	// アイテムのポインタ
+	int m_nItemCount;										// アイテムの所持数
+	int m_nIncapacitatedTimeCount;							// 行動不能時間カウント
+	bool m_bIncapacitated;									// 行動不能状態
 };
 #endif

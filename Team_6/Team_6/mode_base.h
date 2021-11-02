@@ -11,6 +11,7 @@
 // インクルード
 //==============================================================================
 #include "main.h"
+#include "player.h"
 
 //=============================================================================
 // 前方宣言
@@ -33,14 +34,13 @@ public:
 	virtual void Draw(void) = 0;		// 描画
 
 										// Get関数
-	virtual CCamera* GetCamera(void) { return m_pCamera; }		// カメラのポインタ
-	virtual CLight* GetLight(void) { return m_pLight; }			// ライトのポインタ
-	virtual CPlayer* GetPlayer(void) { return m_pPlayer; }		// プレイヤーのポインタ
-
+	virtual CCamera* GetCamera(void) { return m_pCamera; }				// カメラのポインタ
+	virtual CLight* GetLight(void) { return m_pLight; }					// ライトのポインタ
+	virtual CPlayer* GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }	// プレイヤーのポインタ
 private:
 	CCamera *m_pCamera;		// カメラのポインタ
 	CLight *m_pLight;		// ライトのポインタ
-	CPlayer *m_pPlayer;		// プレイヤーのポインタ
+	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ
 };
 
 #endif
