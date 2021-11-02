@@ -19,6 +19,15 @@ public:
 	CCamera();					// コンストラクタ
 	~CCamera();					// デストラクタ
 
+	// 画面分割用の列挙型宣言
+	enum SCREEN_ID
+	{
+		SCREEN_NONE = 0,
+		SCREEN_LEFT,
+		SCREEN_RIGHT,
+		SCREEN_MAX,
+	};
+
 	HRESULT Init(void);									// 初期化処理
 	virtual void Uninit(void);							// 終了処理
 	virtual void Update(void);							// 更新処理
@@ -30,6 +39,7 @@ public:
 	void SetDistance(float fDistance) { m_fDistance = fDistance; }
 	void SetVartical(float fVartical) { m_fVartical = fVartical; }
 	void SetHorizontal(float fHorizontal) { m_fHorizontal = fHorizontal; }
+	void SetScreenID(SCREEN_ID id) { m_id = id; } 	// ビューポートIDの設定(SCREEN_NONEで通常のカメラ)
 
 	// Get関数
 	D3DXVECTOR3 &GetposV(void) { return m_posV; }				// カメラ座標
@@ -56,12 +66,15 @@ private:
 	D3DXVECTOR3 m_posRRot;					// 注視点（）
 	D3DXVECTOR3 m_posU;						// 上方向ベクトル
 	D3DXMATRIX m_mtxProjection;				// プロジェクションマトリックス
+	D3DXMATRIX m_aMtxProjection[SCREEN_MAX];// プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;					// ビューマトリックス
+	D3DXMATRIX m_aMtxView[SCREEN_MAX];		// ビューマトリックス
 	D3DXVECTOR3 m_rot;						// 向き
 	bool m_bTarget;							// ターゲット使用フラグ
 	float m_fVartical;						// 縦回転角度
 	float m_fHorizontal;					// 横回転角
 	float m_fDistance;						// 視点～注視点の距離
 	float m_fMove;							// 移動量
+	SCREEN_ID m_id;							// スクリーンID
 };
 #endif 

@@ -39,6 +39,7 @@ CCamera::CCamera()
 	m_rot = ZeroVector3;
 	m_fDistance = 0.0f;
 	m_fMove = 0.0f;
+	m_id = SCREEN_NONE;
 }
 
 //=============================================================================
@@ -62,6 +63,8 @@ HRESULT CCamera::Init(void)
 	m_posV.x = m_posR.x + m_fDistance * sinf(m_fVartical) * sinf(m_fHorizontal);// カメラ位置X
 	m_posV.y = m_posR.z + m_fDistance * cosf(m_fVartical);						// カメラ位置Y
 	m_posV.z = m_posR.y + m_fDistance * sinf(m_fVartical) * cosf(m_fHorizontal);// カメラ位置Z
+	m_id = SCREEN_NONE;															// スクリーンIDの初期化
+
 
 	return S_OK;
 }
@@ -89,29 +92,65 @@ void CCamera::SetCamera(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
-	//ビューマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxView);
 
-	//ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&m_mtxView,
-		&m_posV,
-		&m_posR,
-		&m_posU);
+	//スクリーンID別にプロジェクションマトリックスの作成
+	if (m_id == SCREEN_NONE)
+	{
+		//ビューマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxView);
 
-	//ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
 
-	//プロジェクションマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxProjection);
+		//ビューマトリックスの作成
+		D3DXMatrixLookAtLH(&m_mtxView,
+			&m_posV,
+			&m_posR,
+			&m_posU);
 
-	//プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&m_mtxProjection,
-		D3DXToRadian(45.0f),
-		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
-		10.0f,
-		200000.0f);
 
-	//プロジェクションマトリックスの設定
-	pDevice->SetTransform(D3DTS_PROJECTION,
-		&m_mtxProjection);
+		//ビューマトリックスの設定
+		pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
+
+
+		//プロジェクションマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxProjection);
+
+
+		D3DXMatrixPerspectiveFovLH(&m_mtxProjection,
+			D3DXToRadian(45.0f),
+			(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
+			10.0f,
+			200000.0f);
+
+
+		//プロジェクションマトリックスの設定
+		pDevice->SetTransform(D3DTS_PROJECTION,
+			&m_mtxProjection);
+	}
+	else
+	{
+		//ビューマトリックスの初期化
+		D3DXMatrixIdentity(&m_aMtxView[m_id]);
+
+		//ビューマトリックスの作成
+		D3DXMatrixLookAtLH(&m_aMtxView[m_id],
+			&m_posV,
+			&m_posR,
+			&m_posU);
+
+		//ビューマトリックスの設定
+		pDevice->SetTransform(D3DTS_VIEW, &m_aMtxView[m_id]);
+
+		//プロジェクションマトリックスの初期化
+		D3DXMatrixIdentity(&m_aMtxProjection[m_id]);
+
+		D3DXMatrixPerspectiveFovLH(&m_aMtxProjection[m_id],
+			D3DXToRadian(45.0f),
+			(float)(SCREEN_WIDTH / 2 )/ (float)SCREEN_HEIGHT,
+			10.0f,
+			200000.0f);
+
+		//プロジェクションマトリックスの設定
+		pDevice->SetTransform(D3DTS_PROJECTION,
+			&m_aMtxProjection[m_id]);
+	}
 }

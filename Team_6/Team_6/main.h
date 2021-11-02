@@ -29,6 +29,7 @@
 #include <fstream>
 #include <sstream>
 #include <memory>
+#include <time.h>
 
 //=============================================================================
 // ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

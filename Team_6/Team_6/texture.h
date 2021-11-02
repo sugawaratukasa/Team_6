@@ -32,6 +32,11 @@ public:
 	{
 		TEXTURE_NUM_NONE = -1,			// 初期値
 		TEXTURE_NUM_FLOOR,				// 床
+		TETXTURE_NUM_SCREENFRAME,		// 画面分割用
+		TEXTURE_NUM_TIMER_FRAME,        // タイマーフレーム
+		TEXTURE_NUM_TIMER_GUAGE,		// タイマーゲージ
+		TEXTURE_NUM_TIMER_STENCIL,		// タイマーステンシル用のテクスチャ
+		TEXTURE_NUM_TIMER_NUMBER,		// タイマー用数字
 		TEXTURE_NUM_MAX
 	};
 

@@ -93,6 +93,7 @@ void CCameraTitle::Update(void)
 {
 	// ƒJƒƒ‰‚ÌXVˆ—
 	CCamera::Update();
+	CCamera::SetCamera();
 }
 
 //=============================================================================

@@ -44,6 +44,7 @@ public:
 	void SetRotation(float rotasion);									// 回転の設定
 	void SetScale(const float &fScale);									// 拡大の値設定
 	void SetSubFlashNum(float fSubNum) { m_fSubNum = fSubNum; }			// 点滅の値設定
+	void SetAnimSpeed(int nAnimCount) { m_nCountAnim = nAnimCount; }	// アニメーションのスピード設定
 
 																		// Get関数
 	float GetScale(void) { return m_fScaleNum; }						// 拡大の値情報
