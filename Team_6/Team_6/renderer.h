@@ -11,6 +11,7 @@
 //インクルードファイル
 //=============================================================================
 #include "main.h"
+#include "camera.h"
 
 //=============================================================================
 // レンダラークラス
@@ -29,6 +30,7 @@ public:
 	void SetStateStencil(void);					// ステンシルの設定
 	void SetStencilTest(void);					// ステンシルテスト設定
 	void ReSetStateStencil(void);				// ステンシル情報リセット
+	void SetUpViewPort(CCamera::SCREEN_ID id);
 
 	LPDIRECT3DDEVICE9 GetDevice(void);			// デバイス情報
 

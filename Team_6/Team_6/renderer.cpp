@@ -132,7 +132,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);		// 最初のアルファ引数（初期値）
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);		// 2番目のアルファ引数（初期値）
 
-																				//環境光
+	//環境光
 	D3DMATERIAL9 material;
 	ZeroMemory(&material, sizeof(D3DMATERIAL9));
 	material.Ambient.r = 1.0f;
@@ -217,25 +217,40 @@ void CRenderer::Draw(void)
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
-		// 射影行列/ビュー/ワールド
-		D3DXMATRIX matProj, matView, matWorld;
-		D3DXMATRIX trans;
-
-		if (CManager::GetModePtr() != nullptr)
+		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 		{
-			// カメラのポインタ取得
-			CCamera *pCamera = CManager::GetModePtr()->GetCamera();
-
-			// カメラが使われていたら
-			if (pCamera != nullptr)
+			for (int nCount = 0; nCount < CCamera::SCREEN_MAX; nCount++)
 			{
-				pCamera->SetCamera();
+				// ビューポート設定
+				SetUpViewPort((CCamera::SCREEN_ID)nCount);
+
+				// バッファのクリア
+				m_pD3DDevice->Clear(0,
+					nullptr,
+					(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+					D3DCOLOR_RGBA(0, 255, 255, 0),
+					1.0f,
+					0);
+
+				m_pD3DDevice->Clear(0,
+					nullptr,
+					D3DCLEAR_STENCIL,
+					D3DCOLOR_XRGB(0, 0, 0),
+					1.0f,
+					0);
+
+				//オブジェクトクラスの全描画処理呼び出し
+				CScene::DrawAll();
 			}
 		}
+		else
+		{
+			// ビューポート設定
+			SetUpViewPort(CCamera::SCREEN_NONE);
 
-		//オブジェクトクラスの全描画処理呼び出し
-		CScene::DrawAll();
-
+			//オブジェクトクラスの全描画処理呼び出し
+			CScene::DrawAll();
+		}
 		// デバッグプロシージャ
 		CDebugProc *pDebugProc = CManager::GetDebugProc();
 		if (pDebugProc != nullptr)
@@ -334,4 +349,70 @@ void CRenderer::ReSetStateStencil(void)
 LPDIRECT3DDEVICE9 CRenderer::GetDevice(void)
 {
 	return m_pD3DDevice;
+}
+
+//=============================================================================
+// ビューポートの設定
+//=============================================================================
+void CRenderer::SetUpViewPort(CCamera::SCREEN_ID id)
+{
+	// ビューポートパラメータ
+	D3DVIEWPORT9 view_port;
+	D3DXVECTOR2 size;
+
+	// ID別にスクリーンサイズの設定
+	switch (id)
+	{
+	case CCamera::SCREEN_NONE:
+		// スクリーンサイズ設定
+		size = D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		// 左上座標(原点)の設定
+		view_port.X = ZeroVector2.x;
+		view_port.Y = ZeroVector2.y;
+
+		// ビューポートの幅
+		view_port.Width = SCREEN_WIDTH;
+		// ビューポートの高さ
+		view_port.Height = SCREEN_HEIGHT;
+		break;
+	case CCamera::SCREEN_LEFT:
+		// スクリーンサイズ設定
+		size = D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+		// 左上座標(原点)の設定
+		view_port.X = ZeroVector2.x;
+		view_port.Y = ZeroVector2.y;
+
+		// ビューポートの幅
+		view_port.Width = SCREEN_WIDTH / 2;
+		// ビューポートの高さ
+		view_port.Height = SCREEN_HEIGHT;
+		break;
+	case CCamera::SCREEN_RIGHT:
+		// スクリーンサイズ設定
+		size = D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+		// 左上座標(原点)の設定
+		view_port.X = SCREEN_WIDTH / 2;
+		view_port.Y = ZeroVector2.y;
+
+		// ビューポートの幅
+		view_port.Width = SCREEN_WIDTH / 2;
+		// ビューポートの高さ
+		view_port.Height = SCREEN_HEIGHT;
+		break;
+	default:
+		break;
+	}
+
+	// ビューポート深度設定
+	view_port.MinZ = 0.0f;
+	view_port.MaxZ = 1.0f;
+
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+
+	// ビューポート設定
+	pDevice->SetViewport(&view_port);
 }

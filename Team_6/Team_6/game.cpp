@@ -26,6 +26,9 @@
 #include "floor.h"
 #include "fade.h"
 #include "object.h"
+#include "Screenframe.h"
+#include "Timer.h"
+
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -36,7 +39,7 @@
 //=======================================================================================
 CGame::CGame()
 {
-	m_pCamera = nullptr;
+	memset(&m_pCamera, 0, sizeof(m_pCamera));
 	m_pLight = nullptr;
 	m_pPlayer = nullptr;
 	m_pFont = nullptr;
@@ -57,7 +60,8 @@ CGame::~CGame()
 HRESULT CGame::Init(void)
 {
 	// カメラクラスのクリエイト
-	m_pCamera = CCameraGame::Create();
+	m_pCamera[ID_PLAYER_01] = CCameraGame::Create(CCamera::SCREEN_LEFT);
+	m_pCamera[ID_PLAYER_02] = CCameraGame::Create(CCamera::SCREEN_RIGHT);
 
 	//ライトクラスの生成
 	m_pLight = new CLight;
@@ -76,6 +80,10 @@ HRESULT CGame::Init(void)
 	// 生成
 	CreateGround();
 
+	// UIの生成
+	CScreenFrame::Create();
+	CTimer::Create();
+
 	return S_OK;
 }
 //=======================================================================================
@@ -83,16 +91,19 @@ HRESULT CGame::Init(void)
 //=======================================================================================
 void CGame::Uninit(void)
 {
-	if (m_pCamera != nullptr)
+	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
-		//カメラクラスの終了処理呼び出す
-		m_pCamera->Uninit();
+		if (m_pCamera[nCount] != nullptr)
+		{
+			//カメラクラスの終了処理呼び出す
+			m_pCamera[nCount]->Uninit();
 
-		//メモリの破棄
-		delete m_pCamera;
+			//メモリの破棄
+			delete m_pCamera[nCount];
 
-		//メモリのクリア
-		m_pCamera = nullptr;
+			//メモリのクリア
+			m_pCamera[nCount] = nullptr;
+		}
 	}
 
 	// ライトの終了処理
@@ -124,17 +135,18 @@ void CGame::Uninit(void)
 void CGame::Update(void)
 {
 	// プレイヤーの位置描画
-	DrawPlayerPos();
+	//DrawPlayerPos();
 
-	if (m_pCamera != nullptr)
+	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
-		//カメラクラスの更新処理
-		m_pCamera->Update();
+		if (m_pCamera[nCount] != nullptr)
+		{
+			//カメラクラスの更新処理
+			m_pCamera[nCount]->Update();
+		}
 	}
-
 	// ゲームの設定
 	SetGame();
-
 }
 
 //=======================================================================================
@@ -160,7 +172,7 @@ void CGame::CreatePlayer(void)
 	// プレイヤーの生成
 	if (m_pPlayer == nullptr)
 	{
-		m_pPlayer = CPlayer::Create(ZeroVector3, ZeroVector3);
+		//m_pPlayer = CPlayer::Create(ZeroVector3, ZeroVector3);
 	}
 }
 

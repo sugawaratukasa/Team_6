@@ -43,6 +43,14 @@ public:
 		ENEMY_OBSTACLE_TYPE_ROCK,
 		ENEMY_OBSTACLE_TYPE_MAX
 	};
+
+	enum CAMERA_ID
+	{
+		ID_PLAYER_01 = 0,
+		ID_PLAYER_02,
+		ID_PLAYER_MAX
+	};
+
 	//=============================================================================
 	//　敵生成ファイル情報の構造体
 	//=============================================================================
@@ -74,7 +82,7 @@ public:
 
 private:
 	// ポインタ
-	CCameraGame *m_pCamera;					// カメラのポインタ	
+	CCameraGame *m_pCamera[ID_PLAYER_MAX];	// カメラのポインタ	
 	CLight *m_pLight;						// ライトのポインタ
 	CPlayer *m_pPlayer;						// プレイヤーのポインタ
 

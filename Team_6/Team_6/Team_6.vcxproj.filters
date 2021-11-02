@@ -55,6 +55,9 @@
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08_UI">
+      <UniqueIdentifier>{ed395e8b-4f2e-4ee8-a0ef-5906584510f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -174,6 +177,18 @@
     <ClCompile Include="object.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
+    <ClCompile Include="Screenframe.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Guage.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -292,6 +307,18 @@
     </ClInclude>
     <ClInclude Include="object.h">
       <Filter>06_Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Screenframe.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Guage.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>08_UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -94,7 +94,7 @@ HRESULT CScene2D::Init(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 	SetPos(pos);	// 座標
 	SetSize(size);	// サイズ
 
-					// 頂点の生成
+	// 頂点の生成
 	CreateVertex(pos, size);
 
 	return S_OK;
@@ -305,10 +305,10 @@ void CScene2D::InitAnimation(int nCounterAnim, int nPatternAnim, int nLoop)
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//テクスチャ座標を更新
-	pVtx[0].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCountAnimPattern, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCountAnimPattern + (float)(1.0f / m_nPatternAnim), 0.0f);
-	pVtx[2].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCountAnimPattern, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCountAnimPattern + (float)(1.0f / m_nPatternAnim), 1.0f);
+	pVtx[0].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCounterAnim, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCounterAnim + (float)(1.0f / m_nPatternAnim), 0.0f);
+	pVtx[2].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCounterAnim, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2((float)(1.0f / m_nPatternAnim)*(float)m_nCounterAnim + (float)(1.0f / m_nPatternAnim), 1.0f);
 
 	// 頂点バッファをアンロックする
 	pVtxBuff->Unlock();
@@ -320,12 +320,12 @@ void CScene2D::InitAnimation(int nCounterAnim, int nPatternAnim, int nLoop)
 void CScene2D::UpdateAnimation(void)
 {
 	// 爆発のアニメーションカウントを進めて、パターンを切り替える
-	m_nCountAnim++;
+	m_nCounterAnim++;
 
 	// 頂点情報(テクスチャ座標)の更新
-	if (m_nCountAnim >= m_nCounterAnim)	// 爆発の速さ
+	if (m_nCounterAnim >= m_nCountAnim)	// 爆発の速さ
 	{
-		m_nCountAnim = 0;		// アニメーションのカウントを0にする
+		m_nCounterAnim = 0;		// アニメーションのカウントを0にする
 		m_nCountAnimPattern++;	// アニメーションのパターンをカウントさせる
 	}
 

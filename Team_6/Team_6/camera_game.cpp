@@ -36,7 +36,7 @@
 //=============================================================================
 // インスタンス生成
 //=============================================================================
-CCameraGame * CCameraGame::Create(void)
+CCameraGame * CCameraGame::Create(CCamera::SCREEN_ID id)
 {
 	// メモリ確保
 	CCameraGame *pCamera = new CCameraGame;
@@ -44,7 +44,18 @@ CCameraGame * CCameraGame::Create(void)
 	// 初期化処理
 	pCamera->Init();
 
+	pCamera->SetCameraID(id);
+	pCamera->SetScreenID(id);
+
 	return pCamera;
+}
+
+//=============================================================================
+// カメラID設定
+//=============================================================================
+void CCameraGame::SetCameraID(CCamera::SCREEN_ID id)
+{
+	m_id = id;
 }
 
 //=============================================================================
@@ -52,7 +63,6 @@ CCameraGame * CCameraGame::Create(void)
 //=============================================================================
 CCameraGame::CCameraGame()
 {
-
 }
 
 //=============================================================================
@@ -69,6 +79,7 @@ HRESULT CCameraGame::Init(void)
 {
 	// 初期化処理
 	CCamera::Init();
+	m_id = CCamera::SCREEN_NONE;
 
 	return S_OK;
 }
@@ -78,8 +89,27 @@ HRESULT CCameraGame::Init(void)
 //=============================================================================
 void CCameraGame::Update(void)
 {
-	// カメラの更新処理
-	CCamera::Update();
+	// カメラのid別の更新処理
+	switch (m_id)
+	{
+	case CCamera::SCREEN_NONE:
+		// idが設定されなかった場合
+		CCamera::Update();
+		CCamera::SetCamera();
+		break;
+	case CCamera::SCREEN_LEFT:
+		// 左画面
+		CCamera::Update();
+		CCamera::SetCamera();
+		break;
+	case CCamera::SCREEN_RIGHT:
+		// 右画面
+		CCamera::Update();
+		CCamera::SetCamera();
+		break;
+	default:
+		break;
+	}
 }
 
 //=============================================================================

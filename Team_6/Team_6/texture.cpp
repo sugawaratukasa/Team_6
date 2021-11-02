@@ -59,6 +59,11 @@ HRESULT CTexture::SetTextureName(void)
 	m_aTexFileName[TEXTURE_TYPE_NUM_NORMAL] =
 	{
 		{"data/Texture/floor.jpg"},
+		{"data/Texture/Sceneframe.png"},
+		{"data/Texture/time_UI_frame.png"},
+		{"data/Texture/time_UI_guage.png" },
+		{"data/Texture/time_UI_guage2.png"},
+		{ "data/Texture/number_01.png" },
 	};
 
 	// 分割テクスチャ
