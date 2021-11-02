@@ -49,6 +49,7 @@ CXfile::CXfile()
 	{
 		{ "data/Text/Player/motion_player1.txt" },			// プレイヤー
 		{ "data/Text/Player/motion_player2.txt" },			// プレイヤー
+		{ "data/Text/Jailer/motion_Jailer.txt" },			// 看守
 	};
 }
 

@@ -27,6 +27,7 @@
 #include "floor.h"
 #include "fade.h"
 #include "object.h"
+#include "jailer.h"
 
 #include "item_object_baton.h"
 #include "item_object_jailer_room_key.h"
@@ -97,6 +98,10 @@ HRESULT CGame::Init(void)
 	// ê∂ê¨
 	CreateGround();
 
+	//ä≈éÁÇÃê∂ê¨
+	CJailer::Create(ZeroVector3, ZeroVector3);
+
+	//CJailer::Create(ZeroVector3, ZeroVector3);
 	return S_OK;
 }
 //=======================================================================================
@@ -181,6 +186,7 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[0] == nullptr)
 	{
 		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
+
 	}
 	// ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
 	if (m_apPlayer[1] == nullptr)
@@ -219,5 +225,5 @@ void CGame::CreateGround(void)
 	// è∞ê∂ê¨
 	CFloor::Create(ZeroVector3, FLOOR_SIZE);
 
-	//CObject::Create(OBJECT_POS, ZeroVector3);
+	CObject::Create(OBJECT_POS, ZeroVector3);
 }

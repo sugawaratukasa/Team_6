@@ -49,11 +49,15 @@
     <Filter Include="05_Character\Player">
       <UniqueIdentifier>{125a8a3e-0f8f-48d4-930a-82cb68d9d01b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07_Effect">
-      <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
+    </Filter>
+
+    <Filter Include="06_Model\07_Effect">
+      <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Character\Jjailer">
+      <UniqueIdentifier>{f9cc20fe-7f25-43ed-acf5-0ddb24be7a91}</UniqueIdentifier>
     </Filter>
     <Filter Include="09_Object">
       <UniqueIdentifier>{1c371c8f-2faa-4dc5-8d8e-145204c091a6}</UniqueIdentifier>
@@ -160,13 +164,13 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
     <ClCompile Include="shadow.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_polygon.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_volume.cpp">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>00_Important\Camera</Filter>
@@ -218,6 +222,31 @@
     </ClCompile>
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
+    </ClCompile>
+
+    <ClCompile Include="fan3d.cpp">
+      <Filter>04_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_AttackState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_WaitState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_ChaseState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jalier_MoveState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_view.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_LostTargetState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
@@ -318,13 +347,13 @@
       <Filter>04_Scene</Filter>
     </ClInclude>
     <ClInclude Include="shadow.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_polygon.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_volume.h">
-      <Filter>07_Effect</Filter>
+      <Filter>06_Model\07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>00_Important\Camera</Filter>
@@ -376,6 +405,34 @@
     </ClInclude>
     <ClInclude Include="character_collision_box.h">
       <Filter>06_Model</Filter>
+    </ClInclude>
+
+    <ClInclude Include="fan3d.h">
+      <Filter>04_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_AttackState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_State.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_WaitState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jalier_ChaseState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="Jalier_MoveState.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_view.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_LostTargetState.h">
+      <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>

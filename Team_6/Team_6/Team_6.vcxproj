@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_game.cpp" />
@@ -156,9 +157,16 @@
     <ClCompile Include="debug_proc.cpp" />
     <ClCompile Include="door_pc_room.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="fan3d.cpp" />
     <ClCompile Include="floor.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
+
+    <ClCompile Include="jailer.cpp" />
+    <ClCompile Include="jailer_LostTargetState.cpp" />
+    <ClCompile Include="jailer_view.cpp" />
+    <ClCompile Include="jailer_WaitState.cpp" />
+    <ClCompile Include="jalier_ChaseState.cpp" />
     <ClCompile Include="item_object.cpp" />
     <ClCompile Include="item_object_baton.cpp" />
     <ClCompile Include="item_object_jailer_room_key.cpp" />
@@ -177,6 +185,7 @@
     <ClCompile Include="model_collision_box.cpp" />
     <ClCompile Include="mode_base.cpp" />
     <ClCompile Include="motion.cpp" />
+    <ClCompile Include="jalier_MoveState.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_door.cpp" />
     <ClCompile Include="player.cpp" />
@@ -210,9 +219,19 @@
     <ClInclude Include="debug_proc.h" />
     <ClInclude Include="door_pc_room.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+
+    <ClInclude Include="jailer.h" />
+    <ClInclude Include="jailer_AttackState.h" />
+    <ClInclude Include="jailer_LostTargetState.h" />
+    <ClInclude Include="jailer_State.h" />
+    <ClInclude Include="jailer_view.h" />
+    <ClInclude Include="jailer_WaitState.h" />
+    <ClInclude Include="jalier_ChaseState.h" />
+    <ClInclude Include="Jalier_MoveState.h" />
     <ClInclude Include="item_object.h" />
     <ClInclude Include="item_object_baton.h" />
     <ClInclude Include="item_object_jailer_room_key.h" />
