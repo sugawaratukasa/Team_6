@@ -64,6 +64,9 @@
     <Filter Include="10_UI">
       <UniqueIdentifier>{0ee0b20b-ad1c-4eb2-9c4d-935473054965}</UniqueIdentifier>
     </Filter>
+    <Filter Include="11_Map">
+      <UniqueIdentifier>{3e3a3af6-298d-4ea6-9208-5263a7d281c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -222,6 +225,15 @@
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
+    <ClCompile Include="object_wall.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object_door_wall.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>11_Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -379,6 +391,15 @@
     </ClInclude>
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object_door_wall.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>11_Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

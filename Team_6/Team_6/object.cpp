@@ -63,27 +63,11 @@ CObject * CObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_ROCK);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
 	// サイズ設定
 	SetSize(SIZE);
 
-	// 箱生成
-	//CModel_Box::Create(pos, rot, this);
-
 	// 初期化処理
-	CModel::Init(pos, ZeroVector3);
+	CModel::Init(pos, rot);
 
 	return S_OK;
 }

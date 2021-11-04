@@ -13,6 +13,7 @@
 // Author : Nikaido Taichi
 //=============================================================================
 #include "manager.h"
+#include "resource_manager.h"
 #include "object_door.h"
 
 //=============================================================================
@@ -32,6 +33,31 @@ CDoor::CDoor(PRIORITY Priority)
 CDoor::~CDoor()
 {
 }
+//=============================================================================
+// 生成処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+CDoor * CDoor::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+{
+	// CDoorのポインタ
+	CDoor *pDoor = nullptr;
+
+	// nukkcheck
+	if (pDoor == nullptr)
+	{
+		// メモリ確保
+		pDoor = new CDoor;
+
+		// !nullchcek
+		if (pDoor != nullptr)
+		{
+			// 初期化処理
+			pDoor->Init(pos, rot);
+		}
+	}
+	// ポインタを返す
+	return pDoor;
+}
 
 //=============================================================================
 // 初期化処理関数
@@ -41,6 +67,19 @@ HRESULT CDoor::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
 	CObject::Init(pos, rot);
+
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+
+	// !nullcheck
+	if (pXfile != nullptr)
+	{
+		// モデル情報取得
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
+
+		// モデルの情報を渡す
+		BindModel(model);
+	}
 	return S_OK;
 }
 

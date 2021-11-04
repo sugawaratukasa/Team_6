@@ -1,108 +1,110 @@
 //=============================================================================
-// 床 [enemy_attack_point_polygon.cpp]
+// 壁クラス [object_wall.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
+
+//=============================================================================
+// マクロ定義
+// Author : Sugawara Tsukasa
+//=============================================================================
+
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
-#include "renderer.h"
-#include "texture.h"
+#include "object_wall.h"
 #include "resource_manager.h"
-#include "collision.h"
-#include "player.h"
-#include "game.h"
-#include "floor.h"
-//=============================================================================
-// マクロ定義
-// Author : Sugawara Tsukasa
-//=============================================================================
-#define COL (D3DCOLOR_RGBA(255, 0, 0, 255))	// 色
+
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CFloor::CFloor(PRIORITY Priority) : CScene3D(Priority)
+CWall::CWall(PRIORITY Priority) : CObject(Priority)
+{
+}
+
+//=============================================================================
+// デストラクタ
+// Author : Sugawara Tsukasa
+//=============================================================================
+CWall::~CWall()
 {
 }
 //=============================================================================
-// インクルードファイル
+// 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CFloor::~CFloor()
+CWall * CWall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-}
-//=============================================================================
-// インクルードファイル
-// Author : Sugawara Tsukasa
-//=============================================================================
-CFloor * CFloor::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
-{
-	// CFloorのポインタ
-	CFloor *pFloor = nullptr;
+	// CWallのポインタ
+	CWall *pWall = nullptr;
 
 	// nullcheck
-	if (pFloor == nullptr)
+	if (pWall == nullptr)
 	{
 		// メモリ確保
-		pFloor = new CFloor;
+		pWall = new CWall;
 
 		// !nullcheck
-		if (pFloor != nullptr)
+		if (pWall != nullptr)
 		{
 			// 初期化処理
-			pFloor->Init(pos, size);
+			pWall->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pFloor;
+	return pWall;
 }
+
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CFloor::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+HRESULT CWall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
-	CScene3D::Init(pos, size);
+	CObject::Init(pos, rot);
 
-	// テクスチャの設定
-	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_FLOOR));
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
 
-	// 向き設定
-	SetRot(ZeroVector3);
+	// !nullcheck
+	if (pXfile != nullptr)
+	{
+		// モデル情報取得
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_WALL);
 
-	// 色設定
-	SetColor(COL);
-
+		// モデルの情報を渡す
+		BindModel(model);
+	}
 	return S_OK;
 }
+
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CFloor::Uninit(void)
+void CWall::Uninit(void)
 {
 	// 終了処理
-	CScene3D::Uninit();
+	CObject::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CFloor::Update(void)
+void CWall::Update(void)
 {
 	// 更新処理
-	//CScene3D::Update();
+	CObject::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CFloor::Draw(void)
+void CWall::Draw(void)
 {
 	// 描画処理
-	CScene3D::Draw();
+	CObject::Draw();
 }
