@@ -24,6 +24,7 @@ class CCamera;
 class CCameraGame;
 class CLight;
 class CPlayer;
+class CPlayerUIManager;
 
 //=======================================================================================
 // ゲームクラス
@@ -80,7 +81,8 @@ private:
 	// ポインタ
 	CCameraGame *m_pCamera[ID_PLAYER_MAX];	// カメラのポインタ	
 	CLight *m_pLight;						// ライトのポインタ
-	CPlayer *m_apPlayer[MAX_PLAYER];					// プレイヤーのポインタ
+	CPlayerUIManager * m_pPlayerUIManager;	// プレイヤーUIマネージャーのポインタ
+	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ
 	LPD3DXFONT m_pFont;						// デバック用フォント
 };
 #endif

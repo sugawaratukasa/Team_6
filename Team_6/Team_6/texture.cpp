@@ -64,6 +64,10 @@ HRESULT CTexture::SetTextureName(void)
 		{"data/Texture/time_UI_guage.png" },
 		{"data/Texture/time_UI_guage2.png"},
 		{ "data/Texture/number_01.png" },
+		{ "data/Texture/UI_frameI.png" },
+		{ "data/Texture/baton.png" },
+		{"data/Texture/Key_ItemUI.png"},
+		{"data/Texture/Map_ItemUI.png"}
 	};
 
 	// 分割テクスチャ

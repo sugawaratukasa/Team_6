@@ -60,7 +60,12 @@ public:
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
-	void SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem) { m_apItem[ItemList] = pItem;}	// アイテム設定処理
+	void SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem);	// アイテム設定処理
+	//=============================================================================
+	//　Get関数
+	//=============================================================================
+	CItemObject * GetItem(int nItem) { return m_apItem[nItem]; }
+	int GetItemCount(void) { return m_nItemCount; }
 private:
 	CItemObject *  m_apItem[CItemObject::ITEM_OBJECT_MAX];	// アイテムのポインタ
 	int m_nItemCount;										// アイテムの所持数
