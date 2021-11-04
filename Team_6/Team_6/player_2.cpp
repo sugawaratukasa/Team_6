@@ -68,7 +68,7 @@ void CPlayer2::Update(void)
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
-	float fAngle = GET_CAMERA_PTR->GetHorizontal();
+	float fAngle = CAM_HORIZONTAL_ANGLE;
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
 	{

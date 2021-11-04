@@ -80,6 +80,7 @@ HRESULT CCameraGame::Init(void)
 	// 初期化処理
 	CCamera::Init();
 	m_id = CCamera::SCREEN_NONE;
+	SetTarget(true);
 
 	return S_OK;
 }
@@ -89,27 +90,6 @@ HRESULT CCameraGame::Init(void)
 //=============================================================================
 void CCameraGame::Update(void)
 {
-	// カメラのid別の更新処理
-	switch (m_id)
-	{
-	case CCamera::SCREEN_NONE:
-		// idが設定されなかった場合
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	case CCamera::SCREEN_LEFT:
-		// 左画面
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	case CCamera::SCREEN_RIGHT:
-		// 右画面
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	default:
-		break;
-	}
 }
 
 //=============================================================================
@@ -187,4 +167,20 @@ void CCameraGame::NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot)
 	// 旋回角度設定
 	SetHorizontal(fHorizontal);
 	SetVartical(fVartical);
+}
+
+//=============================================================================
+// カメラの位置修正
+//=============================================================================
+void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
+{
+	// プレイヤーのポインタ
+	CPlayer *pPlayer;
+	CModeBase *pMode = CManager::GetModePtr();
+
+	// 位置修正
+	pPlayer = ((CGame*)pMode)->GetPlayer(id);
+	SetTargetPos(pPlayer->GetPos());
+	CCamera::Update();
+	CCamera::SetCamera();
 }

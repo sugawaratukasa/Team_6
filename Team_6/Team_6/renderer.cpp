@@ -18,6 +18,7 @@
 #include "polygon.h"
 #include "shadow.h"
 #include "debug_proc.h"
+#include "camera_game.h"
 
 //=============================================================================
 // レンダリングクラスのコンストラクタ
@@ -219,10 +220,10 @@ void CRenderer::Draw(void)
 	{
 		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 		{
-			for (int nCount = 0; nCount < CCamera::SCREEN_MAX; nCount++)
+			for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 			{
 				// ビューポート設定
-				SetUpViewPort((CCamera::SCREEN_ID)nCount);
+				SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
 
 				// バッファのクリア
 				m_pD3DDevice->Clear(0,
@@ -238,6 +239,9 @@ void CRenderer::Draw(void)
 					D3DCOLOR_XRGB(0, 0, 0),
 					1.0f,
 					0);
+
+				// カメラ位置を修正
+				((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
 
 				//オブジェクトクラスの全描画処理呼び出し
 				CScene::DrawAll();

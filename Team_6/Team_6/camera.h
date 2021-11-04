@@ -11,6 +11,12 @@
 #include "main.h"
 
 //=============================================================================
+// マクロ定義
+//=============================================================================
+// カメラの移動速度
+#define CAMERA_MOVE_RATE 0.1f                                     // カメラの補間値
+
+//=============================================================================
 // カメラクラス
 //=============================================================================
 class CCamera
@@ -40,6 +46,7 @@ public:
 	void SetVartical(float fVartical) { m_fVartical = fVartical; }
 	void SetHorizontal(float fHorizontal) { m_fHorizontal = fHorizontal; }
 	void SetScreenID(SCREEN_ID id) { m_id = id; } 	// ビューポートIDの設定(SCREEN_NONEで通常のカメラ)
+	void SetTargetPos(D3DXVECTOR3 pos) { m_posRDest = pos; }
 
 	// Get関数
 	D3DXVECTOR3 &GetposV(void) { return m_posV; }				// カメラ座標
