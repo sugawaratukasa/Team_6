@@ -11,6 +11,7 @@
 #include "object_door_wall.h"
 #include "object_door.h"
 #include "object_wall.h"
+#include "floor.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -243,6 +244,24 @@ void CMap::CreateMap(void)
 //========================================================================
 void CMap::CreateFloor(void)
 {
+	// 要素数分取得
+	int nSize = m_a3DPolygonInfo.size();
+
+	// 要素数分繰り返す
+	for (int nCnt = ZERO_INT; nCnt < nSize; nCnt++)
+	{
+		// 条件分岐文
+		switch (m_a3DPolygonInfo.at(nCnt).nTex)
+		{
+			// 床
+		case FLOOR_TYPE_NORMAL:
+			CFloor::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
+			break;
+			// 例外
+		default:
+			break;
+		}
+	}
 }
 //========================================================================
 // モデル生成処理関数

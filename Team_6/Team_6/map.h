@@ -33,6 +33,12 @@ public:
 		D3DXVECTOR3 rot;	// Œü‚«
 		int nModelNum;		// ƒ‚ƒfƒ‹‚Ìƒiƒ“ƒo
 	};
+	enum FLOOR_TYPE
+	{
+		FLOOR_TYPE_NONE = -1,
+		FLOOR_TYPE_NORMAL,
+		FLOOR_TYPE_MAX
+	};
 	enum MODEL_TYPE
 	{
 		MODEL_TYPE_NONE = -1,
