@@ -83,9 +83,6 @@ void CPlayer1::Update(void)
 	{
 		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	}
-
-	// ƒ}ƒbƒv‚Æ‚Ì“–‚½‚è”»’è
-	MapCollision();
 }
 
 void CPlayer1::Draw(void)
