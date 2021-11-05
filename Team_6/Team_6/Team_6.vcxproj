@@ -180,6 +180,7 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_anime.cpp" />
     <ClCompile Include="model_collision_box.cpp" />
@@ -189,6 +190,8 @@
     <ClCompile Include="jalier_MoveState.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_door.cpp" />
+    <ClCompile Include="object_door_wall.cpp" />
+    <ClCompile Include="object_wall.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
@@ -249,6 +252,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_anime.h" />
     <ClInclude Include="model_collision_box.h" />
@@ -257,6 +261,8 @@
     <ClInclude Include="Number.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object_door.h" />
+    <ClInclude Include="object_door_wall.h" />
+    <ClInclude Include="object_wall.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />

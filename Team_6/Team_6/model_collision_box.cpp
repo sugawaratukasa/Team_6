@@ -113,6 +113,12 @@ void CModelCollisionBox::Update(void)
 	// 更新処理
 	CModel::Update();
 
+	// サイズ取得
+	D3DXVECTOR3 size = m_pModel->GetSize();
+
+	// 拡大率の設定
+	SetScale(size);
+
 	// 位置取得
 	D3DXVECTOR3 pos = m_pModel->GetPos();
 

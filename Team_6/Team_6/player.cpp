@@ -23,7 +23,7 @@
 #include "resource_manager.h"
 #include "motion.h"
 #include "character_collision_box.h"
-
+#include "object.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -42,7 +42,8 @@
 #define ANGLE_135				(D3DXToRadian(135.0f))					// 角度90
 #define ANGLE_180				(D3DXToRadian(180.0f))					// 角度180
 #define ANGLE_270				(D3DXToRadian(270.0f))					// 角度270
-
+#define PARENT_NUM				(0)										// 親のナンバ
+#define MOVE_MIN				(0.0f)									// 移動量の最小
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -129,6 +130,9 @@ void CPlayer::Update(void)
 			m_bIncapacitated = false;
 		}
 	}
+
+	// マップとの当たり判定
+	MapCollision();
 }
 
 //=============================================================================
@@ -139,4 +143,126 @@ void CPlayer::Draw(void)
 {
 	// 描画
 	CCharacter::Draw();
+}
+//=============================================================================
+// マップとの当たり判定処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CPlayer::MapCollision(void)
+{
+	// CSceneのポインタ
+	CScene *pScene = nullptr;
+
+	// モデルの情報取得
+	CModelAnime *pAnime = GetModelAnime(PARENT_NUM);
+
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// 位置取得
+	D3DXVECTOR3 posOld = GetOldPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// nullcheck
+	if (pScene == nullptr)
+	{
+		// 先頭のポインタ取得
+		pScene = GetTop(CScene::PRIORITY_MAP);
+
+		// !nullcheck
+		if (pScene != nullptr)
+		{
+			// Mapオブジェクトの当たり判定
+			while (pScene != nullptr) // nullptrになるまで回す
+			{
+				// 現在のポインタ
+				CScene *pSceneCur = pScene->GetNext();
+
+				// 位置取得
+				D3DXVECTOR3 ObjPos = ((CObject*)pScene)->GetPos();
+
+				// サイズ取得
+				D3DXVECTOR3 ObjSize = ((CObject*)pScene)->GetSize();
+
+				//どこの面に当たったか取得
+				//下
+				if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_DOWN)
+				{
+					// 移動量0
+					GetMove().y = MOVE_MIN;
+
+					// 位置
+					pos.y = (-ObjSize.y / DIVIDE_2 + ObjPos.y) - (size.y / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 上
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_UP)
+				{
+					// 移動量0
+					GetMove().y = MOVE_MIN;
+
+					// 位置
+					pos.y = (ObjSize.y / DIVIDE_2 + ObjPos.y) + (size.y / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 左
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_LEFT)
+				{
+					// 移動量0
+					GetMove().x = MOVE_MIN;
+
+					// 位置
+					pos.x = (-ObjSize.x / DIVIDE_2 + ObjPos.x) - (size.x / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 右
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_RIGHT)
+				{
+					// 移動量0
+					GetMove().x = MOVE_MIN;
+
+					// 位置
+					pos.x = (ObjSize.x / DIVIDE_2 + ObjPos.x) + (size.x / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 手前
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_PREVIOUS)
+				{
+					// 移動量0
+					GetMove().z = MOVE_MIN;
+
+					// 位置
+					pos.z = (-ObjSize.z / DIVIDE_2 + ObjPos.z) - (size.z / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 奥
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_BACK)
+				{
+					// 移動量0
+					GetMove().z = MOVE_MIN;
+
+					// 位置
+					pos.z = (ObjSize.z / DIVIDE_2 + ObjPos.z) + (size.z / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+
+				// 次のポインタ取得
+				pScene = pSceneCur;
+			}
+		}
+	}
 }

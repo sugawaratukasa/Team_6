@@ -26,6 +26,7 @@ public:
 	};
 	CDoor(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
 	~CDoor();												// デストラクタ
+	static CDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理
 	void Uninit(void);										// 終了処理
 	void Update(void);										// 更新処理

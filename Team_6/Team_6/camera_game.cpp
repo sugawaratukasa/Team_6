@@ -115,7 +115,7 @@ void CCameraGame::Update(void)
 			m_nCamNum--;
 			if (m_nCamNum < 0)
 			{
-				m_nCamNum == 0;
+				m_nCamNum = 0;
 			}
 		}
 		if (pKeyInput->GetTrigger(DIK_1))
@@ -123,7 +123,7 @@ void CCameraGame::Update(void)
 			m_nCamNum++;
 			if (m_nCamNum > SECURITY_CAM_MAX)
 			{
-				m_nCamNum == SECURITY_CAM_MAX;
+				m_nCamNum = SECURITY_CAM_MAX;
 			}
 		}
 

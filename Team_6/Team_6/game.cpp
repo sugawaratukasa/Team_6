@@ -36,7 +36,8 @@
 #include "item_object_pc_room_key.h"
 #include "item_object_prison_key.h"
 #include "item_object_storage_key.h"
-
+#include "map.h"
+#include "object_wall.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -102,7 +103,9 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// 生成
 	CreateGround();
-
+	// 
+	//CWall::Create(ZeroVector3, ZeroVector3);
+	CMap::Create();
 
 	// UIの生成
 	CScreenFrame::Create();
@@ -122,7 +125,6 @@ void CGame::Uninit(void)
 
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
-
 		if (m_pCamera[nCount] != nullptr)
 		{
 			//カメラクラスの終了処理呼び出す
@@ -244,8 +246,5 @@ void CGame::CreateMap(void)
 //=======================================================================================
 void CGame::CreateGround(void)
 {
-	// 床生成
-	CFloor::Create(ZeroVector3, FLOOR_SIZE);
-
-	CObject::Create(OBJECT_POS, ZeroVector3);
+	
 }
