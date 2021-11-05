@@ -18,9 +18,10 @@ LPDIRECT3DTEXTURE9 CTimer::m_pTexture = NULL;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CTimer::CTimer()
+CTimer::CTimer(PRIORITY Priority) : CScene2D(Priority)
 {
 	m_pScene2D = NULL;
+	m_pGuage = NULL;
 }
 
 //=============================================================================
@@ -49,7 +50,6 @@ HRESULT CTimer::Init(void)
 	// 数字の設定
 	m_pNumber = CNumber::Create(TIMER_NUM_POS);
 
-
 	return S_OK;
 }
 
@@ -72,6 +72,10 @@ void CTimer::Draw(void)
 
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 50);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 	m_pGuage->SetIsStencil(true);
 	m_pGuage->Update();
 	m_pGuage->DrawStencil();
@@ -79,6 +83,8 @@ void CTimer::Draw(void)
 	m_pGuage->SetIsStencil(false);
 	m_pGuage->Update();
 	m_pGuage->Draw();
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }

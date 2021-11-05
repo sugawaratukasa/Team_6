@@ -161,10 +161,6 @@ void CGauge::DrawStencil(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = CManager::GetRenderer()->GetDevice();	//デバイスの取得
 
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 50);
-	pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
 	// Zバッファ系
 	pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 	pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_NEVER); // Zバッファを一時的に全て失敗
@@ -202,8 +198,6 @@ void CGauge::DrawStencil(void)
 	pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
 	pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 	pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 //=============================================================================
@@ -212,10 +206,6 @@ void CGauge::DrawStencil(void)
 void CGauge::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = CManager::GetRenderer()->GetDevice();	//デバイスの取得
-
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 50);
-	pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	CRenderer *pRenderer = CManager::GetRenderer();
 
@@ -230,8 +220,6 @@ void CGauge::Draw(void)
 
 	// ポリゴンの描画
 	pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 //=============================================================================
 // 終了処理
@@ -286,7 +274,7 @@ int CGauge::GetTime(void)
 {
 	int nElapsedTime = time(NULL) - m_nTime;
 
-	// 1分ごとに処理
+	// 1分ごとに1度だけ処理
 	if (nElapsedTime % 60 == 0)
 	{
 		if (!m_bTimer)

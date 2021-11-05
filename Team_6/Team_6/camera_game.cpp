@@ -80,7 +80,16 @@ HRESULT CCameraGame::Init(void)
 	// 初期化処理
 	CCamera::Init();
 	m_id = CCamera::SCREEN_NONE;
+	SetTarget(true);
 
+	m_bMonitoring = false;
+	m_nCamNum = 0;
+
+	// 仮初期化
+	for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
+	{
+		m_aSecCamPos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
 	return S_OK;
 }
 
@@ -89,26 +98,40 @@ HRESULT CCameraGame::Init(void)
 //=============================================================================
 void CCameraGame::Update(void)
 {
-	// カメラのid別の更新処理
-	switch (m_id)
+	//キーボードクラス情報の取得
+	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
+	// ジョイパッドの取得
+	DIJOYSTATE js = CInputJoypad::GetStick(0);
+
+	if (pKeyInput->GetTrigger(DIK_3))
 	{
-	case CCamera::SCREEN_NONE:
-		// idが設定されなかった場合
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	case CCamera::SCREEN_LEFT:
-		// 左画面
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	case CCamera::SCREEN_RIGHT:
-		// 右画面
-		CCamera::Update();
-		CCamera::SetCamera();
-		break;
-	default:
-		break;
+		m_bMonitoring = !m_bMonitoring;
+	}
+
+	if (m_bMonitoring)
+	{
+		if (pKeyInput->GetTrigger(DIK_1))
+		{
+			m_nCamNum--;
+			if (m_nCamNum < 0)
+			{
+				m_nCamNum == 0;
+			}
+		}
+		if (pKeyInput->GetTrigger(DIK_1))
+		{
+			m_nCamNum++;
+			if (m_nCamNum > SECURITY_CAM_MAX)
+			{
+				m_nCamNum == SECURITY_CAM_MAX;
+			}
+		}
+
+		SetTargetPos(m_aSecCamPos[m_nCamNum]);
+	}
+	else
+	{
+		m_nCamNum = 0;
 	}
 }
 
@@ -187,4 +210,20 @@ void CCameraGame::NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot)
 	// 旋回角度設定
 	SetHorizontal(fHorizontal);
 	SetVartical(fVartical);
+}
+
+//=============================================================================
+// カメラの位置修正
+//=============================================================================
+void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
+{
+	// プレイヤーのポインタ
+	CPlayer *pPlayer;
+	CModeBase *pMode = CManager::GetModePtr();
+
+	// 位置修正
+	pPlayer = ((CGame*)pMode)->GetPlayer(id);
+	SetTargetPos(pPlayer->GetPos());
+	CCamera::Update();
+	CCamera::SetCamera();
 }

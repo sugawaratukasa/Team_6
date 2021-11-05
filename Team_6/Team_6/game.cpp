@@ -208,8 +208,8 @@ void CGame::CreatePlayer(void)
 
 	if (m_apPlayer[0] == nullptr)
 	{
-
-		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);	}
+		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);	
+	}
 	// ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
 	if (m_apPlayer[1] == nullptr)
 	{

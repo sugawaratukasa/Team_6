@@ -36,7 +36,7 @@
 class CTimer : public CScene2D
 {
 public:
-	CTimer();
+	CTimer(PRIORITY = PRIORITY_UI);
 	~CTimer();
 
 	HRESULT Init(void);

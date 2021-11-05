@@ -21,7 +21,7 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define CAMERA_DEFAULT_Fθ			(D3DXToRadian(75.0f))			// カメラのθDefault値
+#define CAMERA_DEFAULT_Fθ			(D3DXToRadian(60.0f))			// カメラのθDefault値
 #define DISTANCE					(2200.0f)						// 視点～注視点の距離
 #define PLAYER_HEIGHT				(600.0f)						// 注視点の高さ
 
@@ -65,7 +65,6 @@ HRESULT CCamera::Init(void)
 	m_posV.z = m_posR.y + m_fDistance * sinf(m_fVartical) * cosf(m_fHorizontal);// カメラ位置Z
 	m_id = SCREEN_NONE;															// スクリーンIDの初期化
 
-
 	return S_OK;
 }
 
@@ -74,7 +73,6 @@ HRESULT CCamera::Init(void)
 //=============================================================================
 void CCamera::Uninit(void)
 {
-
 }
 
 //=============================================================================
@@ -82,6 +80,18 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
+	m_posVDest.x = m_fDistance * sinf(m_fVartical) * sinf(m_fHorizontal);// カメラ位置X
+	m_posVDest.y = m_fDistance * cosf(m_fVartical);						 // カメラ位置Y
+	m_posVDest.z = m_fDistance * sinf(m_fVartical) * cosf(m_fHorizontal);// カメラ位置Z
+
+	if (m_bTarget)
+	{
+		m_posVDest += m_posRDest;
+	}
+
+    // カメラの位置と注視点を更新
+	m_posR += (m_posRDest - m_posR) * CAMERA_MOVE_RATE;
+	m_posV += (m_posVDest - m_posV) * CAMERA_MOVE_RATE;
 }
 
 //=============================================================================

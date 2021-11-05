@@ -16,6 +16,8 @@
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
+#define CAM_HORIZONTAL_ANGLE		(D3DXToRadian(0))
+#define CAM_VARTICAL_ANGLE			(D3DXToRadian(70))
 
 //=======================================================================================
 // 前方宣言
@@ -73,7 +75,7 @@ public:
 	void CreateGround(void);						// 地面の生成
 
 	// Get関数
-	CCamera *GetCamera(void) { return (CCamera*)m_pCamera; }	// カメラのポインタ情報
+	CCameraGame *GetCamera(CAMERA_ID id) { return m_pCamera[id]; }	// カメラのポインタ情報
 	CLight *GetLight(void) { return m_pLight; }			// ライトのポインタ情報
 	CPlayer * GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }
 private:
