@@ -18,6 +18,14 @@
 class CJailerView :public CFan3D
 {
 public:
+	struct ViewData
+	{
+		D3DXVECTOR3 fanToPlayer;
+		D3DXVECTOR3 playerPos;
+		float fLength;
+		int nNumber;
+	};
+
 	//=========================================================================
 	//ƒƒ“ƒoŠÖ”éŒ¾
 	//=========================================================================

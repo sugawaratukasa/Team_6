@@ -45,8 +45,9 @@ void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 	if (pJailerView->GetIsDetection() == false)
 	{
 		pJailer->Move();
-		//移動時間
-		if (time >= MOVE_TIME)
+		
+		//目的地までの距離が一定値以下の時
+		if (pJailer->GetDistanceRange() <= 5.0f)
 		{
 			//待機状態へ
 			pJailer->ChangeState(CWaitState::GetInstance());

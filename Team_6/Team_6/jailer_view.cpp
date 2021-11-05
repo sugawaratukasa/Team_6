@@ -154,24 +154,59 @@ void CJailerView::Draw(void)
 //=============================================================================
 void CJailerView::PlayerDetection(void)
 {
-	D3DXVECTOR3 fanToPlayer = ZeroVector3;	//扇からプレイヤーまでのベクトル
+	ViewData view;
+	vector<ViewData> vecViewData;
 
-	CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(1);
-	//プレイヤーの位置・自分の位置の取得
-	D3DXVECTOR3 playerPos = pPlayer->GetPos();
-	D3DXVECTOR3 pos = GetPos();
-
-	//扇からモデルまでのベクトルを計算
-	fanToPlayer = playerPos - pos;
-
-	//ベクトルの長さを計算(高さは必要なしのため除外)
-	float fVecLength = sqrtf((fanToPlayer.x * fanToPlayer.x) + (fanToPlayer.z * fanToPlayer.z));
-
-	//ベクトルの長さが半径より大きいと失敗
-	if (fVecLength > GetLength())
+	for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
+		////プレイヤー情報の取得
+		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
+
+		//プレイヤーの位置の取得
+		view.playerPos = pPlayer->GetPos();
+
+		//プレイヤー番号保存
+		view.nNumber = nCntPlayer;
+
+		//扇からプレイヤーへのベクトル計算
+		view.fanToPlayer = view.playerPos - GetPos();
+
+		//ベクトルの長さ
+		view.fLength = sqrtf((view.fanToPlayer.x * view.fanToPlayer.x) + (view.fanToPlayer.z * view.fanToPlayer.z));
+
+		//ベクトルの長さが半径より小さい場合
+		if (view.fLength < GetLength())
+		{
+			//データを保存
+			vecViewData.push_back(view);
+		}
+	}
+
+	//要素数の取得
+	int nSize = vecViewData.size();
+	int nNumber = 0;
+	//登録が0個の場合
+	if (nSize == ZERO_INT)
+	{
+		CDebugProc::Print("サイズ判定で該当0\n");
+		m_bIsDetection = false;
 		//処理終了
 		return;
+	}
+	//最大プレイヤー分データが存在するなら
+	else if (nSize == MAX_PLAYER)
+	{
+		ViewData swap;
+
+		//長さを比較
+		if (vecViewData[0].fLength < vecViewData[1].fLength)
+		{
+			nNumber = vecViewData[0].nNumber;
+		}
+		else
+		{
+			nNumber = vecViewData[1].nNumber;
+		}
 	}
 
 	//回転角度0度の単位ベクトル
@@ -188,9 +223,9 @@ void CJailerView::PlayerDetection(void)
 
 	//扇からプレイヤーへのベクトルを正規化
 	D3DXVECTOR3 norFanToPoint = D3DXVECTOR3(
-		fanToPlayer.x / fVecLength,
-		fanToPlayer.y / fVecLength,
-		fanToPlayer.z / fVecLength);
+		vecViewData[nNumber].fanToPlayer.x / vecViewData[nNumber].fLength,
+		vecViewData[nNumber].fanToPlayer.y / vecViewData[nNumber].fLength,
+		vecViewData[nNumber].fanToPlayer.z / vecViewData[nNumber].fLength);
 
 	//扇とプレイヤーのベクトルのなす角度を求める（内積）
 	float fDot = norFanToPoint.x * rotFanDir.x - norFanToPoint.z * rotFanDir.z;
@@ -201,13 +236,16 @@ void CJailerView::PlayerDetection(void)
 	//なす角が扇の角度より大きいと失敗
 	if (fFanCos > fDot)
 	{
+		CDebugProc::Print("cos判定で失敗\n");
+		m_bIsDetection = false;
 		//処理終了
 		return;
 	}
 
 	//検出した位置の保存
-	m_detectedPos = playerPos;
+	m_detectedPos = vecViewData[nNumber].playerPos;
 
+	CDebugProc::Print("プレイヤー%dを発見\n", vecViewData[nNumber].nNumber);
 	//発見フラグをオン
 	m_bIsDetection = true;
 }

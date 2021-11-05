@@ -18,7 +18,7 @@
 #define DEFAULT_CENTER_ANGLE (45.0f)									//中心角のデフォルト値
 #define MIN_CENTER_ANGLE (30.0f)										//中心角の最小値
 #define MAX_CENTER_ANGLE (120.0f)										//中心角の最小値
-#define DEFAULT_LNGTH (3000.0f)											//長さのデフォルト値
+#define DEFAULT_LNGTH (1500.0f)											//長さのデフォルト値
 #define MIN_LNGTH (1000.0f)												//長さの最小値
 #define MAX_LNGTH (4000.0f)												//長さの最大値
 
@@ -203,8 +203,8 @@ void CFan3D::VerTexUpdate(void)
 	D3DXVECTOR3 pos = ZeroVector3;			//各頂点の回転前の位置
 	D3DXVECTOR3 rotate_pos = ZeroVector3;	//各頂点の回転後の位置
 
-	float fAngle = -m_fCenterAngle / (float)m_nPolygonNum;	//一ポリゴン当たりの角度
-	float fStrat_Angle = m_fCenterAngle / 2.0f;				//ポリゴン角度の基準点
+	float fAngle = -m_fCenterAngle / (float)m_nPolygonNum;	//一頂点当たりの角度
+	float fStrat_Angle = m_fCenterAngle / 2.0f;				//頂点角度の基準点
 	float fRotate_Rad = D3DXToRadian(-90.0f);				//回転角度
 
 	//中心の頂点の設定
@@ -240,13 +240,13 @@ void CFan3D::VerTexUpdate(void)
 //=============================================================================
 void CFan3D::CenterAngleModifying(void)
 {
-	//中心角のが360°より大きくなった場合
-	if (m_fCenterAngle >= MAX_CENTER_ANGLE)
+	//中心角が最大値より大きくなった場合
+	if (m_fCenterAngle > MAX_CENTER_ANGLE)
 	{
 		m_fCenterAngle = MAX_CENTER_ANGLE;
 	}
-	//中心角のが0°より小さくなった場合
-	if (m_fCenterAngle <= MIN_CENTER_ANGLE)
+	//中心角が最小値より大きくなった場合
+	if (m_fCenterAngle < MIN_CENTER_ANGLE)
 	{
 		m_fCenterAngle = MIN_CENTER_ANGLE;
 	}

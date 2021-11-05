@@ -64,13 +64,15 @@ public:
 	void Caution(void);								//警戒状態
 	int AddTimer(int add);							//秒数加算
 	void SettingPosDest(void);						//目的地の設定
-	void SetRotDest();
+	void SetRotDest();								//向きの目的の値の設定
+
 	//publicセッター
 	void SetTimer(int time) { m_nSwitchingTimer = time; }//タイマーセット
-
+	void SetDistance(D3DXVECTOR3 Distance) { m_Distance = Distance; }
+	
 	//publicゲッター
 	int GetTimer(void) { return m_nSwitchingTimer; }	//タイマーゲット
-	
+	float GetDistanceRange(void)const { return m_fDestinationRange; }
 #ifdef _DEBUG
 	void DebugpPrint(void);	//状態名称
 #endif
@@ -86,7 +88,8 @@ private:
 	D3DXVECTOR3 m_Distance;			//目的地までの距離
 	int m_nIndex;					//インデックス
 	int m_nSwitchingTimer;			//状態の切り替えタイマー
-	int m_nNumber;					//自分の番号		
+	int m_nNumber;					//自分の番号	
+	float m_fDestinationRange;		//目的地と自分の距離の長さ
 	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
 	CJailerState *m_pJailerState;	//状態のポインタ
 };

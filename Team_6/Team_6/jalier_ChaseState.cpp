@@ -9,11 +9,10 @@
 #include "jalier_ChaseState.h"
 #include "Jailer_AttackState.h"
 #include "jailer_LostTargetState.h"
-
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define CHASE_TIME (90)
+#define CHASE_TIME (60)
 
 //=============================================================================
 //インスタンス生成関数
@@ -48,9 +47,7 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		{
 			//近いインデックスを検索
 
-			////待機状態へ
-			//pJailer->ChangeState(CWaitState::GetInstance());
-
+			//警戒状態へ
 			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
 
 		}
@@ -61,5 +58,3 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		pJailer->Chase();
 	}
 }
-
-
