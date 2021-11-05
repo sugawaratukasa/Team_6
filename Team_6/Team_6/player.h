@@ -57,6 +57,7 @@ public:
 	bool GetbIncapacitated(void) { return m_bIncapacitated; }		// 行動不能状態取得処理
 	virtual void KeyboardMove(float fSpeed, float fAngle) = 0;
 	virtual void PadMove(float fSpeed, float fAngle) = 0;
+	void MapCollision(void);										// マップとの当たり判定
 	//=============================================================================
 	//　Set関数
 	//=============================================================================

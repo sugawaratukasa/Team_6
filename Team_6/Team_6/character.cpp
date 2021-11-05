@@ -106,6 +106,9 @@ void CCharacter::Uninit()
 //=============================================================================
 void CCharacter::Update()
 {
+	// à íuê›íË
+	SetPosOld(m_pos);
+
 	// èdóÕ
 	Gravity();
 

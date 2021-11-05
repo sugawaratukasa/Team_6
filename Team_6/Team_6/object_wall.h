@@ -18,7 +18,7 @@
 class CWall : public CObject
 {
 public:
-	CWall(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CWall(PRIORITY Priority = PRIORITY_MAP);					// コンストラクタ
 	~CWall();												// デストラクタ
 	static CWall*Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理

@@ -7,7 +7,7 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-
+#define COLLISION_SIZE	(D3DXVECTOR3(500.0f,500.0f,500.0f))
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
@@ -15,7 +15,6 @@
 #include "manager.h"
 #include "object_door_wall.h"
 #include "resource_manager.h"
-
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa

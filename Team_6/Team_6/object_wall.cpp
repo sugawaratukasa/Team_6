@@ -7,7 +7,9 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-
+#define COLLISION_SIZE	(D3DXVECTOR3(330.0f,550.0f,100.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(100.0f,550.0f,330.0f))	// サイズ
+#define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
@@ -63,6 +65,9 @@ CWall * CWall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CWall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
+	// サイズ
+	SetSize(COLLISION_SIZE);
+
 	// 初期化処理
 	CObject::Init(pos, rot);
 
@@ -77,6 +82,15 @@ HRESULT CWall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 		// モデルの情報を渡す
 		BindModel(model);
+	}
+
+	float frot = ROT_90;
+
+	// 90以上の場合
+ 	if (rot.y >= ROT_90)
+	{
+		// サイズ
+		SetSize(COLLISION_SIZE2);
 	}
 	return S_OK;
 }

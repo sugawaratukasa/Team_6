@@ -30,6 +30,7 @@ public:
 	{
 		PRIORITY_0 = 0,
 		PRIORITY_1,
+		PRIORITY_MAP,
 		PRIORITY_MODEL,		// モデル
 		PRIORITY_CHARACTER,	// キャラクター
 		PRIORITY_EFFECT,	// エフェクト

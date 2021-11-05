@@ -259,15 +259,16 @@ void CMap::CreateModel(void)
 		// èåèï™äÚï∂
 		switch (m_aModelInfo.at(nCnt).nModelNum)
 		{
-			// ï«
-		case MODEL_TYPE_WALL:
-			CWall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
-			break;
 		case MODEL_TYPE_DOOR:
+			// ÉhÉA
 			CDoor::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 		case MODEL_TYPE_DOOR_WALL:
 			CDoor_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+			// ï«
+		case MODEL_TYPE_WALL:
+			CWall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 			// ó·äO
 		default:

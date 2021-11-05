@@ -19,7 +19,6 @@ class CLibrary
 {
 public:
 	static string split(string str, char del, int nNum);		// •¶š—ñ‚ğ•ªŠ„‚µAæ‚èo‚·ŠÖ”
-
 private:
 };
 

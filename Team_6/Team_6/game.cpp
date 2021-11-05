@@ -35,6 +35,7 @@
 #include "item_object_prison_key.h"
 #include "item_object_storage_key.h"
 #include "map.h"
+#include "object_wall.h"
 //=======================================================================================
 // É}ÉNÉçíËã`
 //=======================================================================================
@@ -96,6 +97,9 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// ê∂ê¨
 	CreateGround();
+	// 
+	//CWall::Create(ZeroVector3, ZeroVector3);
+	CMap::Create();
 	return S_OK;
 }
 //=======================================================================================

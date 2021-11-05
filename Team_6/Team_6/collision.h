@@ -39,6 +39,7 @@ public:
 	static bool CollisionRectangleAndCircular(D3DXVECTOR3 RectanglePos, D3DXVECTOR3 CircularPos, D3DXVECTOR3 RectangleSize, float CircularRadius, float RectangleRadian);
 	static int ActiveCollisionRectangleAndRectangle(D3DXVECTOR3 pos1, D3DXVECTOR3 posOld, D3DXVECTOR3 pos2, D3DXVECTOR3 size1, D3DXVECTOR3 size2);
 	static RAY_INFO RayCollision(D3DXVECTOR3 Pos, CModel *pModel, float fAngle, float fHitRange, int nNum);
+	static int ActiveCollisionRotationRectangle(D3DXVECTOR3 pos1, D3DXVECTOR3 posOld, D3DXVECTOR3 pos2, D3DXVECTOR3 size1, D3DXVECTOR3 size2, D3DXVECTOR3 rot1, D3DXVECTOR3 rot2);
 };
 
 #endif

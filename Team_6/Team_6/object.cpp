@@ -13,11 +13,11 @@
 #include "game.h"
 #include "player.h"
 #include "object.h"
+#include "model_collision_box.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define SIZE	(D3DXVECTOR3 (1500.0f,2000.0f,1500.0f))	// サイズ
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -63,12 +63,10 @@ CObject * CObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// サイズ設定
-	SetSize(SIZE);
-
 	// 初期化処理
 	CModel::Init(pos, rot);
 
+	CModelCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
