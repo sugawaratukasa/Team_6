@@ -99,18 +99,22 @@ void CItemObject::Collision(void)
 		// !nullcheck
 		if (apPlayer[nCount] != nullptr)
 		{
-			// プレイヤーの位置を取得する
-			D3DXVECTOR3 PlayerPosition = apPlayer[nCount]->GetPos();
-			// プレイヤーのサイズを取得する
-			D3DXVECTOR3 PlayerSize = apPlayer[nCount]->GetSize();
-			// アイテムとプレイヤーの矩形型の当たり判定
-			if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
+			//もしプレイヤーのアイテムの取得数が最大値以下の場合
+			if (apPlayer[nCount]->GetItemCount() < MAX_ITEM)
 			{
-				// プレイヤーにアイテムを設定する
-				apPlayer[nCount]->SetItem(this->GetType(), this);
-				// 終了処理関数呼び出し
-				Uninit();
-				return;
+				// プレイヤーの位置を取得する
+				D3DXVECTOR3 PlayerPosition = apPlayer[nCount]->GetPos();
+				// プレイヤーのサイズを取得する
+				D3DXVECTOR3 PlayerSize = apPlayer[nCount]->GetSize();
+				// アイテムとプレイヤーの矩形型の当たり判定
+				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
+				{
+					// プレイヤーにアイテムを設定する
+					apPlayer[nCount]->SetItem(this->GetType(), this);
+					// 終了処理関数呼び出し
+					Uninit();
+					return;
+				}
 			}
 		}
 	}

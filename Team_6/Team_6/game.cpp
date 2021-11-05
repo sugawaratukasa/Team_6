@@ -36,6 +36,7 @@
 #include "item_object_pc_room_key.h"
 #include "item_object_prison_key.h"
 #include "item_object_storage_key.h"
+#include "player_ui_manager.h"
 #include "map.h"
 #include "object_wall.h"
 //=======================================================================================
@@ -62,6 +63,7 @@ CGame::CGame()
 
 	memset(&m_pCamera, 0, sizeof(m_pCamera));
 	m_pLight = nullptr;
+	m_pPlayerUIManager = nullptr;	// プレイヤーUIマネージャーのポインタ
 
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
 	m_pFont = nullptr;
@@ -110,6 +112,7 @@ HRESULT CGame::Init(void)
 	// UIの生成
 	CScreenFrame::Create();
 	CTimer::Create();
+	m_pPlayerUIManager = CPlayerUIManager::Create();
 
 	//看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
@@ -148,6 +151,13 @@ void CGame::Uninit(void)
 		m_pLight = nullptr;
 	}
 
+	if (m_pPlayerUIManager != nullptr)
+	{
+		m_pPlayerUIManager->Uninit();
+		delete m_pPlayerUIManager;
+		m_pPlayerUIManager = nullptr;
+	}
+
 
 	for (int nCount = 0; nCount < 2; nCount++)
 	{
@@ -182,6 +192,10 @@ void CGame::Update(void)
 			m_pCamera[nCount]->Update();
 		}
 	}
+	if (m_pPlayerUIManager != nullptr)
+	{
+		m_pPlayerUIManager->Update();
+	}
 	// ゲームの設定
 	SetGame();
 }
@@ -191,7 +205,6 @@ void CGame::Update(void)
 //=======================================================================================
 void CGame::Draw(void)
 {
-
 }
 
 //=======================================================================================

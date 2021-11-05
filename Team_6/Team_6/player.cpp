@@ -57,7 +57,7 @@ CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 	}
 	m_nIncapacitatedTimeCount = 0;		// 行動不能時間カウント
 	m_nItemCount = 0;					// アイテムの所持数
-	m_bIncapacitated = false;			// 行動不能状態z
+	m_bIncapacitated = false;			// 行動不能状態
 }
 
 //=============================================================================
@@ -86,11 +86,11 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
 
-	// 影
-	SetUseShadow();
+	//// 影
+	//SetUseShadow();
 
-	// 影の向き
-	SetShadowRotCalculation();
+	//// 影の向き
+	//SetShadowRotCalculation();
 
 	CCharacterCollisionBox::Create(pos, rot, this);
 
@@ -265,4 +265,10 @@ void CPlayer::MapCollision(void)
 			}
 		}
 	}
+}
+
+void CPlayer::SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem)
+{
+	m_apItem[ItemList] = pItem;
+	m_nItemCount++;
 }

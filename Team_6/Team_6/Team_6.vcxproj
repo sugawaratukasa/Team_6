@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="baton_texture.cpp" />
     <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -161,7 +162,6 @@
     <ClCompile Include="floor.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
-
     <ClCompile Include="jailer.cpp" />
     <ClCompile Include="jailer_LostTargetState.cpp" />
     <ClCompile Include="jailer_view.cpp" />
@@ -176,10 +176,12 @@
     <ClCompile Include="item_object_storage_key.cpp" />
     <ClCompile Include="joypad.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="map_texture.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_anime.cpp" />
@@ -195,6 +197,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
+    <ClCompile Include="player_ui_manager.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="result.cpp" />
@@ -213,9 +216,11 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="ui_flame_texture.cpp" />
     <ClCompile Include="xfile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baton_texture.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_game.h" />
@@ -230,7 +235,6 @@
     <ClInclude Include="floor.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
-
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
     <ClInclude Include="jailer_LostTargetState.h" />
@@ -248,10 +252,12 @@
     <ClInclude Include="item_object_storage_key.h" />
     <ClInclude Include="joypad.h" />
     <ClInclude Include="keyboard.h" />
+    <ClInclude Include="key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="map_texture.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_anime.h" />
@@ -266,6 +272,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />
+    <ClInclude Include="player_ui_manager.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource_manager.h" />
@@ -284,6 +291,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="tutorial.h" />
+    <ClInclude Include="ui_flame_texture.h" />
     <ClInclude Include="xfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

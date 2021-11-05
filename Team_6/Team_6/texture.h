@@ -37,6 +37,10 @@ public:
 		TEXTURE_NUM_TIMER_GUAGE,		// タイマーゲージ
 		TEXTURE_NUM_TIMER_STENCIL,		// タイマーステンシル用のテクスチャ
 		TEXTURE_NUM_TIMER_NUMBER,		// タイマー用数字
+		TEXTURE_NUM_UI_FLAME,			// UIフレーム	
+		TEXTURE_NUM_BATON,				// 警棒
+		TEXTURE_NUM_KEY,				// 鍵
+		TEXTURE_NUM_MAP,				// マップ
 		TEXTURE_NUM_MAX
 	};
 

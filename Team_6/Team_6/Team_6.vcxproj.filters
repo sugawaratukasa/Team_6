@@ -52,7 +52,9 @@
     <Filter Include="00_Important\Camera">
       <UniqueIdentifier>{e5d18b50-502d-4c7e-872f-77c9ea19e942}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06_Model\07_Effect">
+    <Filter Include="08_UI">
+      <UniqueIdentifier>{ed395e8b-4f2e-4ee8-a0ef-5906584510f2}</UniqueIdentifier>
+    </Filter>    <Filter Include="06_Model\07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="05_Character\Jjailer">
@@ -225,6 +227,19 @@
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
+
+    <ClCompile Include="Screenframe.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Guage.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
     <ClCompile Include="fan3d.cpp">
       <Filter>04_Scene</Filter>
     </ClCompile>
@@ -252,7 +267,21 @@
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-    <ClCompile Include="object_wall.cpp">
+    <ClCompile Include="player_ui_manager.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="baton_texture.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_flame_texture.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="key_texture.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="map_texture.cpp">
+      <Filter>08_UI</Filter>
+    </ClCompile>    <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="object_door_wall.cpp">
@@ -428,6 +457,18 @@
     <ClInclude Include="character_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
+    <ClInclude Include="Screenframe.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Guage.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
     <ClInclude Include="fan3d.h">
       <Filter>04_Scene</Filter>
     </ClInclude>
@@ -458,7 +499,21 @@
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
-    <ClInclude Include="object_wall.h">
+    <ClInclude Include="player_ui_manager.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="baton_texture.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_flame_texture.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="key_texture.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="map_texture.h">
+      <Filter>08_UI</Filter>
+    </ClInclude>    <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_door_wall.h">
