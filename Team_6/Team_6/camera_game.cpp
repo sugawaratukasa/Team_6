@@ -82,6 +82,14 @@ HRESULT CCameraGame::Init(void)
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 
+	m_bMonitoring = false;
+	m_nCamNum = 0;
+
+	// 仮初期化
+	for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
+	{
+		m_aSecCamPos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
 	return S_OK;
 }
 
@@ -90,6 +98,41 @@ HRESULT CCameraGame::Init(void)
 //=============================================================================
 void CCameraGame::Update(void)
 {
+	//キーボードクラス情報の取得
+	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
+	// ジョイパッドの取得
+	DIJOYSTATE js = CInputJoypad::GetStick(0);
+
+	if (pKeyInput->GetTrigger(DIK_3))
+	{
+		m_bMonitoring = !m_bMonitoring;
+	}
+
+	if (m_bMonitoring)
+	{
+		if (pKeyInput->GetTrigger(DIK_1))
+		{
+			m_nCamNum--;
+			if (m_nCamNum < 0)
+			{
+				m_nCamNum == 0;
+			}
+		}
+		if (pKeyInput->GetTrigger(DIK_1))
+		{
+			m_nCamNum++;
+			if (m_nCamNum > SECURITY_CAM_MAX)
+			{
+				m_nCamNum == SECURITY_CAM_MAX;
+			}
+		}
+
+		SetTargetPos(m_aSecCamPos[m_nCamNum]);
+	}
+	else
+	{
+		m_nCamNum = 0;
+	}
 }
 
 //=============================================================================
