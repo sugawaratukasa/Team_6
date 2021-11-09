@@ -14,6 +14,8 @@
 #include "jailer_State.h"
 #include "fan3d.h"
 #include "mode_base.h"
+#include "collision.h"
+#include "character_collision_box.h"
 
 //=============================================================================
 //マクロ定義
@@ -23,7 +25,7 @@
 #define JAILER_ROTSTION_RATE (0.1f)	//回転の係数
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
-
+#define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 const D3DXVECTOR3 aMoveSpot[CJailer::POS_DEST_MAX] =
 {
 	D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f),
@@ -42,6 +44,8 @@ int CJailer::m_nJailerTotal = -1;
 //=============================================================================
 CJailer::CJailer()
 {
+	m_pView = nullptr;		//扇クラスのポインタ変数
+	m_pJailerState = nullptr;
 	m_rotDest = ZeroVector3;
 	m_posDest = ZeroVector3;
 	m_posDestOld = ZeroVector3;
@@ -49,9 +53,7 @@ CJailer::CJailer()
 	m_nSwitchingTimer = ZERO_INT;
 	m_nNumber = ZERO_INT;
 	m_fDestinationRange = ZERO_FLOAT;
-	m_pView = nullptr;		//扇クラスのポインタ変数
-	m_pJailerState = nullptr;
-
+	
 	//総数の加算
 	m_nJailerTotal++;
 }
@@ -132,6 +134,11 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//状態設定
 	m_pJailerState = CWaitState::GetInstance();
 
+	//サイズの設定
+	SetSize(JAILER_SIZE);
+
+	CCharacterCollisionBox::Create(GetPos(), GetRot(), this);
+
 	return S_OK;
 }
 
@@ -175,9 +182,11 @@ void CJailer::Update(void)
 		m_pView->SetRotation(GetRot());									//扇の向きの設定
 		m_pView->SetPosition(D3DXVECTOR3(pos.x, VIEW_POS_Y, pos.z));	//扇の位置の設定
 	}
+
+#ifdef _DEBUG
 	CDebugProc::Print("【目的位置との距離】X:%f\n",m_fDestinationRange);
 	CDebugProc::Print("【目的位置】X:%f,Y:%f,Z:%f\n", m_Distance.x, m_Distance.y, m_Distance.z);
-#ifdef _DEBUG
+
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 
@@ -197,21 +206,6 @@ void CJailer::Draw(void)
 {
 	//キャラクターの描画処理
 	CCharacter::Draw();
-}
-
-//=============================================================================
-//キャラクターの状態
-//=============================================================================
-void CJailer::UpdateState(void)
-{
-
-}
-
-//=============================================================================
-//攻撃処理
-//=============================================================================
-void CJailer::Attack(void)
-{
 }
 
 //=============================================================================
@@ -250,14 +244,6 @@ void CJailer::Rotation(void)
 }
 
 //=============================================================================
-//死亡処理
-//=============================================================================
-void CJailer::Death(void)
-{
-
-}
-
-//=============================================================================
 // 状態切り替え関数
 //=============================================================================
 void CJailer::ChangeState(CJailerState * jailerstate)
@@ -282,7 +268,7 @@ void CJailer::Move(void)
 	//現在地と目的地までのベクトルを計算
 	m_Distance = m_posDest - GetPos();
 
-	//目的地と自分の距離を計算
+	//目的地と自分の距離の長さを計算
 	m_fDestinationRange = sqrtf((m_Distance.x * m_Distance.x) + (m_Distance.z * m_Distance.z));
 
 	//向きの目的の値の計算
@@ -349,7 +335,9 @@ void CJailer::Chase()
 	{
 		//検出した位置の取得
 		detectedPos = m_pView->GetDetectionPos();
+#ifdef _DEBUG
 		CDebugProc::Print("【プレイヤーを検出した位置】X:%f,Y:%f,Z:%f\n", detectedPos.x, detectedPos.y, detectedPos.z);
+#endif
 	}
 	
 	//現在位置と検出した位置までのベクトルを計算
@@ -393,6 +381,16 @@ void CJailer::Caution(void)
 }
 
 //=============================================================================
+//攻撃処理
+//=============================================================================
+void CJailer::Attack(void)
+{
+#ifdef _DEBUG
+	CDebugProc::Print("攻撃状態\n");
+#endif
+}
+
+//=============================================================================
 // 秒数加算
 //=============================================================================
 int CJailer::AddTimer(int add)
@@ -406,29 +404,21 @@ int CJailer::AddTimer(int add)
 //=============================================================================
 void CJailer::SettingPosDest(void)
 {
+	//現在の目的地を前回の目的地として保存
+	m_posDestOld = aMoveSpot[m_nIndex];
+
+	//目的地のインデックスを加算
 	m_nIndex++;
 	
 	//インデックスが最大値以上の場合
 	if (m_nIndex >= CJailer::POS_DEST_MAX)
 	{
+		//最初のインデックスへ戻す
 		m_nIndex = CJailer::POS_DEST_LEFT_TOP;
 	}
+
 	//次の目的の位置を設定
 	m_posDest = aMoveSpot[m_nIndex];
-
-	//前回のインデックスを計算
-	int IndexOld = m_nIndex - 1;
-
-	//前回のインデックスが最小値より小さくなった場合
-	if (IndexOld < CJailer::POS_DEST_LEFT_TOP)
-	{
-		IndexOld = POS_DEST_RIGHT_TOP;
-	}
-
-	//前回の目的地を設定する
-	m_posDestOld = aMoveSpot[IndexOld];
-
-	
 }
 
 //=============================================================================
@@ -446,6 +436,101 @@ void CJailer::SetRotDest()
 
 	//目的の角度へ設定
 	m_rotDest.y = angle;
+}
+
+//=============================================================================
+// プレイヤーとの当たり判定
+//=============================================================================
+bool CJailer::IsHitPlayer(void)
+{
+	//位置の取得
+	D3DXVECTOR3 pos = GetPos();
+
+	//前回位置の取得
+	D3DXVECTOR3 posOld = GetOldPos();
+
+	//サイズの取得
+	D3DXVECTOR3 size = GetSize();
+	
+	bool bIsHit = false;	//当たったかどうかのフラグ
+
+	for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	{
+		//プレイヤーのポインタを取得
+		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
+
+		//プレイヤーの位置の取得
+		D3DXVECTOR3 playerPos = pPlayer->GetPos();
+
+		//プレイヤーのサイズの取得
+		D3DXVECTOR3 playerSize = pPlayer->GetSize();
+
+		//プレイヤーとの判定
+		int nHitSurface = CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, playerPos, size, playerSize);
+
+		//左
+		if (nHitSurface == CCollision::SURFACE_LEFT)
+		{
+			pos.x = ((-playerSize.x / 2) + playerPos.x) - (size.x / 2);
+
+			SetPos(pos);
+
+#ifdef _DEBUG
+			CDebugProc::Print("プレイヤー%dと左側が当たった\n", nCntPlayer);
+#endif
+
+			bIsHit = true;
+		}
+		//右
+		else if (nHitSurface == CCollision::SURFACE_RIGHT)
+		{
+			pos.x = ((playerSize.x / 2) + playerPos.x) + (size.x / 2);
+
+			SetPos(pos);
+#ifdef _DEBUG
+			CDebugProc::Print("プレイヤー%dと右側が当たった\n", nCntPlayer);
+#endif
+			bIsHit = true;
+		}
+		//奥
+		else if (nHitSurface == CCollision::SURFACE_PREVIOUS)
+		{
+			pos.z = ((-playerSize.z / 2) + playerPos.z) - (size.z / 2);
+
+			SetPos(pos);
+
+#ifdef _DEBUG
+			CDebugProc::Print("プレイヤー%dと奥側が当たった\n", nCntPlayer);
+#endif
+			bIsHit = true;
+		}
+		//手前
+		else if (nHitSurface == CCollision::SURFACE_BACK)
+		{
+			pos.z = ((playerSize.z / 2) + playerPos.z) + (size.z / 2);
+
+			SetPos(pos);
+
+#ifdef _DEBUG
+			CDebugProc::Print("プレイヤー%dと手前側が当たった\n", nCntPlayer);
+#endif
+			bIsHit = true;
+		}
+		else
+		{
+#ifdef _DEBUG
+			CDebugProc::Print("プレイヤー%dとは当たっていない\n", nCntPlayer);
+#endif
+		}
+
+		if (bIsHit)
+		{
+			//プレイヤーに対しアクションする
+			//pPlayer->
+		}
+	}
+
+	return bIsHit;
 }
 
 #ifdef _DEBUG

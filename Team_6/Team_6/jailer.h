@@ -53,26 +53,27 @@ public:
 	void Update(void);								//更新処理
 	void Draw(void);								//描画処理
 
-	void UpdateState(void);							// 状態の更新
-	void Attack(void);								// 攻撃の処理
-	void Move(void);								// 移動関数
-	void Death(void);								// 死んだときの処理
-	void Rotation(void);							//回転
+	void Rotation(void);	//回転処理
+
+	//看守AIのそれぞれ状態の処理関数
 	void ChangeState(CJailerState *jailerstate);	//状態遷移
+	void Move(void);								//移動関数
 	void Wait(void);								//待機
 	void Chase(void);								//追跡
 	void Caution(void);								//警戒状態
-	int AddTimer(int add);							//秒数加算
-	void SettingPosDest(void);						//目的地の設定
-	void SetRotDest();								//向きの目的の値の設定
+	void Attack(void);								//攻撃状態
+
+	int AddTimer(int add);		//秒数加算
+	void SettingPosDest(void);	//目的地の設定
+	void SetRotDest();			//向きの目的の値の設定
+	bool IsHitPlayer(void);		//プレイヤーとの衝突判定
 
 	//publicセッター
-	void SetTimer(int time) { m_nSwitchingTimer = time; }//タイマーセット
-	void SetDistance(D3DXVECTOR3 Distance) { m_Distance = Distance; }
+	void SetTimer(int time) { m_nSwitchingTimer = time; }	//タイマーセット
 	
 	//publicゲッター
-	int GetTimer(void) { return m_nSwitchingTimer; }	//タイマーゲット
-	float GetDistanceRange(void)const { return m_fDestinationRange; }
+	int GetTimer(void) { return m_nSwitchingTimer; }					//タイマーゲット
+	float GetDistanceRange(void)const { return m_fDestinationRange; }	//目的地の距離の長さの取得
 #ifdef _DEBUG
 	void DebugpPrint(void);	//状態名称
 #endif
@@ -82,6 +83,8 @@ private:
 	//メンバ変数宣言
 	//=========================================================================
 	static int m_nJailerTotal;		//看守の総数
+	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
+	CJailerState *m_pJailerState;	//状態のポインタ
 	D3DXVECTOR3 m_rotDest;			//向きの目的地
 	D3DXVECTOR3 m_posDest;			//位置の目的地
 	D3DXVECTOR3 m_posDestOld;		//前回の位置の目的地
@@ -90,7 +93,6 @@ private:
 	int m_nSwitchingTimer;			//状態の切り替えタイマー
 	int m_nNumber;					//自分の番号	
 	float m_fDestinationRange;		//目的地と自分の距離の長さ
-	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
-	CJailerState *m_pJailerState;	//状態のポインタ
+	
 };
 #endif // !_JAILER_H_
