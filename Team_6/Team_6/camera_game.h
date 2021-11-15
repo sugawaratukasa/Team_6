@@ -33,14 +33,9 @@ public:
 	void ModifyCamera(CGame::CAMERA_ID id);
 	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
 
-	void SwitchCameraMode(bool bMonitoring) { m_bMonitoring = bMonitoring; }
 	void SetCameraID(CCamera::SCREEN_ID id);
-
-	bool GetIsSecCam(void) { return m_bMonitoring; }
-
 private:
 	CCamera::SCREEN_ID	m_id;
-	bool				m_bMonitoring;	// 監視カメラを使っているか
 	D3DXVECTOR3			m_aSecCamPos[SECURITY_CAM_MAX];
 	int					m_nCamNum;
 };

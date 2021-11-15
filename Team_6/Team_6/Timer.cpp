@@ -20,7 +20,6 @@ LPDIRECT3DTEXTURE9 CTimer::m_pTexture = NULL;
 //=============================================================================
 CTimer::CTimer(PRIORITY Priority) : CScene2D(Priority)
 {
-	m_pScene2D = NULL;
 	m_pGuage = NULL;
 }
 
@@ -36,12 +35,10 @@ CTimer::~CTimer()
 //=============================================================================
 HRESULT CTimer::Init(void)
 {
-	// タイマーフレームの設定
-	m_pScene2D = new CScene2D;
-	m_pScene2D->Init(TIMER_POS, TIMER_SIZE);
+	CScene2D::Init(TIMER_POS, TIMER_SIZE);
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	m_pScene2D->BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_TIMER_FRAME));
+	CScene2D::BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_TIMER_FRAME));
 
 	// タイマーゲージの設定
 	m_pGuage = new CGauge;
@@ -87,6 +84,8 @@ void CTimer::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+
+	CScene2D::Draw();
 }
 
 //=============================================================================

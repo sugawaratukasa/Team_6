@@ -9,16 +9,17 @@
 // インクルードファイル
 //*****************************************************************************
 #include "Screenframe.h"
+#include "renderer.h"
 
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CScreenFrame::m_pTexture = NULL;
+LPDIRECT3DTEXTURE9 CScreenFrame::m_apTexture[MAX_FRAME_TEX] = {};
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CScreenFrame::CScreenFrame()
+CScreenFrame::CScreenFrame(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 
@@ -38,7 +39,14 @@ HRESULT CScreenFrame::Init(void)
 
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TETXTURE_NUM_SCREENFRAME));
+	m_apTexture[FRAME_NORMAL] = pTexture->GetTexture(CTexture::TETXTURE_NUM_SCREENFRAME);
+	m_apTexture[FRAME_SECCAM] = pTexture->GetTexture(CTexture::TETXTURE_NUM_SCREENFRAME_SECCAM);
+	m_apTexture[FRAME_FUZZ]   = pTexture->GetTexture(CTexture::TETXTURE_NUM_SCREENFRAME_FUZZ);
+	BindTexture(m_apTexture[FRAME_NORMAL]);
+
+	m_nCountSec = 0;
+	m_bIsChanging = false;
+	m_bUseSecCamOld = false;
 
 	return S_OK;
 }
@@ -48,6 +56,40 @@ HRESULT CScreenFrame::Init(void)
 //=============================================================================
 void CScreenFrame::Update(void)
 {
+	bool bIsUseSecCam = CManager::GetRenderer()->GetIsUseSecCam();
+
+	if (m_bIsChanging)
+	{
+		if (bIsUseSecCam)
+		{
+			ChangeCamera(m_apTexture[FRAME_SECCAM]);
+		}
+		else
+		{
+			ChangeCamera(m_apTexture[FRAME_NORMAL]);
+		}
+	}
+	else
+	{
+		if (m_bUseSecCamOld != bIsUseSecCam)
+		{
+			m_bIsChanging = true;
+		}
+		else
+		{
+			if (bIsUseSecCam)
+			{
+				BindTexture(m_apTexture[FRAME_SECCAM]);
+			}
+			else
+			{
+				BindTexture(m_apTexture[FRAME_NORMAL]);
+			}
+		}
+	}
+
+	m_bUseSecCamOld = bIsUseSecCam;
+
 	CScene2D::Update();
 }
 
@@ -65,6 +107,22 @@ void CScreenFrame::Draw(void)
 void CScreenFrame::Uninit(void)
 {
 	CScene2D::Uninit();
+}
+
+//=============================================================================
+// 監視カメラ切り替え時処理
+//=============================================================================
+void CScreenFrame::ChangeCamera(LPDIRECT3DTEXTURE9 pTex)
+{
+	m_nCountSec++;
+	BindTexture(m_apTexture[FRAME_FUZZ]);
+
+	if (m_nCountSec >= FRAME_CHANGE_LENGTH)
+	{
+		m_nCountSec = 0;
+		BindTexture(pTex);
+		m_bIsChanging = false;
+	}
 }
 
 //=============================================================================

@@ -31,14 +31,15 @@ public:
 		PRIORITY_0 = 0,
 		PRIORITY_1,
 		PRIORITY_MAP,
-		PRIORITY_MODEL,		// モデル
-		PRIORITY_CHARACTER,	// キャラクター
-		PRIORITY_EFFECT,	// エフェクト
-		PRIORITY_SHADOW,	// 影
-		PRIORITY_3D_UI,		// UI
-		PRIORITY_UI,		// UI
-		PRIORITY_FADE,		// FADE
-		PRIORITY_MAX		// 優先順位の最大数
+		PRIORITY_MODEL,		 // モデル
+		PRIORITY_CHARACTER,	 // キャラクター
+		PRIORITY_EFFECT,	 // エフェクト
+		PRIORITY_SHADOW,	 // 影
+		PRIORITY_3D_UI,		 // UI
+		PRIORITY_SCREENFRAME,// スクリーンフレーム
+		PRIORITY_UI,		 // UI
+		PRIORITY_FADE,		 // FADE
+		PRIORITY_MAX		 // 優先順位の最大数
 	};
 
 	CScene(PRIORITY Priority = PRIORITY_0);						// コンストラクタ

@@ -46,7 +46,6 @@ public:
 	static CTimer * Create(void);
 private:
 	static LPDIRECT3DTEXTURE9		m_pTexture;	 // テクスチャへのポインタ
-	CScene2D *m_pScene2D;
 	CGauge *m_pGuage;
 	CNumber *m_pNumber;
 };

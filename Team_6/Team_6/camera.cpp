@@ -40,6 +40,7 @@ CCamera::CCamera()
 	m_fDistance = 0.0f;
 	m_fMove = 0.0f;
 	m_id = SCREEN_NONE;
+	m_bInterpolation = true;
 }
 
 //=============================================================================
@@ -90,8 +91,16 @@ void CCamera::Update(void)
 	}
 
     // カメラの位置と注視点を更新
-	m_posR += (m_posRDest - m_posR) * CAMERA_MOVE_RATE;
-	m_posV += (m_posVDest - m_posV) * CAMERA_MOVE_RATE;
+	if (m_bInterpolation)
+	{
+		m_posR += (m_posRDest - m_posR) * CAMERA_MOVE_RATE;
+		m_posV += (m_posVDest - m_posV) * CAMERA_MOVE_RATE;
+	}
+	else
+	{
+		m_posR += (m_posRDest - m_posR);
+		m_posV += (m_posVDest - m_posV);
+	}
 }
 
 //=============================================================================

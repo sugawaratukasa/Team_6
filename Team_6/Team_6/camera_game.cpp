@@ -82,14 +82,14 @@ HRESULT CCameraGame::Init(void)
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 
-	m_bMonitoring = false;
 	m_nCamNum = 0;
 
 	// 仮初期化
-	for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
-	{
-		m_aSecCamPos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
+	m_aSecCamPos[0] = D3DXVECTOR3(1000.0f, 0.0f, -1000.0f);
+	m_aSecCamPos[1] = D3DXVECTOR3(-1000.0f, 0.0f, -1000.0f);
+	m_aSecCamPos[2] = D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f);
+	m_aSecCamPos[3] = D3DXVECTOR3(1000.0f, 0.0f, 1000.0f);
+
 	return S_OK;
 }
 
@@ -103,36 +103,41 @@ void CCameraGame::Update(void)
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
-	if (pKeyInput->GetTrigger(DIK_3))
-	{
-		m_bMonitoring = !m_bMonitoring;
-	}
+	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
-	if (m_bMonitoring)
+	if (bUse)
 	{
+		SetIsInterpolation(false);
+
 		if (pKeyInput->GetTrigger(DIK_1))
 		{
 			m_nCamNum--;
 			if (m_nCamNum < 0)
 			{
+				m_nCamNum = SECURITY_CAM_MAX - 1;
+			}
+		}
+		if (pKeyInput->GetTrigger(DIK_2))
+		{
+			m_nCamNum++;
+			if (m_nCamNum >= SECURITY_CAM_MAX)
+			{
 				m_nCamNum = 0;
 			}
 		}
-		if (pKeyInput->GetTrigger(DIK_1))
-		{
-			m_nCamNum++;
-			if (m_nCamNum > SECURITY_CAM_MAX)
-			{
-				m_nCamNum = SECURITY_CAM_MAX;
-			}
-		}
 
+		SetScreenID(CCamera::SCREEN_NONE);
 		SetTargetPos(m_aSecCamPos[m_nCamNum]);
 	}
 	else
 	{
+		SetIsInterpolation(true);
 		m_nCamNum = 0;
+		SetScreenID(m_id);
 	}
+
+	CCamera::Update();
+	CCamera::SetCamera();
 }
 
 //=============================================================================

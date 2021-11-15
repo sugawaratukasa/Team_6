@@ -111,8 +111,8 @@ HRESULT CGame::Init(void)
 
 	// UIÇÃê∂ê¨
 	CScreenFrame::Create();
-	CTimer::Create();
 	m_pPlayerUIManager = CPlayerUIManager::Create();
+	CTimer::Create();
 
 	//ä≈éÁÇÃê∂ê¨
 	CJailer::Create(ZeroVector3, ZeroVector3);

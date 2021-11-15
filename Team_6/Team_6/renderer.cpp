@@ -76,7 +76,6 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	if (m_pD3DInterface == nullptr)
 	{
 		// 作成失敗
-
 		return E_FAIL;
 	}
 
@@ -143,6 +142,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetMaterial(&material);
 	m_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x44444444);
 
+	m_bUseSecCam = false;
+
 	return S_OK;
 }
 
@@ -171,9 +172,6 @@ void CRenderer::Uninit(void)
 //=============================================================================
 void CRenderer::Update(void)
 {
-	// 全ての更新
-	CScene::UpdateAll();
-
 	// キーボード情報
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 
@@ -194,6 +192,14 @@ void CRenderer::Update(void)
 
 		pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
 	}
+
+	if (pKeyboard->GetTrigger(DIK_3))
+	{
+		m_bUseSecCam = !m_bUseSecCam;
+	}
+
+	// 全ての更新
+	CScene::UpdateAll();
 }
 
 //=============================================================================
@@ -221,7 +227,7 @@ void CRenderer::Draw(void)
 		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 		{
 			// 監視カメラを見ているなら
-			if (((CGame*)CManager::GetModePtr())->GetCamera(CGame::ID_PLAYER_01)->GetIsSecCam())
+			if (m_bUseSecCam)
 			{
 				// ビューポート設定
 				SetUpViewPort(CCamera::SCREEN_NONE);
@@ -266,6 +272,7 @@ void CRenderer::Draw(void)
 			//オブジェクトクラスの全描画処理呼び出し
 			CScene::DrawAll();
 		}
+
 		// デバッグプロシージャ
 		CDebugProc *pDebugProc = CManager::GetDebugProc();
 		if (pDebugProc != nullptr)
