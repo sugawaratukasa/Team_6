@@ -94,6 +94,8 @@ void CTimer::Draw(void)
 void CTimer::Uninit(void)
 {
 	m_pGuage->Uninit();
+	m_pGuage = NULL;
+	CScene2D::Uninit();
 }
 
 //=============================================================================

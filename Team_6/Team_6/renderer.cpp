@@ -195,7 +195,7 @@ void CRenderer::Update(void)
 
 	if (pKeyboard->GetTrigger(DIK_3))
 	{
-		m_bUseSecCam = !m_bUseSecCam;
+		SwitchCam();
 	}
 
 	// 全ての更新
@@ -221,9 +221,12 @@ void CRenderer::Draw(void)
 		1.0f,
 		0);
 
+	CFade *pFade = CManager::GetFade();
+
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
+		// モードがgameなら
 		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 		{
 			// 監視カメラを見ているなら
@@ -233,9 +236,16 @@ void CRenderer::Draw(void)
 				SetUpViewPort(CCamera::SCREEN_NONE);
 				//オブジェクトクラスの全描画処理呼び出し
 				CScene::DrawAll();
+
+				if (pFade != nullptr)
+				{
+					// 描画処理
+					pFade->Draw();
+				}
 			}
 			else
 			{
+				// ビューポートの数だけ描画する
 				for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 				{
 					// ビューポート設定
@@ -261,6 +271,12 @@ void CRenderer::Draw(void)
 
 					//オブジェクトクラスの全描画処理呼び出し
 					CScene::DrawAll();
+
+					if (pFade != nullptr)
+					{
+						// 描画処理
+						pFade->Draw();
+					}
 				}
 			}
 		}
@@ -271,6 +287,12 @@ void CRenderer::Draw(void)
 
 			//オブジェクトクラスの全描画処理呼び出し
 			CScene::DrawAll();
+
+			if (pFade != nullptr)
+			{
+				// 描画処理
+				pFade->Draw();
+			}
 		}
 
 		// デバッグプロシージャ
@@ -278,13 +300,6 @@ void CRenderer::Draw(void)
 		if (pDebugProc != nullptr)
 		{
 			pDebugProc->Draw();
-		}
-		CFade *pFade = CManager::GetFade();
-
-		if (pFade != nullptr)
-		{
-			// 描画処理
-			pFade->Draw();
 		}
 
 		// Direct3Dによる描画の終了

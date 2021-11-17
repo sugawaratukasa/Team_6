@@ -27,6 +27,8 @@ public:
 	void Update(void);							// 更新処理
 	void Draw(void);							// 描画処理
 
+	void SwitchCam(void) { m_bUseSecCam = !m_bUseSecCam; } // カメラ切り替え
+
 	void SetStateStencil(void);					// ステンシルの設定
 	void SetStencilTest(void);					// ステンシルテスト設定
 	void ReSetStateStencil(void);				// ステンシル情報リセット

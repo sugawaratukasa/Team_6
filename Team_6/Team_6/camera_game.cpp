@@ -105,10 +105,13 @@ void CCameraGame::Update(void)
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
+	// 監視カメラを使っているなら
 	if (bUse)
 	{
+		// 座標補間しない
 		SetIsInterpolation(false);
 
+		// 入力によってカメラを順送り・逆送り
 		if (pKeyInput->GetTrigger(DIK_1))
 		{
 			m_nCamNum--;
@@ -126,7 +129,9 @@ void CCameraGame::Update(void)
 			}
 		}
 
+		// 描画範囲を通常状態に
 		SetScreenID(CCamera::SCREEN_NONE);
+		// 注視点を変更
 		SetTargetPos(m_aSecCamPos[m_nCamNum]);
 	}
 	else
