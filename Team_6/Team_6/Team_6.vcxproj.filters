@@ -54,7 +54,8 @@
     </Filter>
     <Filter Include="08_UI">
       <UniqueIdentifier>{ed395e8b-4f2e-4ee8-a0ef-5906584510f2}</UniqueIdentifier>
-    </Filter>    <Filter Include="06_Model\07_Effect">
+    </Filter>
+    <Filter Include="06_Model\07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="05_Character\Jjailer">
@@ -227,7 +228,6 @@
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-
     <ClCompile Include="Screenframe.cpp">
       <Filter>08_UI</Filter>
     </ClCompile>
@@ -258,9 +258,6 @@
     <ClCompile Include="jalier_MoveState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_view.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="jailer_LostTargetState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
@@ -281,7 +278,8 @@
     </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
-    </ClCompile>    <ClCompile Include="object_wall.cpp">
+    </ClCompile>
+    <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="object_door_wall.cpp">
@@ -301,6 +299,12 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_view.cpp">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="spot.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -490,9 +494,6 @@
     <ClInclude Include="Jalier_MoveState.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_view.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="jailer_LostTargetState.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
@@ -513,7 +514,8 @@
     </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
-    </ClInclude>    <ClInclude Include="object_wall.h">
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_door_wall.h">
@@ -533,6 +535,12 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_view.h">
+      <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="spot.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

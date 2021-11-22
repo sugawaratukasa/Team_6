@@ -124,7 +124,6 @@ HRESULT CGame::Init(void)
 //=======================================================================================
 void CGame::Uninit(void)
 {
-
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
 		if (m_pCamera[nCount] != nullptr)
@@ -132,10 +131,8 @@ void CGame::Uninit(void)
 			//カメラクラスの終了処理呼び出す
 			m_pCamera[nCount]->Uninit();
 
-
 			//メモリの破棄
 			delete m_pCamera[nCount];
-
 
 			//メモリのクリア
 			m_pCamera[nCount] = nullptr;

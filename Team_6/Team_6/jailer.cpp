@@ -109,7 +109,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetMotion(JAILER_MOTION_IDOL);
 
 	//ë¨Ç≥ÇÃê›íË
-	SetSpeed(JAILER_NORMAL_SPEED);
+	SetSpeed(0.0f);
 
 	SetUseShadow();
 
@@ -132,7 +132,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		ZeroVector3, VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	//èÛë‘ê›íË
-	m_pJailerState = CWaitState::GetInstance();
+	//m_pJailerState = CWaitState::GetInstance();
 
 	//ÉTÉCÉYÇÃê›íË
 	SetSize(JAILER_SIZE);

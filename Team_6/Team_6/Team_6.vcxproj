@@ -211,6 +211,7 @@
     <ClCompile Include="shadow_volume.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="spot.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="shadow_polygon.h" />
     <ClInclude Include="shadow_volume.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="spot.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
     <ClInclude Include="Timer.h" />
