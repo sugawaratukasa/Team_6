@@ -12,6 +12,7 @@
 #include "object_door.h"
 #include "object_wall.h"
 #include "floor.h"
+
 //========================================================================
 // É}ÉNÉçíËã`
 // Author : Sugawara Tsukasa

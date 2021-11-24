@@ -30,17 +30,26 @@ public:
 	// テクスチャの番号の列挙型
 	enum TEXTURE_TYPE
 	{
-		TEXTURE_NUM_NONE = -1,			// 初期値
-		TEXTURE_NUM_FLOOR,				// 床
-		TETXTURE_NUM_SCREENFRAME,		// 画面分割用
-		TEXTURE_NUM_TIMER_FRAME,        // タイマーフレーム
-		TEXTURE_NUM_TIMER_GUAGE,		// タイマーゲージ
-		TEXTURE_NUM_TIMER_STENCIL,		// タイマーステンシル用のテクスチャ
-		TEXTURE_NUM_TIMER_NUMBER,		// タイマー用数字
-		TEXTURE_NUM_UI_FLAME,			// UIフレーム	
-		TEXTURE_NUM_BATON,				// 警棒
-		TEXTURE_NUM_KEY,				// 鍵
-		TEXTURE_NUM_MAP,				// マップ
+		TEXTURE_NUM_NONE = -1,				// 初期値
+		TEXTURE_NUM_FLOOR,					// 床
+		TETXTURE_NUM_SCREENFRAME,			// 画面分割用
+		TEXTURE_NUM_TIMER_FRAME,			// タイマーフレーム
+		TEXTURE_NUM_TIMER_GUAGE,			// タイマーゲージ
+		TEXTURE_NUM_TIMER_STENCIL,			// タイマーステンシル用のテクスチャ
+		TEXTURE_NUM_TIMER_NUMBER,			// タイマー用数字
+		TEXTURE_NUM_UI_FLAME,				// UIフレーム	
+		TEXTURE_NUM_BATON,					// 警棒
+		TEXTURE_NUM_KEY,					// 鍵
+		TEXTURE_NUM_MAP,					// マップ
+		TEXTURE_NUM_BUTTON_START,			// スタートボタン
+		TEXTURE_NUM_BUTTON_RANKING,			// ランキングボタン
+		TEXTURE_NUM_BUTTON_EXIT,			// 終了ボタン
+		TEXTURE_NUM_BUTTON_QUIT_GAME,		// ゲームに戻るボタン
+		TEXTURE_NUM_BUTTON_BACK_TO_TITLE,	// タイトルに戻るボタン
+		TEXTURE_NUM_BUTTON_GUID,			// ガイドボタン
+		TEXTURE_NUM_TITLE_BG,				// タイトル背景
+		TEXTURE_NUM_TITLE_LOGO,				// タイトルロゴ
+		TEXTURE_NUM_SELECT_ITEM_FLAME,		// アイテム選択の枠
 		TEXTURE_NUM_MAX
 	};
 

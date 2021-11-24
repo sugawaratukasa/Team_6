@@ -147,6 +147,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="baton_texture.cpp" />
+    <ClCompile Include="bg_pause.cpp" />
+    <ClCompile Include="bg_title.cpp" />
+    <ClCompile Include="button.cpp" />
+    <ClCompile Include="button_back_to_title.cpp" />
+    <ClCompile Include="button_exit.cpp" />
+    <ClCompile Include="button_guid.cpp" />
+    <ClCompile Include="button_quit_game.cpp" />
+    <ClCompile Include="button_ranking.cpp" />
+    <ClCompile Include="button_start.cpp" />
+    <ClCompile Include="goal_area.cpp" />
+    <ClCompile Include="item.cpp" />
+    <ClCompile Include="item_baton.cpp" />
+    <ClCompile Include="item_jailer_room_key.cpp" />
+    <ClCompile Include="item_map.cpp" />
+    <ClCompile Include="item_pc_room_key.cpp" />
+    <ClCompile Include="item_prison_key.cpp" />
+    <ClCompile Include="item_storage_key.cpp" />
     <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -179,6 +196,7 @@
     <ClCompile Include="key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="logo_title.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="map_texture.cpp" />
@@ -194,10 +212,13 @@
     <ClCompile Include="object_door.cpp" />
     <ClCompile Include="object_door_wall.cpp" />
     <ClCompile Include="object_wall.cpp" />
+    <ClCompile Include="pause_button_manager.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="player1_ui.cpp" />
+    <ClCompile Include="player2_ui.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
-    <ClCompile Include="player_ui_manager.cpp" />
+    <ClCompile Include="player_ui.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="result.cpp" />
@@ -206,6 +227,7 @@
     <ClCompile Include="scene_2d.cpp" />
     <ClCompile Include="scene_base.cpp" />
     <ClCompile Include="Screenframe.cpp" />
+    <ClCompile Include="select_item_flame.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="shadow_polygon.cpp" />
     <ClCompile Include="shadow_volume.cpp" />
@@ -215,13 +237,23 @@
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="title_button_manager.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="ui_flame_texture.cpp" />
     <ClCompile Include="xfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baton_texture.h" />
+    <ClInclude Include="bg_pause.h" />
+    <ClInclude Include="bg_title.h" />
     <ClInclude Include="billboard.h" />
+    <ClInclude Include="button.h" />
+    <ClInclude Include="button_back_to_title.h" />
+    <ClInclude Include="button_exit.h" />
+    <ClInclude Include="button_guid.h" />
+    <ClInclude Include="button_quit_game.h" />
+    <ClInclude Include="button_ranking.h" />
+    <ClInclude Include="button_start.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_game.h" />
     <ClInclude Include="camera_title.h" />
@@ -234,7 +266,15 @@
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="goal_area.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="item_baton.h" />
+    <ClInclude Include="item_jailer_room_key.h" />
+    <ClInclude Include="item_map.h" />
+    <ClInclude Include="item_pc_room_key.h" />
+    <ClInclude Include="item_prison_key.h" />
+    <ClInclude Include="item_storage_key.h" />
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
     <ClInclude Include="jailer_LostTargetState.h" />
@@ -255,6 +295,7 @@
     <ClInclude Include="key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="logo_title.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="map_texture.h" />
@@ -269,10 +310,13 @@
     <ClInclude Include="object_door.h" />
     <ClInclude Include="object_door_wall.h" />
     <ClInclude Include="object_wall.h" />
+    <ClInclude Include="pause_button_manager.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="player1_ui.h" />
+    <ClInclude Include="player2_ui.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />
-    <ClInclude Include="player_ui_manager.h" />
+    <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource_manager.h" />
@@ -282,6 +326,7 @@
     <ClInclude Include="scene_2d.h" />
     <ClInclude Include="scene_base.h" />
     <ClInclude Include="Screenframe.h" />
+    <ClInclude Include="select_item_flame.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="shadow_polygon.h" />
     <ClInclude Include="shadow_volume.h" />
@@ -290,6 +335,7 @@
     <ClInclude Include="Guage.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="title_button_manager.h" />
     <ClInclude Include="tutorial.h" />
     <ClInclude Include="ui_flame_texture.h" />
     <ClInclude Include="xfile.h" />

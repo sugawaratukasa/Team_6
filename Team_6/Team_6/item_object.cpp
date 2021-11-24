@@ -110,7 +110,7 @@ void CItemObject::Collision(void)
 				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
 				{
 					// プレイヤーにアイテムを設定する
-					apPlayer[nCount]->SetItem(this->GetType(), this);
+					apPlayer[nCount]->SetAddbGetItem(this->GetType(), true);
 					// 終了処理関数呼び出し
 					Uninit();
 					return;

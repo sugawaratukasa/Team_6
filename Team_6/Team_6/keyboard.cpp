@@ -16,8 +16,7 @@
 CInputKeyboard::CInputKeyboard()
 {
 	m_pDevice = NULL;	//入力デバイス
-
-						//各メンバ変数を0クリア
+	//各メンバ変数を0クリア
 	memset(m_aKeyState, 0, sizeof(m_aKeyState));
 	memset(m_aKeyStateTrigger, 0, sizeof(m_aKeyStateTrigger));
 	memset(m_aKeyStateRelease, 0, sizeof(m_aKeyStateRelease));

@@ -36,9 +36,11 @@
 #include "item_object_pc_room_key.h"
 #include "item_object_prison_key.h"
 #include "item_object_storage_key.h"
-#include "player_ui_manager.h"
 #include "map.h"
 #include "object_wall.h"
+#include "pause_button_manager.h"
+#include "player1_ui.h"
+
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -60,12 +62,10 @@
 //=======================================================================================
 CGame::CGame()
 {
-
 	memset(&m_pCamera, 0, sizeof(m_pCamera));
 	m_pLight = nullptr;
-	m_pPlayerUIManager = nullptr;	// プレイヤーUIマネージャーのポインタ
-
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
+	m_pPauseButtonManager = nullptr;
 	m_pFont = nullptr;
 }
 
@@ -105,19 +105,15 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// 生成
 	CreateGround();
-	// 
-	//CWall::Create(ZeroVector3, ZeroVector3);
-	CMap::Create();
+
+	//CMap::Create();
 
 	// UIの生成
 	CScreenFrame::Create();
 	CTimer::Create();
-	m_pPlayerUIManager = CPlayerUIManager::Create();
 
 	//看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
-
-	//CJailer::Create(ZeroVector3, ZeroVector3);
 	return S_OK;
 }
 //=======================================================================================
@@ -151,13 +147,6 @@ void CGame::Uninit(void)
 		m_pLight = nullptr;
 	}
 
-	if (m_pPlayerUIManager != nullptr)
-	{
-		m_pPlayerUIManager->Uninit();
-		delete m_pPlayerUIManager;
-		m_pPlayerUIManager = nullptr;
-	}
-
 
 	for (int nCount = 0; nCount < 2; nCount++)
 	{
@@ -182,7 +171,6 @@ void CGame::Uninit(void)
 //=======================================================================================
 void CGame::Update(void)
 {
-
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
 
@@ -192,10 +180,8 @@ void CGame::Update(void)
 			m_pCamera[nCount]->Update();
 		}
 	}
-	if (m_pPlayerUIManager != nullptr)
-	{
-		m_pPlayerUIManager->Update();
-	}
+	// ポーズ入力処理
+	PauseInput();
 	// ゲームの設定
 	SetGame();
 }
@@ -260,4 +246,33 @@ void CGame::CreateMap(void)
 void CGame::CreateGround(void)
 {
 	
+}
+
+//=======================================================================================
+// ポーズ入力処理
+//=======================================================================================
+void CGame::PauseInput(void)
+{
+	// キーボード取得
+	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	if (m_pPauseButtonManager == nullptr)
+	{
+		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		{
+			m_pPauseButtonManager = CPauseButtonManager::Create();
+		}
+	}
+	else
+	{
+		m_pPauseButtonManager->Update();
+		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		{
+			CScene::SetPause(false);
+		}
+		if (CScene::GetPause() == false)
+		{
+			m_pPauseButtonManager->Uninit();
+			m_pPauseButtonManager = nullptr;
+		}
+	}
 }

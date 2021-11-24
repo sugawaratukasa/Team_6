@@ -5,16 +5,29 @@
 #include "keyboard.h"
 #include "joypad.h"
 #include "resource_manager.h"
+#include "player1_ui.h"
 
+//=============================================================================
+// コンストラクタ
+// Author : Sugawara Tsukasa
+//=============================================================================
 CPlayer1::CPlayer1(PRIORITY Priority)
 {
 	m_rotDest = ZeroVector3;
 }
 
+//=============================================================================
+// デストラクタ
+// Author : Sugawara Tsukasa
+//=============================================================================
 CPlayer1::~CPlayer1()
 {
 }
 
+//=============================================================================
+// 生成処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 CPlayer1 * CPlayer1::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// CPlayer1のポインタ
@@ -37,6 +50,10 @@ CPlayer1 * CPlayer1::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	return pPlayer1;
 }
 
+//=============================================================================
+// 初期化処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// CXfile取得
@@ -52,15 +69,25 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CPlayer::Init(pos, rot);
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
+	// プレイヤー1のUI生成
+	SetUI(CPlayer1UI::Create());
 	return S_OK;
 }
 
+//=============================================================================
+// 終了処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 void CPlayer1::Uninit(void)
 {
 	// プレイヤーの終了処理関数呼び出し
 	CPlayer::Uninit();
 }
 
+//=============================================================================
+// 更新処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 void CPlayer1::Update(void)
 {
 	// プレイヤーの更新処理関数呼び出し
@@ -83,14 +110,23 @@ void CPlayer1::Update(void)
 	{
 		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	}
+	ItemDelete();
 }
 
+//=============================================================================
+// 描画処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 void CPlayer1::Draw(void)
 {
 	// プレイヤーの描画処理関数呼び出し
 	CPlayer::Draw();
 }
 
+//=============================================================================
+// キーボード移動処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
 void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 {
 	// キーボード取得

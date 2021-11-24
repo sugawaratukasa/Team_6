@@ -1,8 +1,8 @@
-#ifndef _PLAYER_UI_MANAGER_H_
-#define _PLAYER_UI_MANAGER_H_
+#ifndef _PLAYER_UI_H_
+#define _PLAYER_UI_H_
 //=============================================================================
 //
-// プレイヤーUIマネージャークラスヘッダー [player_ui_manager.h]
+// プレイヤーUIクラスヘッダー [player_ui.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,6 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
+#include "main.h"
 
 //=============================================================================
 // マクロ定義
@@ -18,23 +19,18 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CScene2D;
 
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPlayerUIManager
+class CPlayerUI
 {
 public:
-	CPlayerUIManager();		// コンストラクタ
-	~CPlayerUIManager();	// デストラクタ
-	static CPlayerUIManager * Create(void);
-	HRESULT Init(void);		// 初期化処理
-	void Uninit(void);		// 終了処理
-	void Update(void);		// プレイヤーの制御
+	CPlayerUI();		// コンストラクタ
+	virtual ~CPlayerUI();	// デストラクタ
+	virtual HRESULT Init(void) = 0;		// 初期化処理
+	virtual void Uninit(void) = 0;		// 終了処理
+	virtual void Update(void) = 0;		// プレイヤーの制御
 private:
-	void UICreate(void);
-	int m_anItemTextureCount[2];
-	CScene2D * m_apItemTexture[2][CItemObject::ITEM_OBJECT_MAX];
 };
 #endif

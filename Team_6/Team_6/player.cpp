@@ -24,6 +24,16 @@
 #include "motion.h"
 #include "character_collision_box.h"
 #include "object.h"
+#include "item_baton.h"
+#include "item_jailer_room_key.h"
+#include "item_map.h"
+#include "item_pc_room_key.h"
+#include "item_prison_key.h"
+#include "item_storage_key.h"
+#include "player_ui.h"
+#include "player1_ui.h"
+#include "player2_ui.h"
+
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -44,20 +54,27 @@
 #define ANGLE_270				(D3DXToRadian(270.0f))					// 角度270
 #define PARENT_NUM				(0)										// 親のナンバ
 #define MOVE_MIN				(0.0f)									// 移動量の最小
+
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
 CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 {
-	// アイテムリストの最大数分回す
-	for (int nCount = 0; nCount < CItemObject::ITEM_OBJECT_MAX; nCount++)
+	m_nIncapacitatedTimeCount = 0;									// 行動不能時間カウント
+	m_nItemCount = 0;												// アイテムの所持数
+	memset(m_bItempCreate, 0, sizeof(m_bItempCreate));				// アイテムポインタ生成したか
+	m_bIncapacitated = false;										// 行動不能状態
+	memset(m_abGetItem, false, sizeof(m_abGetItem));				// アイテム所得状態
+
+
+	m_nItemSortCount = 0;
+	for (int nCount = 0; nCount < 3; nCount++)
 	{
-		m_apItem[nCount] = nullptr;		// アイテムのポインタ
+		m_pItem[nCount] = nullptr;
 	}
-	m_nIncapacitatedTimeCount = 0;		// 行動不能時間カウント
-	m_nItemCount = 0;					// アイテムの所持数
-	m_bIncapacitated = false;			// 行動不能状態
+	m_pUI = nullptr;
+	m_test = 0;
 }
 
 //=============================================================================
@@ -86,12 +103,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
 
-	//// 影
-	//SetUseShadow();
-
-	//// 影の向き
-	//SetShadowRotCalculation();
-
 	CCharacterCollisionBox::Create(pos, rot, this);
 
 	return S_OK;
@@ -105,6 +116,10 @@ void CPlayer::Uninit(void)
 {
 	// 終了
 	CCharacter::Uninit();
+	if (m_pUI != nullptr)
+	{
+		m_pUI->Uninit();
+	}
 }
 
 //=============================================================================
@@ -133,6 +148,10 @@ void CPlayer::Update(void)
 
 	// マップとの当たり判定
 	MapCollision();
+	if (m_pUI != nullptr)
+	{
+		m_pUI->Update();
+	}
 }
 
 //=============================================================================
@@ -267,8 +286,205 @@ void CPlayer::MapCollision(void)
 	}
 }
 
-void CPlayer::SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem)
+//void CPlayer::ItemEffect(int nPlayer, int ItemGetList)
+//{
+//	// もしアイテム効果ポインタの生成状態が無い場合
+//	if (m_bItempCreate[ItemGetList] == false)
+//	{
+//		// もしプレイヤーが対応したアイテムを所持している場合
+//		if (m_abGetItem[ItemGetList] == true)
+//		{
+//			// もしアイテム効果のポインタがnullptrの場合
+//			if (m_pItem[ItemGetList] == nullptr)
+//			{
+//				switch (ItemGetList)
+//				{
+//				case ITEM_KEY_PRISON:
+//					// 牢屋の鍵のポインタを生成する
+//					//m_pItem[ItemGetList] = CPrisonKey::Create();
+//					break;
+//				case ITEM_KEY_STORAGE:
+//					// 倉庫効果のポインタを生成する
+//					//m_pItem[ItemGetList] = CStorageKey::Create();
+//					break;
+//				case ITEM_KEY_JAILER_ROOM:
+//					// 看守室効果のポインタを生成する
+//					//m_pItem[ItemGetList] = CJailerRoomKey::Create();
+//					break;
+//				case ITEM_KEY_PC_ROOM:
+//					// PC室効果のポインタを生成する
+//					//m_pItem[ItemGetList] = CPCRoomKey::Create();
+//					break;
+//				case ITEM_BATON:
+//					// 警棒効果のポインタを生成する
+//					//m_pItem[ItemGetList] = CItemBaton::Create();
+//					break;
+//				case ITEM_MAP:
+//					// 地図効果のポインタを生成する
+//					//m_pItem[ItemGetList] = CItemMap::Create();
+//					break;
+//				default:
+//					break;
+//				}
+//				// もしアイテム効果のポインタがnullptrではない場合
+//				if (m_pItem[ItemGetList] != nullptr)
+//				{
+//					//アイテムポインタの生成状態をtrueにする
+//					m_bItempCreate[ItemGetList] = true;
+//				}
+//			}
+//		}
+//	}
+//	// もしアイテム効果ポインタの生成状態が有る場合
+//	else
+//	{
+//		// もしプレイヤーは対応したアイテムを破棄した場合
+//		if (m_abGetItem[ItemGetList] == false)
+//		{
+//			//　もしアイテム効果のポインタがnullptrではない場合
+//			if (m_pItem[ItemGetList] != nullptr)
+//			{
+//				// 破棄したアイテムを生成する
+//				m_pItem[ItemGetList]->ItemCreate(nPlayer);
+//				// アイテム効果のポインタを破棄する
+//				m_pItem[ItemGetList]->Uninit();
+//				m_pItem[ItemGetList] = nullptr;
+//				//アイテムポインタの生成状態をfalseにする
+//				m_bItempCreate[ItemGetList] = false;
+//			}
+//		}
+//		// もしプレイヤーが対応したアイテムを所持してる場合
+//		else
+//		{
+//			//　もしアイテム効果のポインタがnullptrではない場合
+//			if (m_pItem[ItemGetList] != nullptr)
+//			{
+//				// アイテム効果の更新処理関数呼び出し
+//				m_pItem[ItemGetList]->Update();
+//			}
+//		}
+//	}
+//}
+
+void CPlayer::ItemEffectCreate(int ItemGetList)
 {
-	m_apItem[ItemList] = pItem;
-	m_nItemCount++;
+	m_nItemCount;
+	switch (ItemGetList)
+	{
+	case ITEM_KEY_PRISON:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 牢屋の鍵のポインタを生成する
+			m_pItem[m_nItemCount] = CPrisonKey::Create();
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_KEY_STORAGE:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 倉庫効果のポインタを生成する
+			m_pItem[m_nItemCount] = CStorageKey::Create();
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_KEY_JAILER_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 看守室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CJailerRoomKey::Create();
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_KEY_PC_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// PC室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CPCRoomKey::Create();
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_BATON:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 警棒効果のポインタを生成する
+			m_pItem[m_nItemCount] = CItemBaton::Create();
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_MAP:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 地図効果のポインタを生成する
+			m_pItem[m_nItemCount] = CItemMap::Create();
+			m_nItemCount++;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayer::ItemEffectUninit(void)
+{
+	for (int nCount = 0; nCount < 3; nCount++)
+	{
+		if (m_pItem[nCount] != nullptr)
+		{
+			m_pItem[nCount]->Uninit();
+			m_pItem[nCount] = nullptr;
+		}
+	}
+	m_nItemCount = 0;
+}
+
+void CPlayer::ItemDelete(void)
+{
+	// キーボード取得
+	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	
+	if (pKeyboard->GetTrigger(DIK_I))
+	{
+		if (m_nItemSortCount > 0)
+		{
+			m_nItemSortCount--;
+		}
+	}
+	if (pKeyboard->GetTrigger(DIK_O))
+	{
+		if (m_nItemSortCount < 2)
+		{
+			m_nItemSortCount++;
+		}
+	}
+	if (pKeyboard->GetTrigger(DIK_P))
+	{
+		if (m_pItem[m_nItemSortCount] != nullptr)
+		{
+			// UIを消す
+			m_pUI->Uninit();
+			// 選択しているアイテムの種類を取得する
+			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+			// 選択しているアイテムの取得状態をfalseにする
+			SetSubbGetItem(nItemType, false);
+			// アイテムを生成する
+			//m_pI[m_nISC]->ItemCreate(nPlayer);
+			ItemEffectUninit();
+			for (int nCount = 0; nCount < ITEM_MAX; nCount++)
+			{
+				ItemEffectCreate(nCount);
+			}
+		}
+	}
+	pKeyboard->Update();
+}
+
+void CPlayer::SetAddbGetItem(int nItem, bool bGet)
+{
+	m_abGetItem[nItem] = bGet;
+	ItemEffectCreate(nItem);
+}
+
+void CPlayer::SetSubbGetItem(int nItem, bool bGet)
+{
+	m_abGetItem[nItem] = bGet;
 }

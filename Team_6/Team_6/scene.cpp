@@ -81,13 +81,42 @@ CScene::~CScene()
 //=============================================================================
 void CScene::UpdateAll(void)
 {
-	//ポーズしているか　bool pause = m_pause   ->>  pause =true ->> if (type == OBJTYPE_PAUSE)
-	for (int nCount = 0; nCount < PRIORITY_MAX; nCount++)
+	//もしポーズが使用されていない場合
+	if (m_bPause == false)
 	{
-		if (m_pTop[nCount] != nullptr)
+		//ポーズしているか　bool pause = m_pause   ->>  pause =true ->> if (type == OBJTYPE_PAUSE)
+		for (int nCount = 0; nCount < PRIORITY_MAX; nCount++)
+		{
+			if (m_pTop[nCount] != nullptr)
+			{
+				// 先頭シーン
+				CScene *pScene = m_pTop[nCount];
+
+				do
+				{
+					// 次のシーンを取得
+					CScene *pSceneCur = pScene->m_pNext;
+
+					// 死亡フラグがないとき
+					if (pScene->m_bDeath != true)
+					{
+						// 更新処理
+						pScene->Update();
+					}
+
+					// 次のシーンへ
+					pScene = pSceneCur;
+
+				} while (pScene != nullptr);
+			}
+		}
+	}
+	else
+	{
+		if (m_pTop[PRIORITY_BUTTON] != nullptr)
 		{
 			// 先頭シーン
-			CScene *pScene = m_pTop[nCount];
+			CScene *pScene = m_pTop[PRIORITY_BUTTON];
 
 			do
 			{
@@ -107,7 +136,6 @@ void CScene::UpdateAll(void)
 			} while (pScene != nullptr);
 		}
 	}
-
 	for (int nCount = 0; nCount < PRIORITY_MAX; nCount++)
 	{
 		// !nullcheck
