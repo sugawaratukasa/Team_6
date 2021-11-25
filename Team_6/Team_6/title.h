@@ -11,6 +11,7 @@
 //インクルードファイル
 //=============================================================================
 #include "mode_base.h"
+#include "manager.h"
 
 //=============================================================================
 // マクロ定義
@@ -40,7 +41,7 @@ public:
 	void Draw(void);			// 描画処理
 	void Create2DObject(void);	// 2Dオブジェクトの生成関数
 	void Create3DObject(void);	// 3Dに必要な情報を生成
-	void ModeTransition(void);	// 遷移
+	void ModeTransition(CManager::MODE_TYPE mode);	// 遷移
 								// Get関数
 	CCamera* GetCamera(void) override { return (CCamera*)m_pCamera; }		// カメラのポインタ
 	CLight* GetLight(void) override { return m_pLight; }				// ライトのポインタ
@@ -49,5 +50,7 @@ private:
 	vector<CScene2D*> m_pObject2D;	// 2Dオブジェクト
 	CCameraTitle *m_pCamera;		// カメラのポインタ
 	CLight *m_pLight;				// ライトのポインタ
+	int		m_nCountToMovie;		// 動画再生までの待機時間
+	bool	m_bCount;				// カウントするかどうか
 };
 #endif

@@ -47,6 +47,7 @@ HRESULT CScreenFrame::Init(void)
 	m_nCountSec = 0;
 	m_bIsChanging = false;
 	m_bUseSecCamOld = false;
+	m_bIsEnableCam = true;
 
 	return S_OK;
 }
@@ -128,7 +129,7 @@ void CScreenFrame::ChangeCamera(LPDIRECT3DTEXTURE9 pTex)
 	BindTexture(m_apTexture[FRAME_FUZZ]);
 
 	// 定義したフレーム数の間だけ砂嵐を描画
-	if (m_nCountSec >= FRAME_CHANGE_LENGTH)
+	if (m_nCountSec >= FRAME_CHANGE_LENGTH && m_bIsEnableCam)
 	{
 		m_nCountSec = 0;
 		// 指定されたテクスチャに変更

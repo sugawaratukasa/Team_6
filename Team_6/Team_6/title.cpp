@@ -9,7 +9,6 @@
 // インクルード
 //=============================================================================
 #include "title.h"
-#include "manager.h"
 #include "renderer.h"
 #include "input.h"
 #include "scene_2d.h"
@@ -34,6 +33,8 @@
 #define KEYBORAD_MAX		(256)
 // LightInfo
 #define TITLE_LIGHT_VECDIR	(D3DXVECTOR3(-0.8f, -1.0f, 1.0f))
+
+#define TRANSITION_WAIT_LENGTH	(90)
 
 //=============================================================================
 // コンストラクタ
@@ -62,6 +63,10 @@ HRESULT CTitle::Init(void)
 {
 	// 3Dオブジェクト生成
 	Create3DObject();
+
+	// カウンタ初期化
+	m_nCountToMovie = 0;
+	m_bCount = true;
 
 	return S_OK;
 }
@@ -125,7 +130,7 @@ void CTitle::Update(void)
 		if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
 		{
 			// 画面遷移
-			ModeTransition();
+			ModeTransition(CManager::MODE_TYPE_GAME);
 		}
 	}
 	// コントローラのボタンを押した場合
@@ -135,8 +140,20 @@ void CTitle::Update(void)
 		if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
 		{
 			// 画面遷移
-			ModeTransition();
+			ModeTransition(CManager::MODE_TYPE_GAME);
 		}
+	}
+
+	// 動画開始までのカウンターを加算
+	if (m_bCount)
+	{
+		m_nCountToMovie++;
+	}
+	if (m_nCountToMovie >= TRANSITION_WAIT_LENGTH)
+	{
+		m_nCountToMovie = 0;
+		// 画面遷移
+		ModeTransition(CManager::MODE_TYPE_MOVIE);
 	}
 }
 
@@ -177,9 +194,11 @@ void CTitle::Create3DObject(void)
 //=============================================================================
 // モード遷移
 //=============================================================================
-void CTitle::ModeTransition(void)
+void CTitle::ModeTransition(CManager::MODE_TYPE mode)
 {
 	// 遷移
 	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_GAME);
+	pFade->SetFade(mode);
+	m_bCount = false;
+	m_nCountToMovie = 0;
 }

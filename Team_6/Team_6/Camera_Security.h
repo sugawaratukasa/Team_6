@@ -1,45 +1,44 @@
-#ifndef _CAMERA_GAME_H_
-#define _CAMERA_GAME_H_
+#ifndef _CAMERA_SECURITY_H_
+#define _CAMERA_SECURITY_H_
 //=============================================================================
 //
-// ゲームカメラクラスヘッダー [camera_game.h]
-// Author : Sugawara Tsukasa
+// 監視カメラ情報管理処理 [Camera_Security.cpp]
+// Author : 樋宮 匠
 //
 //=============================================================================
 
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "camera.h"
 #include "game.h"
-#include "Camera_Security.h"
 
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define SECURITY_CAM_MAX 4
+#define SECCAM_ANGLE_MAX D3DXToRadian(45)
+#define SECCAM_RETURN_LENGTH	60
 
 //=============================================================================
 // カメラクラス
 //=============================================================================
-class CCameraGame : public CCamera
+class CCameraSecurity
 {
 public:
-	CCameraGame();					// コンストラクタ
-	~CCameraGame();					// デストラクタ
+	CCameraSecurity();					// コンストラクタ
+	~CCameraSecurity();					// デストラクタ
 
-
-	HRESULT Init(void);					// 初期化処理
+	HRESULT Init(D3DXVECTOR3 pos, float fDir);					// 初期化処理
 	void Update(void);					// 更新処理
-	void NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot) override;
-	void ModifyCamera(CGame::CAMERA_ID id);
-	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
+	static CCameraSecurity*Create(D3DXVECTOR3 pos, float fDir);	// クリエイト
 
-	void SetCameraID(CCamera::SCREEN_ID id);
+	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	float GetAngle(void) { return m_fAngle; }
+
 private:
-	CCamera::SCREEN_ID	m_id;
-	int					m_nCamNum;
-	CCameraSecurity     m_aSecCam[SECURITY_CAM_MAX];
-
+	D3DXVECTOR3 m_pos;
+	float		m_fDir;
+	float		m_fAngle;
+	float		m_fAngleMoveRate;
+	int			m_nCamReturnCount;
 };
 #endif 

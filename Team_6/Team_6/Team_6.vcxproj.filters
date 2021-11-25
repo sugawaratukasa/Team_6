@@ -54,7 +54,8 @@
     </Filter>
     <Filter Include="08_UI">
       <UniqueIdentifier>{ed395e8b-4f2e-4ee8-a0ef-5906584510f2}</UniqueIdentifier>
-    </Filter>    <Filter Include="06_Model\07_Effect">
+    </Filter>
+    <Filter Include="06_Model\07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="05_Character\Jjailer">
@@ -71,6 +72,9 @@
     </Filter>
     <Filter Include="11_Map">
       <UniqueIdentifier>{3e3a3af6-298d-4ea6-9208-5263a7d281c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03_Mode\Movie">
+      <UniqueIdentifier>{6e38c4aa-c637-4c51-b24f-c38be1d0be19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +231,6 @@
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-
     <ClCompile Include="Screenframe.cpp">
       <Filter>08_UI</Filter>
     </ClCompile>
@@ -281,7 +284,8 @@
     </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
-    </ClCompile>    <ClCompile Include="object_wall.cpp">
+    </ClCompile>
+    <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="object_door_wall.cpp">
@@ -301,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera_Security.cpp">
+      <Filter>00_Important\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Movie.cpp">
+      <Filter>03_Mode\Movie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -513,7 +523,8 @@
     </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
-    </ClInclude>    <ClInclude Include="object_wall.h">
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_door_wall.h">
@@ -533,6 +544,12 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera_Security.h">
+      <Filter>00_Important\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Movie.h">
+      <Filter>03_Mode\Movie</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

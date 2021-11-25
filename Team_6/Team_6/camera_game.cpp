@@ -21,7 +21,6 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define CAMERA_DEFAULT_Fθ			(D3DXToRadian(75.0f))			// カメラのθDefault値
 #define DISTANCE					(2200.0f)						// 視点～注視点の距離
 #define DISTANCE_FAR_UP				(35.0f)							// カメラを引く値
 #define FAR_DISTANCE				(3000.0f)						// 遠めのカメラ
@@ -85,10 +84,11 @@ HRESULT CCameraGame::Init(void)
 	m_nCamNum = 0;
 
 	// 仮初期化
-	m_aSecCamPos[0] = D3DXVECTOR3(1000.0f, 0.0f, -1000.0f);
-	m_aSecCamPos[1] = D3DXVECTOR3(-1000.0f, 0.0f, -1000.0f);
-	m_aSecCamPos[2] = D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f);
-	m_aSecCamPos[3] = D3DXVECTOR3(1000.0f, 0.0f, 1000.0f);
+
+	m_aSecCam[0].Init(D3DXVECTOR3(1000.0f, 275.0f, -1000.0f), 0.0f);
+	m_aSecCam[1].Init(D3DXVECTOR3(-1000.0f, 275.0f, -1000.0f), 0.0f);
+	m_aSecCam[2].Init(D3DXVECTOR3(-1000.0f, 275.0f, 1000.0f), 0.0f);
+	m_aSecCam[3].Init(D3DXVECTOR3(1000.0f, 275.0f, 1000.0f), 0.0f);
 
 	return S_OK;
 }
@@ -129,16 +129,26 @@ void CCameraGame::Update(void)
 			}
 		}
 
+		for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
+		{
+			m_aSecCam[nCount].Update();
+		}
+
 		// 描画範囲を通常状態に
 		SetScreenID(CCamera::SCREEN_NONE);
 		// 注視点を変更
-		SetTargetPos(m_aSecCamPos[m_nCamNum]);
+		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		SetCameraPos(m_aSecCam[m_nCamNum].GetPos());
+		SetVartical(D3DXToRadian(110));
+		SetHorizontal(m_aSecCam[m_nCamNum].GetAngle());
 	}
 	else
 	{
 		SetIsInterpolation(true);
 		m_nCamNum = 0;
 		SetScreenID(m_id);
+		SetHorizontal(D3DXToRadian(0.0f));
+		SetVartical(CAMERA_DEFAULT_Fθ);
 	}
 
 	CCamera::Update();

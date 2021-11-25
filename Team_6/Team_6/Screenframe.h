@@ -47,6 +47,7 @@ private:
 	int m_nCountSec;
 	bool m_bIsChanging;
 	bool m_bUseSecCamOld;
+	bool m_bIsEnableCam;
 };
 
 #endif

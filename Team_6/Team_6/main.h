@@ -30,6 +30,9 @@
 #include <sstream>
 #include <memory>
 #include <time.h>
+#include <dshow.h>
+#include <Vmr9.h>
+#define _WIN32_DCOM				// COM初期化用
 
 //=============================================================================
 // ライブラリのリンク
@@ -40,6 +43,8 @@
 #pragma comment(lib,"winmm.lib")
 #pragma comment(lib,"dinput8.lib")	//入力処理に必要
 #pragma comment (lib,"ws2_32.lib")
+#pragma comment (lib,"amstrmid.lib")
+#pragma comment(lib,"strmiids.lib")
 
 // メモリリーク
 #ifdef _DEBUG
@@ -62,7 +67,8 @@
 #define FVF_VERTEX_2D (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)				// 頂点フォーマット
 #define NUM_VERTEX		(4)															// 頂点数
 #define VERTEX_TRIANGLE	(3)															// 三角形の頂点数
-#define NUM_POLYGON		(2)															// ポリゴン数
+#define NUM_POLYGON		(2)		
+													// ポリゴン数
 
 // 初期化用マクロ変数
 #define ZeroVector2			(D3DXVECTOR2(0.0f, 0.0f))

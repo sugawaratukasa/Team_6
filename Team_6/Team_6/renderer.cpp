@@ -207,68 +207,39 @@ void CRenderer::Update(void)
 //=============================================================================
 void CRenderer::Draw(void)
 {
-	m_pD3DDevice->Clear(0,
-		nullptr,
-		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-		D3DCOLOR_RGBA(0, 255, 255, 0),
-		1.0f,
-		0);
-
-	m_pD3DDevice->Clear(0,
-		nullptr,
-		D3DCLEAR_STENCIL,
-		D3DCOLOR_XRGB(0, 0, 0),
-		1.0f,
-		0);
-
-	CFade *pFade = CManager::GetFade();
-
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+	if (CManager::GetMode() == CManager::MODE_TYPE_MOVIE)
 	{
-		// モードがgameなら
-		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
-		{
-			// 監視カメラを見ているなら
-			if (m_bUseSecCam)
-			{
-				// ビューポート設定
-				SetUpViewPort(CCamera::SCREEN_NONE);
-				//オブジェクトクラスの全描画処理呼び出し
-				CScene::DrawAll();
 
-				if (pFade != nullptr)
-				{
-					// 描画処理
-					pFade->Draw();
-				}
-			}
-			else
+	}
+	else
+	{
+		m_pD3DDevice->Clear(0,
+			nullptr,
+			(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+			D3DCOLOR_RGBA(0, 255, 255, 0),
+			1.0f,
+			0);
+
+		m_pD3DDevice->Clear(0,
+			nullptr,
+			D3DCLEAR_STENCIL,
+			D3DCOLOR_XRGB(0, 0, 0),
+			1.0f,
+			0);
+
+		CFade *pFade = CManager::GetFade();
+
+		// Direct3Dによる描画の開始
+		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+		{
+			// モードがgameなら
+			if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 			{
-				// ビューポートの数だけ描画する
-				for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
+				// 監視カメラを見ているなら
+				if (m_bUseSecCam)
 				{
 					// ビューポート設定
-					SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
-
-					// バッファのクリア
-					m_pD3DDevice->Clear(0,
-						nullptr,
-						(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-						D3DCOLOR_RGBA(0, 255, 255, 0),
-						1.0f,
-						0);
-
-					m_pD3DDevice->Clear(0,
-						nullptr,
-						D3DCLEAR_STENCIL,
-						D3DCOLOR_XRGB(0, 0, 0),
-						1.0f,
-						0);
-
-					// カメラ位置を修正
-					((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
-
+					SetUpViewPort(CCamera::SCREEN_NONE);
 					//オブジェクトクラスの全描画処理呼び出し
 					CScene::DrawAll();
 
@@ -278,32 +249,68 @@ void CRenderer::Draw(void)
 						pFade->Draw();
 					}
 				}
+				else
+				{
+					// ビューポートの数だけ描画する
+					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
+					{
+						// ビューポート設定
+						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
+
+						// バッファのクリア
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+							D3DCOLOR_RGBA(0, 255, 255, 0),
+							1.0f,
+							0);
+
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							D3DCLEAR_STENCIL,
+							D3DCOLOR_XRGB(0, 0, 0),
+							1.0f,
+							0);
+
+						// カメラ位置を修正
+						((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
+
+						//オブジェクトクラスの全描画処理呼び出し
+						CScene::DrawAll();
+
+						if (pFade != nullptr)
+						{
+							// 描画処理
+							pFade->Draw();
+						}
+					}
+				}
 			}
-		}
-		else
-		{
-			// ビューポート設定
-			SetUpViewPort(CCamera::SCREEN_NONE);
-
-			//オブジェクトクラスの全描画処理呼び出し
-			CScene::DrawAll();
-
-			if (pFade != nullptr)
+			else
 			{
-				// 描画処理
-				pFade->Draw();
+				// ビューポート設定
+				SetUpViewPort(CCamera::SCREEN_NONE);
+
+				//オブジェクトクラスの全描画処理呼び出し
+				CScene::DrawAll();
+
+				if (pFade != nullptr)
+				{
+					// 描画処理
+					pFade->Draw();
+				}
 			}
-		}
 
-		// デバッグプロシージャ
-		CDebugProc *pDebugProc = CManager::GetDebugProc();
-		if (pDebugProc != nullptr)
-		{
-			pDebugProc->Draw();
-		}
+			// デバッグプロシージャ
+			CDebugProc *pDebugProc = CManager::GetDebugProc();
+			if (pDebugProc != nullptr)
+			{
+				pDebugProc->Draw();
+			}
 
-		// Direct3Dによる描画の終了
-		m_pD3DDevice->EndScene();
+			// Direct3Dによる描画の終了
+			m_pD3DDevice->EndScene();
+		}
 	}
 
 	// バックバッファとフロントバッファの入れ替え
