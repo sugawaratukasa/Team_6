@@ -39,6 +39,8 @@
 #include "player_ui_manager.h"
 #include "map.h"
 #include "object_wall.h"
+#include "spot.h"
+
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -114,9 +116,17 @@ HRESULT CGame::Init(void)
 	CTimer::Create();
 	m_pPlayerUIManager = CPlayerUIManager::Create();
 
+	//スポットの生成
+	CSpot::LoadSpot();
+
 	//看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
-
+	//看守の生成
+	CJailer::Create(ZeroVector3, ZeroVector3);
+	//看守の生成
+	CJailer::Create(ZeroVector3, ZeroVector3);
+	//看守の生成
+	CJailer::Create(ZeroVector3, ZeroVector3);
 	return S_OK;
 }
 //=======================================================================================
@@ -124,6 +134,7 @@ HRESULT CGame::Init(void)
 //=======================================================================================
 void CGame::Uninit(void)
 {
+
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
 		if (m_pCamera[nCount] != nullptr)
@@ -131,8 +142,10 @@ void CGame::Uninit(void)
 			//カメラクラスの終了処理呼び出す
 			m_pCamera[nCount]->Uninit();
 
+
 			//メモリの破棄
 			delete m_pCamera[nCount];
+
 
 			//メモリのクリア
 			m_pCamera[nCount] = nullptr;

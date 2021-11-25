@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="baton_texture.cpp" />
+    <ClCompile Include="door_wall_collision.cpp" />
     <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="debug_proc.h" />
     <ClInclude Include="door_pc_room.h" />
+    <ClInclude Include="door_wall_collision.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />

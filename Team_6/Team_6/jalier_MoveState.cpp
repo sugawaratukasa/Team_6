@@ -42,21 +42,22 @@ void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
 	int time = pJailer->AddTimer(ADD_TIME);
 	
-	if (pJailerView->GetIsDetection() == false)
-	{
+	/*if (pJailerView->GetIsDetection() == false)
+	{*/
 		pJailer->Move();
 		
 		//–Ú“I’n‚Ü‚Å‚Ì‹——£‚ªˆê’è’lˆÈ‰º‚ÌŽž
 		if (pJailer->GetDistanceRange() <= 5.0f)
 		{
 			//‘Ò‹@ó‘Ô‚Ö
-			pJailer->ChangeState(CWaitState::GetInstance());
+			//pJailer->ChangeState(CWaitState::GetInstance());
+			pJailer->SettingPosDest();
 		}
-	}
-	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	else 
-	{
-		//’ÇÕó‘Ô‚Ö
-		pJailer->ChangeState(CChaseState::GetInstance());
-	}
+	//}
+	////õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
+	//else 
+	//{
+	//	//’ÇÕó‘Ô‚Ö
+	//	//pJailer->ChangeState(CChaseState::GetInstance());
+	//}
 }

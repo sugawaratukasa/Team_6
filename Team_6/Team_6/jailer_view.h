@@ -46,8 +46,7 @@ public:
 
 private:
 	void PlayerDetection(void);	//プレイヤーの検出
-	void MapCollision(void);	//マップとの判定
-	void ChangeColor(void);		//色の変更処理
+	void ChangeColor(void);	//色の変更処理
 
 	//=========================================================================
 	//メンバ変数宣言

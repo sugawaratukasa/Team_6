@@ -34,8 +34,8 @@ void CWaitState::Init(CJailer *pJailer, CJailerView *pJailerView)
 //=============================================================================
 void CWaitState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	if (pJailerView->GetIsDetection() == false)
-	{	
+	/*if (pJailerView->GetIsDetection() == false)
+	{*/	
 		//‘Ò‹@ŽžŠÔ
 		if (pJailer->AddTimer(ADD_TIME) >= WAIT_TIME)
 		{
@@ -47,12 +47,12 @@ void CWaitState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		{
 			pJailer->Wait();
 		}
-	}
-	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	else if (pJailerView->GetIsDetection() == true)
-	{
-		//’ÇÕó‘Ô‚Ö
-		pJailer->ChangeState(CChaseState::GetInstance());
-	}
+	//}
+	////õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
+	//else if (pJailerView->GetIsDetection() == true)
+	//{
+	//	//’ÇÕó‘Ô‚Ö
+	//	//pJailer->ChangeState(CChaseState::GetInstance());
+	//}
 
 }

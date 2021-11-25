@@ -7,7 +7,11 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(500.0f,500.0f,500.0f))
+#define ROT_90				(D3DXToRadian(89.0f))						// 90向き
+#define COLLISION_POS_ADDX	(D3DXVECTOR3(pos.x + 150.0f,pos.y,pos.z))	// 位置
+#define COLLISION_POS_SUBX	(D3DXVECTOR3(pos.x - 150.0f, pos.y, pos.z))	// 位置
+#define COLLISION_POS_ADDZ	(D3DXVECTOR3(pos.x, pos.y, pos.z + 125.0f))	// 位置
+#define COLLISION_POS_SUBZ	(D3DXVECTOR3(pos.x, pos.y, pos.z - 125.0f))	// 位置
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
@@ -15,6 +19,7 @@
 #include "manager.h"
 #include "object_door_wall.h"
 #include "resource_manager.h"
+#include "door_wall_collision.h"
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -75,6 +80,20 @@ HRESULT CDoor_Wall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 		// モデルの情報を渡す
 		BindModel(model);
+	}
+	// 90以上の場合
+	if (rot.y >= ROT_90)
+	{
+		// 生成
+		CDoorWallCollision::Create(COLLISION_POS_ADDZ, rot);
+		CDoorWallCollision::Create(COLLISION_POS_SUBZ, rot);
+	}
+	// 例外
+	else
+	{
+		// 生成
+		CDoorWallCollision::Create(COLLISION_POS_ADDX, rot);
+		CDoorWallCollision::Create(COLLISION_POS_SUBX, rot);
 	}
 	return S_OK;
 }
