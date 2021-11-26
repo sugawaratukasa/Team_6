@@ -187,7 +187,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.500000;0.500000;0.500000;;
    TextureFilename {
-    "WallTexture2.png";
+    "WallTexture1.png";
    }
   }
   Material {
@@ -196,7 +196,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.500000;0.500000;0.500000;;
    TextureFilename {
-    "WallTexture2.png";
+    "WallTexture1.png";
    }
   }
   Material {

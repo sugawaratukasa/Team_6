@@ -58,7 +58,7 @@ HRESULT CTexture::SetTextureName(void)
 	// 通常テクスチャ
 	m_aTexFileName[TEXTURE_TYPE_NUM_NORMAL] =
 	{
-		{"data/Texture/Floor_texture1.png"},
+		{"data/Texture/floor.jpg"},
 		{"data/Texture/Sceneframe.png"},
 		{"data/Texture/time_UI_frame.png"},
 		{"data/Texture/time_UI_guage.png" },

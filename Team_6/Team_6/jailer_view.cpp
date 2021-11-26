@@ -11,6 +11,7 @@
 #include "keyboard.h"
 #include "debug_proc.h"
 #include "game.h"
+#include "object.h"
 
 //=============================================================================
 //コンストラクタ
@@ -89,7 +90,7 @@ void CJailerView::Update(void)
 	CFan3D::Update();
 
 	//プレイヤーの検出処理
-	//PlayerDetection();
+	PlayerDetection();
 
 	//色の変更処理
 	ChangeColor();
@@ -126,6 +127,17 @@ void CJailerView::Update(void)
 
 	//長さの設定
 	SetLength(fLength);
+
+	CDebugProc::Print("=====================JailerView=====================\n");
+
+	if (m_bIsDetection)
+	{
+		CDebugProc::Print("プレイヤーを発見\n");
+	}
+	else
+	{
+		CDebugProc::Print("プレイヤー未発見\n");
+	}
 #endif
 }
 
@@ -163,77 +175,112 @@ void CJailerView::PlayerDetection(void)
 		//ベクトルの長さ
 		view.fLength = sqrtf((view.fanToPlayer.x * view.fanToPlayer.x) + (view.fanToPlayer.z * view.fanToPlayer.z));
 
-		//ベクトルの長さが半径より小さい場合
-		if (view.fLength < GetLength())
+		//ベクトルの長さが半径より大きい場合
+		if (view.fLength > GetLength())
 		{
-			//データを保存
-			vecViewData.push_back(view);
+			//先頭に戻る
+			continue;
 		}
+
+		//回転角度0度の単位ベクトル
+		D3DXVECTOR3 fanDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+		D3DXVECTOR3 rotFanDir = ZeroVector3;	//回転させたベクトル
+		D3DXVECTOR3 testrot = ZeroVector3;
+		D3DXMATRIX mtx;
+
+		//向きの情報を修正
+		float fRot = GetRot().y + D3DXToRadian(90.0f);
+
+		//ベクトルを回転させる
+		rotFanDir.x = fanDir.x * cosf(fRot) + fanDir.z *-sinf(fRot);
+		rotFanDir.z = fanDir.x * sinf(fRot) + fanDir.z *cosf(fRot);
+
+		//扇からプレイヤーへのベクトルを正規化
+		D3DXVECTOR3 norFanToPoint = D3DXVECTOR3(
+			view.fanToPlayer.x / view.fLength,
+			view.fanToPlayer.y / view.fLength,
+			view.fanToPlayer.z / view.fLength);
+
+		//扇とプレイヤーのベクトルのなす角度を求める（内積）
+		float fDot = norFanToPoint.x * rotFanDir.x - norFanToPoint.z * rotFanDir.z;
+
+		//扇の方向ベクトルをcosにする
+		float fFanCos = cosf(D3DXToRadian(GetCenterAngle() / 2.0f));
+
+		//なす角が扇の角度より小さいと失敗
+		if (fDot < fFanCos)
+		{
+			CDebugProc::Print("cos判定で失敗\n");
+
+			//先頭に戻る
+			continue;
+		}
+
+		//情報を保存
+		vecViewData.push_back(view);
 	}
 
-	//要素数の取得
 	int nSize = vecViewData.size();
-	int nNumber = 0;
-	//登録が0個の場合
+	int nNumber = ZERO_INT;
+
 	if (nSize == ZERO_INT)
 	{
+		//該当なしのためフラグをfalse
 		m_bIsDetection = false;
+
 		//処理終了
 		return;
 	}
-	//最大プレイヤー分データが存在するなら
 	else if (nSize == MAX_PLAYER)
 	{
-		ViewData swap;
-
-		//長さを比較
-		if (vecViewData[0].fLength < vecViewData[1].fLength)
+		//それぞれとの距離を比較し、より近いほうを検出した事にする
+		if (vecViewData.at(0).fLength < vecViewData.at(1).fLength)
 		{
-			nNumber = vecViewData[0].nNumber;
+			nNumber = vecViewData.at(0).nNumber;
 		}
 		else
 		{
-			nNumber = vecViewData[1].nNumber;
+			nNumber = vecViewData.at(1).nNumber;
 		}
-	}
-
-	//回転角度0度の単位ベクトル
-	D3DXVECTOR3 fanDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-
-	D3DXVECTOR3 rotFanDir = ZeroVector3;	//回転させたベクトル
-
-	//向きの情報を修正
-	float fRot = GetRot().y + D3DXToRadian(90.0f);
-
-	//ベクトルを回転させる
-	rotFanDir.x = fanDir.x * cosf(fRot) + fanDir.z *-sinf(fRot);
-	rotFanDir.z = fanDir.x * sinf(fRot) + fanDir.z *cosf(fRot);
-
-	//扇からプレイヤーへのベクトルを正規化
-	D3DXVECTOR3 norFanToPoint = D3DXVECTOR3(
-		vecViewData[nNumber].fanToPlayer.x / vecViewData[nNumber].fLength,
-		vecViewData[nNumber].fanToPlayer.y / vecViewData[nNumber].fLength,
-		vecViewData[nNumber].fanToPlayer.z / vecViewData[nNumber].fLength);
-
-	//扇とプレイヤーのベクトルのなす角度を求める（内積）
-	float fDot = norFanToPoint.x * rotFanDir.x - norFanToPoint.z * rotFanDir.z;
-
-	//扇の方向ベクトルをcosにする
-	float fFanCos = cosf(D3DXToRadian(GetCenterAngle() / 2.0f));
-
-	//なす角が扇の角度より大きいと失敗
-	if (fFanCos > fDot)
-	{
-		m_bIsDetection = false;
-		//処理終了
-		return;
 	}
 
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
 
-	//発見フラグをオン
+	//発見フラグをtrue
 	m_bIsDetection = true;
+}
+
+void CJailerView::MapCollision(void)
+{
+	CScene *pScene = nullptr;
+	CScene *pNext = nullptr;
+
+	//マップの先頭情報を取得
+	pScene = GetTop(CScene::PRIORITY_MAP);
+
+	while (pScene != nullptr)
+	{
+		//次情報を保存
+		pNext = pScene->GetNext();
+
+		if (pScene != nullptr)
+		{
+			//オブジェクトクラスへキャスト
+			CObject *pObject = (CObject*)pScene;
+
+			//オブジェクトの位置の取得
+			D3DXVECTOR3 objPos = pObject->GetPos();
+
+			//オブジェクトのサイズ取得
+			D3DXVECTOR3 objSize = pObject->GetSize();
+
+		}
+
+		//次情報へ切り替え
+		pScene = pNext;
+	}
 }
 
 //=============================================================================

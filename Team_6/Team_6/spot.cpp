@@ -1,31 +1,15 @@
 //=============================================================================
 //
-// スポットクラス処理 [jailer.cpp]
+// スポット処理 [spot.cpp]
 // Author : Yamada Ryota
 //
 //=============================================================================
-
-//=============================================================================
-//インクルードファイル
-//=============================================================================
 #include "spot.h"
 
-vector<CSpot::SPOT_DATA> CSpot::m_SpotData;
-CSpot::JAILER_SPOT CSpot::m_JailerMoveSpot[4];
-
 //=============================================================================
-//コンストラクタ
+//マクロ定義
 //=============================================================================
-CSpot::CSpot()
-{
-}
-
-//=============================================================================
-//デストラクタ
-//=============================================================================
-CSpot::~CSpot()
-{
-}
+#define SPOT_FILE_PATH "data/Text/Spot/spot_data.txt"	//スポットデータのパス
 
 //=============================================================================
 //クリエイト処理
@@ -47,10 +31,27 @@ CSpot * CSpot::Create(void)
 }
 
 //=============================================================================
+//コンストラクタ
+//=============================================================================
+CSpot::CSpot()
+{
+}
+
+//=============================================================================
+//デストラクタ
+//=============================================================================
+CSpot::~CSpot()
+{
+}
+
+//=============================================================================
 //初期化処理
 //=============================================================================
 HRESULT CSpot::Init(void)
 {
+	//ファイルからSpot情報を読み込み
+	LoadSpot();
+
 	return S_OK;
 }
 
@@ -62,16 +63,107 @@ void CSpot::Uninit(void)
 }
 
 //=============================================================================
-//ファイル読み込み処理
+//更新処理
+//=============================================================================
+void CSpot::Update(void)
+{
+}
+
+//=============================================================================
+//位置の取得
+//=============================================================================
+D3DXVECTOR3 CSpot::GetSpotPos(int nNumBase)
+{
+	auto itr = m_SpotData.begin();
+
+	for (itr; itr != m_SpotData.end(); ++itr)
+	{
+		if (itr->nNumBase == nNumBase)
+		{
+			return itr->pos;
+		}
+	}
+
+	return ZeroVector3;
+}
+
+//=============================================================================
+//ネクストのリスト取得
+//=============================================================================
+list<int> CSpot::GetNextNumber(int nNumBase)
+{
+	auto itr = m_SpotData.begin();
+
+	for (itr; itr != m_SpotData.end(); ++itr)
+	{
+		if (itr->nNumBase == nNumBase)
+		{
+			break;
+		}
+	}
+
+	return itr->NumNext;
+}
+
+CSpot::SPOT_DATA CSpot::CloseSpotSearch(const D3DXVECTOR3 pos)
+{
+	float fLength = ZERO_FLOAT;
+	float fLengthMin = ZERO_FLOAT;
+	D3DXVECTOR3 posdeded = ZeroVector3;
+	int nCntNum = 0;
+	int nBaseNumber = 0;
+	SPOT_DATA spot;
+	spot.nNumBase = 0;
+	spot.pos = ZeroVector3;
+
+	for (auto itrBase : m_SpotData)
+	{
+		posdeded = itrBase.pos - pos;
+
+		//2点間ベクトルの長さを求める
+		fLength = D3DXVec3Length(&posdeded);
+
+		if (nCntNum != ZERO_INT)
+		{
+			if (fLength < fLengthMin)
+			{
+				fLengthMin = fLength;
+				nBaseNumber = itrBase.nNumBase;
+			}
+		}
+		else
+		{
+			fLengthMin = fLength;
+			nBaseNumber = itrBase.nNumBase;
+		}
+
+		nCntNum++;
+	}
+
+	for (auto itrBase : m_SpotData)
+	{
+		if (itrBase.nNumBase == nBaseNumber)
+		{
+			spot = itrBase;
+		}
+	}
+
+	return spot;
+}
+
+//=============================================================================
+//スポットファイルの読み込み
 //=============================================================================
 void CSpot::LoadSpot(void)
 {
-	FILE *pFile = nullptr;
+	FILE *pFile = nullptr;	//FILEポインタ
 
-	pFile = fopen("data/Text/Spot/spot_data.txt", "r");
+	//ファイルオープン
+	pFile = fopen(SPOT_FILE_PATH, "r");
 
 	SPOT_DATA spotData;
 
+	//読み込み用の文字列保存変数
 	char aHead[256];
 	char aMode[256];
 
@@ -82,31 +174,36 @@ void CSpot::LoadSpot(void)
 			fgets(aHead, sizeof(aHead), pFile);
 			sscanf(aHead, "%s", aMode);
 
-			//スポットデータの読み込み
-			if (strcmp(aMode, "SPOT_SET") == 0)
+			if (strcmp(aMode, "SPOT_SET") == ZERO_INT)
 			{
-				while (strcmp(aMode, "SPOT_SET_END") != 0)
+				while (strcmp(aMode, "SPOT_SET_END") != ZERO_INT)
 				{
 					fgets(aHead, sizeof(aHead), pFile);
 					sscanf(aHead, "%s", aMode);
 
 					//位置の読み込み
-					if (strcmp(aMode, "POS") == 0)
+					if (strcmp(aMode, "POS") == ZERO_INT)
 					{
 						sscanf(aHead, "%*s %*s %f %f %f", &spotData.pos.x, &spotData.pos.y, &spotData.pos.z);
 					}
 
-					//ネクスト情報の読み込み
-					if (strcmp(aMode, "NEXT_SET") == 0)
+					//番号の読み込み
+					if (strcmp(aMode, "NUMBER") == ZERO_INT)
 					{
-						while (strcmp(aMode, "NEXT_SET_END") != 0)
+						sscanf(aHead, "%*s %*s %d", &spotData.nNumBase);
+					}
+
+					if (strcmp(aMode, "NEXT_SET") == ZERO_INT)
+					{
+						while (strcmp(aMode, "NEXT_SET_END") != ZERO_INT)
 						{
 							fgets(aHead, sizeof(aHead), pFile);
 							sscanf(aHead, "%s", aMode);
 
-							int nNumScan = 0;
+							int nNumScan = ZERO_INT;
 
-							if (strcmp(aMode, "NUM") == 0)
+							//ネクストの読み込み
+							if (strcmp(aMode, "NUM") == ZERO_INT)
 							{
 								sscanf(aHead, "%*s %*s %d", &nNumScan);
 
@@ -121,50 +218,9 @@ void CSpot::LoadSpot(void)
 
 				spotData.NumNext.clear();
 			}
-
-			//看守情報読み込み
-			if (strcmp(aMode, "JAIER_SET") == 0)
-			{
-				int nNum = 0;
-				int nJaierNum = 0;
-
-				while (strcmp(aMode, "JAIER_SET_END") != 0)
-				{
-					fgets(aHead, sizeof(aHead), pFile);
-					sscanf(aHead, "%s", aMode);
-
-					//看守番号の読み込み
-					if (strcmp(aMode, "JAIER_NUM") == 0)
-					{
-						sscanf(aHead, "%*s %*s %d", &nJaierNum);
-					}
-
-					//要素の読み込み
-					if (strcmp(aMode, "NUM") == 0)
-					{
-						sscanf(aHead, "%*s %*s %d", &nNum);
-
-						m_JailerMoveSpot[nJaierNum].nNumber.push_back(nNum);
-					}
-				}
-			}
 		} while (strcmp(aMode, "END_FILE") != 0);
 
 		fclose(pFile);
-
-		for (int nCntJailer = 0; nCntJailer < 4; nCntJailer++)
-		{
-			auto itr = m_JailerMoveSpot[nCntJailer].nNumber.begin();
-
-			for (itr; itr != m_JailerMoveSpot[nCntJailer].nNumber.end(); ++itr)
-			{
-				D3DXVECTOR3 pos = m_SpotData[*itr].pos;
-
-				m_JailerMoveSpot[nCntJailer].pos.push_back(pos);
-			}
-		}
-
-		return;
 	}
 	else
 	{

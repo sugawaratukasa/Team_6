@@ -258,9 +258,6 @@
     <ClCompile Include="jalier_MoveState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_view.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="jailer_LostTargetState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
@@ -303,8 +300,8 @@
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
     </ClCompile>
-    <ClCompile Include="door_wall_collision.cpp">
-      <Filter>09_Object</Filter>
+    <ClCompile Include="jailer_view.cpp">
+      <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
     <ClCompile Include="spot.cpp">
       <Filter>ソース ファイル</Filter>
@@ -497,9 +494,6 @@
     <ClInclude Include="Jalier_MoveState.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_view.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="jailer_LostTargetState.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
@@ -542,8 +536,8 @@
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
     </ClInclude>
-    <ClInclude Include="door_wall_collision.h">
-      <Filter>09_Object</Filter>
+    <ClInclude Include="jailer_view.h">
+      <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
     <ClInclude Include="spot.h">
       <Filter>ヘッダー ファイル</Filter>

@@ -21,6 +21,7 @@
 #define DEFAULT_LNGTH (1500.0f)											//長さのデフォルト値
 #define MIN_LNGTH (1000.0f)												//長さの最小値
 #define MAX_LNGTH (4000.0f)												//長さの最大値
+#define ORIGIN_NUMBER (0)												//原点の番号
 
 //=============================================================================
 //クリエイト処理
@@ -53,7 +54,7 @@ CFan3D::CFan3D()
 {
 	//各メンバ変数のクリア
 	D3DXMatrixIdentity(&m_mtxWorld);
-	m_nVerNum = 0;
+	m_nVertexNum = 0;
 	m_nPolygonNum = 0;
 	m_fCenterAngle = 0.0f;
 	m_fLength = 0.0f;
@@ -77,7 +78,7 @@ HRESULT CFan3D::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
 	//頂点数の設定
-	m_nVerNum = m_nPolygonNum + VERTEX_MODIFYING_VALUE;
+	m_nVertexNum = m_nPolygonNum + VERTEX_MODIFYING_VALUE;
 
 	//位置の設定
 	SetPos(pos);
@@ -93,7 +94,7 @@ HRESULT CFan3D::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//頂点バッファの作成
 	pDevice->CreateVertexBuffer(
-		sizeof(VERTEX_FAN_3D) * m_nVerNum,	//バッファサイズ
+		sizeof(VERTEX_FAN_3D) * m_nVertexNum,	//バッファサイズ
 		D3DUSAGE_WRITEONLY,	//（固定）
 		FVF_VERTEX_FAN_3D,	//フォーマット
 		D3DPOOL_MANAGED,	//(固定)
@@ -104,7 +105,7 @@ HRESULT CFan3D::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	BindVtxBuff(pVtxBuff);
 
 	//頂点の更新
-	VerTexUpdate();
+	VertexUpdate();
 
 	return S_OK;
 }
@@ -124,7 +125,7 @@ void CFan3D::Uninit(void)
 void CFan3D::Update(void)
 {
 	//頂点の更新
-	VerTexUpdate();
+	VertexUpdate();
 	
 	//中心角の修正
 	CenterAngleModifying();
@@ -143,13 +144,6 @@ void CFan3D::Draw(void)
 
 	//ライティングの影響を受けないようにする
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	////アルファテストを有効化
-	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-
-	//pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-
-	//pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	D3DXMATRIX mtxRot, mtxTrans, mtxScale;	//計算用のマトリクス
 
@@ -187,17 +181,14 @@ void CFan3D::Draw(void)
 		0,
 		m_nPolygonNum);	//ポリゴン数
 
-	//ライティングの影響を受けるようにする
+	//ライティングの影響を受けないようにする
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	//アルファテストを無効
-	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 //=============================================================================
 //頂点更新処理
 //=============================================================================
-void CFan3D::VerTexUpdate(void)
+void CFan3D::VertexUpdate(void)
 {
 	VERTEX_FAN_3D *pVtxFan = nullptr;
 
@@ -217,23 +208,23 @@ void CFan3D::VerTexUpdate(void)
 	float fStrat_Angle = m_fCenterAngle / 2.0f;				//頂点角度の基準点
 	float fRotate_Rad = D3DXToRadian(-90.0f);				//回転角度
 
-	//中心の頂点の設定
-	pVtxFan[0].pos = ZeroVector3;
-	pVtxFan[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtxFan[0].col = col;
+	//中心（原点）の頂点の設定
+	pVtxFan[ORIGIN_NUMBER].pos = ZeroVector3;
+	pVtxFan[ORIGIN_NUMBER].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtxFan[ORIGIN_NUMBER].col = col;
 
 	//中心点をのぞいた残りの頂点数分繰り返す
-	for (int nCntVerNum = 0; nCntVerNum <= m_nPolygonNum; nCntVerNum++)
+	for (int nCntVerNum = ZERO_INT; nCntVerNum <= m_nPolygonNum; nCntVerNum++)
 	{
 		//回転前の頂点の計算
 		pos.x = cosf(D3DXToRadian(fStrat_Angle + nCntVerNum * fAngle)) * m_fLength;
-		pos.y = pVtxFan[0].pos.y;
+		pos.y = pVtxFan[ORIGIN_NUMBER].pos.y;
 		pos.z = sinf(D3DXToRadian(fStrat_Angle + nCntVerNum * fAngle)) * m_fLength;
 
 		//頂点をポリゴンの向きに合わせて調整
-		rotate_pos.x = pos.x * cosf(fRotate_Rad) + pos.z * -sinf(fRotate_Rad) + pVtxFan[0].pos.x;
+		rotate_pos.x = pos.x * cosf(fRotate_Rad) + pos.z * -sinf(fRotate_Rad) + pVtxFan[ORIGIN_NUMBER].pos.x;
 		rotate_pos.y = pVtxFan[0].pos.y;
-		rotate_pos.z = pos.x * sinf(fRotate_Rad) + pos.z * cosf(fRotate_Rad) + pVtxFan[0].pos.z;
+		rotate_pos.z = pos.x * sinf(fRotate_Rad) + pos.z * cosf(fRotate_Rad) + pVtxFan[ORIGIN_NUMBER].pos.z;
 
 		//頂点情報を設定
 		pVtxFan[nCntVerNum + 1].pos = rotate_pos;
