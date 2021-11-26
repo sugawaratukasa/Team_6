@@ -24,13 +24,15 @@ public:
 		DOOR_PC_ROOM,
 		DOOR_MAX
 	};
-	CDoor(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CDoor(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
 	~CDoor();												// デストラクタ
 	static CDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理
 	void Uninit(void);										// 終了処理
 	void Update(void);										// 更新処理
 	void Draw(void);										// 描画処理
+	void Open(void);										// ドアを開く
+	void Close(void);										// ドアを閉じる
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
@@ -42,7 +44,8 @@ public:
 	DOOR_LIST GetType(void) { return m_Type; }
 	bool GetLock(void) { return m_bLock; }
 private:
-	DOOR_LIST m_Type;										// ドアの種類
-	bool m_bLock;											// ロック状態
+	DOOR_LIST m_Type;		// ドアの種類
+	bool m_bLock;			// ロック状態
+	D3DXVECTOR3 InitPos;	// 初期位置
 };
 #endif

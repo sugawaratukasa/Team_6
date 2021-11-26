@@ -16,6 +16,7 @@
 #include "mode_base.h"
 #include "collision.h"
 #include "character_collision_box.h"
+#include "spot.h"
 
 //=============================================================================
 //マクロ定義
@@ -26,13 +27,6 @@
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
 #define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
-const D3DXVECTOR3 aMoveSpot[CJailer::POS_DEST_MAX] =
-{
-	D3DXVECTOR3(-1000.0f, 0.0f, 1000.0f),
-	D3DXVECTOR3(-1000.0f, 0.0f, -1000.0f),
-	D3DXVECTOR3(1000.0f, 0.0f, -1000.0f),
-	D3DXVECTOR3(1000.0f, 0.0f, 1000.0f),
-};
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -53,7 +47,7 @@ CJailer::CJailer()
 	m_nSwitchingTimer = ZERO_INT;
 	m_nNumber = ZERO_INT;
 	m_fDestinationRange = ZERO_FLOAT;
-	
+	m_pSpot = nullptr;
 	//総数の加算
 	m_nJailerTotal++;
 }
@@ -119,20 +113,26 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//自分の番号を設定
 	m_nNumber = m_nJailerTotal;
 
-	m_nIndex = m_nNumber;
-	
-	//目的地を設定
-	m_posDest = aMoveSpot[m_nIndex];
+	////スポットクラスのクリエイト
+	m_pSpot = CSpot::Create();
+
+	////移動リストの取得
+	m_MoveSpot = m_pSpot->GetJailerMoveSpotList(m_nNumber);
 
 	//位置の設定
-	SetPos(m_posDest);
+	SetPos(m_MoveSpot[ZERO_INT]);
+
+	m_nIndex = 1;
+	
+	//目的地を設定
+	m_posDest = m_MoveSpot[m_nIndex];
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, VIEW_POS_Y, m_posDest.z), 
 		ZeroVector3, VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	//状態設定
-	//m_pJailerState = CWaitState::GetInstance();
+	m_pJailerState = CWaitState::GetInstance();
 
 	//サイズの設定
 	SetSize(JAILER_SIZE);
@@ -404,21 +404,23 @@ int CJailer::AddTimer(int add)
 //=============================================================================
 void CJailer::SettingPosDest(void)
 {
-	//現在の目的地を前回の目的地として保存
-	m_posDestOld = aMoveSpot[m_nIndex];
+	//移動スポットの要素数を取得
+	int nSpotNum = m_MoveSpot.size();
 
-	//目的地のインデックスを加算
+	//前回の目的地を保存
+	m_posDestOld = m_posDest;
+
+	//インデックスを一つ進める
 	m_nIndex++;
-	
-	//インデックスが最大値以上の場合
-	if (m_nIndex >= CJailer::POS_DEST_MAX)
+
+	//インデックスが要素数より大きくなったときは修正
+	if (m_nIndex >= nSpotNum)
 	{
-		//最初のインデックスへ戻す
-		m_nIndex = CJailer::POS_DEST_LEFT_TOP;
+		m_nIndex = ZERO_INT;
 	}
 
-	//次の目的の位置を設定
-	m_posDest = aMoveSpot[m_nIndex];
+	//目的地の更新
+	m_posDest = m_MoveSpot[m_nIndex];
 }
 
 //=============================================================================
@@ -550,7 +552,6 @@ void CJailer::DebugpPrint(void)
 	CDebugProc::Print("【目的の向き（度数法）】 %f\n", D3DXToDegree(m_rotDest.y));
 	CDebugProc::Print("【現在の向き（度数法）】 %f\n", D3DXToDegree(rot.y));
 	CDebugProc::Print("【位置】 X:%f,Y:%f,Z:%f\n", pos.x, pos.y, pos.z);
-	CDebugProc::Print("【目的の位置】 X:%f,Y:%f,Z:%f\n", aMoveSpot[m_nIndex].x, aMoveSpot[m_nIndex].y, aMoveSpot[m_nIndex].z);
 	CDebugProc::Print("【Index】 %d\n", m_nIndex);
 	CDebugProc::Print("【移動量】 X:%f,Y:%f,Z:%f\n", move.x, move.y, move.z);
 	CDebugProc::Print("【Speed】 %f\n", Speed);

@@ -49,8 +49,10 @@ void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		//目的地までの距離が一定値以下の時
 		if (pJailer->GetDistanceRange() <= 5.0f)
 		{
+			pJailer->SettingPosDest();
+
 			//待機状態へ
-			pJailer->ChangeState(CWaitState::GetInstance());
+			//pJailer->ChangeState(CWaitState::GetInstance());
 		}
 	}
 	//索敵範囲にがいる場合

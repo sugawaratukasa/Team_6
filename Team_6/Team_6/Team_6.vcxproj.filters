@@ -300,7 +300,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_view.cpp">
+    <ClCompile Include="door_wall_collision.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>    <ClCompile Include="jailer_view.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
     <ClCompile Include="spot.cpp">
@@ -536,7 +538,10 @@
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_view.h">
+
+    <ClInclude Include="door_wall_collision.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>    <ClInclude Include="jailer_view.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
     <ClInclude Include="spot.h">
