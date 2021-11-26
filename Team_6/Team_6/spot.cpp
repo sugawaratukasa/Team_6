@@ -10,14 +10,15 @@
 //=============================================================================
 #include "spot.h"
 
-vector<CSpot::SPOT_DATA> CSpot::m_SpotData;
-CSpot::JAILER_SPOT CSpot::m_JailerMoveSpot[4];
+vector<CSpot::SPOT_DATA> CSpot::m_vaSpotWorld;
+CSpot::JAILER_SPOT CSpot::m_aJailerMoveSpot[4];
 
 //=============================================================================
 //コンストラクタ
 //=============================================================================
 CSpot::CSpot()
 {
+	m_eArea = MAP_AREA_LEFT;
 }
 
 //=============================================================================
@@ -38,27 +39,12 @@ CSpot * CSpot::Create(void)
 
 	if (pSpot)
 	{
-		pSpot->Init();
+		//pSpot->Init(eArea);
 
 		return pSpot;
 	}
 
 	return nullptr;
-}
-
-//=============================================================================
-//初期化処理
-//=============================================================================
-HRESULT CSpot::Init(void)
-{
-	return S_OK;
-}
-
-//=============================================================================
-//終了処理
-//=============================================================================
-void CSpot::Uninit(void)
-{
 }
 
 //=============================================================================
@@ -71,9 +57,12 @@ void CSpot::LoadSpot(void)
 	pFile = fopen("data/Text/Spot/spot_data.txt", "r");
 
 	SPOT_DATA spotData;
+	MAP_AREA eArea;
 
 	char aHead[256];
 	char aMode[256];
+
+	
 
 	if (pFile)
 	{
@@ -96,6 +85,12 @@ void CSpot::LoadSpot(void)
 						sscanf(aHead, "%*s %*s %f %f %f", &spotData.pos.x, &spotData.pos.y, &spotData.pos.z);
 					}
 
+					//エリアの読み込み
+					if (strcmp(aMode, "AREA") == 0)
+					{
+						sscanf(aHead, "%*s %*s %d", &spotData.eArea);
+					}
+
 					//ネクスト情報の読み込み
 					if (strcmp(aMode, "NEXT_SET") == 0)
 					{
@@ -110,16 +105,16 @@ void CSpot::LoadSpot(void)
 							{
 								sscanf(aHead, "%*s %*s %d", &nNumScan);
 
-								spotData.NumNext.push_back(nNumScan);
+								spotData.vNextNum.push_back(nNumScan);
 							}
 						}
 					}
 				}
 
 				//現在読み込んだデータを保存
-				m_SpotData.push_back(spotData);
+				m_vaSpotWorld.push_back(spotData);
 
-				spotData.NumNext.clear();
+				spotData.vNextNum.clear();
 			}
 
 			//看守情報読み込み
@@ -139,12 +134,18 @@ void CSpot::LoadSpot(void)
 						sscanf(aHead, "%*s %*s %d", &nJaierNum);
 					}
 
+					//エリアの読み込み
+					if (strcmp(aMode, "AREA") == 0)
+					{
+						sscanf(aHead, "%*s %*s %d", &m_aJailerMoveSpot[nJaierNum].eArea);
+					}
+
 					//要素の読み込み
 					if (strcmp(aMode, "NUM") == 0)
 					{
 						sscanf(aHead, "%*s %*s %d", &nNum);
 
-						m_JailerMoveSpot[nJaierNum].nNumber.push_back(nNum);
+						m_aJailerMoveSpot[nJaierNum].vnNumber.push_back(nNum);
 					}
 				}
 			}
@@ -152,15 +153,20 @@ void CSpot::LoadSpot(void)
 
 		fclose(pFile);
 
+		//看守の移動スポットの設定
 		for (int nCntJailer = 0; nCntJailer < 4; nCntJailer++)
 		{
-			auto itr = m_JailerMoveSpot[nCntJailer].nNumber.begin();
+			////看守の担当エリア情報を取得
+			//int nArea = m_aJailerMoveSpot[nCntJailer].eArea;
 
-			for (itr; itr != m_JailerMoveSpot[nCntJailer].nNumber.end(); ++itr)
+			auto itr = m_aJailerMoveSpot[nCntJailer].vnNumber.begin();
+
+			for (itr; itr != m_aJailerMoveSpot[nCntJailer].vnNumber.end(); ++itr)
 			{
-				D3DXVECTOR3 pos = m_SpotData[*itr].pos;
+				D3DXVECTOR3 pos = m_vaSpotWorld.at(*itr).pos;
 
-				m_JailerMoveSpot[nCntJailer].pos.push_back(pos);
+				//位置を保存
+				m_aJailerMoveSpot[nCntJailer].vPos.push_back(pos);
 			}
 		}
 
@@ -170,4 +176,30 @@ void CSpot::LoadSpot(void)
 	{
 		return;
 	}
+
+	
+}
+
+void CSpot::Init(const MAP_AREA eArea)
+{
+	m_eArea = eArea;
+}
+
+int CSpot::ClosestSpotSearch(const D3DXVECTOR3 pos)
+{
+	int nSpotNum = -1;
+	/*auto itrBase = m_SpotData.begin();
+	auto itrBaseEnd = m_SpotData.end();
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		if (itrBase->eArea != eArea)
+		{
+			continue;
+		}
+
+
+	}*/
+
+	return nSpotNum;
 }

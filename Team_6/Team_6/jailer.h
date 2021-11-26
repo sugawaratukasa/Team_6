@@ -35,16 +35,7 @@ public:
 		JAILER_MOTION_MOVE,
 		JAILER_MOTION_MAX,
 	};
-
-	enum POS_DEST
-	{
-		POS_DEST_LEFT_TOP = 0,
-		POS_DEST_LEFT_BOTTOM,
-		POS_DEST_RIGHT_BOTTOM,
-		POS_DEST_RIGHT_TOP,
-		POS_DEST_MAX,
-	};
-
+	
 	//=========================================================================
 	//メンバ関数宣言
 	//=========================================================================
@@ -57,8 +48,7 @@ public:
 	void Uninit(void);								//終了処理
 	void Update(void);								//更新処理
 	void Draw(void);								//描画処理
-
-	void Rotation(void);	//回転処理
+	void Rotation(void);							//回転処理
 
 	//看守AIのそれぞれ状態の処理関数
 	void ChangeState(CJailerState *jailerstate);	//状態遷移
@@ -79,9 +69,6 @@ public:
 	//publicゲッター
 	int GetTimer(void) { return m_nSwitchingTimer; }					//タイマーゲット
 	float GetDistanceRange(void)const { return m_fDestinationRange; }	//目的地の距離の長さの取得
-#ifdef _DEBUG
-	void DebugpPrint(void);	//状態名称
-#endif
 
 private:
 	//=========================================================================

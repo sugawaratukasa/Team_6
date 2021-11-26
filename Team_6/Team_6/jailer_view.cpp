@@ -13,6 +13,9 @@
 #include "game.h"
 #include "object.h"
 
+#define DEFAULT_VIEW_LENGTH (1000.0f)
+#define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 2
+
 //=============================================================================
 //コンストラクタ
 //=============================================================================
@@ -68,6 +71,9 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//検出位置を初期化
 	m_detectedPos = ZeroVector3;
+
+	//長さの設定
+	SetLength(DEFAULT_VIEW_LENGTH);
 
 	return S_OK;
 }
@@ -150,6 +156,21 @@ void CJailerView::Draw(void)
 	CFan3D::Draw();
 }
 
+void CJailerView::JailerCaution(const bool bIsCaution)
+{
+	//警戒状態の時
+	if (bIsCaution)
+	{
+		//長さを拡大
+		SetLength(CAUTION_VIEW_LENGTH);
+	}
+	else
+	{
+		//長さを修正
+		SetLength(DEFAULT_VIEW_LENGTH);
+	}
+}
+
 //=============================================================================
 //プレイヤー検出処理
 //=============================================================================
@@ -211,8 +232,6 @@ void CJailerView::PlayerDetection(void)
 		//なす角が扇の角度より小さいと失敗
 		if (fDot < fFanCos)
 		{
-			CDebugProc::Print("cos判定で失敗\n");
-
 			//先頭に戻る
 			continue;
 		}
@@ -232,6 +251,7 @@ void CJailerView::PlayerDetection(void)
 		//処理終了
 		return;
 	}
+
 	else if (nSize == MAX_PLAYER)
 	{
 		//それぞれとの距離を比較し、より近いほうを検出した事にする

@@ -182,21 +182,6 @@ void CJailer::Update(void)
 		m_pView->SetRotation(GetRot());									//扇の向きの設定
 		m_pView->SetPosition(D3DXVECTOR3(pos.x, VIEW_POS_Y, pos.z));	//扇の位置の設定
 	}
-
-#ifdef _DEBUG
-	CDebugProc::Print("【目的位置との距離】X:%f\n",m_fDestinationRange);
-	CDebugProc::Print("【目的位置】X:%f,Y:%f,Z:%f\n", m_Distance.x, m_Distance.y, m_Distance.z);
-
-	// キーボード取得
-	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-
-	if (pKeyboard->GetTrigger(DIK_NUMPAD7))
-	{
-		SettingPosDest();
-	}
-
-	//DebugpPrint();
-#endif
 }
 
 //=============================================================================
@@ -257,9 +242,6 @@ void CJailer::ChangeState(CJailerState * jailerstate)
 //=============================================================================
 void CJailer::Move(void)
 {
-#ifdef _DEBUG
-	CDebugProc::Print("巡回状態\n");
-#endif
 	D3DXVECTOR3 move = ZeroVector3;
 
 	//単位ベクトル
@@ -296,10 +278,6 @@ void CJailer::Move(void)
 //=============================================================================
 void CJailer::Wait(void)
 {
-#ifdef _DEBUG
-	CDebugProc::Print("待機状態\n");
-#endif
-
 	//前回の向きへ確認
 	m_Distance = (m_posDestOld - GetPos());
 
@@ -321,9 +299,6 @@ void CJailer::Wait(void)
 //=============================================================================
 void CJailer::Chase()
 {
-#ifdef _DEBUG
-	CDebugProc::Print("追跡状態\n");
-#endif
 	D3DXVECTOR3 move = ZeroVector3;
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
@@ -335,9 +310,7 @@ void CJailer::Chase()
 	{
 		//検出した位置の取得
 		detectedPos = m_pView->GetDetectionPos();
-#ifdef _DEBUG
-		CDebugProc::Print("【プレイヤーを検出した位置】X:%f,Y:%f,Z:%f\n", detectedPos.x, detectedPos.y, detectedPos.z);
-#endif
+		m_pView->JailerCaution(true);
 	}
 	
 	//現在位置と検出した位置までのベクトルを計算
@@ -374,9 +347,6 @@ void CJailer::Chase()
 //=============================================================================
 void CJailer::Caution(void)
 {
-#ifdef _DEBUG
-	CDebugProc::Print("警戒状態\n");
-#endif
 	const D3DXVECTOR3 rot = GetRot();
 }
 
@@ -385,9 +355,6 @@ void CJailer::Caution(void)
 //=============================================================================
 void CJailer::Attack(void)
 {
-#ifdef _DEBUG
-	CDebugProc::Print("攻撃状態\n");
-#endif
 }
 
 //=============================================================================
@@ -477,10 +444,6 @@ bool CJailer::IsHitPlayer(void)
 
 			SetPos(pos);
 
-#ifdef _DEBUG
-			CDebugProc::Print("プレイヤー%dと左側が当たった\n", nCntPlayer);
-#endif
-
 			bIsHit = true;
 		}
 		//右
@@ -489,9 +452,6 @@ bool CJailer::IsHitPlayer(void)
 			pos.x = ((playerSize.x / 2) + playerPos.x) + (size.x / 2);
 
 			SetPos(pos);
-#ifdef _DEBUG
-			CDebugProc::Print("プレイヤー%dと右側が当たった\n", nCntPlayer);
-#endif
 			bIsHit = true;
 		}
 		//奥
@@ -501,9 +461,6 @@ bool CJailer::IsHitPlayer(void)
 
 			SetPos(pos);
 
-#ifdef _DEBUG
-			CDebugProc::Print("プレイヤー%dと奥側が当たった\n", nCntPlayer);
-#endif
 			bIsHit = true;
 		}
 		//手前
@@ -513,16 +470,7 @@ bool CJailer::IsHitPlayer(void)
 
 			SetPos(pos);
 
-#ifdef _DEBUG
-			CDebugProc::Print("プレイヤー%dと手前側が当たった\n", nCntPlayer);
-#endif
 			bIsHit = true;
-		}
-		else
-		{
-#ifdef _DEBUG
-			CDebugProc::Print("プレイヤー%dとは当たっていない\n", nCntPlayer);
-#endif
 		}
 
 		if (bIsHit)
@@ -534,27 +482,3 @@ bool CJailer::IsHitPlayer(void)
 
 	return bIsHit;
 }
-
-#ifdef _DEBUG
-//=============================================================================
-//デバック画面
-//=============================================================================
-void CJailer::DebugpPrint(void)
-{
-	//変数
-	D3DXVECTOR3 rot = GetRot();
-	D3DXVECTOR3 pos = GetPos();
-	D3DXVECTOR3 move = GetMove();
-	float Speed = GetSpeed();
-
-	CDebugProc::Print("=====================Jailer=====================\n");
-	CDebugProc::Print("【向き】 X:%f,Y:%f,Z:%f\n", rot.x, rot.y, rot.z);
-	CDebugProc::Print("【目的の向き（度数法）】 %f\n", D3DXToDegree(m_rotDest.y));
-	CDebugProc::Print("【現在の向き（度数法）】 %f\n", D3DXToDegree(rot.y));
-	CDebugProc::Print("【位置】 X:%f,Y:%f,Z:%f\n", pos.x, pos.y, pos.z);
-	CDebugProc::Print("【Index】 %d\n", m_nIndex);
-	CDebugProc::Print("【移動量】 X:%f,Y:%f,Z:%f\n", move.x, move.y, move.z);
-	CDebugProc::Print("【Speed】 %f\n", Speed);
-	CDebugProc::Print("【カウント】 %d\n", m_nSwitchingTimer);
-}
-#endif
