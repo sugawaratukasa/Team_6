@@ -16,7 +16,7 @@
 #include "mode_base.h"
 #include "collision.h"
 #include "character_collision_box.h"
-#include "spot.h"
+#include "jailer_spot.h"
 
 //=============================================================================
 //マクロ定義
@@ -43,7 +43,6 @@ CJailer::CJailer()
 	m_rotDest = ZeroVector3;
 	m_posDest = ZeroVector3;
 	m_posDestOld = ZeroVector3;
-	m_nIndex = ZERO_INT;
 	m_nSwitchingTimer = ZERO_INT;
 	m_nNumber = ZERO_INT;
 	m_fDestinationRange = ZERO_FLOAT;
@@ -113,19 +112,14 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//自分の番号を設定
 	m_nNumber = m_nJailerTotal;
 
-	////スポットクラスのクリエイト
-	m_pSpot = CSpot::Create();
-
-	////移動リストの取得
-	m_MoveSpot = m_pSpot->GetJailerMoveSpotList(m_nNumber);
+	//スポットクラスのクリエイト
+	m_pSpot = CJailerSpot::Create(m_nNumber);
 
 	//位置の設定
-	SetPos(m_MoveSpot[ZERO_INT]);
+	SetPos(m_pSpot->GetSpotPos());
 
-	m_nIndex = 1;
-	
 	//目的地を設定
-	m_posDest = m_MoveSpot[m_nIndex];
+	m_posDest = m_pSpot->ChangeTarget();
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, VIEW_POS_Y, m_posDest.z), 
@@ -271,6 +265,11 @@ void CJailer::Move(void)
 
 	//移動量の設定
 	SetMove(move);
+
+	if (m_fDestinationRange <= 5.0f)
+	{
+		SettingPosDest();
+	}
 }
 
 //=============================================================================
@@ -313,6 +312,9 @@ void CJailer::Chase()
 		m_pView->JailerCaution(true);
 	}
 	
+	//ルートの検索
+	m_pSpot->RouteSearch(detectedPos, GetPos());
+
 	//現在位置と検出した位置までのベクトルを計算
 	m_Distance = (detectedPos - GetPos());
 
@@ -371,23 +373,8 @@ int CJailer::AddTimer(int add)
 //=============================================================================
 void CJailer::SettingPosDest(void)
 {
-	//移動スポットの要素数を取得
-	int nSpotNum = m_MoveSpot.size();
-
-	//前回の目的地を保存
-	m_posDestOld = m_posDest;
-
-	//インデックスを一つ進める
-	m_nIndex++;
-
-	//インデックスが要素数より大きくなったときは修正
-	if (m_nIndex >= nSpotNum)
-	{
-		m_nIndex = ZERO_INT;
-	}
-
 	//目的地の更新
-	m_posDest = m_MoveSpot[m_nIndex];
+	m_posDest = m_pSpot->ChangeTarget();
 }
 
 //=============================================================================

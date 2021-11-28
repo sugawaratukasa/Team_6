@@ -13,7 +13,7 @@
 #include "game.h"
 #include "object.h"
 
-#define DEFAULT_VIEW_LENGTH (1000.0f)
+#define DEFAULT_VIEW_LENGTH (2000.0f)
 #define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 2
 
 //=============================================================================

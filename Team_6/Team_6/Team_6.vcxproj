@@ -165,6 +165,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="jailer.cpp" />
     <ClCompile Include="jailer_LostTargetState.cpp" />
+    <ClCompile Include="jailer_spot.cpp" />
     <ClCompile Include="jailer_view.cpp" />
     <ClCompile Include="jailer_WaitState.cpp" />
     <ClCompile Include="jalier_ChaseState.cpp" />
@@ -212,7 +213,7 @@
     <ClCompile Include="shadow_volume.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
-    <ClCompile Include="spot.cpp" />
+    <ClCompile Include="map_spot.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
     <ClInclude Include="jailer_LostTargetState.h" />
+    <ClInclude Include="jailer_spot.h" />
     <ClInclude Include="jailer_State.h" />
     <ClInclude Include="jailer_view.h" />
     <ClInclude Include="jailer_WaitState.h" />
@@ -289,7 +291,7 @@
     <ClInclude Include="shadow_polygon.h" />
     <ClInclude Include="shadow_volume.h" />
     <ClInclude Include="sound.h" />
-    <ClInclude Include="spot.h" />
+    <ClInclude Include="map_spot.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
     <ClInclude Include="Timer.h" />

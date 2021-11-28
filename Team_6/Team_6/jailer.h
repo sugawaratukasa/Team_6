@@ -11,7 +11,8 @@
 //前方宣言
 //=============================================================================
 class CJailerState;
-class CSpot;
+class CMapSpot;
+class CJailerSpot;
 
 //=============================================================================
 //インクルードファイル
@@ -81,12 +82,11 @@ private:
 	D3DXVECTOR3 m_posDest;			//位置の目的地
 	D3DXVECTOR3 m_posDestOld;		//前回の位置の目的地
 	D3DXVECTOR3 m_Distance;			//目的地までの距離
-	int m_nIndex;					//インデックス
 	int m_nSwitchingTimer;			//状態の切り替えタイマー
 	int m_nNumber;					//自分の番号	
 	float m_fDestinationRange;		//目的地と自分の距離の長さ
-	CSpot *m_pSpot;
-	vector<D3DXVECTOR3> m_MoveSpot;
+	CJailerSpot *m_pSpot;
+
 	
 };
 #endif // !_JAILER_H_

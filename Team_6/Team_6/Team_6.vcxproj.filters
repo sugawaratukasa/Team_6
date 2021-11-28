@@ -73,6 +73,9 @@
     <Filter Include="11_Map">
       <UniqueIdentifier>{3e3a3af6-298d-4ea6-9208-5263a7d281c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="12_Spot">
+      <UniqueIdentifier>{9b00e7ab-4e49-4cb5-8e1f-6dcd64b1ccd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -302,11 +305,15 @@
     </ClCompile>
     <ClCompile Include="door_wall_collision.cpp">
       <Filter>09_Object</Filter>
-    </ClCompile>    <ClCompile Include="jailer_view.cpp">
+    </ClCompile>
+    <ClCompile Include="jailer_view.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
-    <ClCompile Include="spot.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="jailer_spot.cpp">
+      <Filter>12_Spot</Filter>
+    </ClCompile>
+    <ClCompile Include="map_spot.cpp">
+      <Filter>12_Spot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,14 +545,17 @@
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
     </ClInclude>
-
     <ClInclude Include="door_wall_collision.h">
       <Filter>09_Object</Filter>
-    </ClInclude>    <ClInclude Include="jailer_view.h">
+    </ClInclude>
+    <ClInclude Include="jailer_view.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
-    <ClInclude Include="spot.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="jailer_spot.h">
+      <Filter>12_Spot</Filter>
+    </ClInclude>
+    <ClInclude Include="map_spot.h">
+      <Filter>12_Spot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

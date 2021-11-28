@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// スポットクラス処理 [jailer.cpp]
+// スポットクラス処理 [map_spot.cpp]
 // Author : Yamada Ryota
 //
 //=============================================================================
@@ -8,39 +8,36 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "spot.h"
+#include "map_spot.h"
 
-vector<CSpot::SPOT_DATA> CSpot::m_vaSpotWorld;
-CSpot::JAILER_SPOT CSpot::m_aJailerMoveSpot[4];
+vector<CMapSpot::SPOT_DATA> CMapSpot::m_vaSpotWorld[CMapSpot::MAP_AREA_MAX];
+CMapSpot::JAILER_INFO CMapSpot::m_aJailerMoveSpot[4];
 
 //=============================================================================
 //コンストラクタ
 //=============================================================================
-CSpot::CSpot()
+CMapSpot::CMapSpot()
 {
-	m_eArea = MAP_AREA_LEFT;
 }
 
 //=============================================================================
 //デストラクタ
 //=============================================================================
-CSpot::~CSpot()
+CMapSpot::~CMapSpot()
 {
 }
 
 //=============================================================================
 //クリエイト処理
 //=============================================================================
-CSpot * CSpot::Create(void)
+CMapSpot * CMapSpot::Create(void)
 {
-	CSpot *pSpot = nullptr;
+	CMapSpot *pSpot = nullptr;
 
-	pSpot = new CSpot;
+	pSpot = new CMapSpot;
 
 	if (pSpot)
 	{
-		//pSpot->Init(eArea);
-
 		return pSpot;
 	}
 
@@ -50,7 +47,7 @@ CSpot * CSpot::Create(void)
 //=============================================================================
 //ファイル読み込み処理
 //=============================================================================
-void CSpot::LoadSpot(void)
+void CMapSpot::LoadSpot(void)
 {
 	FILE *pFile = nullptr;
 
@@ -61,8 +58,6 @@ void CSpot::LoadSpot(void)
 
 	char aHead[256];
 	char aMode[256];
-
-	
 
 	if (pFile)
 	{
@@ -82,15 +77,22 @@ void CSpot::LoadSpot(void)
 					//位置の読み込み
 					if (strcmp(aMode, "POS") == 0)
 					{
-						sscanf(aHead, "%*s %*s %f %f %f", &spotData.pos.x, &spotData.pos.y, &spotData.pos.z);
+						sscanf(aHead, 
+							"%*s %*s %f %f %f", 
+							&spotData.info.pos.x, &spotData.info.pos.y, &spotData.info.pos.z);
+					}
+
+					//番号の読み込み
+					if (strcmp(aMode, "NUMBER") == 0)
+					{
+						sscanf(aHead, "%*s %*s %d", &spotData.info.nNumber);
 					}
 
 					//エリアの読み込み
 					if (strcmp(aMode, "AREA") == 0)
 					{
-						sscanf(aHead, "%*s %*s %d", &spotData.eArea);
+						sscanf(aHead, "%*s %*s %d", &eArea);
 					}
-
 					//ネクスト情報の読み込み
 					if (strcmp(aMode, "NEXT_SET") == 0)
 					{
@@ -99,20 +101,21 @@ void CSpot::LoadSpot(void)
 							fgets(aHead, sizeof(aHead), pFile);
 							sscanf(aHead, "%s", aMode);
 
-							int nNumScan = 0;
+							int nNextNum = 0;
 
 							if (strcmp(aMode, "NUM") == 0)
 							{
-								sscanf(aHead, "%*s %*s %d", &nNumScan);
+								sscanf(aHead, "%*s %*s %d", &nNextNum);
 
-								spotData.vNextNum.push_back(nNumScan);
+								//ネクストの保存
+								spotData.vNextNum.push_back(nNextNum);
 							}
 						}
 					}
 				}
 
 				//現在読み込んだデータを保存
-				m_vaSpotWorld.push_back(spotData);
+				m_vaSpotWorld[eArea].push_back(spotData);
 
 				spotData.vNextNum.clear();
 			}
@@ -153,53 +156,68 @@ void CSpot::LoadSpot(void)
 
 		fclose(pFile);
 
-		//看守の移動スポットの設定
-		for (int nCntJailer = 0; nCntJailer < 4; nCntJailer++)
-		{
-			////看守の担当エリア情報を取得
-			//int nArea = m_aJailerMoveSpot[nCntJailer].eArea;
-
-			auto itr = m_aJailerMoveSpot[nCntJailer].vnNumber.begin();
-
-			for (itr; itr != m_aJailerMoveSpot[nCntJailer].vnNumber.end(); ++itr)
-			{
-				D3DXVECTOR3 pos = m_vaSpotWorld.at(*itr).pos;
-
-				//位置を保存
-				m_aJailerMoveSpot[nCntJailer].vPos.push_back(pos);
-			}
-		}
-
 		return;
 	}
 	else
 	{
 		return;
 	}
-
-	
 }
 
-void CSpot::Init(const MAP_AREA eArea)
+CMapSpot::SPOT_INFO CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTOR3 pos)
 {
-	m_eArea = eArea;
-}
+	auto itrBase = m_vaSpotWorld[eArea].begin();
+	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
 
-int CSpot::ClosestSpotSearch(const D3DXVECTOR3 pos)
-{
-	int nSpotNum = -1;
-	/*auto itrBase = m_SpotData.begin();
-	auto itrBaseEnd = m_SpotData.end();
+	SPOT_INFO returnInfo;	//返すスポット情報
+
+	int nCnt = 0;
+	float fKeepRange = ZERO_FLOAT;
 
 	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
 	{
-		if (itrBase->eArea != eArea)
+		//現在地と目的地までのベクトルを計算
+		D3DXVECTOR3 Distance = pos - itrBase->info.pos;
+
+		//長さを求める
+		 float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
+
+		 //初めの計算の時はそのまま記録
+		 if (nCnt == ZERO_INT)
+		 {
+			 fKeepRange = fRange;
+			 returnInfo = itrBase->info;
+
+			 nCnt++;
+		 }
+		 else
+		 {
+			 //現在の距離がすでに保存している距離より短いなら
+			 if (fRange < fKeepRange)
+			 {
+				 //データを更新
+				 fKeepRange = fRange;
+				 returnInfo = itrBase->info;
+			 }
+		 }
+	}
+
+	return returnInfo;
+}
+
+D3DXVECTOR3 CMapSpot::GetSpotWorldPos(const MAP_AREA eArea, int nNumBase)
+{
+	//看守と同じエリアのスポットのイテレータ取得
+	auto itrBase = m_vaSpotWorld[eArea].begin();
+	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		if (nNumBase == itrBase->info.nNumber)
 		{
-			continue;
+			break;
 		}
+	}
 
-
-	}*/
-
-	return nSpotNum;
+	return itrBase->info.pos;
 }
