@@ -39,7 +39,8 @@ public:
 	void SetCameraID(CCamera::SCREEN_ID id);
 private:
 	CCamera::SCREEN_ID	m_id;
-	static CCameraSecurity     *m_pSecCam;
-
+	CCameraSecurity     *m_pSecCam;
+	static float m_fSecCamAngle;
+	static D3DXVECTOR3 m_fSecCamPos;
 };
 #endif 

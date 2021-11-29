@@ -268,8 +268,9 @@ void CGame::CreateGround(void)
 //=======================================================================================
 void CGame::CreateSecCam(void)
 {
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, -1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, -1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
 }

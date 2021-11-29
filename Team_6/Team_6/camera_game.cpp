@@ -35,7 +35,8 @@
 //=============================================================================
 // 静的メンバ変数宣言
 //=============================================================================
-CCameraSecurity * CCameraGame::m_pSecCam = NULL;
+float CCameraGame::m_fSecCamAngle = 0.0f;
+D3DXVECTOR3 CCameraGame::m_fSecCamPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 //=============================================================================
 // インスタンス生成
@@ -109,23 +110,29 @@ void CCameraGame::Update(void)
 		// 座標補間しない
 		SetIsInterpolation(false);
 
-		// 入力によってカメラを順送り・逆送り
-		if (pKeyInput->GetTrigger(DIK_1))
+		if (m_id == SCREEN_LEFT)
 		{
-			m_pSecCam = m_pSecCam->GetPrev();
-		}
-		if (pKeyInput->GetTrigger(DIK_2))
-		{
-			m_pSecCam = m_pSecCam->GetNext();
+			// 入力によってカメラを順送り・逆送り
+			if (pKeyInput->GetTrigger(DIK_1))
+			{
+				m_pSecCam = m_pSecCam->GetPrev();
+			}
+			if (pKeyInput->GetTrigger(DIK_2))
+			{
+				m_pSecCam = m_pSecCam->GetNext();
+			}
+
+			m_fSecCamAngle = m_pSecCam->GetAngle();
+			m_fSecCamPos = m_pSecCam->GetPos();
 		}
 
 		// 描画範囲を通常状態に
 		SetScreenID(CCamera::SCREEN_NONE);
 		// 注視点を変更
 		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		SetCameraPos(m_pSecCam->GetPos());
+		SetCameraPos(m_fSecCamPos);
 		SetVartical(D3DXToRadian(110));
-		SetHorizontal(m_pSecCam->GetAngle());
+		SetHorizontal(m_fSecCamAngle);
 	}
 	else
 	{
