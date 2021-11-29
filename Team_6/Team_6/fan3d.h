@@ -58,7 +58,7 @@ protected:
 	void SetPolygonNum(const int& rnPolygonNum) { m_nPolygonNum = rnPolygonNum; }	//ポリゴン数の設定
 
 private:
-	void VerTexUpdate(void);			//頂点の更新
+	void VertexUpdate(void);			//頂点の更新
 	void CenterAngleModifying(void);	//中心角の修正
 	void LengthModifying(void);			//長さの修正
 	
@@ -66,7 +66,7 @@ private:
 	//メンバ変数宣言
 	//=========================================================================
 	D3DXMATRIX m_mtxWorld;	//ワールドマトリックス
-	int m_nVerNum;			//頂点数
+	int m_nVertexNum;		//頂点数
 	int m_nPolygonNum;		//ポリゴン数
 	float m_fCenterAngle;	//中心角
 	float m_fLength;		//長さ（半径）

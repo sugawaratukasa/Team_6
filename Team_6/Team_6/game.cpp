@@ -38,7 +38,6 @@
 #include "item_object_storage_key.h"
 #include "map.h"
 #include "object_wall.h"
-
 #include "object_prison_door_left.h"
 #include "object_prison_door_right.h"
 #include "object_prison_wall.h"
@@ -65,6 +64,7 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
+
 
 
 //=======================================================================================
@@ -128,6 +128,9 @@ HRESULT CGame::Init(void)
 
 	//看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
+	/*CJailer::Create(ZeroVector3, ZeroVector3);
+	CJailer::Create(ZeroVector3, ZeroVector3);
+	CJailer::Create(ZeroVector3, ZeroVector3);*/
 
 	return S_OK;
 }
@@ -136,14 +139,12 @@ HRESULT CGame::Init(void)
 //=======================================================================================
 void CGame::Uninit(void)
 {
-
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
 		if (m_pCamera[nCount] != nullptr)
 		{
 			//カメラクラスの終了処理呼び出す
 			m_pCamera[nCount]->Uninit();
-
 
 			//メモリの破棄
 			delete m_pCamera[nCount];
@@ -160,6 +161,7 @@ void CGame::Uninit(void)
 		delete m_pLight;
 		m_pLight = nullptr;
 	}
+
 
 
 	for (int nCount = 0; nCount < 2; nCount++)

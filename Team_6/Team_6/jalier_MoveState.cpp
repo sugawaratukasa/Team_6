@@ -13,7 +13,7 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "jailer_WaitState.h"
+#include "jailer_return_routeState.h"
 #include "jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer.h"
@@ -40,18 +40,9 @@ void CMoveState::Init(CJailer *pJailer, CJailerView *pJailerView)
 //=============================================================================
 void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
-	int time = pJailer->AddTimer(ADD_TIME);
-	
 	if (pJailerView->GetIsDetection() == false)
 	{
 		pJailer->Move();
-		
-		//目的地までの距離が一定値以下の時
-		if (pJailer->GetDistanceRange() <= 5.0f)
-		{
-			//待機状態へ
-			pJailer->ChangeState(CWaitState::GetInstance());
-		}
 	}
 	//索敵範囲にがいる場合
 	else 

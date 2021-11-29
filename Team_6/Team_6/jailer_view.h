@@ -40,13 +40,15 @@ public:
 	void Update(void);								//更新処理
 	void Draw(void);								//描画処理
 
+	void JailerCaution(const bool bIsCaution);
 	void ResetDetection(void) { m_bIsDetection = false; }		//検出情報のリセット
 	bool GetIsDetection(void)const { return m_bIsDetection; }	//検出情報の取得
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
 
 private:
 	void PlayerDetection(void);	//プレイヤーの検出
-	void ChangeColor(void);	//色の変更処理
+	void MapCollision(void);	//マップとの判定
+	void ChangeColor(void);		//色の変更処理
 
 	//=========================================================================
 	//メンバ変数宣言

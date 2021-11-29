@@ -4,7 +4,7 @@
 // Author : OgumaAkira
 //
 //=============================================================================
-#include "jailer_WaitState.h"
+#include "jailer_return_routeState.h"
 #include "jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer.h"
@@ -28,31 +28,35 @@ CWaitState * CWaitState::GetInstance()
 void CWaitState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
 	pJailer->SetTimer(ZERO_INT);
+
+	pJailer->SetRetrunData();
 }
 //=============================================================================
 //XVŠÖ”
 //=============================================================================
 void CWaitState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	if (pJailerView->GetIsDetection() == false)
-	{	
-		//‘Ò‹@ŽžŠÔ
-		if (pJailer->AddTimer(ADD_TIME) >= WAIT_TIME)
-		{
-			pJailer->SettingPosDest();
-			//„‰ñó‘Ô‚Ö
-			pJailer->ChangeState(CMoveState::GetInstance());
-		}
-		else
-		{
-			pJailer->Wait();
-		}
-	}
-	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	else if (pJailerView->GetIsDetection() == true)
-	{
-		//’ÇÕó‘Ô‚Ö
-		pJailer->ChangeState(CChaseState::GetInstance());
-	}
+
+	pJailer->RetrunRoute();
+	//if (pJailerView->GetIsDetection() == false)
+	//{	
+	//	//‘Ò‹@ŽžŠÔ
+	//	if (pJailer->AddTimer(ADD_TIME) >= WAIT_TIME)
+	//	{
+	//		pJailer->SettingPosDest();
+	//		//„‰ñó‘Ô‚Ö
+	//		pJailer->ChangeState(CMoveState::GetInstance());
+	//	}
+	//	else
+	//	{
+	//		
+	//	}
+	//}
+	////õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
+	//else if (pJailerView->GetIsDetection() == true)
+	//{
+	//	//’ÇÕó‘Ô‚Ö
+	//	pJailer->ChangeState(CChaseState::GetInstance());
+	//}
 
 }
