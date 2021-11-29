@@ -11,6 +11,7 @@
 #define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,500.0f,200.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 #define ADD_POS			(10.0f)								// 位置加算
+#define CLOSE_COUNT		(600)								// 扉を閉じるカウント
 //=============================================================================
 // インクルードファイル
 // Author : Nikaido Taichi
@@ -27,7 +28,8 @@ CDoor::CDoor(PRIORITY Priority) : CObject(Priority)
 {
 	m_Type = DOOR_NONE;		// ドアの種類
 	m_bLock = true;			// ロック状態
-	InitPos = ZeroVector3;
+	m_InitPos = ZeroVector3;
+	m_nCloseCnt = ZERO_INT;
 }
 
 //=============================================================================
@@ -73,30 +75,8 @@ HRESULT CDoor::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CObject::Init(pos, rot);
 
 	// 初期位置代入
-	InitPos = pos;
+	m_InitPos = pos;
 
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// サイズ設定
-	SetSize(COLLISION_SIZE);
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
 	return S_OK;
 }
 
@@ -118,11 +98,26 @@ void CDoor::Update(void)
 	// 更新処理
 	CObject::Update();
 
-	// ドアを開く処理
-	//Open();
+	// 開錠状態の場合
+	if (m_bLock == false)
+	{
+		// インクリメント
+		m_nCloseCnt++;
 
-	// ドアを閉じる
-	Close();
+		// CLOSE_COUNTより小さい場合
+		if (m_nCloseCnt <= CLOSE_COUNT)
+		{
+			// ドアを開く処理
+			Open();
+		}
+
+		// CLOSE_COUNTより大きくなった場合
+		if (m_nCloseCnt >= CLOSE_COUNT)
+		{
+			// 扉を閉じる処理
+			Close();
+		}
+	}
 }
 //=============================================================================
 // 描画処理関数
@@ -152,7 +147,7 @@ void CDoor::Open(void)
 	if (rot.y >= ROT_90)
 	{
 		// 初期値+サイズを足した位置まで移動
-		if (pos.z <= InitPos.z + size.z)
+		if (pos.z <= m_InitPos.z + size.z)
 		{
 			// 位置取得
 			GetPos().z += ADD_POS;
@@ -161,7 +156,7 @@ void CDoor::Open(void)
 	else
 	{
 		// 初期値+サイズを足した位置まで移動
-		if (pos.x >= InitPos.x - size.x)
+		if (pos.x >= m_InitPos.x - size.x)
 		{
 			// 位置取得
 			GetPos().x -= ADD_POS;
@@ -187,19 +182,35 @@ void CDoor::Close(void)
 	if (rot.y >= ROT_90)
 	{
 		// 初期位置まで移動
-		if (pos.z >= InitPos.z)
+		if (pos.z >= m_InitPos.z)
 		{
 			// 位置取得
 			GetPos().z -= ADD_POS;
+		}
+		else
+		{
+			// ロック状態に
+			m_bLock = true;
+
+			// 0に
+			m_nCloseCnt = ZERO_INT;
 		}
 	}
 	else
 	{
 		// 初期値+サイズを足した位置まで移動
-		if (pos.x <= InitPos.x)
+		if (pos.x <= m_InitPos.x)
 		{
 			// 位置取得
 			GetPos().x += ADD_POS;
+		}
+		else
+		{
+			// 0に
+			m_nCloseCnt = ZERO_INT;
+
+			// ロック状態に
+			m_bLock = true;
 		}
 	}
 }

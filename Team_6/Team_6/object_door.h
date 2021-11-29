@@ -21,18 +21,19 @@ public:
 	enum DOOR_LIST
 	{
 		DOOR_NONE = -1,
+		DOOR_PRISON,
 		DOOR_PC_ROOM,
 		DOOR_MAX
 	};
-	CDoor(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
-	~CDoor();												// デストラクタ
-	static CDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理
-	void Uninit(void);										// 終了処理
-	void Update(void);										// 更新処理
-	void Draw(void);										// 描画処理
-	void Open(void);										// ドアを開く
-	void Close(void);										// ドアを閉じる
+	CDoor(PRIORITY Priority = PRIORITY_MAP);						// コンストラクタ
+	virtual ~CDoor();												// デストラクタ
+	static CDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 生成処理
+	virtual HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理
+	virtual void Uninit(void);										// 終了処理
+	virtual void Update(void);										// 更新処理
+	virtual void Draw(void);										// 描画処理
+	virtual void Open(void);										// ドアを開く
+	virtual void Close(void);										// ドアを閉じる
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
@@ -46,6 +47,7 @@ public:
 private:
 	DOOR_LIST m_Type;		// ドアの種類
 	bool m_bLock;			// ロック状態
-	D3DXVECTOR3 InitPos;	// 初期位置
+	D3DXVECTOR3 m_InitPos;	// 初期位置
+	int m_nCloseCnt;		// 扉を閉じるカウント
 };
 #endif

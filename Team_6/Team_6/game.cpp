@@ -39,6 +39,9 @@
 #include "player_ui_manager.h"
 #include "map.h"
 #include "object_wall.h"
+#include "object_prison_door_left.h"
+#include "object_prison_door_right.h"
+#include "object_prison_wall.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -105,8 +108,8 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// 生成
 	CreateGround();
-	// 
-	//CWall::Create(ZeroVector3, ZeroVector3);
+
+	// マップ生成
 	CMap::Create();
 
 	// UIの生成
@@ -118,6 +121,7 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 
 	//CJailer::Create(ZeroVector3, ZeroVector3);
+
 	return S_OK;
 }
 //=======================================================================================

@@ -12,6 +12,11 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 //========================================================================
+// 前方宣言
+// Author : Sugawara Tsukasa
+//========================================================================
+class CPrison_Cell_Door;
+//========================================================================
 // マップクラス
 // Author : Sugawara Tsukasa
 //========================================================================
@@ -42,9 +47,16 @@ public:
 	enum MODEL_TYPE
 	{
 		MODEL_TYPE_NONE = -1,
-		MODEL_TYPE_DOOR,
+		MODEL_TYPE_PRISON_CELL_DOOR1,
 		MODEL_TYPE_DOOR_WALL,
 		MODEL_TYPE_WALL,
+		MODEL_TYPE_PRISON_WALL,
+		MODEL_TYPE_PRISON_DOOR_RIGHT,
+		MODEL_TYPE_PRISON_DOOR_LEFT,
+		MODEL_TYPE_SWITCH_1,
+		MODEL_TYPE_SWITCH_2,
+		MODEL_TYPE_PRISON_CELL_DOOR2,
+		MODEL_TYPE_GUARDS_DOOR,
 		MODEL_TYPE_MAX
 	};
 	CMap();						// コンストラクタ
@@ -59,5 +71,6 @@ public:
 private:
 	vector <POLYGON3D_LOAD_IFNO> m_a3DPolygonInfo;	// 3Dポリゴン情報
 	vector <MODEL_LOAD_IFNO> m_aModelInfo;			// モデル読み込み情報
-
+	CPrison_Cell_Door *m_pPrison_Cell_Door1;		// 独房のドア1
+	CPrison_Cell_Door *m_pPrison_Cell_Door2;		// 独房のドア2
 };

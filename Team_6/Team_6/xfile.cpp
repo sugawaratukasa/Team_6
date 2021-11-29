@@ -38,13 +38,17 @@ CXfile::CXfile()
 	m_aXfileName =
 	{
 		{"data/Model/Box/box.x"},
-		{"data/Model/Object/Rock.x"},			// 岩
-		{"data/Model/Object/key_Item.x"},		// 鍵
-		{ "data/Model/Object/map_object.x" },	// マップ
-		{ "data/Model/Object/baton_Item.x" },	// 警棒
-		{ "data/Model/Map/01_Door.x"},			// 壁
-		{ "data/Model/Map/02_Door_Wall.x" },			// ドア
-		{ "data/Model/Map/03_Wall.x" },	// ドアの壁
+		{"data/Model/Object/Rock.x"},						// 岩
+		{"data/Model/Object/key_Item.x"},					// 鍵
+		{ "data/Model/Object/map_object.x" },				// マップ
+		{ "data/Model/Object/baton_Item.x" },				// 警棒
+		{ "data/Model/Map/01_Door.x"},						// ドア
+		{ "data/Model/Map/02_Door_Wall.x" },				// ドアの壁
+		{ "data/Model/Map/03_Wall.x" },						// 壁
+		{ "data/Model/Map/04_PrisonWall.x"},				// 牢屋の壁
+		{ "data/Model/Map/05_PrisonDoor_CentralPoint.x" },	// 牢屋のドア
+		{ "data/Model/Map/06_PrisonDoor_LeftPoint.x" },		// 牢屋のドア
+		{ "data/Model/Map/07_Switch.x" },					// スイッチ
 	};
 
 	// 階層構造モデル

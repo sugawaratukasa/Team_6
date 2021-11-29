@@ -95,6 +95,10 @@ HRESULT CDoor_Wall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		CDoorWallCollision::Create(COLLISION_POS_ADDX, rot);
 		CDoorWallCollision::Create(COLLISION_POS_SUBX, rot);
 	}
+
+	// éÌóﬁê›íË
+	SetType(TYPE_WALL);
+
 	return S_OK;
 }
 

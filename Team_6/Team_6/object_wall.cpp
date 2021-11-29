@@ -90,6 +90,10 @@ HRESULT CWall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// ÉTÉCÉY
 		SetSize(COLLISION_SIZE2);
 	}
+
+	// éÌóﬁê›íË
+	SetType(TYPE_WALL);
+
 	return S_OK;
 }
 

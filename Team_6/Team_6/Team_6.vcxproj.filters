@@ -73,6 +73,12 @@
     <Filter Include="11_Map">
       <UniqueIdentifier>{3e3a3af6-298d-4ea6-9208-5263a7d281c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08_UI\Ranking">
+      <UniqueIdentifier>{b11092f7-730c-48d6-a3f7-5893a7f39650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09_Object\Door">
+      <UniqueIdentifier>{7c6a62f3-3c37-402c-b231-facb77763d8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -192,12 +198,6 @@
     <ClCompile Include="object.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
-    <ClCompile Include="object_door.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="door_pc_room.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
     <ClCompile Include="player_1.cpp">
       <Filter>05_Character\Player</Filter>
     </ClCompile>
@@ -285,9 +285,6 @@
     <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
-    <ClCompile Include="object_door_wall.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>11_Map</Filter>
     </ClCompile>
@@ -303,8 +300,47 @@
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
     </ClCompile>
-    <ClCompile Include="door_wall_collision.cpp">
+    <ClCompile Include="ranking.cpp">
+      <Filter>08_UI\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="rank.cpp">
+      <Filter>08_UI\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>08_UI\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="object_prison_wall.cpp">
       <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="door_pc_room.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="door_wall_collision.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="object_door.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="object_door_wall.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="object_prison_door_left.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="object_prison_door_right.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="prison_cell_door.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="object_switch.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object_switch_collision.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="guards_door.cpp">
+      <Filter>09_Object\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,13 +458,7 @@
     <ClInclude Include="floor.h">
       <Filter>04_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="object_door.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="door_pc_room.h">
       <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="player_1.h">
@@ -521,9 +551,6 @@
     <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
     </ClInclude>
-    <ClInclude Include="object_door_wall.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
     <ClInclude Include="map.h">
       <Filter>11_Map</Filter>
     </ClInclude>
@@ -539,8 +566,47 @@
     <ClInclude Include="Timer.h">
       <Filter>10_UI</Filter>
     </ClInclude>
-    <ClInclude Include="door_wall_collision.h">
+    <ClInclude Include="ranking.h">
+      <Filter>08_UI\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="rank.h">
+      <Filter>08_UI\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>08_UI\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="object_prison_wall.h">
       <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="door_pc_room.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="door_wall_collision.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="object_door.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="object_door_wall.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="object_prison_door_left.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="object_prison_door_right.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="prison_cell_door.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="object_switch.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object_switch_collision.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="guards_door.h">
+      <Filter>09_Object\Door</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

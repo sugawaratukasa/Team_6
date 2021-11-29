@@ -147,7 +147,7 @@ void CModel::Draw(void)
 
 	D3DXMATERIAL*pMat;		//マテリアルデータへのポインタ
 
-							//マテリアルデータへのポインタを取得
+	//マテリアルデータへのポインタを取得
 	pMat = (D3DXMATERIAL*)m_Model.pBuffMat->GetBufferPointer();
 
 	for (int nCntMat = 0; nCntMat < (int)m_Model.dwNumMat; nCntMat++)

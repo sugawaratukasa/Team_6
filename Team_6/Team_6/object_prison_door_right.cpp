@@ -1,5 +1,5 @@
 //=============================================================================
-// ドアの壁の当たり判定用クラス [door_wall_collision.cpp]
+// 牢屋壁クラス [object_prison_wall.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -7,22 +7,22 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(100.0f,550.0f,30.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(30.0f,550.0f,100.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(20.0f,400.0f,50.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,400.0f,20.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
-#include "door_wall_collision.h"
+#include "object_prison_door_right.h"
 #include "resource_manager.h"
 
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision::CDoorWallCollision(PRIORITY Priority) : CObject(Priority)
+CPrison_Door_Right::CPrison_Door_Right(PRIORITY Priority) : CObject(Priority)
 {
 }
 
@@ -30,46 +30,59 @@ CDoorWallCollision::CDoorWallCollision(PRIORITY Priority) : CObject(Priority)
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision::~CDoorWallCollision()
+CPrison_Door_Right::~CPrison_Door_Right()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision * CDoorWallCollision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CPrison_Door_Right * CPrison_Door_Right::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// CWallのポインタ
-	CDoorWallCollision *pWall = nullptr;
+	// CPrison_Door_Rightのポインタ
+	CPrison_Door_Right *pPrison_Door_Right = nullptr;
 
 	// nullcheck
-	if (pWall == nullptr)
+	if (pPrison_Door_Right == nullptr)
 	{
 		// メモリ確保
-		pWall = new CDoorWallCollision;
+		pPrison_Door_Right = new CPrison_Door_Right;
 
 		// !nullcheck
-		if (pWall != nullptr)
+		if (pPrison_Door_Right != nullptr)
 		{
 			// 初期化処理
-			pWall->Init(pos, rot);
+			pPrison_Door_Right->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pWall;
+	return pPrison_Door_Right;
 }
 
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CDoorWallCollision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CPrison_Door_Right::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// サイズ
 	SetSize(COLLISION_SIZE);
 
 	// 初期化処理
 	CObject::Init(pos, rot);
+
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+
+	// !nullcheck
+	if (pXfile != nullptr)
+	{
+		// モデル情報取得
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_PRISON_DOOR_RIGHT);
+
+		// モデルの情報を渡す
+		BindModel(model);
+	}
 
 	// 90以上の場合
 	if (rot.y >= ROT_90)
@@ -88,7 +101,7 @@ HRESULT CDoorWallCollision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Uninit(void)
+void CPrison_Door_Right::Uninit(void)
 {
 	// 終了処理
 	CObject::Uninit();
@@ -97,13 +110,17 @@ void CDoorWallCollision::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Update(void)
+void CPrison_Door_Right::Update(void)
 {
+	// 更新処理
+	CObject::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Draw(void)
+void CPrison_Door_Right::Draw(void)
 {
+	// 描画処理
+	CObject::Draw();
 }

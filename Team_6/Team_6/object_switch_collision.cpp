@@ -1,5 +1,5 @@
 //=============================================================================
-// ドアの壁の当たり判定用クラス [door_wall_collision.cpp]
+// スイッチ判定クラス [object_switch_collision.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -7,79 +7,96 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(100.0f,550.0f,30.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(30.0f,550.0f,100.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define POS				(D3DXVECTOR3(pos.x,pos.y,pos.z + 200.0f))	// 位置
+#define POS2			(D3DXVECTOR3(pos.x + 200.0f,pos.y,pos.z))	// 位置
+#define COLLISION_SIZE	(D3DXVECTOR3(150.0f,450.0f,50.0f))			// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,450.0f,150.0f))			// サイズ
+#define ROT_180			(D3DXToRadian(179.0f))						// 向き
+#define ROT_270			(D3DXToRadian(269.0f))						// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
-#include "door_wall_collision.h"
+#include "object_switch_collision.h"
 #include "resource_manager.h"
 
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision::CDoorWallCollision(PRIORITY Priority) : CObject(Priority)
+CSwitch_Collision::CSwitch_Collision(PRIORITY Priority) : CObject(Priority)
 {
+	m_pSwitch = nullptr;
 }
 
 //=============================================================================
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision::~CDoorWallCollision()
+CSwitch_Collision::~CSwitch_Collision()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CDoorWallCollision * CDoorWallCollision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CSwitch_Collision * CSwitch_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CSwitch *pSwitch)
 {
-	// CWallのポインタ
-	CDoorWallCollision *pWall = nullptr;
+	// CSwitch_Collisionのポインタ
+	CSwitch_Collision *pSwitch_Collision = nullptr;
 
 	// nullcheck
-	if (pWall == nullptr)
+	if (pSwitch_Collision == nullptr)
 	{
 		// メモリ確保
-		pWall = new CDoorWallCollision;
+		pSwitch_Collision = new CSwitch_Collision;
 
 		// !nullcheck
-		if (pWall != nullptr)
+		if (pSwitch_Collision != nullptr)
 		{
 			// 初期化処理
-			pWall->Init(pos, rot);
+			pSwitch_Collision->Init(pos, rot);
+
+			// CSwitchのポインタ代入
+			pSwitch_Collision->m_pSwitch = pSwitch;
 		}
 	}
 	// ポインタを返す
-	return pWall;
+	return pSwitch_Collision;
 }
 
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CDoorWallCollision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CSwitch_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// サイズ
-	SetSize(COLLISION_SIZE);
-
 	// 初期化処理
 	CObject::Init(pos, rot);
 
-	// 90以上の場合
-	if (rot.y >= ROT_90)
+	// 180以上の場合
+	if (rot.y >= ROT_180 && rot.y <= ROT_270)
 	{
+		// 位置設定
+		SetPos(POS);
+
+		// サイズ
+		SetSize(COLLISION_SIZE);
+	}
+
+	// 270以上の場合
+	if (rot.y >= ROT_270)
+	{
+		// 位置設定
+		SetPos(POS2);
+
 		// サイズ
 		SetSize(COLLISION_SIZE2);
 	}
 
 	// 種類設定
-	SetType(TYPE_WALL);
+	SetType(TYPE_SWITCH);
 
 	return S_OK;
 }
@@ -88,7 +105,7 @@ HRESULT CDoorWallCollision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Uninit(void)
+void CSwitch_Collision::Uninit(void)
 {
 	// 終了処理
 	CObject::Uninit();
@@ -97,13 +114,24 @@ void CDoorWallCollision::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Update(void)
+void CSwitch_Collision::Update(void)
 {
+	// 更新処理
+	CObject::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoorWallCollision::Draw(void)
+void CSwitch_Collision::Draw(void)
 {
+}
+//=============================================================================
+// ボタンを押す処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CSwitch_Collision::Push(void)
+{
+	// ボタンを押す処理
+	m_pSwitch->Push();
 }

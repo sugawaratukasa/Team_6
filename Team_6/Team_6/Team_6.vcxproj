@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="baton_texture.cpp" />
     <ClCompile Include="door_wall_collision.cpp" />
+    <ClCompile Include="guards_door.cpp" />
     <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -194,11 +195,19 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_door.cpp" />
     <ClCompile Include="object_door_wall.cpp" />
+    <ClCompile Include="object_prison_door_left.cpp" />
+    <ClCompile Include="object_prison_door_right.cpp" />
+    <ClCompile Include="object_prison_wall.cpp" />
+    <ClCompile Include="object_switch.cpp" />
+    <ClCompile Include="object_switch_collision.cpp" />
     <ClCompile Include="object_wall.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
     <ClCompile Include="player_ui_manager.cpp" />
+    <ClCompile Include="prison_cell_door.cpp" />
+    <ClCompile Include="rank.cpp" />
+    <ClCompile Include="ranking.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="result.cpp" />
@@ -214,6 +223,7 @@
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
+    <ClCompile Include="time.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tutorial.cpp" />
@@ -236,6 +246,7 @@
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="guards_door.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
@@ -270,12 +281,20 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="object_door.h" />
     <ClInclude Include="object_door_wall.h" />
+    <ClInclude Include="object_prison_door_left.h" />
+    <ClInclude Include="object_prison_door_right.h" />
+    <ClInclude Include="object_prison_wall.h" />
+    <ClInclude Include="object_switch.h" />
+    <ClInclude Include="object_switch_collision.h" />
     <ClInclude Include="object_wall.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui_manager.h" />
     <ClInclude Include="polygon.h" />
+    <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="rank.h" />
+    <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="result.h" />
@@ -290,6 +309,7 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
+    <ClInclude Include="time.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="tutorial.h" />

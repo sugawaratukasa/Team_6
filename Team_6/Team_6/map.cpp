@@ -12,6 +12,12 @@
 #include "object_door.h"
 #include "object_wall.h"
 #include "floor.h"
+#include "prison_cell_door.h"
+#include "object_prison_door_left.h"
+#include "object_prison_door_right.h"
+#include "object_prison_wall.h"
+#include "object_switch.h"
+#include "guards_door.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -24,8 +30,10 @@
 //========================================================================
 CMap::CMap()
 {
-	m_a3DPolygonInfo	= {};
-	m_aModelInfo		= {};
+	m_a3DPolygonInfo		= {};
+	m_aModelInfo			= {};
+	m_pPrison_Cell_Door1	= nullptr;
+	m_pPrison_Cell_Door2	= nullptr;
 }
 //========================================================================
 // デストラクタ
@@ -222,7 +230,7 @@ HRESULT CMap::Load(void)
 	else
 	{
 		// 失敗した場合メッセージボックスを表示
-		MessageBox(nullptr, "ヒエラルキーファイルを開くのに失敗しました", "警告", MB_OK | MB_ICONEXCLAMATION);
+		MessageBox(nullptr, "マップファイルを開くのに失敗しました", "警告", MB_OK | MB_ICONEXCLAMATION);
 
 		return	E_FAIL;
 	}
@@ -280,17 +288,57 @@ void CMap::CreateModel(void)
 		// 条件分岐文
 		switch (m_aModelInfo.at(nCnt).nModelNum)
 		{
-		case MODEL_TYPE_DOOR:
-			// ドア
-			CDoor::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+		case MODEL_TYPE_PRISON_CELL_DOOR1:
+			// 独房のドア1
+			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
+			// ドアの壁
 		case MODEL_TYPE_DOOR_WALL:
 			CDoor_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
 			// 壁
 		case MODEL_TYPE_WALL:
 			CWall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
+		case MODEL_TYPE_PRISON_WALL:
+			// 牢屋の壁
+			CPrison_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+		case MODEL_TYPE_PRISON_DOOR_RIGHT:
+			CPrison_Door_Right::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 牢屋の扉
+		case MODEL_TYPE_PRISON_DOOR_LEFT:
+			CPrison_Door_Left::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// スイッチ1
+		case MODEL_TYPE_SWITCH_1:
+			CSwitch::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot,m_pPrison_Cell_Door2);
+			break;
+
+			// スイッチ2
+		case MODEL_TYPE_SWITCH_2:
+			CSwitch::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, m_pPrison_Cell_Door1);
+			break;
+
+			// 独房のドア
+		case MODEL_TYPE_PRISON_CELL_DOOR2:
+			// ドア
+			m_pPrison_Cell_Door2 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 看守の扉
+		case MODEL_TYPE_GUARDS_DOOR:
+			// ドア
+			CGuards_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
 			// 例外
 		default:
 			break;
