@@ -9,6 +9,7 @@
 #include "jailer_view.h"
 #include "Jalier_MoveState.h"
 #include "jalier_ChaseState.h"
+#include "jailer_return_routeState.h"
 
 //=============================================================================
 //ƒ}ƒNƒ’è‹`
@@ -71,6 +72,7 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 	pJailer->SetTimer(ZERO_INT);
 	pJailer->SetSpeed(ZERO_FLOAT);
 	pJailer->SetMove(ZeroVector3);
+	pJailerView->JailerCaution(false);
 }
 
 //=============================================================================
@@ -93,7 +95,7 @@ void CJailer_LostTarget::Update(CJailer * pJailer, CJailerView * pJailerView)
 		if (pJailer->AddTimer(ADD_TIME) >= CAUTION_TIME)
 		{
 			//„‰ñó‘Ô‚Ö
-			pJailer->ChangeState(CMoveState::GetInstance());
+			pJailer->ChangeState(CWaitState::GetInstance());
 		}
 	}
 }

@@ -252,9 +252,6 @@
     <ClCompile Include="jailer_AttackState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_WaitState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
-    </ClCompile>
     <ClCompile Include="jalier_ChaseState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
@@ -314,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="map_spot.cpp">
       <Filter>12_Spot</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_return_routeState.cpp">
+      <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,9 +494,6 @@
     <ClInclude Include="jailer_State.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_WaitState.h">
-      <Filter>05_Character\Jjailer</Filter>
-    </ClInclude>
     <ClInclude Include="jalier_ChaseState.h">
       <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
@@ -556,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="map_spot.h">
       <Filter>12_Spot</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_return_routeState.h">
+      <Filter>05_Character\Jjailer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

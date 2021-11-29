@@ -29,6 +29,7 @@ public:
 		int nNumber;		//スポットの番号
 		D3DXVECTOR3 pos;	//スポットの位置
 	};
+
 	//=========================================================================
 	//スポットデータの構造体
 	//=========================================================================
@@ -44,6 +45,12 @@ public:
 		MAP_AREA eArea;				//マップのエリア属性
 	};
 
+	struct DIJKSTRA
+	{
+		SPOT_DATA point;
+		vector<float> vfCost;
+	};
+
 	//=========================================================================
 	//メンバ関数宣言
 	//=========================================================================
@@ -54,10 +61,14 @@ public:
 
 	static void LoadSpot(void);	//ファイル読み込み処理
 
-	//publicゲッター
+
 protected:
+	void InitializeDijkstra(const MAP_AREA eArea);
 	SPOT_INFO ClosestSpotSearch(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
 
+	void Dijkstra(const MAP_AREA eArea,SPOT_INFO Begin, SPOT_INFO end);
+	SPOT_DATA GetWorldSpotData(const MAP_AREA eArea, int nNumBase);
+	SPOT_INFO GetWorldSpotInfo(const MAP_AREA eArea, int nNumBase);
 	D3DXVECTOR3 GetSpotWorldPos(const MAP_AREA eArea, int nNumBase);	//位置の取得
 	JAILER_INFO GetJailerInfo(const int nJailer) { return m_aJailerMoveSpot[nJailer]; }
 	
@@ -67,5 +78,7 @@ private:
 	//=========================================================================
 	static vector<SPOT_DATA> m_vaSpotWorld[MAP_AREA_MAX];	//スポットデータ
 	static JAILER_INFO m_aJailerMoveSpot[4];
+	vector<DIJKSTRA> m_vDijkstra;
+
 };
 #endif // !_SPOT_H_

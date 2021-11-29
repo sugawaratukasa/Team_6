@@ -167,7 +167,7 @@
     <ClCompile Include="jailer_LostTargetState.cpp" />
     <ClCompile Include="jailer_spot.cpp" />
     <ClCompile Include="jailer_view.cpp" />
-    <ClCompile Include="jailer_WaitState.cpp" />
+    <ClCompile Include="jailer_return_routeState.cpp" />
     <ClCompile Include="jalier_ChaseState.cpp" />
     <ClCompile Include="item_object.cpp" />
     <ClCompile Include="item_object_baton.cpp" />
@@ -245,7 +245,7 @@
     <ClInclude Include="jailer_spot.h" />
     <ClInclude Include="jailer_State.h" />
     <ClInclude Include="jailer_view.h" />
-    <ClInclude Include="jailer_WaitState.h" />
+    <ClInclude Include="jailer_return_routeState.h" />
     <ClInclude Include="jalier_ChaseState.h" />
     <ClInclude Include="Jalier_MoveState.h" />
     <ClInclude Include="item_object.h" />

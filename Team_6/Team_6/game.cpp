@@ -39,7 +39,6 @@
 #include "player_ui_manager.h"
 #include "map.h"
 #include "object_wall.h"
-#include "map_spot.h"
 
 //=======================================================================================
 // É}ÉNÉçíËã`
@@ -115,8 +114,6 @@ HRESULT CGame::Init(void)
 	CScreenFrame::Create();
 	CTimer::Create();
 	m_pPlayerUIManager = CPlayerUIManager::Create();
-
-	CMapSpot::LoadSpot();
 
 	//ä≈éÁÇÃê∂ê¨
 	CJailer::Create(ZeroVector3, ZeroVector3);

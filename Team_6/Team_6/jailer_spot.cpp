@@ -1,4 +1,5 @@
 #include "jailer_spot.h"
+#include "debug_proc.h"
 
 CJailerSpot::CJailerSpot()
 {
@@ -29,19 +30,90 @@ CJailerSpot * CJailerSpot::Create(const int nJaierNumber)
 	return nullptr;
 }
 
-void CJailerSpot::Update(D3DXVECTOR3 pos)
-{
-	SPOT_INFO spot = ClosestSpotSearch(m_eArea, pos);
-
-}
-
-void CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
+D3DXVECTOR3 CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
 {
 	//看守の位置に一番近いスポットを検索
 	SPOT_INFO jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
 
 	//プレイヤーの位置に一番近いスポットを検索
 	SPOT_INFO playerSpot = ClosestSpotSearch(m_eArea, playerPos);
+
+
+	//そのまま追跡ルートにする
+	m_vRoute.push_back(playerSpot);
+
+	Dijkstra(m_eArea, m_vMoveSpot[m_nIndex], playerSpot);
+
+	return playerSpot.pos;
+}
+
+D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
+{
+	//看守の位置に一番近いスポットを検索
+	SPOT_INFO jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
+
+	//一番近い巡回ルートの位置を割り出す
+	SPOT_INFO jailerMove = ClosestSpotSearchJailer(jailerPos);
+
+	int nCntIndex = ZERO_INT;
+
+	auto itr = m_vMoveSpot.begin();
+	auto itrEnd = m_vMoveSpot.end();
+
+	for (itr; itr != itrEnd; ++itr)
+	{
+		if (itr->nNumber == jailerMove.nNumber)
+		{
+			break;
+		}
+
+		nCntIndex++;
+	}
+
+	m_nIndex = nCntIndex;
+
+	return jailerSpot.pos;
+}
+
+CJailerSpot::MOVE_SPOT CJailerSpot::ClosestSpotSearchJailer(D3DXVECTOR3 jailerPos)
+{
+	auto itrBase = m_vMoveSpot.begin();
+	auto itrBaseEnd = m_vMoveSpot.end();
+
+	SPOT_INFO returnInfo;	//返すスポット情報
+
+	int nCnt = 0;
+	float fKeepRange = ZERO_FLOAT;
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		//現在地と目的地までのベクトルを計算
+		D3DXVECTOR3 Distance = jailerPos - itrBase->pos;
+
+		//長さを求める
+		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
+
+		//初めの計算の時はそのまま記録
+		if (nCnt == ZERO_INT)
+		{
+			fKeepRange = fRange;
+			returnInfo = *itrBase;
+
+			nCnt++;
+		}
+		else
+		{
+			//現在の距離がすでに保存している距離より短いなら
+			if (fRange < fKeepRange)
+			{
+				//データを更新
+				fKeepRange = fRange;
+				returnInfo = *itrBase;
+			}
+		}
+	}
+
+	return returnInfo;
 }
 
 HRESULT CJailerSpot::Init(const int nJaierNumber)

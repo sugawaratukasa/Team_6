@@ -17,6 +17,9 @@
 #include "collision.h"
 #include "character_collision_box.h"
 #include "jailer_spot.h"
+#include "Jalier_MoveState.h"
+#include "Jalier_MoveState.h"
+#include "object.h"
 
 //=============================================================================
 //マクロ定義
@@ -126,7 +129,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		ZeroVector3, VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	//状態設定
-	m_pJailerState = CWaitState::GetInstance();
+	m_pJailerState = CMoveState::GetInstance();
 
 	//サイズの設定
 	SetSize(JAILER_SIZE);
@@ -165,6 +168,7 @@ void CJailer::Update(void)
 	//回転処理
 	Rotation();
 
+	MapCollision();
 	//状態処理の更新
 	if (m_pJailerState != nullptr)
 	{
@@ -268,29 +272,50 @@ void CJailer::Move(void)
 
 	if (m_fDestinationRange <= 5.0f)
 	{
+		//目的地の再設定
 		SettingPosDest();
 	}
 }
 
 //=============================================================================
-// 待機
+// 巡回ルートへ戻る
 //=============================================================================
-void CJailer::Wait(void)
+void CJailer::RetrunRoute(void)
 {
-	//前回の向きへ確認
-	m_Distance = (m_posDestOld - GetPos());
+	D3DXVECTOR3 move = ZeroVector3;
 
-	//向きの目的の値の計算
-	SetRotDest();
+	//単位ベクトル
+	D3DXVECTOR3 nor = ZeroVector3;
 
-	//速さの設定
-	SetSpeed(ZERO_FLOAT);
+	//現在位置と検出した位置までのベクトルを計算
+	m_Distance = (m_posDest - GetPos());
 
-	//移動量の設定
-	SetMove(ZeroVector3);
+	//目的地と自分の距離を計算
+	m_fDestinationRange = sqrtf((m_Distance.x * m_Distance.x) + (m_Distance.z * m_Distance.z));
+
+	if (m_fDestinationRange > 5.0f)
+	{
+		//ステートを移動に変更
+		ChangeState(CMoveState::GetInstance());
+
+		return;
+	}
 
 	//アイドルモーション再生
-	SetMotion(JAILER_MOTION::JAILER_MOTION_IDOL);
+	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
+
+	//速さの設定
+	SetSpeed(JAILER_NORMAL_SPEED);
+
+	//移動方向のベクトルの正規化
+	D3DXVec3Normalize(&nor, &m_Distance);
+
+	//移動量を設定
+	move.x = nor.x * GetSpeed();
+	move.z = nor.z * GetSpeed();
+
+	//移動量の設定
+	SetMove(move);
 }
 
 //=============================================================================
@@ -311,9 +336,6 @@ void CJailer::Chase()
 		detectedPos = m_pView->GetDetectionPos();
 		m_pView->JailerCaution(true);
 	}
-	
-	//ルートの検索
-	m_pSpot->RouteSearch(detectedPos, GetPos());
 
 	//現在位置と検出した位置までのベクトルを計算
 	m_Distance = (detectedPos - GetPos());
@@ -321,7 +343,7 @@ void CJailer::Chase()
 	//目的地と自分の距離を計算
 	m_fDestinationRange = sqrtf((m_Distance.x * m_Distance.x) + (m_Distance.z * m_Distance.z));
 
-	if (m_fDestinationRange > 10.0f)
+	if (m_fDestinationRange > 5.0f)
 	{
 		//向きの目的の値の計算
 		SetRotDest();
@@ -338,6 +360,9 @@ void CJailer::Chase()
 		//移動量を設定
 		move.x = nor.x * GetSpeed();
 		move.z = nor.z * GetSpeed();
+
+		//ルートの検索
+		m_posDest = m_pSpot->RouteSearch(GetPos(), detectedPos);
 	}
 
 	//移動量の設定
@@ -349,7 +374,6 @@ void CJailer::Chase()
 //=============================================================================
 void CJailer::Caution(void)
 {
-	const D3DXVECTOR3 rot = GetRot();
 }
 
 //=============================================================================
@@ -468,4 +492,128 @@ bool CJailer::IsHitPlayer(void)
 	}
 
 	return bIsHit;
+}
+
+void CJailer::MapCollision(void)
+{
+	// CSceneのポインタ
+	CScene *pScene = nullptr;
+
+	// モデルの情報取得
+	CModelAnime *pAnime = GetModelAnime(0);
+
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// 位置取得
+	D3DXVECTOR3 posOld = GetOldPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// nullcheck
+	if (pScene == nullptr)
+	{
+		// 先頭のポインタ取得
+		pScene = GetTop(CScene::PRIORITY_MAP);
+
+		// !nullcheck
+		if (pScene != nullptr)
+		{
+			// Mapオブジェクトの当たり判定
+			while (pScene != nullptr) // nullptrになるまで回す
+			{
+				// 現在のポインタ
+				CScene *pSceneCur = pScene->GetNext();
+
+				// 位置取得
+				D3DXVECTOR3 ObjPos = ((CObject*)pScene)->GetPos();
+
+				// サイズ取得
+				D3DXVECTOR3 ObjSize = ((CObject*)pScene)->GetSize();
+
+				//どこの面に当たったか取得
+				//下
+				if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_DOWN)
+				{
+					// 移動量0
+					GetMove().y = 0.0f;
+
+					// 位置
+					pos.y = (-ObjSize.y / DIVIDE_2 + ObjPos.y) - (size.y / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 上
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_UP)
+				{
+					// 移動量0
+					GetMove().y = 0.0f;
+
+					// 位置
+					pos.y = (ObjSize.y / DIVIDE_2 + ObjPos.y) + (size.y / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 左
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_LEFT)
+				{
+					// 移動量0
+					GetMove().x = 0.0f;
+
+					// 位置
+					pos.x = (-ObjSize.x / DIVIDE_2 + ObjPos.x) - (size.x / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 右
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_RIGHT)
+				{
+					// 移動量0
+					GetMove().x = 0.0f;
+
+					// 位置
+					pos.x = (ObjSize.x / DIVIDE_2 + ObjPos.x) + (size.x / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 手前
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_PREVIOUS)
+				{
+					// 移動量0
+					GetMove().z = 0.0f;
+
+					// 位置
+					pos.z = (-ObjSize.z / DIVIDE_2 + ObjPos.z) - (size.z / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+				// 奥
+				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_BACK)
+				{
+					// 移動量0
+					GetMove().z = 0.0f;
+
+					// 位置
+					pos.z = (ObjSize.z / DIVIDE_2 + ObjPos.z) + (size.z / DIVIDE_2);
+
+					// 位置設定
+					SetPos(pos);
+				}
+
+				// 次のポインタ取得
+				pScene = pSceneCur;
+			}
+		}
+	}
+}
+
+void CJailer::SetRetrunData(void)
+{
+	m_posDest = m_pSpot->BackToRoute(GetPos());
 }

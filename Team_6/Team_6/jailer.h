@@ -19,7 +19,7 @@ class CJailerSpot;
 //=============================================================================
 #include "character.h"
 #include "jailer_view.h"
-#include "jailer_WaitState.h"
+#include "jailer_return_routeState.h"
 
 //=============================================================================
 //看守クラス
@@ -54,7 +54,7 @@ public:
 	//看守AIのそれぞれ状態の処理関数
 	void ChangeState(CJailerState *jailerstate);	//状態遷移
 	void Move(void);								//移動関数
-	void Wait(void);								//待機
+	void RetrunRoute(void);								//待機
 	void Chase(void);								//追跡
 	void Caution(void);								//警戒状態
 	void Attack(void);								//攻撃状態
@@ -63,7 +63,8 @@ public:
 	void SettingPosDest(void);	//目的地の設定
 	void SetRotDest();			//向きの目的の値の設定
 	bool IsHitPlayer(void);		//プレイヤーとの衝突判定
-
+	void MapCollision(void);										// マップとの当たり判定
+	void SetRetrunData(void);
 	//publicセッター
 	void SetTimer(int time) { m_nSwitchingTimer = time; }	//タイマーセット
 	

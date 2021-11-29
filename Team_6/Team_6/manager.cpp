@@ -28,6 +28,7 @@
 #include "polygon.h"
 #include "shadow.h"
 #include "debug_proc.h"
+#include "map_spot.h"
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -114,6 +115,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	//全テクスチャの読み込み
 	LoadAll();
 
+	CMapSpot::LoadSpot();
 	return S_OK;
 }
 

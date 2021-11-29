@@ -164,6 +164,10 @@ void CMapSpot::LoadSpot(void)
 	}
 }
 
+void CMapSpot::InitializeDijkstra(const MAP_AREA eArea)
+{
+}
+
 CMapSpot::SPOT_INFO CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTOR3 pos)
 {
 	auto itrBase = m_vaSpotWorld[eArea].begin();
@@ -203,6 +207,83 @@ CMapSpot::SPOT_INFO CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DX
 	}
 
 	return returnInfo;
+}
+
+void CMapSpot::Dijkstra(const MAP_AREA eArea,SPOT_INFO Begin, SPOT_INFO end)
+{
+	auto itrBase = m_vaSpotWorld[eArea].begin();
+	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
+
+	vector<SPOT_DATA>spot = m_vaSpotWorld[eArea];
+
+
+	int nSearchNum = Begin.nNumber;
+
+	vector<SPOT_INFO> Search;
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		//スタートと同じものを検索
+		if (itrBase->info.nNumber == nSearchNum)
+		{
+			break;
+		}
+	}
+
+	//確定サーチ情報へ保存
+	Search.push_back(itrBase->info);
+
+	//スタート地点のイテレーターを取得
+	auto itrNext = itrBase->vNextNum.begin();
+	auto itrNextEnd = itrBase->vNextNum.end();
+
+	vector<SPOT_DATA> spData;
+
+	for (itrNext; itrNext != itrNextEnd; ++itrNext)
+	{
+		//ネクストの番号が終点位置の番号と同値
+		if (*itrNext == end.nNumber)
+		{
+
+		}
+		else
+		{
+			spData.push_back(GetWorldSpotData(eArea, *itrNext));
+
+		}
+	}
+}
+
+CMapSpot::SPOT_DATA CMapSpot::GetWorldSpotData(const MAP_AREA eArea, int nNumBase)
+{
+	auto itrBase = m_vaSpotWorld[eArea].begin();
+	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		if (itrBase->info.nNumber == nNumBase)
+		{
+			break;
+		}
+	}
+
+	return *itrBase;
+}
+
+CMapSpot::SPOT_INFO CMapSpot::GetWorldSpotInfo(const MAP_AREA eArea, int nNumBase)
+{
+	auto itrBase = m_vaSpotWorld[eArea].begin();
+	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
+
+	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	{
+		if (itrBase->info.nNumber == nNumBase)
+		{
+			break;
+		}
+	}
+
+	return itrBase->info;
 }
 
 D3DXVECTOR3 CMapSpot::GetSpotWorldPos(const MAP_AREA eArea, int nNumBase)

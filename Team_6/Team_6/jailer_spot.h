@@ -1,4 +1,3 @@
-
 #ifndef _JAILER_SPOT_H_
 #define _JAILER_SPOT_H_
 
@@ -7,15 +6,17 @@
 class CJailerSpot :public CMapSpot
 {
 public:
-
-	typedef  SPOT_INFO MOVE_SPOT;
+	typedef SPOT_INFO MOVE_SPOT;
 
 	CJailerSpot();
 	~CJailerSpot();
 
 	static CJailerSpot *Create(const int nJaierNumber);
-	void Update(D3DXVECTOR3 pos);
-	void RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos);
+	
+	D3DXVECTOR3 RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos);
+	D3DXVECTOR3 BackToRoute(D3DXVECTOR3 jailerPos);
+
+	MOVE_SPOT ClosestSpotSearchJailer(D3DXVECTOR3 jailerPos);
 private:
 	HRESULT Init(const int nJaierNumber);
 
@@ -32,6 +33,7 @@ public:
 private:
 	MAP_AREA m_eArea;				//担当エリア
 	vector<MOVE_SPOT> m_vMoveSpot;	//移動可能な位置
+	vector<MOVE_SPOT> m_vRoute;
 	int m_nJailerNumber;			//看守番号
 	int m_nIndex;					//インデックス
 };
