@@ -58,7 +58,7 @@ public:
 		XFILE_NUM_PRISON_DOOR_RIGHT,
 		XFILE_NUM_PRISON_DOOR_LEFT,
 		XFILE_NUM_SWITCH,
-		XFILE_NUM_MAX
+		XFILE_NUM_SECCAM,		XFILE_NUM_MAX
 	};
 
 	//=============================================================================

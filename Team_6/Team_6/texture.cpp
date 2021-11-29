@@ -58,32 +58,35 @@ HRESULT CTexture::SetTextureName(void)
 	// 通常テクスチャ
 	m_aTexFileName[TEXTURE_TYPE_NUM_NORMAL] =
 	{
-		{"data/Texture/Floor_texture1.png"},
-		{"data/Texture/Sceneframe.png"},
-		{"data/Texture/time_UI_frame.png"},
-		{"data/Texture/time_UI_guage.png" },
-		{"data/Texture/time_UI_guage2.png"},
-		{"data/Texture/number_01.png"},
+		{ "data/Texture/Floor_texture1.png" },
+		{ "data/Texture/Sceneframe.png" },
+		{ "data/Texture/SecCamFrame.png" },
+		{ "data/Texture/camera_change.png" },
+		{ "data/Texture/time_UI_frame.png" },
+		{ "data/Texture/time_UI_guage.png" },
+		{ "data/Texture/time_UI_guage2.png" },
+		{ "data/Texture/number_01.png" },
 		{ "data/Texture/UI_frameI.png" },
 		{ "data/Texture/baton.png" },
-		{"data/Texture/Key_Item_PCroom.png"},
+		{ "data/Texture/Key_Item_PCroom.png" },
 		{ "data/Texture/Key_Item_Warehouse.png" },
 		{ "data/Texture/Key_Item_Prison.png" },
 		{ "data/Texture/Key_Item_Jailer_room.png" },
-		{"data/Texture/Map_ItemUI.png"},
+		{ "data/Texture/Map_ItemUI.png" },
 		{ "data/Texture/Button_Start.png" },		// スタートボタン
 		{ "data/Texture/Button_Ranking.png" },		// ランキングボタン
 		{ "data/Texture/Button_Exit.png" },			// 終了ボタン
 		{ "data/Texture/Button_ReturnGame.png" },	// ゲームに戻るボタン
-		{"data/Texture/Button_ReturnTitle.png"},	// タイトルに戻るボタン
+		{ "data/Texture/Button_ReturnTitle.png" },	// タイトルに戻るボタン
 		{ "data/Texture/Button_HowTo.png" },		// 操作説明ボタン
 		{ "data/Texture/bg_title.png" },			// タイトル背景
 		{ "data/Texture/title_logo.png" },			// タイトルロゴ
-		{"data/Texture/UI_frameI_Select.png"},
-		{"data/Texture/map_texture.png"},
-		{"data/Texture/y.png"},
+		{ "data/Texture/UI_frameI_Select.png" },
+		{ "data/Texture/map_texture.png" },
+		{ "data/Texture/y.png" },
 		{ "data/Texture/Ranking_bg.png" },
 		{ "data/Texture/ui_number.png" }
+		
 	};
 
 	// 分割テクスチャ

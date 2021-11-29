@@ -75,6 +75,7 @@ public:
 	void CreateItem(void);							// プレイヤーの生成	
 	void CreateMap(void);							// マップの生成	
 	void CreateGround(void);						// 地面の生成
+	void CreateSecCam(void);						// 監視カメラの生成
 
 	// Get関数
 	CCameraGame *GetCamera(CAMERA_ID id) { return m_pCamera[id]; }	// カメラのポインタ情報

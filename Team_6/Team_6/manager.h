@@ -49,6 +49,7 @@ public:
 	{
 		MODE_TYPE_NONE = 0,
 		MODE_TYPE_TITLE,			// タイトルモード
+		MODE_TYPE_MOVIE,			// 動画再生モード
 		MODE_TYPE_TUTORIAL,			// チュートリアル
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト

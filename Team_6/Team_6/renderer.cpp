@@ -76,7 +76,6 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	if (m_pD3DInterface == nullptr)
 	{
 		// 作成失敗
-
 		return E_FAIL;
 	}
 
@@ -143,6 +142,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetMaterial(&material);
 	m_pD3DDevice->SetRenderState(D3DRS_AMBIENT, 0x44444444);
 
+	m_bUseSecCam = false;
+
 	return S_OK;
 }
 
@@ -171,9 +172,6 @@ void CRenderer::Uninit(void)
 //=============================================================================
 void CRenderer::Update(void)
 {
-	// 全ての更新
-	CScene::UpdateAll();
-
 	// キーボード情報
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 
@@ -194,6 +192,14 @@ void CRenderer::Update(void)
 
 		pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
 	}
+
+	if (pKeyboard->GetTrigger(DIK_3))
+	{
+		SwitchCam();
+	}
+
+	// 全ての更新
+	CScene::UpdateAll();
 }
 
 //=============================================================================
@@ -201,91 +207,124 @@ void CRenderer::Update(void)
 //=============================================================================
 void CRenderer::Draw(void)
 {
-	m_pD3DDevice->Clear(0,
-		nullptr,
-		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-		D3DCOLOR_RGBA(0, 255, 255, 0),
-		1.0f,
-		0);
 
-	m_pD3DDevice->Clear(0,
-		nullptr,
-		D3DCLEAR_STENCIL,
-		D3DCOLOR_XRGB(0, 0, 0),
-		1.0f,
-		0);
-
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+	if (CManager::GetMode() == CManager::MODE_TYPE_MOVIE)
 	{
-		if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
+
+
+	}
+	else
+	{
+		m_pD3DDevice->Clear(0,
+			nullptr,
+			(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+			D3DCOLOR_RGBA(0, 255, 255, 0),
+			1.0f,
+			0);
+
+
+		m_pD3DDevice->Clear(0,
+			nullptr,
+			D3DCLEAR_STENCIL,
+			D3DCOLOR_XRGB(0, 0, 0),
+			1.0f,
+			0);
+
+		CFade *pFade = CManager::GetFade();
+
+		// Direct3Dによる描画の開始
+		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 		{
-			// 監視カメラを見ているなら
-			if (((CGame*)CManager::GetModePtr())->GetCamera(CGame::ID_PLAYER_01)->GetIsSecCam())
+
+			// モードがgameなら
+			if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
+			{
+
+				// 監視カメラを見ているなら
+				if (m_bUseSecCam)
+				{
+					// ビューポート設定
+					SetUpViewPort(CCamera::SCREEN_NONE);
+					//オブジェクトクラスの全描画処理呼び出し
+					CScene::DrawAll();
+
+
+					if (pFade != nullptr)
+					{
+						// 描画処理
+						pFade->Draw();
+					}
+				}
+				else
+				{
+					// ビューポートの数だけ描画する
+					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
+					{
+						// ビューポート設定
+						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
+
+						// バッファのクリア
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+							D3DCOLOR_RGBA(0, 255, 255, 0),
+							1.0f,
+							0);
+
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							D3DCLEAR_STENCIL,
+							D3DCOLOR_XRGB(0, 0, 0),
+							1.0f,
+							0);
+
+
+						// カメラ位置を修正
+						((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
+
+						//オブジェクトクラスの全描画処理呼び出し
+						CScene::DrawAll();
+
+						if (pFade != nullptr)
+						{
+							// 描画処理
+							pFade->Draw();
+						}
+					}
+				}
+			}
+
+			else
 			{
 				// ビューポート設定
 				SetUpViewPort(CCamera::SCREEN_NONE);
+
+
 				//オブジェクトクラスの全描画処理呼び出し
 				CScene::DrawAll();
-			}
-			else
-			{
-				for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
+
+
+				if (pFade != nullptr)
 				{
-					// ビューポート設定
-					SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
-
-					// バッファのクリア
-					m_pD3DDevice->Clear(0,
-						nullptr,
-						(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-						D3DCOLOR_RGBA(0, 0, 0, 0),
-						1.0f,
-						0);
-
-					m_pD3DDevice->Clear(0,
-						nullptr,
-						D3DCLEAR_STENCIL,
-						D3DCOLOR_XRGB(0, 0, 0),
-						1.0f,
-						0);
-
-					// カメラ位置を修正
-					((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
-
-					//オブジェクトクラスの全描画処理呼び出し
-					CScene::DrawAll();
+					// 描画処理
+					pFade->Draw();
 				}
 			}
-		}
-		else
-		{
-			// ビューポート設定
-			SetUpViewPort(CCamera::SCREEN_NONE);
 
-			//オブジェクトクラスの全描画処理呼び出し
-			CScene::DrawAll();
-		}
-		// デバッグプロシージャ
-		CDebugProc *pDebugProc = CManager::GetDebugProc();
-		if (pDebugProc != nullptr)
-		{
-			pDebugProc->Draw();
-		}
-		CFade *pFade = CManager::GetFade();
+			// デバッグプロシージャ
+			CDebugProc *pDebugProc = CManager::GetDebugProc();
+			if (pDebugProc != nullptr)
+			{
+				pDebugProc->Draw();
+			}
 
-		if (pFade != nullptr)
-		{
-			// 描画処理
-			pFade->Draw();
+			// Direct3Dによる描画の終了
+			m_pD3DDevice->EndScene();
 		}
 
-		// Direct3Dによる描画の終了
-		m_pD3DDevice->EndScene();
+		// バックバッファとフロントバッファの入れ替え
+		m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 	}
-
-	// バックバッファとフロントバッファの入れ替え
-	m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 }
 
 //=============================================================================

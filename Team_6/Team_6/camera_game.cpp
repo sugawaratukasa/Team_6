@@ -21,7 +21,6 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define CAMERA_DEFAULT_Fθ			(D3DXToRadian(75.0f))			// カメラのθDefault値
 #define DISTANCE					(2200.0f)						// 視点～注視点の距離
 #define DISTANCE_FAR_UP				(35.0f)							// カメラを引く値
 #define FAR_DISTANCE				(3000.0f)						// 遠めのカメラ
@@ -32,6 +31,12 @@
 #define STICK_SENSITIVITY			(100.0f)						// スティック感度
 #define STICK_INPUT_CONVERSION		(D3DXToRadian(2.0f))			// スティック入力変化量
 #define HEIGHT_DIVIDE				(1.5f)							// 高さ÷
+
+//=============================================================================
+// 静的メンバ変数宣言
+//=============================================================================
+float CCameraGame::m_fSecCamAngle = 0.0f;
+D3DXVECTOR3 CCameraGame::m_fSecCamPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 //=============================================================================
 // インスタンス生成
@@ -82,14 +87,6 @@ HRESULT CCameraGame::Init(void)
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 
-	m_bMonitoring = false;
-	m_nCamNum = 0;
-
-	// 仮初期化
-	for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
-	{
-		m_aSecCamPos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
 	return S_OK;
 }
 
@@ -103,36 +100,50 @@ void CCameraGame::Update(void)
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
-	if (pKeyInput->GetTrigger(DIK_3))
-	{
-		m_bMonitoring = !m_bMonitoring;
-	}
+	CCameraSecurity *pSecCam;
 
-	if (m_bMonitoring)
+	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
+
+	// 監視カメラを使っているなら
+	if (bUse)
 	{
-		if (pKeyInput->GetTrigger(DIK_1))
+		// 座標補間しない
+		SetIsInterpolation(false);
+
+		if (m_id == SCREEN_LEFT)
 		{
-			m_nCamNum--;
-			if (m_nCamNum < 0)
+			// 入力によってカメラを順送り・逆送り
+			if (pKeyInput->GetTrigger(DIK_1))
 			{
-				m_nCamNum = 0;
+				m_pSecCam = m_pSecCam->GetPrev();
 			}
-		}
-		if (pKeyInput->GetTrigger(DIK_1))
-		{
-			m_nCamNum++;
-			if (m_nCamNum > SECURITY_CAM_MAX)
+			if (pKeyInput->GetTrigger(DIK_2))
 			{
-				m_nCamNum = SECURITY_CAM_MAX;
+				m_pSecCam = m_pSecCam->GetNext();
 			}
+
+			m_fSecCamAngle = m_pSecCam->GetAngle();
+			m_fSecCamPos = m_pSecCam->GetPos();
 		}
 
-		SetTargetPos(m_aSecCamPos[m_nCamNum]);
+		// 描画範囲を通常状態に
+		SetScreenID(CCamera::SCREEN_NONE);
+		// 注視点を変更
+		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		SetCameraPos(m_fSecCamPos);
+		SetVartical(D3DXToRadian(110));
+		SetHorizontal(m_fSecCamAngle);
 	}
 	else
 	{
-		m_nCamNum = 0;
+		SetIsInterpolation(true);
+		SetScreenID(m_id);
+		SetHorizontal(D3DXToRadian(0.0f));
+		SetVartical(CAMERA_DEFAULT_Fθ);
 	}
+
+	CCamera::Update();
+	CCamera::SetCamera();
 }
 
 //=============================================================================
@@ -226,4 +237,12 @@ void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
 	SetTargetPos(pPlayer->GetPos());
 	CCamera::Update();
 	CCamera::SetCamera();
+}
+
+//=============================================================================
+// 監視カメラの生成
+//=============================================================================
+void CCameraGame::CreateSecCam(D3DXVECTOR3 pos, float fDir)
+{
+	m_pSecCam = CCameraSecurity::Create(pos, fDir);
 }

@@ -49,6 +49,7 @@ CXfile::CXfile()
 		{ "data/Model/Map/05_PrisonDoor_CentralPoint.x" },	// 牢屋のドア
 		{ "data/Model/Map/06_PrisonDoor_LeftPoint.x" },		// 牢屋のドア
 		{ "data/Model/Map/07_Switch.x" },					// スイッチ
+		{"data/Model/Map/04_Camera.x"}, // 監視カメラ
 	};
 
 	// 階層構造モデル

@@ -30,6 +30,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -173,6 +174,7 @@
     <ClCompile Include="item_storage_key.cpp" />
     <ClCompile Include="door_wall_collision.cpp" />
     <ClCompile Include="guards_door.cpp" />
+    <ClCompile Include="Camera_Security.cpp" />
     <ClCompile Include="jailer_AttackState.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -218,6 +220,7 @@
     <ClCompile Include="mode_base.cpp" />
     <ClCompile Include="mode_ranking.cpp" />
     <ClCompile Include="motion.cpp" />
+    <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="jalier_MoveState.cpp" />
     <ClCompile Include="object.cpp" />
@@ -279,6 +282,7 @@
     <ClInclude Include="button_start.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_game.h" />
+    <ClInclude Include="Camera_Security.h" />
     <ClInclude Include="camera_title.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="character_collision_box.h" />
@@ -340,6 +344,7 @@
     <ClInclude Include="mode_base.h" />
     <ClInclude Include="mode_ranking.h" />
     <ClInclude Include="motion.h" />
+    <ClInclude Include="Movie.h" />
     <ClInclude Include="Number.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object_door.h" />

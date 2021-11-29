@@ -40,6 +40,7 @@ CModel::CModel(PRIORITY Priority) : CScene(Priority)
 	m_pShadow = nullptr;
 	m_State = STATE_NORMAL;
 	m_RayData = { ZERO_FLOAT,ZERO_FLOAT,ZERO_INT };
+	m_bDraw = true;
 }
 
 //=============================================================================
@@ -118,69 +119,74 @@ void CModel::Update(void)
 //=============================================================================
 void CModel::Draw(void)
 {
-	//デバイス情報の取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-	D3DXMATRIX mtxRot, mtxTrans, mtxScale;
-	D3DMATERIAL9 matDef;					//現在のマテリアル保持用
-
-											//ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-
-	// 拡大率を反映
-	D3DXMatrixScaling(&mtxScale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScale);
-
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
-
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//現在のマテリアルを取得する
-	pDevice->GetMaterial(&matDef);
-
-	D3DXMATERIAL*pMat;		//マテリアルデータへのポインタ
-
-	//マテリアルデータへのポインタを取得
-	pMat = (D3DXMATERIAL*)m_Model.pBuffMat->GetBufferPointer();
-
-	for (int nCntMat = 0; nCntMat < (int)m_Model.dwNumMat; nCntMat++)
+	if (m_bDraw)
 	{
-		//マテリアルのアンビエントにディフューズカラーを設定
-		pMat[nCntMat].MatD3D.Ambient = pMat[nCntMat].MatD3D.Diffuse;
+		//デバイス情報の取得
+		LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
-		//マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+		D3DXMATRIX mtxRot, mtxTrans, mtxScale;
+		D3DMATERIAL9 matDef;					//現在のマテリアル保持用
 
-		if (m_Model.apTexture[nCntMat] != nullptr)
+												//ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxWorld);
+
+		// 拡大率を反映
+		D3DXMatrixScaling(&mtxScale, m_scale.x, m_scale.y, m_scale.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScale);
+
+		//向きを反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+
+		//ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+		//現在のマテリアルを取得する
+		pDevice->GetMaterial(&matDef);
+
+		D3DXMATERIAL*pMat;		//マテリアルデータへのポインタ
+
+		//マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)m_Model.pBuffMat->GetBufferPointer();
+
+
+		for (int nCntMat = 0; nCntMat < (int)m_Model.dwNumMat; nCntMat++)
 		{
-			// テクスチャの設定
-			pDevice->SetTexture(0, m_Model.apTexture[nCntMat]);
-		}
-		else
-		{
+			//マテリアルのアンビエントにディフューズカラーを設定
+			pMat[nCntMat].MatD3D.Ambient = pMat[nCntMat].MatD3D.Diffuse;
+
+			//マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+			if (m_Model.apTexture[nCntMat] != nullptr)
+			{
+				// テクスチャの設定
+				pDevice->SetTexture(0, m_Model.apTexture[nCntMat]);
+			}
+			else
+			{
+				pDevice->SetTexture(0, nullptr);
+			}
+
+			//モデルパーツの描画
+			m_Model.pMesh->DrawSubset(nCntMat);
+
 			pDevice->SetTexture(0, nullptr);
 		}
 
-		//モデルパーツの描画
-		m_Model.pMesh->DrawSubset(nCntMat);
 
-		pDevice->SetTexture(0, nullptr);
+		//保持していたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
+
+		pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+		// 影の描画
+		ShadowDraw(m_rot);
 	}
-
-	//保持していたマテリアルを戻す
-	pDevice->SetMaterial(&matDef);
-
-	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
-	// 影の描画
-	ShadowDraw(m_rot);
 }
 
 //=============================================================================

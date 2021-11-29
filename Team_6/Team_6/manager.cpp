@@ -28,6 +28,7 @@
 #include "polygon.h"
 #include "shadow.h"
 #include "debug_proc.h"
+#include "Movie.h"
 #include "mode_ranking.h"
 
 //=============================================================================
@@ -292,6 +293,11 @@ void CManager::SetMode(MODE_TYPE mode)
 	case MODE_TYPE_TITLE:
 		// タイトル生成
 		m_pModeBase.reset(new CTitle);
+		break;
+		// 動画再生
+	case MODE_TYPE_MOVIE:
+		// タイトル生成
+		m_pModeBase.reset(new CMovie);
 		break;
 		// チュートリアル
 	case MODE_TYPE_TUTORIAL:

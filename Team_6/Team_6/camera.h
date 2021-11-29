@@ -15,6 +15,7 @@
 //=============================================================================
 // カメラの移動速度
 #define CAMERA_MOVE_RATE 0.1f                                     // カメラの補間値
+#define CAMERA_DEFAULT_Fθ			(D3DXToRadian(30.0f))			// カメラのθDefault値
 
 //=============================================================================
 // カメラクラス
@@ -47,6 +48,8 @@ public:
 	void SetHorizontal(float fHorizontal) { m_fHorizontal = fHorizontal; }
 	void SetScreenID(SCREEN_ID id) { m_id = id; } 	// ビューポートIDの設定(SCREEN_NONEで通常のカメラ)
 	void SetTargetPos(D3DXVECTOR3 pos) { m_posRDest = pos; }
+	void SetCameraPos(D3DXVECTOR3 pos) { m_posVDest = pos; }
+	void SetIsInterpolation(bool bInterpolation) { m_bInterpolation = bInterpolation; }
 
 	// Get関数
 	D3DXVECTOR3 &GetposV(void) { return m_posV; }				// カメラ座標
@@ -83,5 +86,6 @@ private:
 	float m_fDistance;						// 視点～注視点の距離
 	float m_fMove;							// 移動量
 	SCREEN_ID m_id;							// スクリーンID
+	bool m_bInterpolation;					//カメラ移動時に座標補間するか
 };
 #endif 

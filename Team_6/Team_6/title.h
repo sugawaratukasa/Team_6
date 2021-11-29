@@ -11,6 +11,7 @@
 //インクルードファイル
 //=============================================================================
 #include "mode_base.h"
+#include "manager.h"
 
 //=============================================================================
 // マクロ定義
@@ -35,7 +36,10 @@ public:
 	void Draw(void);			// 描画処理
 private:
 	void CreateAll(void);		// 生成処理関数
-	void ModeTransition(void);	// 遷移
+	void ModeTransition(CManager::MODE_TYPE mode);	// 遷移
+
 	CTitleButtonManager *m_pTitleButtonManager;	// タイトルボタンマネージャーのポインタ
+	int		m_nCountToMovie;		// 動画再生までの待機時間
+	bool	m_bCount;				// カウントするかどうか
 };
 #endif

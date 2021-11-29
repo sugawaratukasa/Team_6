@@ -115,8 +115,11 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// 生成
 	CreateGround();
+	//
+	// 監視カメラの生成
+	CreateSecCam();
 
-	// マップ生成
+	// マップ生成	
 	CMap::Create();
 
 	// UIの生成
@@ -144,7 +147,6 @@ void CGame::Uninit(void)
 
 			//メモリの破棄
 			delete m_pCamera[nCount];
-
 
 			//メモリのクリア
 			m_pCamera[nCount] = nullptr;
@@ -267,6 +269,7 @@ void CGame::CreateGround(void)
 	
 }
 
+
 //=======================================================================================
 // ポーズ入力処理
 //=======================================================================================
@@ -294,4 +297,16 @@ void CGame::PauseInput(void)
 			m_pPauseButtonManager = nullptr;
 		}
 	}
+}
+
+//=======================================================================================
+// 監視カメラの生成
+//=======================================================================================
+void CGame::CreateSecCam(void)
+{
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
 }

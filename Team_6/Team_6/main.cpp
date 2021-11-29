@@ -15,7 +15,7 @@
 // マクロ定義
 //=============================================================================
 #define	CLASS_NAME		"WindowClass"	//ウィンドウクラスの名前
-#define WINDOW_NAME		"BuddyVoyage"	//ウィンドウの名前
+#define WINDOW_NAME		"Prison Leak"	//ウィンドウの名前
 
 //=============================================================================
 // プロトタイプ宣言
@@ -200,7 +200,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-
 	default:
 		break;
 	}

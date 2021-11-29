@@ -35,9 +35,8 @@ CTimer::~CTimer()
 //=============================================================================
 HRESULT CTimer::Init(void)
 {
-	// タイマーフレームの設定
-	CScene2D::Init(TIMER_POS, TIMER_SIZE);
-	// テクスチャの設定
+
+	CScene2D::Init(TIMER_POS, TIMER_SIZE);	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
 	CScene2D::BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_TIMER_FRAME));
 

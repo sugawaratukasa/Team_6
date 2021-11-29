@@ -27,7 +27,7 @@ class CNumber : public CScene2D
 {
 public:
 	// メンバ関数
-	CNumber();										// コンストラクタ
+	CNumber(PRIORITY = PRIORITY_UI);				// コンストラクタ
 	~CNumber();										// デストラクタ
 	HRESULT Init(D3DXVECTOR3 pos);								// 初期化処理
 	void Uninit(void);								// 終了処理

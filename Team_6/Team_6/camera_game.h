@@ -12,6 +12,7 @@
 //=============================================================================
 #include "camera.h"
 #include "game.h"
+#include "Camera_Security.h"
 
 //=============================================================================
 // マクロ定義
@@ -27,21 +28,19 @@ public:
 	CCameraGame();					// コンストラクタ
 	~CCameraGame();					// デストラクタ
 
+
 	HRESULT Init(void);					// 初期化処理
 	void Update(void);					// 更新処理
 	void NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot) override;
 	void ModifyCamera(CGame::CAMERA_ID id);
+	void CreateSecCam(D3DXVECTOR3 pos, float fDir);
 	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
 
-	void SwitchCameraMode(bool bMonitoring) { m_bMonitoring = bMonitoring; }
 	void SetCameraID(CCamera::SCREEN_ID id);
-
-	bool GetIsSecCam(void) { return m_bMonitoring; }
-
 private:
 	CCamera::SCREEN_ID	m_id;
-	bool				m_bMonitoring;	// 監視カメラを使っているか
-	D3DXVECTOR3			m_aSecCamPos[SECURITY_CAM_MAX];
-	int					m_nCamNum;
+	CCameraSecurity     *m_pSecCam;
+	static float m_fSecCamAngle;
+	static D3DXVECTOR3 m_fSecCamPos;
 };
 #endif 

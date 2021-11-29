@@ -75,6 +75,7 @@ public:
 	void SetState(STATE state) { m_State = state; }				// 状態設定
 	void BindTexture(LPDIRECT3DTEXTURE9 *pTexture) { m_apTexture = pTexture; }			// テクスチャの設定
 	void SetRay_Data(RAY_DATA Ray_Data) { m_RayData = Ray_Data; }			// レイの情報設定
+	void SetIsDraw(bool bDraw) { m_bDraw = bDraw; }
 
 																			// Get関数
 	D3DXVECTOR3 &GetPos(void) { return m_pos; }				// 座標の情報
@@ -106,6 +107,7 @@ private:
 	float m_fAlphaNum;					// 透明度の値
 	STATE m_State;						// 状態
 	RAY_DATA m_RayData;					// レイの情報
+	bool	m_bDraw;
 										// 影の生成用
 	CShadow *m_pShadow;		// 影のポインタ
 };

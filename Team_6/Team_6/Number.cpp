@@ -22,7 +22,7 @@ LPDIRECT3DTEXTURE9 CNumber::m_pTexture = NULL;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CNumber::CNumber()
+CNumber::CNumber(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 
