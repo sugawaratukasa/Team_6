@@ -9,6 +9,10 @@
 // インクルードファイル
 //*****************************************************************************
 #include "Camera_Security.h"
+#include "xfile.h"
+#include "manager.h"
+#include "resource_manager.h"
+#include "renderer.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -77,6 +81,8 @@ CCameraSecurity::CCameraSecurity()
 	m_pTop->m_pPrev = this;
 
 	m_pView = nullptr;		//扇クラスのポインタ変数
+
+	m_pCamModel = NULL;
 }
 
 //=============================================================================
@@ -100,6 +106,13 @@ HRESULT CCameraSecurity::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_pos.x, VIEW_POS_Y, m_pos.z),
 		D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f), VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
 
+	// 監視カメラ
+	CXfile *pXFile = CManager::GetResourceManager()->GetXfileClass();
+
+	m_pCamModel = new CModel;
+	m_pCamModel->Init(pos, D3DXVECTOR3(0.0f, m_fAngle, 0.0f));
+	m_pCamModel->BindModel(pXFile->GetXfile(CXfile::XFILE_NUM_SECCAM));
+
 	return S_OK;
 }
 
@@ -118,6 +131,19 @@ void CCameraSecurity::Update(void)
 
 	// 監視カメラ回転
 	m_pView->SetRotation(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
+	m_pCamModel->SetRot(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
+
+	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
+
+	// 監視カメラを使っているなら
+	if (bUse)
+	{
+		m_pCamModel->SetIsDraw(false);
+	}
+	else
+	{
+		m_pCamModel->SetIsDraw(true);
+	}
 
 	// プレイヤー探索
 	SearchPlayer();

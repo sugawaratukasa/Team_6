@@ -45,6 +45,7 @@ CXfile::CXfile()
 		{ "data/Model/Map/01_Door.x"},			// 壁
 		{ "data/Model/Map/02_Door_Wall.x" },			// ドア
 		{ "data/Model/Map/03_Wall.x" },	// ドアの壁
+		{"data/Model/Map/04_Camera.x"}, // 監視カメラ
 	};
 
 	// 階層構造モデル

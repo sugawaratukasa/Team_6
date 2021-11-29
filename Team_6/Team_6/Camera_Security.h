@@ -13,6 +13,7 @@
 #include "game.h"
 #include "jailer_view.h"
 #include "scene.h"
+#include "model.h"
 
 //=============================================================================
 // É}ÉNÉçíËã`
@@ -55,5 +56,6 @@ private:
 	static CCameraSecurity *m_pBot;
 	CCameraSecurity *m_pPrev;
 	CCameraSecurity *m_pNext;
+	CModel *m_pCamModel;
 };
 #endif 
