@@ -43,7 +43,7 @@
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
 #include "player1_ui.h"
-
+#include "lever.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -225,7 +225,7 @@ void CGame::CreatePlayer(void)
 
 	if (m_apPlayer[0] == nullptr)
 	{
-		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
+		m_apPlayer[0] = CPlayer1::Create(ZeroVector3, ZeroVector3);
 	}
 	// プレイヤーの生成
 	if (m_apPlayer[1] == nullptr)

@@ -1,123 +1,123 @@
 //=============================================================================
-// 看守の扉 [guards_door.cpp]
+// 牢屋の判定 [prison_door_collision.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "guards_door.h"
-#include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
-#include "guards_door_collision.h"
+#include "lever.h"
+#include "lever_body.h"
+#include "lever_handle.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(330.0f,550.0f,50.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,550.0f,330.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,450.0f,120.0f))	// サイズ
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::CGuards_Door(PRIORITY Priority)
+CLever::CLever(PRIORITY Priority) : CDoor_Collision(Priority)
+{
+	m_pDoor = nullptr;
+}
+//=============================================================================
+// インクルードファイル
+// Author : Sugawara Tsukasa
+//=============================================================================
+CLever::~CLever()
 {
 }
 //=============================================================================
-// デストラクタ
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::~CGuards_Door()
+CLever * CLever::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-}
-//=============================================================================
-// 生成処理関数
-// Author : Sugawara Tsukasa
-//=============================================================================
-CGuards_Door * CGuards_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
-{
-	// CGuards_Doorのポインタ
-	CGuards_Door *pPrison_Door = nullptr;
+	// CLeverのポインタ
+	CLever *pLever = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pLever == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CGuards_Door;
+		pLever = new CLever;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pLever != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pLever->Init(pos, rot);
+
+			// ポインタを代入
+			//pLever->SetpDoor(pDoor);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pLever;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CGuards_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CLever::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// ドアの初期化処理関数呼び出し
-	CDoor::Init(pos, rot);
+	// 初期化処理
+	CDoor_Collision::Init(pos, rot);
 
-	// サイズ
-	SetSize(COLLISION_SIZE);
+	// レバー生成処理
+	LeverCrate(pos, rot);
 
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+	// タイプ設定
+	SetType(TYPE_PRISON);
 
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
-
-	// 判定用のオブジェクト生成
-	CGuards_Door_Collision::Create(pos, rot, this);
+	//SetSize(COLLISION_SIZE);
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Uninit(void)
+void CLever::Uninit(void)
 {
-	// ドアの終了処理関数呼び出し
-	CDoor::Uninit();
+	// 終了処理
+	CDoor_Collision::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Update(void)
+void CLever::Update(void)
 {
-	// ドアの更新処理関数呼び出し
-	CDoor::Update();
+	// 更新処理
+	CDoor_Collision::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Draw(void)
+void CLever::Draw(void)
 {
-	// ドアの描画処理関数呼び出し
-	CDoor::Draw();
+}
+//=============================================================================
+// レバー生成処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CLever::LeverCrate(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+{
+	// レバーハンドル生成
+	m_pLever_Handle = CLever_Handle::Create(pos, rot);
+
+	// レバーハンドルボディ生成
+	CLever_Body::Create(pos, rot);
+}
+//=============================================================================
+// レバーを下げる処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CLever::DownLever(void)
+{
 }

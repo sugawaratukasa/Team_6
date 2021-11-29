@@ -37,6 +37,7 @@
 #include "item_get_ui_map.h"
 #include "item_get_ui_pc_room_key.h"
 #include "item_get_ui_storage_key.h"
+#include "door_collision.h"
 
 //=============================================================================
 // マクロ定義
@@ -156,6 +157,10 @@ void CPlayer::Update(void)
 	}
 	// マップとの当たり判定
 	MapCollision();
+
+	// 扉を開く処理
+	DoorOpen();
+
 	// UIポインタのnullptrチェック
 	if (m_pUI != nullptr)
 	{
@@ -611,6 +616,73 @@ void CPlayer::MapCollision(void)
 					SetPos(pos);
 				}
 
+				// 次のポインタ取得
+				pScene = pSceneCur;
+			}
+		}
+	}
+}
+//=============================================================================
+// 扉を開く処理
+// Author : SugawaraTsukasa
+//=============================================================================
+void CPlayer::DoorOpen(void)
+{
+	// CSceneのポインタ
+	CScene *pScene = nullptr;
+
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// nullcheck
+	if (pScene == nullptr)
+	{
+		// 先頭のポインタ取得
+		pScene = GetTop(CScene::PRIORITY_OBJ_COLLISION);
+
+		// !nullcheck
+		if (pScene != nullptr)
+		{
+			// 判定用オブジェ取得
+			while (pScene != nullptr) // nullptrになるまで回す
+			{
+				// 現在のポインタ
+				CScene *pSceneCur = pScene->GetNext();
+
+				// 位置取得
+				D3DXVECTOR3 ObjPos = ((CDoor_Collision*)pScene)->GetPos();
+
+				// サイズ取得
+				D3DXVECTOR3 ObjSize = ((CDoor_Collision*)pScene)->GetSize();
+
+				// 立方体の判定
+				if (CCollision::CollisionRectangleAndRectangle(pos, ObjPos, size, ObjSize) == true)
+				{
+					// 扉がロック状態の場合
+					if (((CDoor_Collision*)pScene)->GetLock() == true)
+					{
+						// キーボード取得
+						CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+
+						// ドアの種類取得
+						int nDoorType = ((CDoor_Collision*)pScene)->GetType();
+
+						// ドアに対応したアイテムを所持している場合
+						if (m_abGetItem[ITEM_KEY_PRISON] == true && nDoorType == CDoor_Collision::TYPE_PRISON ||
+							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM)
+						{
+							// Fが押された場合
+							if (pKeyboard->GetTrigger(DIK_F))
+							{
+								// 扉を開く
+								((CDoor_Collision*)pScene)->Open();
+							}
+						}
+					}
+				}
 				// 次のポインタ取得
 				pScene = pSceneCur;
 			}

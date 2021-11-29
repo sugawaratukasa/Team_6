@@ -79,7 +79,6 @@
     <Filter Include="07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="08_UI\Ranking">
       <UniqueIdentifier>{b11092f7-730c-48d6-a3f7-5893a7f39650}</UniqueIdentifier>
     </Filter>
@@ -97,6 +96,15 @@
     </Filter>
     <Filter Include="12_Spot">
       <UniqueIdentifier>{9b00e7ab-4e49-4cb5-8e1f-6dcd64b1ccd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09_Object\Door\door_collision">
+      <UniqueIdentifier>{5b4e6b92-ddc6-4a08-ac34-35c849ac8224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09_Object\Wall">
+      <UniqueIdentifier>{e2c5ab3a-1785-47bb-90cf-d9fd00fdfe90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09_Object\Lever">
+      <UniqueIdentifier>{5280f7d9-ec2b-4571-a201-6f02eefa69f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +231,6 @@
     <ClCompile Include="player_2.cpp">
       <Filter>05_Character\Player</Filter>
     </ClCompile>
-
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
@@ -266,14 +273,8 @@
     <ClCompile Include="ui_flame_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
-    <ClCompile Include="key_texture.cpp">
-      <Filter>08_UI</Filter>
-    </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="object_wall.cpp">
-      <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
@@ -299,15 +300,11 @@
     <ClCompile Include="Movie.cpp">
       <Filter>03_Mode\Movie</Filter>
     </ClCompile>
-
     <ClCompile Include="ranking.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
     <ClCompile Include="time.cpp">
       <Filter>08_UI\Ranking</Filter>
-    </ClCompile>
-    <ClCompile Include="object_prison_wall.cpp">
-      <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="door_pc_room.cpp">
       <Filter>09_Object\Door</Filter>
@@ -333,7 +330,6 @@
     <ClCompile Include="object_switch.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_switch_collision.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
@@ -372,27 +368,6 @@
     </ClCompile>
     <ClCompile Include="button_guid.cpp">
       <Filter>12_Button</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_baton.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_jailer_room_key.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_map.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_pc_room_key.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_prison_key.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_storage_key.cpp">
-      <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="item_pc_room_key.cpp">
       <Filter>08_Item</Filter>
@@ -489,6 +464,51 @@
     </ClCompile>
     <ClCompile Include="jailer_return_routeState.cpp">
       <Filter>05_Character\Jjailer</Filter>
+    </ClCompile>
+    <ClCompile Include="door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="prison_door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="guards_door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_baton.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_jailer_room_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_map.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_pc_room_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_prison_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_storage_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="object_prison_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="lever.cpp">
+      <Filter>09_Object\Lever</Filter>
+    </ClCompile>
+    <ClCompile Include="lever_handle.cpp">
+      <Filter>09_Object\Lever</Filter>
+    </ClCompile>
+    <ClCompile Include="lever_body.cpp">
+      <Filter>09_Object\Lever</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -615,7 +635,6 @@
     <ClInclude Include="player_2.h">
       <Filter>05_Character\Player</Filter>
     </ClInclude>
-
     <ClInclude Include="character_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
@@ -661,13 +680,8 @@
     <ClInclude Include="ui_flame_texture.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
-    <ClInclude Include="key_texture.h">
-      <Filter>08_UI</Filter>
-    </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="object_wall.h">      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
@@ -692,9 +706,6 @@
     </ClInclude>
     <ClInclude Include="time.h">
       <Filter>08_UI\Ranking</Filter>
-    </ClInclude>
-    <ClInclude Include="object_prison_wall.h">
-      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="door_pc_room.h">
       <Filter>09_Object\Door</Filter>
@@ -758,27 +769,6 @@
     </ClInclude>
     <ClInclude Include="button_guid.h">
       <Filter>12_Button</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_baton.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_jailer_room_key.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_map.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_pc_room_key.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_prison_key.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_storage_key.h">
-      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="item_pc_room_key.h">
       <Filter>08_Item</Filter>
@@ -881,6 +871,51 @@
     </ClInclude>
     <ClInclude Include="jailer_return_routeState.h">
       <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="prison_door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="guards_door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_baton.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_jailer_room_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_map.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_pc_room_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_prison_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_storage_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="object_prison_wall.h">
+      <Filter>09_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="lever.h">
+      <Filter>09_Object\Lever</Filter>
+    </ClInclude>
+    <ClInclude Include="lever_handle.h">
+      <Filter>09_Object\Lever</Filter>
+    </ClInclude>
+    <ClInclude Include="lever_body.h">
+      <Filter>09_Object\Lever</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

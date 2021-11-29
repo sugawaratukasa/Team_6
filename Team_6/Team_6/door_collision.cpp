@@ -1,123 +1,114 @@
 //=============================================================================
-// 看守の扉 [guards_door.cpp]
+// ドアの判定 [door_collision.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "guards_door.h"
-#include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
-#include "guards_door_collision.h"
+#include "collision.h"
+#include "game.h"
+#include "door_collision.h"
+#include "model_collision_box.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(330.0f,550.0f,50.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,550.0f,330.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::CGuards_Door(PRIORITY Priority)
+CDoor_Collision::CDoor_Collision(PRIORITY Priority) : CModel(Priority)
+{
+	m_Type = TYPE_NONE;
+	m_bLock = true;
+	m_pDoor = nullptr;
+}
+//=============================================================================
+// インクルードファイル
+// Author : Sugawara Tsukasa
+//=============================================================================
+CDoor_Collision::~CDoor_Collision()
 {
 }
 //=============================================================================
-// デストラクタ
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::~CGuards_Door()
+CDoor_Collision * CDoor_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
 {
-}
-//=============================================================================
-// 生成処理関数
-// Author : Sugawara Tsukasa
-//=============================================================================
-CGuards_Door * CGuards_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
-{
-	// CGuards_Doorのポインタ
-	CGuards_Door *pPrison_Door = nullptr;
+	// CDoor_Collisionのポインタ
+	CDoor_Collision *pDoor_Collision = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pDoor_Collision == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CGuards_Door;
+		pDoor_Collision = new CDoor_Collision;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pDoor_Collision != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pDoor_Collision->Init(pos, rot);
+
+			// ポインタを代入
+			pDoor_Collision->m_pDoor = pDoor;
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pDoor_Collision;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CGuards_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CDoor_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// ドアの初期化処理関数呼び出し
-	CDoor::Init(pos, rot);
+	// 初期化処理
+	CModel::Init(pos, rot);
 
-	// サイズ
-	SetSize(COLLISION_SIZE);
+	CModelCollisionBox::Create(pos, rot, this);
 
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
-
-	// 判定用のオブジェクト生成
-	CGuards_Door_Collision::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Uninit(void)
+void CDoor_Collision::Uninit(void)
 {
-	// ドアの終了処理関数呼び出し
-	CDoor::Uninit();
+	// 終了処理
+	CModel::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Update(void)
+void CDoor_Collision::Update(void)
 {
-	// ドアの更新処理関数呼び出し
-	CDoor::Update();
+	// 更新処理
+	CModel::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Draw(void)
+void CDoor_Collision::Draw(void)
 {
-	// ドアの描画処理関数呼び出し
-	CDoor::Draw();
+}
+//=============================================================================
+// 扉を開く処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CDoor_Collision::Open(void)
+{
+	// !nullcheck
+	if (m_pDoor != nullptr)
+	{
+		// ドアを開く
+		m_pDoor->SetLock(false);
+	}
 }
