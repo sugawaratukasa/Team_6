@@ -47,15 +47,20 @@
 #define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// 床のサイズ
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
 
-#define PLAYER1_POS (D3DXVECTOR3(3000.0f,0.0f,0.0f))
-#define PLAYER2_POS (D3DXVECTOR3(-300.0f,0.0f,0.0f))
-
-#define BATON_POS (D3DXVECTOR3(300.0f,0.0f,600.0f))
-#define JAILER_ROOM_KEY_POS (D3DXVECTOR3(100.0f,0.0f,1500.0f))
-#define MAP_POS (D3DXVECTOR3(-300.0f,0.0f,-600.0f))
-#define PC_ROOM_KEY_POS (D3DXVECTOR3(600.0f,0.0f,300.0f))
-#define PRISON_KEY_POS (D3DXVECTOR3(-600.0f,0.0f,-300.0f))
-#define STORAGE_KEY_POS (D3DXVECTOR3(150.0f,0.0f,600.0f))
+#define PLAYER1_POS (D3DXVECTOR3(5768.0f,0.0f,-14056.0f))
+#define PLAYER2_POS (D3DXVECTOR3(-1350.0f,0.0f,-250.0f))
+#define MAP_POS1 (D3DXVECTOR3(5768.0f,0.0f,-12888.0f))
+#define MAP_POS2 (D3DXVECTOR3(-1312.0f,0.0f,-5348.0f))
+#define PRISON_KEY_POS1 (D3DXVECTOR3(2460.0f,0.0f,-9729.0f))
+#define PRISON_KEY_POS2 (D3DXVECTOR3(-1050.0f,0.0f,-9027.0f))
+#define STORAGE_KEY_POS1 (D3DXVECTOR3(2881.0f,0.0f,-9729.0f))
+#define STORAGE_KEY_POS2 (D3DXVECTOR3(1943.0f,0.0f,-2438.0f))
+#define PC_ROOM_KEY_POS1 (D3DXVECTOR3(4528.0f,0.0f,-4735.0f))
+#define PC_ROOM_KEY_POS2 (D3DXVECTOR3(1930.0f,0.0f,-1880.0f))
+#define JAILER_ROOM_KEY_POS1 (D3DXVECTOR3(4495.0f,0.0f,-2724.0f))
+#define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
+#define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
+#define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
 
 //=======================================================================================
 // コンストラクタ
@@ -209,7 +214,7 @@ void CGame::CreatePlayer(void)
 
 	if (m_apPlayer[0] == nullptr)
 	{
-		m_apPlayer[0] = CPlayer1::Create(PRISON_KEY_POS, ZeroVector3);
+		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
 	}
 	// プレイヤーの生成
 	if (m_apPlayer[1] == nullptr)
@@ -223,12 +228,19 @@ void CGame::CreatePlayer(void)
 //=======================================================================================
 void CGame::CreateItem(void)
 {
-	CBatonObject::Create(BATON_POS, ZeroVector3);
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS, ZeroVector3);
-	CMapObject::Create(MAP_POS, ZeroVector3);
-	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS, ZeroVector3);
-	CStorageKeyObject::Create(STORAGE_KEY_POS, ZeroVector3);
+	CMapObject::Create(MAP_POS1, ZeroVector3);
+	CPrisonKeyObject::Create(PRISON_KEY_POS1, ZeroVector3);
+	CStorageKeyObject::Create(STORAGE_KEY_POS1, ZeroVector3);
+	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS1, ZeroVector3);
+	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS1, ZeroVector3);
+	CBatonObject::Create(BATON_POS1, ZeroVector3);
+
+	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS2, ZeroVector3);
+	CStorageKeyObject::Create(STORAGE_KEY_POS2, ZeroVector3);
+	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS2, ZeroVector3);
+	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
+	CMapObject::Create(MAP_POS2, ZeroVector3);
+	CBatonObject::Create(BATON_POS2, ZeroVector3);
 }
 
 //=======================================================================================
