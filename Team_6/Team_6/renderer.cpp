@@ -311,10 +311,10 @@ void CRenderer::Draw(void)
 			// Direct3Dによる描画の終了
 			m_pD3DDevice->EndScene();
 		}
-	}
 
-	// バックバッファとフロントバッファの入れ替え
-	m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
+		// バックバッファとフロントバッファの入れ替え
+		m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
+	}
 }
 
 //=============================================================================

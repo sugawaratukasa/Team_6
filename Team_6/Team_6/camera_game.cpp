@@ -33,6 +33,11 @@
 #define HEIGHT_DIVIDE				(1.5f)							// 高さ÷
 
 //=============================================================================
+// 静的メンバ変数宣言
+//=============================================================================
+CCameraSecurity * CCameraGame::m_pSecCam = NULL;
+
+//=============================================================================
 // インスタンス生成
 //=============================================================================
 CCameraGame * CCameraGame::Create(CCamera::SCREEN_ID id)
@@ -81,15 +86,6 @@ HRESULT CCameraGame::Init(void)
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 
-	m_nCamNum = 0;
-
-	// 仮初期化
-
-	m_aSecCam[0].Init(D3DXVECTOR3(1000.0f, 275.0f, -1000.0f), 0.0f);
-	m_aSecCam[1].Init(D3DXVECTOR3(-1000.0f, 275.0f, -1000.0f), 0.0f);
-	m_aSecCam[2].Init(D3DXVECTOR3(-1000.0f, 275.0f, 1000.0f), 0.0f);
-	m_aSecCam[3].Init(D3DXVECTOR3(1000.0f, 275.0f, 1000.0f), 0.0f);
-
 	return S_OK;
 }
 
@@ -103,6 +99,8 @@ void CCameraGame::Update(void)
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
+	CCameraSecurity *pSecCam;
+
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
 	// 監視カメラを使っているなら
@@ -114,38 +112,24 @@ void CCameraGame::Update(void)
 		// 入力によってカメラを順送り・逆送り
 		if (pKeyInput->GetTrigger(DIK_1))
 		{
-			m_nCamNum--;
-			if (m_nCamNum < 0)
-			{
-				m_nCamNum = SECURITY_CAM_MAX - 1;
-			}
+			m_pSecCam = m_pSecCam->GetPrev();
 		}
 		if (pKeyInput->GetTrigger(DIK_2))
 		{
-			m_nCamNum++;
-			if (m_nCamNum >= SECURITY_CAM_MAX)
-			{
-				m_nCamNum = 0;
-			}
-		}
-
-		for (int nCount = 0; nCount < SECURITY_CAM_MAX; nCount++)
-		{
-			m_aSecCam[nCount].Update();
+			m_pSecCam = m_pSecCam->GetNext();
 		}
 
 		// 描画範囲を通常状態に
 		SetScreenID(CCamera::SCREEN_NONE);
 		// 注視点を変更
 		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		SetCameraPos(m_aSecCam[m_nCamNum].GetPos());
+		SetCameraPos(m_pSecCam->GetPos());
 		SetVartical(D3DXToRadian(110));
-		SetHorizontal(m_aSecCam[m_nCamNum].GetAngle());
+		SetHorizontal(m_pSecCam->GetAngle());
 	}
 	else
 	{
 		SetIsInterpolation(true);
-		m_nCamNum = 0;
 		SetScreenID(m_id);
 		SetHorizontal(D3DXToRadian(0.0f));
 		SetVartical(CAMERA_DEFAULT_Fθ);
@@ -246,4 +230,12 @@ void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
 	SetTargetPos(pPlayer->GetPos());
 	CCamera::Update();
 	CCamera::SetCamera();
+}
+
+//=============================================================================
+// 監視カメラの生成
+//=============================================================================
+void CCameraGame::CreateSecCam(D3DXVECTOR3 pos, float fDir)
+{
+	m_pSecCam = CCameraSecurity::Create(pos, fDir);
 }

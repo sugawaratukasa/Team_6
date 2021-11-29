@@ -34,7 +34,7 @@
 // LightInfo
 #define TITLE_LIGHT_VECDIR	(D3DXVECTOR3(-0.8f, -1.0f, 1.0f))
 
-#define TRANSITION_WAIT_LENGTH	(90)
+#define TRANSITION_WAIT_LENGTH	(300)
 
 //=============================================================================
 // コンストラクタ

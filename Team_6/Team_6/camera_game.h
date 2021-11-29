@@ -33,13 +33,13 @@ public:
 	void Update(void);					// 更新処理
 	void NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot) override;
 	void ModifyCamera(CGame::CAMERA_ID id);
+	void CreateSecCam(D3DXVECTOR3 pos, float fDir);
 	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
 
 	void SetCameraID(CCamera::SCREEN_ID id);
 private:
 	CCamera::SCREEN_ID	m_id;
-	int					m_nCamNum;
-	CCameraSecurity     m_aSecCam[SECURITY_CAM_MAX];
+	static CCameraSecurity     *m_pSecCam;
 
 };
 #endif 

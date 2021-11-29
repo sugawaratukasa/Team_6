@@ -105,6 +105,8 @@ HRESULT CGame::Init(void)
 	CreateItem();
 	// 生成
 	CreateGround();
+	// 監視カメラの生成
+	CreateSecCam();
 	// 
 	//CWall::Create(ZeroVector3, ZeroVector3);
 	CMap::Create();
@@ -136,7 +138,6 @@ void CGame::Uninit(void)
 
 			//メモリの破棄
 			delete m_pCamera[nCount];
-
 
 			//メモリのクリア
 			m_pCamera[nCount] = nullptr;
@@ -260,4 +261,15 @@ void CGame::CreateMap(void)
 void CGame::CreateGround(void)
 {
 	
+}
+
+//=======================================================================================
+// 監視カメラの生成
+//=======================================================================================
+void CGame::CreateSecCam(void)
+{
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, -1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, -1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 1000.0f), 0.0f);
 }
