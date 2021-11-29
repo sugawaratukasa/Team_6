@@ -125,6 +125,7 @@ void CCharacter::Update()
 		// カウンターを進める
 		m_nStateCounter++;
 	}
+	m_pMotion->UpdateMotion(m_nParts, m_apModelAnime);
 }
 
 //=============================================================================
@@ -275,62 +276,6 @@ void CCharacter::Landing(float fHeight)
 	{
 		m_bLanding = true;
 	}
-}
-//=============================================================================
-// レイの当たり判定
-// Author : SugawaraTsukasa
-//=============================================================================
-void CCharacter::RayCollision(void)
-{
-	//// CSceneのポインタ
-	//CScene *pScene = nullptr;
-
-	//// nullcheck
-	//if (pScene == nullptr)
-	//{
-	//	// 先頭のポインタ取得
-	//	pScene = GetTop(PRIORITY_MAP);
-
-	//	// !nullcheck
-	//	if (pScene != nullptr)
-	//	{
-	//		// Charcterとの当たり判定
-	//		while (pScene != nullptr) // nullptrになるまで回す
-	//		{
-	//			// 現在のポインタ
-	//			CScene *pSceneCur = pScene->GetNext();
-
-	//			// 位置
-	//			D3DXVECTOR3 Pos = ZeroVector3;
-
-	//			// レイの数が0より多い場合
-	//			if (m_RayData.nNum > ZERO_INT)
-	//			{
-	//				// 位置取得
-	//				Pos.x = GetModelAnime(PARENT_NUM)->GetMtxWorld()._41;
-	//				Pos.y = GetModelAnime(PARENT_NUM)->GetMtxWorld()._42;
-	//				Pos.z = GetModelAnime(PARENT_NUM)->GetMtxWorld()._43;
-
-	//				// レイの情報
-	//				CCollision::RAY_INFO Ray_Info = CCollision::RayCollision(Pos, ((CMap*)pScene), m_RayData.fAngle, m_RayData.fRange, m_RayData.nNum);
-
-	//				// trueの場合
-	//				if (Ray_Info.bHit == true)
-	//				{
-	//					// 移動を0に
-	//					SetMove(ZeroVector3);
-
-	//					// 位置
-	//					Pos -= D3DXVECTOR3(sinf(Ray_Info.VecDirection.y), ZERO_FLOAT, cosf(Ray_Info.VecDirection.y));
-
-	//					SetPos(Pos);
-	//				}
-	//			}
-	//			// 次のポインタ取得
-	//			pScene = pSceneCur;
-	//		}
-	//	}
-	//}
 }
 
 //=============================================================================

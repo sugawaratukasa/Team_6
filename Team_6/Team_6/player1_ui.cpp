@@ -14,12 +14,16 @@
 #include "ui_flame_texture.h"
 #include "item_object.h"
 #include "baton_texture.h"
-#include "map_texture.h"
-#include "key_texture.h"
+#include "map_ui_texture.h"
 #include "game.h"
 #include "player.h"
 #include "select_item_flame.h"
 #include "keyboard.h"
+#include "joypad.h"
+#include "jailer_key_texture.h"
+#include "pc_room_key_texture.h"
+#include "prison_key_texture.h"
+#include "storage_key_texture.h"
 
 //=============================================================================
 // マクロ定義
@@ -32,13 +36,13 @@
 //=============================================================================
 CPlayer1UI::CPlayer1UI()
 {
-	m_nItemTextureCount = 0;
-	m_nSelectFlame = 0;
+	m_nItemTextureCount = ZERO_INT;		// アイテムテクスチャ生成数
+	m_nSelectCount = ZERO_INT;			// アイテム選択のカウント
+	m_pSelectItemFlame = nullptr;		// アイテム選択枠のポインタ
 	for (int nCount = 0; nCount < CItemObject::ITEM_OBJECT_MAX; nCount++)
 	{
-		m_apItemTexture[nCount] = nullptr;
+		m_apItemTexture[nCount] = nullptr;		// アイテムテクスチャのポインタ
 	}
-	m_pSelectItemFlame = nullptr;
 }
 
 //=============================================================================
@@ -81,7 +85,9 @@ CPlayer1UI * CPlayer1UI::Create(void)
 //=============================================================================
 HRESULT CPlayer1UI::Init(void)
 {
+	// UIの枠生成
 	CUIFlameTexture::Create(D3DXVECTOR3(110.0f, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(200.0f, 60.0f, 0.0f));
+	// 選択中アイテムの枠生成
 	m_pSelectItemFlame = CSelectItemFlame::Create(D3DXVECTOR3(42.5f, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(61.5f, 59.5f, 0.0f));
 	return S_OK;
 }
@@ -145,35 +151,42 @@ void CPlayer1UI::Uninit(void)
 }
 
 //=============================================================================
-// 更新関数処理関数
+// 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
 void CPlayer1UI::Update(void)
 {
 	// UI生成処理
 	UICreate();
-	Input();
+	// 入力処理
+	PlayerItemGet();
 }
 
-void CPlayer1UI::Input(void)
+//=============================================================================
+// 入力処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer1UI::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-	if (pKeyboard->GetTrigger(DIK_I))
+	// パッド取得
+	CInputJoypad * pJoypad = CManager::GetJoypad();
+	if (pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER,0))
 	{
-		if (m_nSelectFlame > 0)
+		if (m_nSelectCount > 0)
 		{
-			m_nSelectFlame--;
+			m_nSelectCount--;
 		}
 	}
-	if (pKeyboard->GetTrigger(DIK_O))
+	if (pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 0))
 	{
-		if (m_nSelectFlame < 2)
+		if (m_nSelectCount < 2)
 		{
-			m_nSelectFlame++;
+			m_nSelectCount++;
 		}
 	}
-	switch (m_nSelectFlame)
+	switch (m_nSelectCount)
 	{
 	case 0:
 		m_pSelectItemFlame->SetPosition(D3DXVECTOR3(42.5f, SCREEN_HEIGHT - 40.0f, 0.0f));
@@ -204,7 +217,7 @@ void CPlayer1UI::UICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] = CKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] = CPrisonKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			m_nItemTextureCount++;
 		}
 	}
@@ -215,7 +228,7 @@ void CPlayer1UI::UICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] = CKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] = CStorageKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			m_nItemTextureCount++;
 		}
 	}
@@ -226,7 +239,7 @@ void CPlayer1UI::UICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] = CKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] = CJailerKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			m_nItemTextureCount++;
 		}
 	}
@@ -237,7 +250,7 @@ void CPlayer1UI::UICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = CKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = CPCRoomKeyTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			m_nItemTextureCount++;
 		}
 	}
@@ -259,7 +272,7 @@ void CPlayer1UI::UICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] = CMapTexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] = CMapUITexture::Create(D3DXVECTOR3(50 + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			m_nItemTextureCount++;
 		}
 	}

@@ -107,7 +107,7 @@ void CPauseButtonManager::Uninit(void)
 void CPauseButtonManager::Update(void)
 {
 	//入力処理関数呼び出し
-	Input();
+	PlayerItemGet();
 	//選択処理関数呼び出し
 	Select();
 }
@@ -115,7 +115,7 @@ void CPauseButtonManager::Update(void)
 //=============================================================================
 // 入力処理関数
 //=============================================================================
-void CPauseButtonManager::Input(void)
+void CPauseButtonManager::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();

@@ -27,14 +27,17 @@ class CMapTexture;
 class CItemMap : public CItem
 {
 public:
-	CItemMap();
-	~CItemMap();
-	static CItemMap * Create(void);
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void ItemCreate(int nPlayer);
+	CItemMap();									// コンストラクタ
+	~CItemMap();								// デストラクタ
+	static CItemMap * Create(void);				// 生成処理
+	HRESULT Init(void);							// 初期化処理
+	void Uninit(void);							// 終了処理
+	void Update(void);							// 更新処理
+	void ItemCreate(int nPlayer);				// アイテム生成処理
 private:
-	CMapTexture * m_pMapTexture;
+	void PlayerItemGet(void);					// プレイヤーアイテム取得状況取得処理
+	void MapCreate(int nPlayer, bool bItem);	// マップテクスチャ生成処理
+	bool m_abCreateMap[MAX_PLAYER];				// マップテクスチャ生成状態
+	CMapTexture * m_apMapTexture[MAX_PLAYER];	// マップテクスチャのポインタ
 };
 #endif

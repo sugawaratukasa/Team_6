@@ -26,8 +26,8 @@
 class CPlayerUI
 {
 public:
-	CPlayerUI();		// コンストラクタ
-	virtual ~CPlayerUI();	// デストラクタ
+	CPlayerUI();						// コンストラクタ
+	virtual ~CPlayerUI();				// デストラクタ
 	virtual HRESULT Init(void) = 0;		// 初期化処理
 	virtual void Uninit(void) = 0;		// 終了処理
 	virtual void Update(void) = 0;		// プレイヤーの制御

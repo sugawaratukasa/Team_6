@@ -39,8 +39,11 @@ public:
 		TEXTURE_NUM_TIMER_NUMBER,			// タイマー用数字
 		TEXTURE_NUM_UI_FLAME,				// UIフレーム	
 		TEXTURE_NUM_BATON,					// 警棒
-		TEXTURE_NUM_KEY,					// 鍵
-		TEXTURE_NUM_MAP,					// マップ
+		TEXTURE_NUM_PC_ROOM_KEY,			// PC室の鍵
+		TEXTURE_NUM_STORAGE_KEY,			// 倉庫の鍵
+		TEXTURE_NUM_PRISON_KEY,				// 牢屋の鍵
+		TEXTURE_NUM_JAILER_KEY,				// 看守の鍵
+		TEXTURE_NUM_UI_MAP,					// マップ
 		TEXTURE_NUM_BUTTON_START,			// スタートボタン
 		TEXTURE_NUM_BUTTON_RANKING,			// ランキングボタン
 		TEXTURE_NUM_BUTTON_EXIT,			// 終了ボタン
@@ -50,6 +53,7 @@ public:
 		TEXTURE_NUM_TITLE_BG,				// タイトル背景
 		TEXTURE_NUM_TITLE_LOGO,				// タイトルロゴ
 		TEXTURE_NUM_SELECT_ITEM_FLAME,		// アイテム選択の枠
+		TEXTURE_NUM_MAP,					// マップテクスチャ
 		TEXTURE_NUM_MAX
 	};
 

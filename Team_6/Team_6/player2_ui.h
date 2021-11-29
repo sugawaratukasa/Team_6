@@ -2,7 +2,7 @@
 #define _PLAYER2_UI_H_
 //=============================================================================
 //
-// プレイヤー1UIクラスヘッダー [player2_ui.h]
+// プレイヤー2UIクラスヘッダー [player2_ui.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -19,8 +19,8 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CItemObject;
 class CScene2D;
+class CSelectItemFlame;
 
 //=============================================================================
 // プレイヤークラス
@@ -28,15 +28,18 @@ class CScene2D;
 class CPlayer2UI : public CPlayerUI
 {
 public:
-	CPlayer2UI();		// コンストラクタ
-	~CPlayer2UI();	// デストラクタ
-	static CPlayer2UI * Create(void);
-	HRESULT Init(void);		// 初期化処理
-	void Uninit(void);		// 終了処理
-	void Update(void);		// プレイヤーの制御
+	CPlayer2UI();												// コンストラクタ
+	~CPlayer2UI();												// デストラクタ
+	static CPlayer2UI * Create(void);							// 生成処理
+	HRESULT Init(void);											// 初期化処理
+	void Uninit(void);											// 終了処理
+	void Update(void);											// プレイヤーの制御
 private:
-	void UICreate(void);
-	int m_nItemTextureCount;
-	CScene2D * m_apItemTexture[CItemObject::ITEM_OBJECT_MAX];
+	void PlayerItemGet(void);											// 入力処理
+	void UICreate(void);										// UI生成処理
+	int m_nItemTextureCount;									// アイテムテクスチャ生成数
+	int m_nSelectCount;											// アイテム選択のカウント
+	CSelectItemFlame * m_pSelectItemFlame;						// アイテム選択枠のポインタ
+	CScene2D * m_apItemTexture[CItemObject::ITEM_OBJECT_MAX];	// アイテムテクスチャのポインタ
 };
 #endif

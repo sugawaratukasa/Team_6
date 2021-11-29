@@ -12,6 +12,7 @@
 #include "object_door.h"
 #include "object_wall.h"
 #include "floor.h"
+#include "goal_area.h"
 
 //========================================================================
 // É}ÉNÉçíËã`
@@ -68,6 +69,7 @@ HRESULT CMap::Init(void)
 {
 	// ì«Ç›çûÇ›
 	Load();
+	CGoalArea::Create(D3DXVECTOR3(2200.0f, 0.0f, -15800.0f), ZeroVector3);
 	return S_OK;
 }
 //========================================================================

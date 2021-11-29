@@ -47,7 +47,7 @@
 #define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// è∞ÇÃÉTÉCÉY
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
 
-#define PLAYER1_POS (D3DXVECTOR3(300.0f,0.0f,0.0f))
+#define PLAYER1_POS (D3DXVECTOR3(3000.0f,0.0f,0.0f))
 #define PLAYER2_POS (D3DXVECTOR3(-300.0f,0.0f,0.0f))
 
 #define BATON_POS (D3DXVECTOR3(300.0f,0.0f,600.0f))
@@ -106,7 +106,7 @@ HRESULT CGame::Init(void)
 	// ê∂ê¨
 	CreateGround();
 
-	//CMap::Create();
+	CMap::Create();
 
 	// UIÇÃê∂ê¨
 	CScreenFrame::Create();

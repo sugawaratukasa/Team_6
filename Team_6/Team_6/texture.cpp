@@ -66,7 +66,10 @@ HRESULT CTexture::SetTextureName(void)
 		{"data/Texture/number_01.png"},
 		{ "data/Texture/UI_frameI.png" },
 		{ "data/Texture/baton.png" },
-		{"data/Texture/Key_ItemUI.png"},
+		{"data/Texture/Key_Item_PCroom.png"},
+		{ "data/Texture/Key_Item_Warehouse.png" },
+		{ "data/Texture/Key_Item_Prison.png" },
+		{ "data/Texture/Key_Item_Jailer_room.png" },
 		{"data/Texture/Map_ItemUI.png"},
 		{ "data/Texture/Button_Start.png" },		// スタートボタン
 		{ "data/Texture/Button_Ranking.png" },		// ランキングボタン
@@ -76,7 +79,8 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/Button_HowTo.png" },		// 操作説明ボタン
 		{ "data/Texture/bg_title.png" },			// タイトル背景
 		{ "data/Texture/title_logo.png" },			// タイトルロゴ
-		{"data/Texture/UI_frameI_Select.png"}
+		{"data/Texture/UI_frameI_Select.png"},
+		{"data/Texture/map_texture.png"}
 	};
 
 	// 分割テクスチャ

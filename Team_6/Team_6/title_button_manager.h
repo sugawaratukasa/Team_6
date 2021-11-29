@@ -42,7 +42,7 @@ private:
 		BUTTON_EXIT,
 		BUTTON_MAX
 	}BUTTON;
-	void Input(void);
+	void PlayerItemGet(void);
 	void Select(void);
 	void InitCreateAll(void);
 	CButton * m_apButton[BUTTON_MAX];	//ボタンのポインタ

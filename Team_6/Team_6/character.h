@@ -66,7 +66,6 @@ public:
 	void ModelAnimeUpdate(void);									// モデルアニメーション
 	void Gravity(void);												// 重力
 	void Landing(float fHeight);									// 着地
-	void RayCollision(void);										// レイ当たり判定
 	void SetMotion(int nMotionState);								// モーションの設定
 	void SetShadowRotCalculation(void);
 

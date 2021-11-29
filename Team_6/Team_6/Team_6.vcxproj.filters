@@ -255,9 +255,6 @@
     <ClCompile Include="ui_flame_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
-    <ClCompile Include="key_texture.cpp">
-      <Filter>08_2dPolygon</Filter>
-    </ClCompile>
     <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
@@ -333,9 +330,6 @@
     <ClCompile Include="item_map.cpp">
       <Filter>08_Item</Filter>
     </ClCompile>
-    <ClCompile Include="map_texture.cpp">
-      <Filter>08_2dPolygon</Filter>
-    </ClCompile>
     <ClCompile Include="bg_pause.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
@@ -374,6 +368,24 @@
     </ClCompile>
     <ClCompile Include="player2_ui.cpp">
       <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="map_ui_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="map_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="pc_room_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="prison_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="storage_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,9 +569,6 @@
     <ClInclude Include="ui_flame_texture.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
-    <ClInclude Include="key_texture.h">
-      <Filter>08_2dPolygon</Filter>
-    </ClInclude>
     <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
     </ClInclude>
@@ -635,9 +644,6 @@
     <ClInclude Include="item_map.h">
       <Filter>08_Item</Filter>
     </ClInclude>
-    <ClInclude Include="map_texture.h">
-      <Filter>08_2dPolygon</Filter>
-    </ClInclude>
     <ClInclude Include="bg_pause.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
@@ -676,6 +682,24 @@
     </ClInclude>
     <ClInclude Include="player2_ui.h">
       <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="map_ui_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="map_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="pc_room_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="prison_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="storage_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

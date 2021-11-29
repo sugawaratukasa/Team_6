@@ -19,7 +19,6 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CItemObject;
 class CScene2D;
 class CSelectItemFlame;
 
@@ -29,18 +28,18 @@ class CSelectItemFlame;
 class CPlayer1UI : public CPlayerUI
 {
 public:
-	CPlayer1UI();			// コンストラクタ
-	~CPlayer1UI();			// デストラクタ
+	CPlayer1UI();												// コンストラクタ
+	~CPlayer1UI();												// デストラクタ
 	static CPlayer1UI * Create(void);
-	HRESULT Init(void);		// 初期化処理
-	void Uninit(void);		// 終了処理
-	void Update(void);		// プレイヤーの制御
+	HRESULT Init(void);											// 初期化処理
+	void Uninit(void);											// 終了処理
+	void Update(void);											// プレイヤーの制御
 private:
-	void Input(void);
-	void UICreate(void);
-	int m_nItemTextureCount;
-	int m_nSelectFlame;
-	CSelectItemFlame * m_pSelectItemFlame;
-	CScene2D * m_apItemTexture[CItemObject::ITEM_OBJECT_MAX];
+	void PlayerItemGet(void);											// 入力処理
+	void UICreate(void);										// UI生成処理
+	int m_nItemTextureCount;									// アイテムテクスチャ生成数
+	int m_nSelectCount;											// アイテム選択のカウント
+	CSelectItemFlame * m_pSelectItemFlame;						// アイテム選択枠のポインタ
+	CScene2D * m_apItemTexture[CItemObject::ITEM_OBJECT_MAX];	// アイテムテクスチャのポインタ
 };
 #endif

@@ -102,7 +102,7 @@ void CTitleButtonManager::Uninit(void)
 void CTitleButtonManager::Update(void)
 {
 	//入力処理関数呼び出し
-	Input();
+	PlayerItemGet();
 	//選択処理関数呼び出し
 	Select();
 }
@@ -110,7 +110,7 @@ void CTitleButtonManager::Update(void)
 //=============================================================================
 // 入力処理関数
 //=============================================================================
-void CTitleButtonManager::Input(void)
+void CTitleButtonManager::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();

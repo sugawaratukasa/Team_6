@@ -180,6 +180,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="jailer.cpp" />
+    <ClCompile Include="jailer_key_texture.cpp" />
     <ClCompile Include="jailer_LostTargetState.cpp" />
     <ClCompile Include="jailer_view.cpp" />
     <ClCompile Include="jailer_WaitState.cpp" />
@@ -193,13 +194,14 @@
     <ClCompile Include="item_object_storage_key.cpp" />
     <ClCompile Include="joypad.cpp" />
     <ClCompile Include="keyboard.cpp" />
-    <ClCompile Include="key_texture.cpp" />
+    <ClCompile Include="pc_room_key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="logo_title.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="map_texture.cpp" />
+    <ClCompile Include="map_ui_texture.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_anime.cpp" />
@@ -219,6 +221,7 @@
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
     <ClCompile Include="player_ui.cpp" />
+    <ClCompile Include="prison_key_texture.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="result.cpp" />
@@ -233,6 +236,7 @@
     <ClCompile Include="shadow_volume.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="storage_key_texture.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -277,6 +281,7 @@
     <ClInclude Include="item_storage_key.h" />
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
+    <ClInclude Include="jailer_key_texture.h" />
     <ClInclude Include="jailer_LostTargetState.h" />
     <ClInclude Include="jailer_State.h" />
     <ClInclude Include="jailer_view.h" />
@@ -292,13 +297,14 @@
     <ClInclude Include="item_object_storage_key.h" />
     <ClInclude Include="joypad.h" />
     <ClInclude Include="keyboard.h" />
-    <ClInclude Include="key_texture.h" />
+    <ClInclude Include="pc_room_key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="logo_title.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="map_texture.h" />
+    <ClInclude Include="map_ui_texture.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_anime.h" />
@@ -318,6 +324,7 @@
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
+    <ClInclude Include="prison_key_texture.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="result.h" />
@@ -331,6 +338,7 @@
     <ClInclude Include="shadow_polygon.h" />
     <ClInclude Include="shadow_volume.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="storage_key_texture.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
     <ClInclude Include="Timer.h" />

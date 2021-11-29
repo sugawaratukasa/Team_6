@@ -1,8 +1,8 @@
-#ifndef _ITEM_H_
-#define _ITEM_H_
+#ifndef _PC_ROOM_KEY_TEXTURE_H_
+#define _PC_ROOM_KEY_TEXTURE_H_
 //=============================================================================
 //
-// ゴール範囲 [goal_area.h]
+// PC室鍵アイコンのテクスチャヘッダー [pc_room_key_texture.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,8 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "main.h"
-#include "player.h"
+#include "scene_2d.h"
 
 //=============================================================================
 // マクロ定義
@@ -24,18 +23,16 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CGoalArea : public CModel
+class CPCRoomKeyTexture : public CScene2D
 {
 public:
-	CGoalArea();
-	~CGoalArea();
-	static CGoalArea *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	CPCRoomKeyTexture(PRIORITY Priority = PRIORITY_UI);						// コンストラクタ
+	~CPCRoomKeyTexture();													// デストラクタ
+	static CPCRoomKeyTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);						// 初期化処理
+	void Uninit(void);														// 終了処理
+	void Update(void);														// プレイヤーの制御
+	void Draw(void);														// 描画処理
 private:
-	void Goal(void);	// ゴール処理
-	bool m_bGoal;		// ゴール状態
 };
 #endif
