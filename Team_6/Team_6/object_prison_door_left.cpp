@@ -11,6 +11,7 @@
 #include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
+#include "prison_door_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -88,6 +89,9 @@ HRESULT CPrison_Door_Left::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// サイズ
 		SetSize(COLLISION_SIZE2);
 	}
+
+	// 判定用オブジェクト生成
+	CPrison_Door_Collision::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
@@ -108,7 +112,8 @@ void CPrison_Door_Left::Update(void)
 	// ドアの更新処理関数呼び出し
 	CDoor::Update();
 
-	Open();
+	// 開錠状態
+	//Open();
 }
 //=============================================================================
 // 描画処理関数
