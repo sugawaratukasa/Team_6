@@ -80,7 +80,8 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/bg_title.png" },			// タイトル背景
 		{ "data/Texture/title_logo.png" },			// タイトルロゴ
 		{"data/Texture/UI_frameI_Select.png"},
-		{"data/Texture/map_texture.png"}
+		{"data/Texture/map_texture.png"},
+		{"data/Texture/y.png"}
 	};
 
 	// 分割テクスチャ

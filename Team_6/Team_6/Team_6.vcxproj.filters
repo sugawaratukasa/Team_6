@@ -387,6 +387,27 @@
     <ClCompile Include="jailer_key_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
+    <ClCompile Include="item_get_ui.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_prison_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_jailer_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_map.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_pc_room_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_storage_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_baton.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -700,6 +721,27 @@
     </ClInclude>
     <ClInclude Include="jailer_key_texture.h">
       <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_prison_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_jailer_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_map.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_pc_room_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_storage_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_baton.h">
+      <Filter>13_UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

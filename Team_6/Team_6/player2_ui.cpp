@@ -155,7 +155,7 @@ void CPlayer2UI::Uninit(void)
 void CPlayer2UI::Update(void)
 {
 	// UI¶¬ˆ—
-	UICreate();
+	ItemGetGuideUICreate();
 	PlayerItemGet();
 }
 
@@ -204,7 +204,7 @@ void CPlayer2UI::PlayerItemGet(void)
 // UI¶¬ˆ—ŠÖ”
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer2UI::UICreate(void)
+void CPlayer2UI::ItemGetGuideUICreate(void)
 {
 	// ƒQ[ƒ€ƒ‚[ƒh‚Ìæ“¾
 	CGame * pGame = ((CGame*)CManager::GetModePtr());

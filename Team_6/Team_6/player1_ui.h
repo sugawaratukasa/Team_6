@@ -36,7 +36,7 @@ public:
 	void Update(void);											// プレイヤーの制御
 private:
 	void PlayerItemGet(void);											// 入力処理
-	void UICreate(void);										// UI生成処理
+	void ItemGetGuideUICreate(void);										// UI生成処理
 	int m_nItemTextureCount;									// アイテムテクスチャ生成数
 	int m_nSelectCount;											// アイテム選択のカウント
 	CSelectItemFlame * m_pSelectItemFlame;						// アイテム選択枠のポインタ

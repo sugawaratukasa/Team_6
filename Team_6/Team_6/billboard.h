@@ -36,7 +36,7 @@ public:
 	void SetBlend(bool bBlend);									// ‰ÁZ‡¬
 	void SetLife(int nLife);									// ‘Ì—Í‚Ìİ’è
 	void SetColor(D3DXCOLOR col);								// F‚Ìİ’è
-
+	void SetPosition(D3DXVECTOR3 Pos);
 																// GetŠÖ”
 	D3DXVECTOR3 GetMove(void);									// ˆÚ“®—Êî•ñ
 	int GetLife(void) { return m_nLife; }						// ƒ‰ƒCƒt‚Ìî•ñ

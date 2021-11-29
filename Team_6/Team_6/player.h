@@ -13,6 +13,7 @@
 #include "character.h"
 #include "model_anime.h"
 #include "item_object.h"
+#include "item_get_ui.h"
 
 //=============================================================================
 // マクロ定義
@@ -31,6 +32,7 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
+class CItemGetUI;
 class CItem;
 class CPlayerUI;
 
@@ -70,6 +72,8 @@ public:
 	void ItemEffectUninit(void);									// アイテム効果削除処理
 	void ItemDelete(int nPlayer);									// アイテム削除処理
 	void MapCollision(void);										// マップとの当たり判定
+	void ItemGetGuideUICreate(ITEM_GET_LIST Type);					// アイテム取得UI生成処理
+	void ItemGetGuideUIDelete(ITEM_GET_LIST Type);					// アイテム取得UI破棄処理
 	virtual void KeyboardMove(float fSpeed, float fAngle) = 0;		// キーボード移動処理
 	virtual void PadMove(float fSpeed, float fAngle) = 0;			// ジョイパッド移動処理
 	//=============================================================================
@@ -95,6 +99,8 @@ private:
 	bool m_bIncapacitated;				// 行動不能状態
 	bool m_abGetItem[ITEM_MAX];			// アイテムを取得してるか
 	bool m_bItempCreate[ITEM_MAX];		// アイテムポインタ生成したか
+	bool m_bUICreate[ITEM_MAX];					// UI生成状態
+	CItemGetUI * m_pItemGetUI[ITEM_MAX];			// UIのポインタ
 	CPlayerUI * m_pUI;					// UIポインタ
 	CItem * m_pItem[3];					// アイテムポインタ
 };

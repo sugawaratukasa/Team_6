@@ -159,6 +159,13 @@
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
+    <ClCompile Include="item_get_ui.cpp" />
+    <ClCompile Include="item_get_ui_baton.cpp" />
+    <ClCompile Include="item_get_ui_jailer_key.cpp" />
+    <ClCompile Include="item_get_ui_map.cpp" />
+    <ClCompile Include="item_get_ui_pc_room_key.cpp" />
+    <ClCompile Include="item_get_ui_prison_key.cpp" />
+    <ClCompile Include="item_get_ui_storage_key.cpp" />
     <ClCompile Include="item_jailer_room_key.cpp" />
     <ClCompile Include="item_map.cpp" />
     <ClCompile Include="item_pc_room_key.cpp" />
@@ -274,6 +281,13 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="item_baton.h" />
+    <ClInclude Include="item_get_ui.h" />
+    <ClInclude Include="item_get_ui_baton.h" />
+    <ClInclude Include="item_get_ui_jailer_key.h" />
+    <ClInclude Include="item_get_ui_map.h" />
+    <ClInclude Include="item_get_ui_pc_room_key.h" />
+    <ClInclude Include="item_get_ui_prison_key.h" />
+    <ClInclude Include="item_get_ui_storage_key.h" />
     <ClInclude Include="item_jailer_room_key.h" />
     <ClInclude Include="item_map.h" />
     <ClInclude Include="item_pc_room_key.h" />

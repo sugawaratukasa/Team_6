@@ -17,6 +17,7 @@
 #include "button_start.h"
 #include "button_ranking.h"
 #include "button_exit.h"
+#include "fade.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -116,8 +117,9 @@ void CTitleButtonManager::PlayerItemGet(void)
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 	// パッド取得
 	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(0);
+	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
 	//上矢印キーが入力された場合
-	if (pKeyboard->GetTrigger(DIK_UP))
+	if (pKeyboard->GetTrigger(DIK_UP) && mode == CFade::FADE_MODE_NONE)
 	{
 		//現在のボタンを減算する
 		m_nButton--;
@@ -125,7 +127,7 @@ void CTitleButtonManager::PlayerItemGet(void)
 		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
 	//下矢印キーが入力された場合
-	if (pKeyboard->GetTrigger(DIK_DOWN))
+	if (pKeyboard->GetTrigger(DIK_DOWN) && mode == CFade::FADE_MODE_NONE)
 	{
 		//現在のボタンを減算する
 		m_nButton++;
@@ -133,7 +135,7 @@ void CTitleButtonManager::PlayerItemGet(void)
 		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
 	//もしENTERキー又はジョイスティックのAボタンを押されたら
-	if (pKeyboard->GetTrigger(DIK_RETURN))
+	if (pKeyboard->GetTrigger(DIK_RETURN) && mode == CFade::FADE_MODE_NONE)
 	{
 		//ボタンのプレス処理関数呼び出し
 		m_apButton[m_nButton]->Press();

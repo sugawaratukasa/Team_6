@@ -31,13 +31,19 @@
 #include "item_prison_key.h"
 #include "item_storage_key.h"
 #include "player_ui.h"
+#include "item_get_ui_prison_key.h"
+#include "item_get_ui_baton.h"
+#include "item_get_ui_jailer_key.h"
+#include "item_get_ui_map.h"
+#include "item_get_ui_pc_room_key.h"
+#include "item_get_ui_storage_key.h"
+
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
 #define PLAYER_SPEED			(50.0f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
-#define PLAYER_ROT_SPEED		(0.1f)									// キャラクターの回転する速度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲
 #define STICK_INPUT_ZONE_2		(1000)									// スティックの入力範囲
@@ -65,6 +71,11 @@ CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 	m_bIncapacitated = false;								// 行動不能状態
 	memset(m_abGetItem, false, sizeof(m_abGetItem));		// アイテムを取得してるか
 	memset(m_bItempCreate, false, sizeof(m_bItempCreate));	// アイテムポインタ生成したか
+	memset(m_bUICreate, false, sizeof(m_bUICreate));	// UI生成状態
+	for (int nCount = 0; nCount < ITEM_MAX; nCount++)
+	{
+		m_pItemGetUI[nCount] = nullptr;
+	}
 	m_pUI = nullptr;										// UIポインタ
 	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
 	{
@@ -127,6 +138,7 @@ void CPlayer::Update(void)
 {
 	// 更新
 	CCharacter::Update();
+	D3DXVECTOR3 Position = GetPos();
 	// もし行動不能状態の場合
 	if (m_bIncapacitated == true)
 	{
@@ -158,6 +170,10 @@ void CPlayer::Update(void)
 		{
 			// アイテムの更新処理関数呼び出し
 			m_pItem[nCount]->Update();
+		}
+		if (m_pItemGetUI[nCount] != nullptr)
+		{
+			m_pItemGetUI[nCount]->SetPosition(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z));
 		}
 	}
 }
@@ -317,6 +333,143 @@ void CPlayer::ItemDelete(int nPlayer)
 				ItemEffectCreate(nCount);
 			}
 		}
+	}
+}
+
+void CPlayer::ItemGetGuideUICreate(ITEM_GET_LIST Type)
+{
+	D3DXVECTOR3 Position = GetPos();
+	// UI生成状態がfalseの場合
+	if (m_bUICreate[Type] == false)
+	{
+		switch (Type)
+		{
+			// 牢屋の鍵
+		case ITEM_KEY_PRISON:
+			if (m_pItemGetUI[ITEM_KEY_PRISON] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_PRISON] = CItemGetUIPrisonKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 倉庫の鍵
+		case ITEM_KEY_STORAGE:
+			if (m_pItemGetUI[ITEM_KEY_STORAGE] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_STORAGE] = CItemGetUIStorageKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 看守の鍵
+		case ITEM_KEY_JAILER_ROOM:
+			if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = CItemGetUIJailerKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// PC室の鍵
+		case ITEM_KEY_PC_ROOM:
+			if (m_pItemGetUI[ITEM_KEY_PC_ROOM] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_PC_ROOM] = CItemGetUIPCRoomKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 警棒
+		case ITEM_BATON:
+			if (m_pItemGetUI[ITEM_BATON] == nullptr)
+			{
+				m_pItemGetUI[ITEM_BATON] = CItemGetUIBaton::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// マップ
+		case ITEM_MAP:
+			if (m_pItemGetUI[ITEM_MAP] == nullptr)
+			{
+				m_pItemGetUI[ITEM_MAP] = CItemGetUIMap::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
+{
+	switch (Type)
+	{
+		// 牢屋の鍵
+	case ITEM_KEY_PRISON:
+		if (m_pItemGetUI[ITEM_KEY_PRISON] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_PRISON]->Uninit();
+			m_pItemGetUI[ITEM_KEY_PRISON] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 倉庫の鍵
+	case ITEM_KEY_STORAGE:
+		if (m_pItemGetUI[ITEM_KEY_STORAGE] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_STORAGE]->Uninit();
+			m_pItemGetUI[ITEM_KEY_STORAGE] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 看守の鍵
+	case ITEM_KEY_JAILER_ROOM:
+		if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_JAILER_ROOM]->Uninit();
+			m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// PC室の鍵
+	case ITEM_KEY_PC_ROOM:
+		if (m_pItemGetUI[ITEM_KEY_PC_ROOM] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_PC_ROOM]->Uninit();
+			m_pItemGetUI[ITEM_KEY_PC_ROOM] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 警棒
+	case ITEM_BATON:
+		if (m_pItemGetUI[ITEM_BATON] != nullptr)
+		{
+			m_pItemGetUI[ITEM_BATON]->Uninit();
+			m_pItemGetUI[ITEM_BATON] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// マップ
+	case ITEM_MAP:
+		if (m_pItemGetUI[ITEM_MAP] != nullptr)
+		{
+			m_pItemGetUI[ITEM_MAP]->Uninit();
+			m_pItemGetUI[ITEM_MAP] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+	default:
+		break;
 	}
 }
 

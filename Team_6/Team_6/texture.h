@@ -54,6 +54,7 @@ public:
 		TEXTURE_NUM_TITLE_LOGO,				// タイトルロゴ
 		TEXTURE_NUM_SELECT_ITEM_FLAME,		// アイテム選択の枠
 		TEXTURE_NUM_MAP,					// マップテクスチャ
+		TEXTURE_NUM_Y,						// Y
 		TEXTURE_NUM_MAX
 	};
 

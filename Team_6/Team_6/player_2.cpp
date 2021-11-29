@@ -172,6 +172,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle)*fSpeed;
 		move.z = -cosf(fAngle)*fSpeed;
 		m_rotDest.y = fAngle;
+		SetMotion(1);
 	}
 	// 後ろに移動
 	if (pKeyboard->GetPress(DIK_DOWN))
@@ -180,6 +181,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf((fAngle))*fSpeed;
 		move.z = cosf((fAngle))*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_180;
+		SetMotion(1);
 	}
 	// 左に移動
 	if (pKeyboard->GetPress(DIK_LEFT))
@@ -188,6 +190,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle + ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle + ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_90;
+		SetMotion(1);
 	}
 	// 右に移動
 	if (pKeyboard->GetPress(DIK_RIGHT))
@@ -196,6 +199,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle - ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle - ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_90;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_UP) && pKeyboard->GetPress(DIK_LEFT))
@@ -204,6 +208,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_45;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_UP) && pKeyboard->GetPress(DIK_RIGHT))
@@ -212,6 +217,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_45;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_DOWN) && pKeyboard->GetPress(DIK_LEFT))
@@ -220,6 +226,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_135;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_DOWN) && pKeyboard->GetPress(DIK_RIGHT))
@@ -228,6 +235,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_135;
+		SetMotion(1);
 	}
 	// 移動量設定
 	SetMove(move);
