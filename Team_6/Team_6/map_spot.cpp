@@ -67,59 +67,70 @@ void CMapSpot::LoadSpot(void)
 			sscanf(aHead, "%s", aMode);
 
 			//スポットデータの読み込み
-			if (strcmp(aMode, "SPOT_SET") == 0)
+			if (strcmp(aMode, "AREA_SET") == 0)
 			{
-				while (strcmp(aMode, "SPOT_SET_END") != 0)
+				while (strcmp(aMode, "AREA_SET_END") != 0)
 				{
 					fgets(aHead, sizeof(aHead), pFile);
 					sscanf(aHead, "%s", aMode);
-
-					//位置の読み込み
-					if (strcmp(aMode, "POS") == 0)
-					{
-						sscanf(aHead, 
-							"%*s %*s %f %f %f", 
-							&spotData.info.pos.x, &spotData.info.pos.y, &spotData.info.pos.z);
-					}
-
-					//番号の読み込み
-					if (strcmp(aMode, "NUMBER") == 0)
-					{
-						sscanf(aHead, "%*s %*s %d", &spotData.info.nNumber);
-					}
 
 					//エリアの読み込み
 					if (strcmp(aMode, "AREA") == 0)
 					{
 						sscanf(aHead, "%*s %*s %d", &eArea);
 					}
-					//ネクスト情報の読み込み
-					if (strcmp(aMode, "NEXT_SET") == 0)
+
+					//スポットデータの読み込み
+					if (strcmp(aMode, "SPOT_SET") == 0)
 					{
-						while (strcmp(aMode, "NEXT_SET_END") != 0)
+						while (strcmp(aMode, "SPOT_SET_END") != 0)
 						{
 							fgets(aHead, sizeof(aHead), pFile);
 							sscanf(aHead, "%s", aMode);
 
-							int nNextNum = 0;
-
-							if (strcmp(aMode, "NUM") == 0)
+							//位置の読み込み
+							if (strcmp(aMode, "POS") == 0)
 							{
-								sscanf(aHead, "%*s %*s %d", &nNextNum);
+								sscanf(aHead,
+									"%*s %*s %f %f %f",
+									&spotData.info.pos.x, &spotData.info.pos.y, &spotData.info.pos.z);
+							}
 
-								//ネクストの保存
-								spotData.vNextNum.push_back(nNextNum);
+							//番号の読み込み
+							if (strcmp(aMode, "NUMBER") == 0)
+							{
+								sscanf(aHead, "%*s %*s %d", &spotData.info.nNumber);
+							}
+
+							
+							//ネクスト情報の読み込み
+							if (strcmp(aMode, "NEXT_SET") == 0)
+							{
+								while (strcmp(aMode, "NEXT_SET_END") != 0)
+								{
+									fgets(aHead, sizeof(aHead), pFile);
+									sscanf(aHead, "%s", aMode);
+
+									int nNextNum = 0;
+
+									if (strcmp(aMode, "NUM") == 0)
+									{
+										sscanf(aHead, "%*s %*s %d", &nNextNum);
+
+										//ネクストの保存
+										spotData.vNextNum.push_back(nNextNum);
+									}
+								}
 							}
 						}
+
+						//現在読み込んだデータを保存
+						m_vaSpotWorld[eArea].push_back(spotData);
+
+						spotData.vNextNum.clear();
 					}
 				}
-
-				//現在読み込んだデータを保存
-				m_vaSpotWorld[eArea].push_back(spotData);
-
-				spotData.vNextNum.clear();
 			}
-
 			//看守情報読み込み
 			if (strcmp(aMode, "JAIER_SET") == 0)
 			{
