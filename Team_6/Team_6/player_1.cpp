@@ -239,6 +239,10 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		m_rotDest.y = fAngle + ANGLE_135;
 		SetMotion(1);
 	}
+	if (move == ZeroVector3)
+	{
+		SetMotion(0);
+	}
 	// ˆÚ“®—Êİ’è
 	SetMove(move);
 }

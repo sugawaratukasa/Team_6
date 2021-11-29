@@ -84,6 +84,7 @@ public:
 	void SetUI(CPlayerUI * pUI) { m_pUI = pUI; }		// UI設定
 	void SetbGoal(bool bGoal) { m_bGoal = bGoal; }		// ゴール状態設定
 	void SetbIncapacitated(bool bIncapacitated) { m_bIncapacitated = bIncapacitated; }	// 行動不能状態設定
+	void SetbItemCollision(bool bCollision, ITEM_GET_LIST Type) { m_bItemCollision[Type] = bCollision; }
 	//=============================================================================
 	//　Get関数
 	//=============================================================================
@@ -100,6 +101,7 @@ private:
 	bool m_abGetItem[ITEM_MAX];			// アイテムを取得してるか
 	bool m_bItempCreate[ITEM_MAX];		// アイテムポインタ生成したか
 	bool m_bUICreate[ITEM_MAX];					// UI生成状態
+	bool m_bItemCollision[ITEM_MAX];
 	CItemGetUI * m_pItemGetUI[ITEM_MAX];			// UIのポインタ
 	CPlayerUI * m_pUI;					// UIポインタ
 	CItem * m_pItem[3];					// アイテムポインタ

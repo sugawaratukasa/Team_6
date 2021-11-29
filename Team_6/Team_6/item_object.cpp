@@ -48,7 +48,7 @@ HRESULT CItemObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
 	CModel::Init(pos, rot);
-	CModelCollisionBox::Create(pos, rot, this);
+	CModelCollisionBox::Create(pos, COLLISION_SIZE, this);
 	return S_OK;
 }
 //=============================================================================
@@ -113,16 +113,14 @@ void CItemObject::Collision(void)
 				// プレイヤーのサイズを取得する
 				D3DXVECTOR3 PlayerSize = apPlayer[nCount]->GetSize();
 				// アイテムとプレイヤーの矩形型の当たり判定
-				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
+				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, COLLISION_SIZE, PlayerSize) == true)
 				{
-					// プレイヤーのアイテム取得操作UI生成処理関数呼び出し
-					apPlayer[nCount]->ItemGetGuideUICreate(CPlayer::ITEM_GET_LIST(this->GetType()));
+					apPlayer[nCount]->SetbItemCollision(true, CPlayer::ITEM_GET_LIST(this->GetType()));
 					if (nCount == 0 && pKeyboard->GetTrigger(DIK_G) || nCount == 1 && pKeyboard->GetTrigger(DIK_H) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X, nCount))
 					{
 						// プレイヤーにアイテムを設定する
 						apPlayer[nCount]->SetAddbGetItem(this->GetType(), true);
-						// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
-						apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
+						apPlayer[nCount]->SetbItemCollision(false, CPlayer::ITEM_GET_LIST(this->GetType()));
 						// 終了処理関数呼び出し
 						Uninit();
 						return;
@@ -130,8 +128,7 @@ void CItemObject::Collision(void)
 				}
 				else
 				{
-					// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
-					apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
+					apPlayer[nCount]->SetbItemCollision(false, CPlayer::ITEM_GET_LIST(this->GetType()));
 				}
 			}
 		}

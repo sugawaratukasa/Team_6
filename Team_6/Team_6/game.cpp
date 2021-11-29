@@ -109,13 +109,12 @@ HRESULT CGame::Init(void)
 			return -1;
 		}
 	}
-	// プレイヤーの生成
-	CreatePlayer();
 	// アイテムの生成
 	CreateItem();
+
 	// 生成
 	CreateGround();
-	//
+
 	// 監視カメラの生成
 	CreateSecCam();
 
@@ -128,9 +127,12 @@ HRESULT CGame::Init(void)
 
 	//看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
-	/*CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3);*/
+	CJailer::Create(ZeroVector3, ZeroVector3);
+	CJailer::Create(ZeroVector3, ZeroVector3);
+
+	// プレイヤーの生成
+	CreatePlayer();
 
 	return S_OK;
 }
