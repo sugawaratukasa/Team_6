@@ -28,6 +28,7 @@
 #include "polygon.h"
 #include "shadow.h"
 #include "debug_proc.h"
+#include "mode_ranking.h"
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -306,6 +307,12 @@ void CManager::SetMode(MODE_TYPE mode)
 	case MODE_TYPE_RESULT:
 		// ゲーム生成
 		m_pModeBase.reset(new CResult);
+		break;
+		// リザルト
+	case MODE_TYPE_RANKING:
+		// ゲーム生成
+		m_pModeBase.reset(new CMode_Ranking);
+		break;
 	default:
 		break;
 	}

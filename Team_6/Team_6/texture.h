@@ -41,6 +41,8 @@ public:
 		TEXTURE_NUM_BATON,				// 警棒
 		TEXTURE_NUM_KEY,				// 鍵
 		TEXTURE_NUM_MAP,				// マップ
+		TEXTURE_NUM_RANKING_BG,			// ランキング背景
+		TEXTURE_NUM_RANKING_NUMBER,		// ランキングナンバー
 		TEXTURE_NUM_MAX
 	};
 

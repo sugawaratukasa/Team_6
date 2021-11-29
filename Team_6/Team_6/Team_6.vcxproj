@@ -189,6 +189,7 @@
     <ClCompile Include="model_anime.cpp" />
     <ClCompile Include="model_collision_box.cpp" />
     <ClCompile Include="mode_base.cpp" />
+    <ClCompile Include="mode_ranking.cpp" />
     <ClCompile Include="motion.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="jalier_MoveState.cpp" />
@@ -206,7 +207,7 @@
     <ClCompile Include="player_2.cpp" />
     <ClCompile Include="player_ui_manager.cpp" />
     <ClCompile Include="prison_cell_door.cpp" />
-    <ClCompile Include="rank.cpp" />
+    <ClCompile Include="ranking_bg.cpp" />
     <ClCompile Include="ranking.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resource_manager.cpp" />
@@ -276,6 +277,7 @@
     <ClInclude Include="model_anime.h" />
     <ClInclude Include="model_collision_box.h" />
     <ClInclude Include="mode_base.h" />
+    <ClInclude Include="mode_ranking.h" />
     <ClInclude Include="motion.h" />
     <ClInclude Include="Number.h" />
     <ClInclude Include="object.h" />
@@ -293,7 +295,7 @@
     <ClInclude Include="player_ui_manager.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="prison_cell_door.h" />
-    <ClInclude Include="rank.h" />
+    <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource_manager.h" />

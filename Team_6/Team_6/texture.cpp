@@ -67,7 +67,9 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/UI_frameI.png" },
 		{ "data/Texture/baton.png" },
 		{"data/Texture/Key_ItemUI.png"},
-		{"data/Texture/Map_ItemUI.png"}
+		{"data/Texture/Map_ItemUI.png"},
+		{ "data/Texture/Ranking_bg.png" },
+		{ "data/Texture/ui_number.png" }
 	};
 
 	// 分割テクスチャ

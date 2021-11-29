@@ -79,6 +79,9 @@
     <Filter Include="09_Object\Door">
       <UniqueIdentifier>{7c6a62f3-3c37-402c-b231-facb77763d8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03_Mode\Ranking">
+      <UniqueIdentifier>{c2afd8c7-8ec7-4553-a7df-b5abcd49f598}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -303,9 +306,6 @@
     <ClCompile Include="ranking.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
-    <ClCompile Include="rank.cpp">
-      <Filter>08_UI\Ranking</Filter>
-    </ClCompile>
     <ClCompile Include="time.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
@@ -341,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="guards_door.cpp">
       <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking_bg.cpp">
+      <Filter>08_UI\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="mode_ranking.cpp">
+      <Filter>03_Mode\Ranking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,9 +575,6 @@
     <ClInclude Include="ranking.h">
       <Filter>08_UI\Ranking</Filter>
     </ClInclude>
-    <ClInclude Include="rank.h">
-      <Filter>08_UI\Ranking</Filter>
-    </ClInclude>
     <ClInclude Include="time.h">
       <Filter>08_UI\Ranking</Filter>
     </ClInclude>
@@ -607,6 +610,12 @@
     </ClInclude>
     <ClInclude Include="guards_door.h">
       <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking_bg.h">
+      <Filter>08_UI\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="mode_ranking.h">
+      <Filter>03_Mode\Ranking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,59 +8,45 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "title.h"
+#include "mode_ranking.h"
 #include "manager.h"
 #include "renderer.h"
 #include "input.h"
-#include "scene_2d.h"
 #include "fade.h"
 #include "keyboard.h"
 #include "texture.h"
 #include "sound.h"
 #include "joypad.h"
 #include "resource_manager.h"
-#include "camera.h"
-#include "camera_title.h"
-#include "light.h"
-#include "player.h"
+#include "ranking_bg.h"
+#include "ranking.h"
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define LOGO_POS			(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, 150.0f, 0.0f))
-#define LOGO_SIZE			(D3DXVECTOR3(950.0f, 220.0f, 0.0f))
-#define TITLE_PLAYER_POS	(D3DXVECTOR3(5000.0f, 0.0f, -20000.0f))
-#define SHIP_PADDLE_ROTATE	(D3DXToRadian(1.0f))
-#define KEYBORAD_MAX		(256)
-// LightInfo
-#define TITLE_LIGHT_VECDIR	(D3DXVECTOR3(-0.8f, -1.0f, 1.0f))
-
+#define KEYBORAD_MAX	(256)													// キー
+#define BG_POS			(D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))	// 位置
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CTitle::CTitle()
+CMode_Ranking::CMode_Ranking()
 {
-	m_pShip = nullptr;
-	m_pObject2D.clear();
-	m_pCamera = nullptr;
-	m_pLight = nullptr;
+	m_pRankig = nullptr;
 }
 
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CTitle::~CTitle()
+CMode_Ranking::~CMode_Ranking()
 {
-	// 終了処理
-	Uninit();
 }
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT CTitle::Init(void)
+HRESULT CMode_Ranking::Init(void)
 {
-	// 3Dオブジェクト生成
-	Create3DObject();
+	// ランキング生成処理
+	RankingCreate();
 
 	return S_OK;
 }
@@ -68,52 +54,23 @@ HRESULT CTitle::Init(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void CTitle::Uninit(void)
+void CMode_Ranking::Uninit(void)
 {
-	for (auto &object : m_pObject2D)
+	// 破棄
+	if (m_pRankig != nullptr)
 	{
-		// 終了処理
-		object->Uninit();
-	}
+		// 終了
+		m_pRankig->Uninit();
 
-	// オブジェクト削除
-	m_pObject2D.clear();
-
-	// カメラ終了処理
-	if (m_pCamera)
-	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
-	}
-
-	// ライト終了処理
-	if (m_pLight)
-	{
-		m_pLight->Uninit();
-		delete m_pLight;
-		m_pLight = nullptr;
-	}
-
-	// 船終了処理
-	if (m_pShip)
-	{
-		m_pShip->Uninit();
-		m_pShip = nullptr;
+		m_pRankig = nullptr;
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void CTitle::Update(void)
+void CMode_Ranking::Update(void)
 {
-	// カメラ更新処理
-	if (m_pCamera)
-	{
-		m_pCamera->Update();
-	}
-
 	CInputKeyboard* pKey = CManager::GetKeyboard();
 	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
 
@@ -142,7 +99,7 @@ void CTitle::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void CTitle::Draw(void)
+void CMode_Ranking::Draw(void)
 {
 
 }
@@ -150,35 +107,23 @@ void CTitle::Draw(void)
 //=============================================================================
 // 2Dオブジェクト生成
 //=============================================================================
-void CTitle::Create2DObject(void)
+void CMode_Ranking::RankingCreate(void)
 {
+	// ランキングbg生成
+	CRanking_bg::Create(BG_POS);
 
-}
-
-//=============================================================================
-// 3Dオブジェクト生成
-//=============================================================================
-void CTitle::Create3DObject(void)
-{
-	// タイトルカメラの生成
-	if (!m_pCamera)
-	{
-		m_pCamera = CCameraTitle::Create();
-	}
-
-	// ライトの生成
-	if (!m_pLight)
-	{
-		m_pLight = CLight::Create();
-		m_pLight->SetVecDir(TITLE_LIGHT_VECDIR);
-	}
+	// 生成
+	m_pRankig = CRanking::Create();
 }
 //=============================================================================
 // モード遷移
 //=============================================================================
-void CTitle::ModeTransition(void)
+void CMode_Ranking::ModeTransition(void)
 {
 	// 遷移
 	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_GAME);
+	pFade->SetFade(CManager::MODE_TYPE_TITLE);
+
+	// 終了
+	Uninit();
 }

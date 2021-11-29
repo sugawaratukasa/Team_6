@@ -52,6 +52,7 @@ public:
 		MODE_TYPE_TUTORIAL,			// チュートリアル
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト
+		MODE_TYPE_RANKING,			// ランキング
 		MODE_TYPE_MAX,
 	};
 
