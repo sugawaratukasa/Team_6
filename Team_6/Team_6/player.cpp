@@ -1,11 +1,11 @@
 //=============================================================================
 // プレイヤー [player.cpp]
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 
 //=============================================================================
 // インクルードファイル
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 #include "player.h"
 #include "manager.h"
@@ -24,13 +24,26 @@
 #include "motion.h"
 #include "character_collision_box.h"
 #include "object.h"
+#include "item_baton.h"
+#include "item_jailer_room_key.h"
+#include "item_map.h"
+#include "item_pc_room_key.h"
+#include "item_prison_key.h"
+#include "item_storage_key.h"
+#include "player_ui.h"
+#include "item_get_ui_prison_key.h"
+#include "item_get_ui_baton.h"
+#include "item_get_ui_jailer_key.h"
+#include "item_get_ui_map.h"
+#include "item_get_ui_pc_room_key.h"
+#include "item_get_ui_storage_key.h"
+
 //=============================================================================
 // マクロ定義
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 #define PLAYER_SPEED			(50.0f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
-#define PLAYER_ROT_SPEED		(0.1f)									// キャラクターの回転する速度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲
 #define STICK_INPUT_ZONE_2		(1000)									// スティックの入力範囲
@@ -44,25 +57,36 @@
 #define ANGLE_270				(D3DXToRadian(270.0f))					// 角度270
 #define PARENT_NUM				(0)										// 親のナンバ
 #define MOVE_MIN				(0.0f)									// 移動量の最小
+
 //=============================================================================
 // コンストラクタ
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 {
-	// アイテムリストの最大数分回す
-	for (int nCount = 0; nCount < CItemObject::ITEM_OBJECT_MAX; nCount++)
+	m_nItemCount = ZERO_INT;								// アイテムの所持数
+	m_nItemSortCount = ZERO_INT;							// アイテムソート用カウント
+	m_nIncapacitatedTimeCount = ZERO_INT;					// 行動不能時間カウント
+	m_bGoal = false;										// ゴール状態
+	m_bIncapacitated = false;								// 行動不能状態
+	memset(m_abGetItem, false, sizeof(m_abGetItem));		// アイテムを取得してるか
+	memset(m_bItempCreate, false, sizeof(m_bItempCreate));	// アイテムポインタ生成したか
+	memset(m_bUICreate, false, sizeof(m_bUICreate));	// UI生成状態
+	for (int nCount = 0; nCount < ITEM_MAX; nCount++)
 	{
-		m_apItem[nCount] = nullptr;		// アイテムのポインタ
+		m_pItemGetUI[nCount] = nullptr;
 	}
-	m_nIncapacitatedTimeCount = 0;		// 行動不能時間カウント
-	m_nItemCount = 0;					// アイテムの所持数
-	m_bIncapacitated = false;			// 行動不能状態
+	m_pUI = nullptr;										// UIポインタ
+	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+	{
+		m_pItem[nCount] = nullptr;							// アイテムポインタ
+	}
+
 }
 
 //=============================================================================
 // デストラクタ
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 CPlayer::~CPlayer()
 {
@@ -70,7 +94,7 @@ CPlayer::~CPlayer()
 
 //=============================================================================
 // 初期化処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
@@ -86,35 +110,35 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
 
-	//// 影
-	//SetUseShadow();
-
-	//// 影の向き
-	//SetShadowRotCalculation();
-
 	CCharacterCollisionBox::Create(pos, rot, this);
-
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer::Uninit(void)
 {
 	// 終了
 	CCharacter::Uninit();
+	// UIポインタのnullptrチェック
+	if (m_pUI != nullptr)
+	{
+		// UIポインタの終了処理関数呼び出し
+		m_pUI->Uninit();
+	}
 }
 
 //=============================================================================
 // 更新関数処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer::Update(void)
 {
 	// 更新
 	CCharacter::Update();
+	D3DXVECTOR3 Position = GetPos();
 	// もし行動不能状態の場合
 	if (m_bIncapacitated == true)
 	{
@@ -130,23 +154,350 @@ void CPlayer::Update(void)
 			m_bIncapacitated = false;
 		}
 	}
-
 	// マップとの当たり判定
 	MapCollision();
+	// UIポインタのnullptrチェック
+	if (m_pUI != nullptr)
+	{
+		// UIポインタの更新処理関数呼び出し
+		m_pUI->Update();
+	}
+	// 最大アイテム所持数分回す
+	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+	{
+		// アイテムポインタのnullptrチェック
+		if (m_pItem[nCount] != nullptr)
+		{
+			// アイテムの更新処理関数呼び出し
+			m_pItem[nCount]->Update();
+		}
+		if (m_pItemGetUI[nCount] != nullptr)
+		{
+			m_pItemGetUI[nCount]->SetPosition(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z));
+		}
+	}
 }
 
 //=============================================================================
 // 描画処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer::Draw(void)
 {
 	// 描画
 	CCharacter::Draw();
 }
+
+//=============================================================================
+// アイテム効果生成処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer::ItemEffectCreate(int ItemGetList)
+{
+	switch (ItemGetList)
+	{
+		// 牢獄の鍵
+	case ITEM_KEY_PRISON:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 牢屋の鍵のポインタを生成する
+			m_pItem[m_nItemCount] = CPrisonKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+		// 倉庫の鍵
+	case ITEM_KEY_STORAGE:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 倉庫効果のポインタを生成する
+			m_pItem[m_nItemCount] = CStorageKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+		// 看守室の鍵
+	case ITEM_KEY_JAILER_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 看守室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CJailerRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+		// PC室の鍵
+	case ITEM_KEY_PC_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// PC室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CPCRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+		// 警棒
+	case ITEM_BATON:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 警棒効果のポインタを生成する
+			m_pItem[m_nItemCount] = CItemBaton::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+		// マップ
+	case ITEM_MAP:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 地図効果のポインタを生成する
+			m_pItem[m_nItemCount] = CItemMap::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+//=============================================================================
+// アイテム効果初期化処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer::ItemEffectUninit(void)
+{
+	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+	{
+		// アイテムポインタのnullptrチェック
+		if (m_pItem[nCount] != nullptr)
+		{
+			// アイテムの終了処理関数呼び出し
+			m_pItem[nCount]->Uninit();
+			// アイテムポインタを初期化する
+			m_pItem[nCount] = nullptr;
+		}
+	}
+	// アイテムカウントを初期化する
+	m_nItemCount = ZERO_INT;
+}
+
+//=============================================================================
+// アイテム削除処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer::ItemDelete(int nPlayer)
+{
+	// キーボード取得
+	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	// パッド取得
+	CInputJoypad * pJoypad = CManager::GetJoypad();
+	// 1Pのアイテム選択入力処理
+	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 0))
+	{
+		if (nPlayer == 0 && m_nItemSortCount > 0)
+		{
+			// アイテムソート用カウントを減算する
+			m_nItemSortCount--;
+		}
+	}
+	// 1Pのアイテム選択入力処理
+	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 0))
+	{
+		if (nPlayer == 0 && m_nItemSortCount < 2)
+		{
+			// アイテムソート用カウントを加算する
+			m_nItemSortCount++;
+		}
+	}
+	// 1P&2Pのアイテム削除入力処理
+	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_P) || nPlayer == 1 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,nPlayer))
+	{
+		// アイテムポインタのnullptrチェック
+		if (m_pItem[m_nItemSortCount] != nullptr)
+		{
+			// UIを消す
+			m_pUI->Uninit();
+			// 選択しているアイテムの種類を取得する
+			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+			// 選択しているアイテムの取得状態をfalseにする
+			SetSubbGetItem(nItemType, false);
+			// アイテムを生成する
+			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
+			// アイテム効果初期化処理関数呼び出し
+			ItemEffectUninit();
+			// アイテムの最大数分回す
+			for (int nCount = 0; nCount < ITEM_MAX; nCount++)
+			{
+				// アイテム効果生成処理関数呼び出し
+				ItemEffectCreate(nCount);
+			}
+		}
+	}
+}
+
+void CPlayer::ItemGetGuideUICreate(ITEM_GET_LIST Type)
+{
+	D3DXVECTOR3 Position = GetPos();
+	// UI生成状態がfalseの場合
+	if (m_bUICreate[Type] == false)
+	{
+		switch (Type)
+		{
+			// 牢屋の鍵
+		case ITEM_KEY_PRISON:
+			if (m_pItemGetUI[ITEM_KEY_PRISON] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_PRISON] = CItemGetUIPrisonKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 倉庫の鍵
+		case ITEM_KEY_STORAGE:
+			if (m_pItemGetUI[ITEM_KEY_STORAGE] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_STORAGE] = CItemGetUIStorageKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 看守の鍵
+		case ITEM_KEY_JAILER_ROOM:
+			if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = CItemGetUIJailerKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// PC室の鍵
+		case ITEM_KEY_PC_ROOM:
+			if (m_pItemGetUI[ITEM_KEY_PC_ROOM] == nullptr)
+			{
+				m_pItemGetUI[ITEM_KEY_PC_ROOM] = CItemGetUIPCRoomKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// 警棒
+		case ITEM_BATON:
+			if (m_pItemGetUI[ITEM_BATON] == nullptr)
+			{
+				m_pItemGetUI[ITEM_BATON] = CItemGetUIBaton::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+			// マップ
+		case ITEM_MAP:
+			if (m_pItemGetUI[ITEM_MAP] == nullptr)
+			{
+				m_pItemGetUI[ITEM_MAP] = CItemGetUIMap::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+			}
+			// UI生成状態をtrueにする
+			m_bUICreate[Type] = true;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
+{
+	switch (Type)
+	{
+		// 牢屋の鍵
+	case ITEM_KEY_PRISON:
+		if (m_pItemGetUI[ITEM_KEY_PRISON] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_PRISON]->Uninit();
+			m_pItemGetUI[ITEM_KEY_PRISON] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 倉庫の鍵
+	case ITEM_KEY_STORAGE:
+		if (m_pItemGetUI[ITEM_KEY_STORAGE] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_STORAGE]->Uninit();
+			m_pItemGetUI[ITEM_KEY_STORAGE] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 看守の鍵
+	case ITEM_KEY_JAILER_ROOM:
+		if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_JAILER_ROOM]->Uninit();
+			m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// PC室の鍵
+	case ITEM_KEY_PC_ROOM:
+		if (m_pItemGetUI[ITEM_KEY_PC_ROOM] != nullptr)
+		{
+			m_pItemGetUI[ITEM_KEY_PC_ROOM]->Uninit();
+			m_pItemGetUI[ITEM_KEY_PC_ROOM] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// 警棒
+	case ITEM_BATON:
+		if (m_pItemGetUI[ITEM_BATON] != nullptr)
+		{
+			m_pItemGetUI[ITEM_BATON]->Uninit();
+			m_pItemGetUI[ITEM_BATON] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+		// マップ
+	case ITEM_MAP:
+		if (m_pItemGetUI[ITEM_MAP] != nullptr)
+		{
+			m_pItemGetUI[ITEM_MAP]->Uninit();
+			m_pItemGetUI[ITEM_MAP] = nullptr;
+		}
+		// UI生成状態をfalseにする
+		m_bUICreate[Type] = false;
+		break;
+	default:
+		break;
+	}
+}
+
+//=============================================================================
+// 取得アイテム加算処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer::SetAddbGetItem(int nItem, bool bGet)
+{
+	// プレイヤーのアイテム所得状態
+	m_abGetItem[nItem] = bGet;
+	// アイテム効果を生成
+	ItemEffectCreate(nItem);
+}
+
+//=============================================================================
+// 取得アイテム減算処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer::SetSubbGetItem(int nItem, bool bGet)
+{
+	// プレイヤーのアイテム所得状態
+	m_abGetItem[nItem] = bGet;
+}
+
 //=============================================================================
 // マップとの当たり判定処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer::MapCollision(void)
 {
@@ -265,10 +616,4 @@ void CPlayer::MapCollision(void)
 			}
 		}
 	}
-}
-
-void CPlayer::SetItem(CItemObject::ITEM_OBJECT_LIST ItemList, CItemObject * pItem)
-{
-	m_apItem[ItemList] = pItem;
-	m_nItemCount++;
 }

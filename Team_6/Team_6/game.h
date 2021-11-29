@@ -26,7 +26,8 @@ class CCamera;
 class CCameraGame;
 class CLight;
 class CPlayer;
-class CPlayerUIManager;
+class CPauseButtonManager;
+class CPlayer1UI;
 
 //=======================================================================================
 // ゲームクラス
@@ -80,11 +81,12 @@ public:
 	CLight *GetLight(void) { return m_pLight; }			// ライトのポインタ情報
 	CPlayer * GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }
 private:
+	void PauseInput(void);
 	// ポインタ
-	CCameraGame *m_pCamera[ID_PLAYER_MAX];	// カメラのポインタ	
-	CLight *m_pLight;						// ライトのポインタ
-	CPlayerUIManager * m_pPlayerUIManager;	// プレイヤーUIマネージャーのポインタ
-	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ
-	LPD3DXFONT m_pFont;						// デバック用フォント
+	CCameraGame *m_pCamera[ID_PLAYER_MAX];		// カメラのポインタ	
+	CLight *m_pLight;							// ライトのポインタ
+	CPlayer *m_apPlayer[MAX_PLAYER];			// プレイヤーのポインタ
+	CPauseButtonManager *m_pPauseButtonManager;	// ポーズボタンマネージャーのポインタ
+	LPD3DXFONT m_pFont;							// デバック用フォント
 };
 #endif

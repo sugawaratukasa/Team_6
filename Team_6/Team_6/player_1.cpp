@@ -1,20 +1,41 @@
+//=============================================================================
+// プレイヤー1 [player_1.cpp]
+// Author : Nikaido Taichi
+//=============================================================================
+
+//=============================================================================
+// インクルードファイル
+// Author : Nikaido Taichi
+//=============================================================================
 #include "manager.h"
 #include "game.h"
-#include "camera.h"
 #include "player_1.h"
 #include "keyboard.h"
 #include "joypad.h"
 #include "resource_manager.h"
+#include "player1_ui.h"
 
+//=============================================================================
+// コンストラクタ
+// Author : Nikaido Taichi
+//=============================================================================
 CPlayer1::CPlayer1(PRIORITY Priority)
 {
 	m_rotDest = ZeroVector3;
 }
 
+//=============================================================================
+// デストラクタ
+// Author : Nikaido Taichi
+//=============================================================================
 CPlayer1::~CPlayer1()
 {
 }
 
+//=============================================================================
+// 生成処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 CPlayer1 * CPlayer1::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// CPlayer1のポインタ
@@ -37,6 +58,10 @@ CPlayer1 * CPlayer1::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	return pPlayer1;
 }
 
+//=============================================================================
+// 初期化処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// CXfile取得
@@ -52,21 +77,33 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CPlayer::Init(pos, rot);
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
+	// プレイヤー1のUI生成
+	SetUI(CPlayer1UI::Create());
 	return S_OK;
 }
 
+//=============================================================================
+// 終了処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 void CPlayer1::Uninit(void)
 {
 	// プレイヤーの終了処理関数呼び出し
 	CPlayer::Uninit();
 }
 
+//=============================================================================
+// 更新処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 void CPlayer1::Update(void)
 {
 	// プレイヤーの更新処理関数呼び出し
 	CPlayer::Update();
-	//行動不能状態取得
+	// 行動不能状態取得
 	bool bIncapacitated = GetbIncapacitated();
+	// ゴール状態取得
+	bool bGoal = GetbGoal();
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
@@ -79,18 +116,46 @@ void CPlayer1::Update(void)
 		// パッド移動
 		PadMove(fSpeed, fAngle);
 	}
-	else
+	// もし行動不能状態の場合又はゴール状態の場合
+	if(bIncapacitated == true || bGoal == true)
 	{
+		// 移動量を0にする
 		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	}
+	UpdateRot();
+	// アイテム削除処理関数呼び出し
+	ItemDelete(0);
 }
 
+//=============================================================================
+// 描画処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 void CPlayer1::Draw(void)
 {
 	// プレイヤーの描画処理関数呼び出し
 	CPlayer::Draw();
 }
 
+//=============================================================================
+// 独房ワープ処理関数
+// Author : Nikaido Taichi
+//=============================================================================
+void CPlayer1::PrisonWarp(void)
+{
+	// 行動不能状態取得
+	bool bIncapacitated = GetbIncapacitated();
+	// 行動不能状態にする
+	bIncapacitated = true;
+	SetbIncapacitated(bIncapacitated);
+	// 独房にワープさせる
+	SetPos(D3DXVECTOR3(5760.0f, 0.0f, -5900.0f));
+}
+
+//=============================================================================
+// キーボード移動処理関数
+// Author : Nikaido Taichi
+//=============================================================================
 void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 {
 	// キーボード取得
@@ -109,6 +174,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle)*fSpeed;
 		move.z = -cosf(fAngle)*fSpeed;
 		m_rotDest.y = fAngle;
+		SetMotion(1);
 	}
 	// 後ろに移動
 	if (pKeyboard->GetPress(DIK_S))
@@ -117,6 +183,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf((fAngle))*fSpeed;
 		move.z = cosf((fAngle))*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_180;
+		SetMotion(1);
 	}
 	// 左に移動
 	if (pKeyboard->GetPress(DIK_A))
@@ -125,6 +192,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle + ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle + ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_90;
+		SetMotion(1);
 	}
 	// 右に移動
 	if (pKeyboard->GetPress(DIK_D))
@@ -133,6 +201,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle - ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle - ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_90;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_W) && pKeyboard->GetPress(DIK_A))
@@ -141,6 +210,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_45;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_W) && pKeyboard->GetPress(DIK_D))
@@ -149,6 +219,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_45;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_S) && pKeyboard->GetPress(DIK_A))
@@ -157,6 +228,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_135;
+		SetMotion(1);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_S) && pKeyboard->GetPress(DIK_D))
@@ -165,6 +237,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_135;
+		SetMotion(1);
 	}
 	// 移動量設定
 	SetMove(move);
@@ -172,7 +245,7 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 
 //=============================================================================
 // パッド移動処理関数
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer1::PadMove(float fSpeed, float fAngle)
 {
@@ -215,7 +288,7 @@ void CPlayer1::PadMove(float fSpeed, float fAngle)
 
 //=============================================================================
 // 向き更新処理
-// Author : Sugawara Tsukasa
+// Author : Nikaido Taichi
 //=============================================================================
 void CPlayer1::UpdateRot(void)
 {

@@ -25,6 +25,7 @@ public:
 		DOOR_PC_ROOM,
 		DOOR_MAX
 	};
+
 	CDoor(PRIORITY Priority = PRIORITY_MAP);						// コンストラクタ
 	virtual ~CDoor();												// デストラクタ
 	static CDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 生成処理
@@ -45,6 +46,7 @@ public:
 	DOOR_LIST GetType(void) { return m_Type; }
 	bool GetLock(void) { return m_bLock; }
 private:
+
 	DOOR_LIST m_Type;		// ドアの種類
 	bool m_bLock;			// ロック状態
 	D3DXVECTOR3 m_InitPos;	// 初期位置

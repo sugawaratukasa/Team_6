@@ -1,8 +1,8 @@
-#ifndef _KEY_TEXTURE_H_
-#define _KEY_TEXTURE_H_
+#ifndef _ITEM_PC_ROOM_KEY_H_
+#define _ITEM_PC_ROOM_KEY_H_
 //=============================================================================
 //
-// 鍵アイコンのテクスチャヘッダー [key_texture.h]
+// PC室の鍵効果 [item_pc_room_key.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,7 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "scene_2d.h"
+#include "item.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,16 +23,16 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CKeyTexture : public CScene2D
+class CPCRoomKey : public CItem
 {
 public:
-	CKeyTexture(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
-	~CKeyTexture();													// デストラクタ
-	static CKeyTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);				// 初期化処理
-	void Uninit(void);												// 終了処理
-	void Update(void);												// プレイヤーの制御
-	void Draw(void);												// 描画処理
+	CPCRoomKey();
+	~CPCRoomKey();
+	static CPCRoomKey * Create(void);
+	HRESULT Init(void);
+	void Uninit(void);	
+	void Update(void);
+	void ItemCreate(int nPlayer);
 private:
 };
 #endif

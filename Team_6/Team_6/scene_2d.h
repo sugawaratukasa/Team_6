@@ -39,7 +39,8 @@ public:
 	void FlashPolygon(int nFlashFlame);									// ポリゴンの点滅
 	void FadeOut(float fSpeed);											// フェードアウト
 
-																		// Set関数
+	// Set関数
+	void SetPosition(D3DXVECTOR3 Pos);
 	void SetCol(D3DXCOLOR col);											// 色の設定
 	void SetRotation(float rotasion);									// 回転の設定
 	void SetScale(const float &fScale);									// 拡大の値設定

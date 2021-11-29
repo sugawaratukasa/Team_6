@@ -12,6 +12,8 @@
 #include "object_door.h"
 #include "object_wall.h"
 #include "floor.h"
+
+#include "goal_area.h"
 #include "prison_cell_door.h"
 #include "object_prison_door_left.h"
 #include "object_prison_door_right.h"
@@ -30,6 +32,7 @@
 //========================================================================
 CMap::CMap()
 {
+
 	m_a3DPolygonInfo		= {};
 	m_aModelInfo			= {};
 	m_pPrison_Cell_Door1	= nullptr;
@@ -75,6 +78,7 @@ HRESULT CMap::Init(void)
 {
 	// ì«Ç›çûÇ›
 	Load();
+	CGoalArea::Create(D3DXVECTOR3(2200.0f, 0.0f, -15800.0f), ZeroVector3);
 	return S_OK;
 }
 //========================================================================
@@ -288,6 +292,7 @@ void CMap::CreateModel(void)
 		// èåèï™äÚï∂
 		switch (m_aModelInfo.at(nCnt).nModelNum)
 		{
+
 		case MODEL_TYPE_PRISON_CELL_DOOR1:
 			// ì∆ñ[ÇÃÉhÉA1
 			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);

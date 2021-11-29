@@ -114,6 +114,7 @@ void CScene2D::Uninit(void)
 //=======================================================================================
 void CScene2D::Update(void)
 {
+	SetVertex();
 	if (m_bFadeOut)
 	{
 		FadeOut(m_fFadeSpeedNum);
@@ -156,6 +157,12 @@ void CScene2D::Draw(void)
 
 	// テクスチャの設定
 	pD3DDevice->SetTexture(0, nullptr);
+}
+
+void CScene2D::SetPosition(D3DXVECTOR3 Pos)
+{
+	D3DXVECTOR3 Position = Pos;
+	SetPos(Position);
 }
 
 //======================================================

@@ -64,15 +64,22 @@
     <Filter Include="09_Object">
       <UniqueIdentifier>{1c371c8f-2faa-4dc5-8d8e-145204c091a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08_Item_object">
-      <UniqueIdentifier>{52751c1d-2b25-46df-857d-4c8d3946f5c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10_UI">
-      <UniqueIdentifier>{0ee0b20b-ad1c-4eb2-9c4d-935473054965}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_Map">
       <UniqueIdentifier>{3e3a3af6-298d-4ea6-9208-5263a7d281c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="12_Button">
+      <UniqueIdentifier>{667cd0a9-a1eb-4e61-9431-1ab7050703f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08_Item">
+      <UniqueIdentifier>{52751c1d-2b25-46df-857d-4c8d3946f5c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08_2dPolygon">
+      <UniqueIdentifier>{ed395e8b-4f2e-4ee8-a0ef-5906584510f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07_Effect">
+      <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
+    </Filter>
+
     <Filter Include="08_UI\Ranking">
       <UniqueIdentifier>{b11092f7-730c-48d6-a3f7-5893a7f39650}</UniqueIdentifier>
     </Filter>
@@ -81,6 +88,9 @@
     </Filter>
     <Filter Include="03_Mode\Ranking">
       <UniqueIdentifier>{c2afd8c7-8ec7-4553-a7df-b5abcd49f598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_UI">
+      <UniqueIdentifier>{fa1d0da3-a064-4efc-b0a3-2ba0b830a1f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -178,13 +188,13 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
     <ClCompile Include="shadow.cpp">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_polygon.cpp">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="shadow_volume.cpp">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>00_Important\Camera</Filter>
@@ -207,41 +217,20 @@
     <ClCompile Include="player_2.cpp">
       <Filter>05_Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="item_object.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_pc_room_key.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_map.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_prison_key.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_jailer_room_key.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_storage_key.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_baton.cpp">
-      <Filter>08_Item_object</Filter>
-    </ClCompile>
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
     <ClCompile Include="Screenframe.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="Guage.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="Number.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="fan3d.cpp">
       <Filter>04_Scene</Filter>
@@ -270,20 +259,19 @@
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-    <ClCompile Include="player_ui_manager.cpp">
-      <Filter>08_UI</Filter>
-    </ClCompile>
     <ClCompile Include="baton_texture.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="ui_flame_texture.cpp">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClCompile>
     <ClCompile Include="key_texture.cpp">
       <Filter>08_UI</Filter>
     </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
+    <ClCompile Include="object_wall.cpp">
+      <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="object_wall.cpp">
       <Filter>09_Object</Filter>
@@ -303,6 +291,7 @@
     <ClCompile Include="Timer.cpp">
       <Filter>10_UI</Filter>
     </ClCompile>
+
     <ClCompile Include="ranking.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
@@ -347,6 +336,138 @@
     </ClCompile>
     <ClCompile Include="mode_ranking.cpp">
       <Filter>03_Mode\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_exit.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_ranking.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_start.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="title_button_manager.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_back_to_title.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_quit_game.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="pause_button_manager.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_guid.cpp">
+      <Filter>12_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_baton.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_jailer_room_key.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_map.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_pc_room_key.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_prison_key.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_storage_key.cpp">
+      <Filter>09_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_pc_room_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_map.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_pause.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_title.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="logo_title.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_prison_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_storage_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_jailer_room_key.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_baton.cpp">
+      <Filter>08_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="goal_area.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="select_item_flame.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="player_ui.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="player1_ui.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="player2_ui.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="map_ui_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="map_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="pc_room_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="prison_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="storage_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_key_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_prison_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_jailer_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_map.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_pc_room_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_storage_key.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="item_get_ui_baton.cpp">
+      <Filter>13_UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -444,13 +565,13 @@
       <Filter>04_Scene</Filter>
     </ClInclude>
     <ClInclude Include="shadow.h">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_polygon.h">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="shadow_volume.h">
-      <Filter>06_Model\07_Effect</Filter>
+      <Filter>07_Effect</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>00_Important\Camera</Filter>
@@ -473,41 +594,20 @@
     <ClInclude Include="player_2.h">
       <Filter>05_Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="item_object.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_pc_room_key.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_map.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_prison_key.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_jailer_room_key.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_baton.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_storage_key.h">
-      <Filter>08_Item_object</Filter>
-    </ClInclude>
     <ClInclude Include="character_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
     <ClInclude Include="Screenframe.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="Guage.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="Number.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="fan3d.h">
       <Filter>04_Scene</Filter>
@@ -539,20 +639,19 @@
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
-    <ClInclude Include="player_ui_manager.h">
-      <Filter>08_UI</Filter>
-    </ClInclude>
     <ClInclude Include="baton_texture.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="ui_flame_texture.h">
-      <Filter>08_UI</Filter>
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="key_texture.h">
       <Filter>08_UI</Filter>
     </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
@@ -616,6 +715,138 @@
     </ClInclude>
     <ClInclude Include="mode_ranking.h">
       <Filter>03_Mode\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_exit.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_ranking.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_start.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="title_button_manager.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_back_to_title.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_quit_game.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="pause_button_manager.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_guid.h">
+      <Filter>12_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_baton.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_jailer_room_key.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_map.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_pc_room_key.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_prison_key.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_storage_key.h">
+      <Filter>09_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_pc_room_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_map.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="bg_pause.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="bg_title.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="logo_title.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_prison_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_storage_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_jailer_room_key.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_baton.h">
+      <Filter>08_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="goal_area.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="select_item_flame.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="player_ui.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="player1_ui.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="player2_ui.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="map_ui_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="map_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="pc_room_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="prison_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="storage_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_key_texture.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_prison_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_jailer_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_map.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_pc_room_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_storage_key.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="item_get_ui_baton.h">
+      <Filter>13_UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

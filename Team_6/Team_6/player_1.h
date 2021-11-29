@@ -15,6 +15,7 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
+class CPlayer1UI;
 
 //=============================================================================
 // プレイヤークラス
@@ -22,17 +23,18 @@
 class CPlayer1 : public CPlayer
 {
 public:
-	CPlayer1(PRIORITY Priority = PRIORITY_CHARACTER);									// コンストラクタ
-	~CPlayer1();																		// デストラクタ
-	static CPlayer1*Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);							// クリエイト
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);										// 初期化処理
-	void Uninit(void);																	// 終了処理
-	void Update(void);																	// プレイヤーの制御
-	void Draw(void);																	// 描画処理
+	CPlayer1(PRIORITY Priority = PRIORITY_CHARACTER);				// コンストラクタ
+	~CPlayer1();													// デストラクタ
+	static CPlayer1*Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);		// クリエイト
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
+	void Uninit(void);												// 終了処理
+	void Update(void);												// プレイヤーの制御
+	void Draw(void);												// 描画処理
 private:
-	void KeyboardMove(float fSpeed, float fAngle);
-	void PadMove(float fSpeed, float fAngle);
-	void UpdateRot(void);
-	D3DXVECTOR3 m_rotDest;
+	void PrisonWarp(void);											// 独房ワープ処理
+	void KeyboardMove(float fSpeed, float fAngle);					// キーボード移動処理
+	void PadMove(float fSpeed, float fAngle);						// ジョイパッド移動処理
+	void UpdateRot(void);											// 向き更新処理
+	D3DXVECTOR3 m_rotDest;											
 };
 #endif

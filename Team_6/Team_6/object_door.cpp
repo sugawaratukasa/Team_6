@@ -27,8 +27,7 @@
 CDoor::CDoor(PRIORITY Priority) : CObject(Priority)
 {
 	m_Type = DOOR_NONE;		// ドアの種類
-	m_bLock = true;			// ロック状態
-	m_InitPos = ZeroVector3;
+	m_bLock = true;			// ロック状態	m_InitPos = ZeroVector3;
 	m_nCloseCnt = ZERO_INT;
 }
 
@@ -74,9 +73,23 @@ HRESULT CDoor::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// 初期化処理
 	CObject::Init(pos, rot);
 
+
 	// 初期位置代入
 	m_InitPos = pos;
 
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+
+
+	// サイズ設定
+	SetSize(COLLISION_SIZE);
+
+	// 90以上の場合
+	if (rot.y >= ROT_90)
+	{
+		// サイズ
+		SetSize(COLLISION_SIZE2);
+	}
 	return S_OK;
 }
 
@@ -127,6 +140,7 @@ void CDoor::Draw(void)
 {
 	// 描画処理
 	CObject::Draw();
+
 }
 //=============================================================================
 // ドアを開く処理関数

@@ -1,8 +1,8 @@
-#ifndef _PLAYER_UI_MANAGER_H_
-#define _PLAYER_UI_MANAGER_H_
+#ifndef _ITEM_GET_UI_PC_ROOM_KEY_H_
+#define _ITEM_GET_UI_PC_ROOM_KEY_H_
 //=============================================================================
 //
-// プレイヤーUIマネージャークラスヘッダー [player_ui_manager.h]
+// プレイヤーUIクラスヘッダー [item_get_ui.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,6 +10,8 @@
 //=============================================================================
 // インクルード
 //=============================================================================
+#include "main.h"
+#include "item_get_ui.h"
 
 //=============================================================================
 // マクロ定義
@@ -18,23 +20,20 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CScene2D;
 
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPlayerUIManager
+class CItemGetUIPCRoomKey : public CItemGetUI
 {
 public:
-	CPlayerUIManager();		// コンストラクタ
-	~CPlayerUIManager();	// デストラクタ
-	static CPlayerUIManager * Create(void);
-	HRESULT Init(void);		// 初期化処理
-	void Uninit(void);		// 終了処理
-	void Update(void);		// プレイヤーの制御
+	CItemGetUIPCRoomKey();														// コンストラクタ
+	~CItemGetUIPCRoomKey();														// デストラクタ
+	static CItemGetUIPCRoomKey * Create(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);		// 生成処理
+	HRESULT Init(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);							// 初期化処理
+	void Uninit(void);															// 終了処理
+	void Draw(void);															// 描画処理
+	void Update(void);															// プレイヤーの制御
 private:
-	void UICreate(void);
-	int m_anItemTextureCount[2];
-	CScene2D * m_apItemTexture[2][CItemObject::ITEM_OBJECT_MAX];
 };
 #endif

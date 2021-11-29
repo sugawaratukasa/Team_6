@@ -16,19 +16,21 @@
 #include "item_object.h"
 #include "game.h"
 #include "model_collision_box.h"
+#include "keyboard.h"
+#include "joypad.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-
+#define COLLISION_SIZE (D3DXVECTOR3(550.0f,550.0f,550.0f))
 //=============================================================================
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
 CItemObject::CItemObject(PRIORITY Priority) : CModel(Priority)
 {
-	m_Type = ITEM_OBJECT_NONE;		// タイプ
+	m_Type = ITEM_OBJECT_NONE;							// タイプ
 }
 //=============================================================================
 // デストラクタ
@@ -85,6 +87,10 @@ void CItemObject::Draw(void)
 //=============================================================================
 void CItemObject::Collision(void)
 {
+	// キーボード取得
+	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	// パッド取得
+	CInputJoypad * pJoypad = CManager::GetJoypad();
 	// 位置を取得する
 	D3DXVECTOR3 Position = GetPos();
 	// サイズを取得する
@@ -109,11 +115,23 @@ void CItemObject::Collision(void)
 				// アイテムとプレイヤーの矩形型の当たり判定
 				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
 				{
-					// プレイヤーにアイテムを設定する
-					apPlayer[nCount]->SetItem(this->GetType(), this);
-					// 終了処理関数呼び出し
-					Uninit();
-					return;
+					// プレイヤーのアイテム取得操作UI生成処理関数呼び出し
+					apPlayer[nCount]->ItemGetGuideUICreate(CPlayer::ITEM_GET_LIST(this->GetType()));
+					if (nCount == 0 && pKeyboard->GetTrigger(DIK_G) || nCount == 1 && pKeyboard->GetTrigger(DIK_H) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X, nCount))
+					{
+						// プレイヤーにアイテムを設定する
+						apPlayer[nCount]->SetAddbGetItem(this->GetType(), true);
+						// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
+						apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
+						// 終了処理関数呼び出し
+						Uninit();
+						return;
+					}
+				}
+				else
+				{
+					// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
+					apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
 				}
 			}
 		}

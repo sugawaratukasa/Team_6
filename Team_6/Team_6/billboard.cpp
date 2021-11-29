@@ -318,6 +318,12 @@ void CBillboard::SetColor(D3DXCOLOR col)
 	pVtxBuff->Unlock();
 }
 
+void CBillboard::SetPosition(D3DXVECTOR3 Pos)
+{
+	D3DXVECTOR3 Position = Pos;
+	SetPos(Pos);
+}
+
 //=====================================================
 // à⁄ìÆó ê›íË
 //=====================================================

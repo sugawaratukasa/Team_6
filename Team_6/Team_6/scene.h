@@ -37,6 +37,7 @@ public:
 		PRIORITY_SHADOW,	// 影
 		PRIORITY_3D_UI,		// UI
 		PRIORITY_UI,		// UI
+		PRIORITY_BUTTON,	// ボタン
 		PRIORITY_FADE,		// FADE
 		PRIORITY_MAX		// 優先順位の最大数
 	};
@@ -55,6 +56,7 @@ public:
 	CScene *GetTop(int nCount);									// シーンの情報受け取り
 	CScene *GetNext(void);										// 次の情報を受け取る
 	static void SetPause(bool Pause);							// ポーズの情報
+	static bool GetPause(void) { return m_bPause; }
 	void DeathRelease(void);									// 死亡フラグのリリース
 
 protected:
