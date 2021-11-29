@@ -22,7 +22,7 @@
 #define ANGLE_135                (D3DXToRadian(135.0f))                  // 角度90
 #define ANGLE_180                (D3DXToRadian(180.0f))                  // 角度180
 #define ANGLE_270                (D3DXToRadian(270.0f))                  // 角度270
-#define PLAYER_ROT_SPEED        (0.1f)                                   // キャラクターの回転する速度
+#define PLAYER_ROT_SPEED        (1.0f)                                   // キャラクターの回転する速度
 #define PLAYER_SPEED            (50.0f)                                  // プレイヤーの移動量
 #define INCAPACITATED_TIME		(1200)									 // 行動不能時間
 #define MAX_PLAYER (2)													 // プレイヤーの最大数

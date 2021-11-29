@@ -122,6 +122,7 @@ void CPlayer1::Update(void)
 		// 移動量を0にする
 		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	}
+	UpdateRot();
 	// アイテム削除処理関数呼び出し
 	ItemDelete(0);
 }
