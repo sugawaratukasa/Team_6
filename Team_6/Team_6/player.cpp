@@ -414,9 +414,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_KEY_PRISON]->Uninit();
 			m_pItemGetUI[ITEM_KEY_PRISON] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 		// 倉庫の鍵
 	case ITEM_KEY_STORAGE:
@@ -424,9 +425,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_KEY_STORAGE]->Uninit();
 			m_pItemGetUI[ITEM_KEY_STORAGE] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 		// 看守の鍵
 	case ITEM_KEY_JAILER_ROOM:
@@ -434,9 +436,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_KEY_JAILER_ROOM]->Uninit();
 			m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 		// PC室の鍵
 	case ITEM_KEY_PC_ROOM:
@@ -444,9 +447,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_KEY_PC_ROOM]->Uninit();
 			m_pItemGetUI[ITEM_KEY_PC_ROOM] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 		// 警棒
 	case ITEM_BATON:
@@ -454,9 +458,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_BATON]->Uninit();
 			m_pItemGetUI[ITEM_BATON] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 		// マップ
 	case ITEM_MAP:
@@ -464,9 +469,10 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		{
 			m_pItemGetUI[ITEM_MAP]->Uninit();
 			m_pItemGetUI[ITEM_MAP] = nullptr;
+			// UI生成状態をfalseにする
+			m_bUICreate[Type] = false;
 		}
-		// UI生成状態をfalseにする
-		m_bUICreate[Type] = false;
+
 		break;
 	default:
 		break;

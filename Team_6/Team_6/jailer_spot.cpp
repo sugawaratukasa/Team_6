@@ -4,7 +4,7 @@
 CJailerSpot::CJailerSpot()
 {
 	m_eArea = MAP_AREA_LEFT;
-	m_vMoveSpot.clear();
+	m_vSpotDest.clear();
 	m_nJailerNumber = ZERO_INT;
 	m_nIndex = ZERO_INT;
 }
@@ -33,16 +33,16 @@ CJailerSpot * CJailerSpot::Create(const int nJaierNumber)
 D3DXVECTOR3 CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
 {
 	//看守の位置に一番近いスポットを検索
-	SPOT_INFO jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
+	SPOT jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
 
 	//プレイヤーの位置に一番近いスポットを検索
-	SPOT_INFO playerSpot = ClosestSpotSearch(m_eArea, playerPos);
+	SPOT playerSpot = ClosestSpotSearch(m_eArea, playerPos);
 
 
 	//そのまま追跡ルートにする
 	m_vRoute.push_back(playerSpot);
 
-	Dijkstra(m_eArea, m_vMoveSpot[m_nIndex], playerSpot);
+	Dijkstra(m_eArea, m_vSpotDest[m_nIndex], playerSpot);
 
 	return playerSpot.pos;
 }
@@ -50,45 +50,59 @@ D3DXVECTOR3 CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPo
 D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 {
 	//看守の位置に一番近いスポットを検索
-	SPOT_INFO jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
+	SPOT jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
 
 	//一番近い巡回ルートの位置を割り出す
-	SPOT_INFO jailerMove = ClosestSpotSearchJailer(jailerPos);
+	SPOT jailerMove = ClosestSpotSearchJailer(jailerPos);
 
 	int nCntIndex = ZERO_INT;
 
-	auto itr = m_vMoveSpot.begin();
-	auto itrEnd = m_vMoveSpot.end();
+	auto itr = m_vSpotDest.begin();
+	auto itrEnd = m_vSpotDest.end();
+	
+	
+	int nSpotNum = m_vSpotDest.size();
 
-	for (itr; itr != itrEnd; ++itr)
+	for (nCntIndex = 0; nCntIndex < nSpotNum; nCntIndex++)
 	{
-		if (itr->nNumber == jailerMove.nNumber)
+		if (m_vSpotDest[nCntIndex].nNumber == jailerMove.nNumber)
 		{
 			break;
 		}
-
-		nCntIndex++;
 	}
 
 	m_nIndex = nCntIndex;
+
+	//設定したインデックスが前回と同じだった場合
+	if (m_nIndex == m_nOldIndex)
+	{
+		m_nIndex++;
+
+		//インデックスが要素数より大きくなったときは修正
+		if (m_nIndex >= nSpotNum)
+		{
+			//最初に戻す
+			m_nIndex = ZERO_INT;
+		}
+	}
 
 	return jailerSpot.pos;
 }
 
 CJailerSpot::MOVE_SPOT CJailerSpot::ClosestSpotSearchJailer(D3DXVECTOR3 jailerPos)
 {
-	auto itrBase = m_vMoveSpot.begin();
-	auto itrBaseEnd = m_vMoveSpot.end();
+	auto itrBase = m_vSpotDest.begin();
+	auto itrBaseEnd = m_vSpotDest.end();
 
-	SPOT_INFO returnInfo;	//返すスポット情報
+	SPOT returnInfo;	//返すスポット情報
 
 	int nCnt = 0;
 	float fKeepRange = ZERO_FLOAT;
 
 	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
 	{
-		//現在地と目的地までのベクトルを計算
-		D3DXVECTOR3 Distance = jailerPos - itrBase->pos;
+		//現在地(看守の位置)と目的地（スポットの位置）までの2点間ベクトルを計算
+		D3DXVECTOR3 Distance = itrBase->pos - jailerPos;
 
 		//長さを求める
 		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
@@ -129,7 +143,7 @@ HRESULT CJailerSpot::Init(const int nJaierNumber)
 void CJailerSpot::InitData()
 {
 	//自分の情報を取得
-	JAILER_INFO jailerInfo = GetJailerInfo(m_nJailerNumber);
+	JAILER_SPOT jailerInfo = GetJailerInfo(m_nJailerNumber);
 
 	//エリア情報を保存
 	m_eArea = jailerInfo.eArea;
@@ -145,17 +159,20 @@ void CJailerSpot::InitData()
 		moveSpot.nNumber = *itrJaier;
 
 		//番号に対応した位置を取得
-		moveSpot.pos = GetSpotWorldPos(m_eArea, moveSpot.nNumber);
+		moveSpot.pos = GetSpotPos(m_eArea, moveSpot.nNumber);
 
 		//データ保存
-		m_vMoveSpot.push_back(moveSpot);
+		m_vSpotDest.push_back(moveSpot);
 	}
 }
 
-D3DXVECTOR3 CJailerSpot::ChangeTarget(void)
+D3DXVECTOR3 CJailerSpot::ChangeSpotDest(void)
 {
+	//前回番号を保存
+	m_nOldIndex = m_nIndex;
+
 	//スポットのサイズを取得
-	int nSpotNum = m_vMoveSpot.size();
+	int nSpotNum = m_vSpotDest.size();
 	
 	//インデックスを1つ進める
 	m_nIndex++;
@@ -163,8 +180,9 @@ D3DXVECTOR3 CJailerSpot::ChangeTarget(void)
 	//インデックスが要素数より大きくなったときは修正
 	if (m_nIndex >= nSpotNum)
 	{
+		//最初に戻す
 		m_nIndex = ZERO_INT;
 	}
 	
-	return m_vMoveSpot[m_nIndex].pos;
+	return m_vSpotDest[m_nIndex].pos;
 }

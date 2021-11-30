@@ -18,17 +18,28 @@
 class CMapSpot
 {
 public:
+	//=========================================================================
+	//マップのエリア情報の列挙
+	//=========================================================================
 	enum MAP_AREA
 	{
 		MAP_AREA_LEFT = 0,
 		MAP_AREA_RIGHT,
 		MAP_AREA_MAX,
 	};
-	struct SPOT_INFO
+
+	//=========================================================================
+	//スポットの構造体
+	//=========================================================================
+	struct SPOT
 	{
 		int nNumber;		//スポットの番号
 		D3DXVECTOR3 pos;	//スポットの位置
 	};
+
+	//=========================================================================
+	//ネクストの構造体
+	//=========================================================================
 	struct NEXT
 	{
 		int nNum;		//ネクストの番号
@@ -39,11 +50,14 @@ public:
 	//=========================================================================
 	struct SPOT_DATA
 	{
-		SPOT_INFO info;
-		vector<int> vNextNum;	//通行可能な番号
+		SPOT spot;			//スポット
+		vector<NEXT> vNext;	//通行可能な番号
 	};
 
-	struct JAILER_INFO
+	//=========================================================================
+	//看守の巡回スポットデータの構造体
+	//=========================================================================
+	struct JAILER_SPOT
 	{
 		vector<int> vnNumber;		//スポット番号
 		MAP_AREA eArea;				//マップのエリア属性
@@ -65,23 +79,25 @@ public:
 
 	static void LoadSpot(void);	//ファイル読み込み処理
 
-
 protected:
 	void InitializeDijkstra(const MAP_AREA eArea);
-	SPOT_INFO ClosestSpotSearch(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
+	SPOT ClosestSpotSearch(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
 
-	void Dijkstra(const MAP_AREA eArea,SPOT_INFO Begin, SPOT_INFO end);
-	SPOT_DATA GetWorldSpotData(const MAP_AREA eArea, int nNumBase);
-	SPOT_INFO GetWorldSpotInfo(const MAP_AREA eArea, int nNumBase);
-	D3DXVECTOR3 GetSpotWorldPos(const MAP_AREA eArea, int nNumBase);	//位置の取得
-	JAILER_INFO GetJailerInfo(const int nJailer) { return m_aJailerMoveSpot[nJailer]; }
+	void Dijkstra(const MAP_AREA eArea,SPOT Begin, SPOT end);
+
+	//ゲッター
+	SPOT_DATA GetALLSpotData(const MAP_AREA eArea, const int nNumBase) { return m_vaSpotWorld[eArea].at(nNumBase); }				//スポットの全データの取得
+	SPOT GetWorldSpot(const MAP_AREA eArea, const int nNumBase) { return m_vaSpotWorld[eArea].at(nNumBase).spot; }				//スポットの情報の取得
+	D3DXVECTOR3 GetSpotPos(const MAP_AREA eArea, const int nNumBase) { return m_vaSpotWorld[eArea].at(nNumBase).spot.pos; }	//スポットの位置の取得
+	JAILER_SPOT GetJailerInfo(const int nJailer) { return m_aJailerMoveSpot[nJailer]; }	//看守の巡回データの取得
 	
 private:
+	
 	//=========================================================================
 	//メンバ変数宣言
 	//=========================================================================
 	static vector<SPOT_DATA> m_vaSpotWorld[MAP_AREA_MAX];	//スポットデータ
-	static JAILER_INFO m_aJailerMoveSpot[4];
+	static JAILER_SPOT m_aJailerMoveSpot[4];				//看守のスポットデータ
 	vector<DIJKSTRA> m_vDijkstra;
 
 };

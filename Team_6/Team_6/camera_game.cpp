@@ -84,6 +84,7 @@ HRESULT CCameraGame::Init(void)
 {
 	// ‰Šú‰»ˆ—
 	CCamera::Init();
+	SetDistance(DISTANCE*1.5f);
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 

@@ -119,10 +119,10 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_pSpot = CJailerSpot::Create(m_nNumber);
 
 	//位置の設定
-	SetPos(m_pSpot->GetSpotPos());
+	SetPos(m_pSpot->GetSpotDest());
 
 	//目的地を設定
-	m_posDest = m_pSpot->ChangeTarget();
+	m_posDest = m_pSpot->ChangeSpotDest();
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, VIEW_POS_Y, m_posDest.z), 
@@ -398,7 +398,7 @@ int CJailer::AddTimer(int add)
 void CJailer::SettingPosDest(void)
 {
 	//目的地の更新
-	m_posDest = m_pSpot->ChangeTarget();
+	m_posDest = m_pSpot->ChangeSpotDest();
 }
 
 //=============================================================================
