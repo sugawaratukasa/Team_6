@@ -79,7 +79,6 @@
     <Filter Include="07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="08_UI\Ranking">
       <UniqueIdentifier>{b11092f7-730c-48d6-a3f7-5893a7f39650}</UniqueIdentifier>
     </Filter>
@@ -223,7 +222,6 @@
     <ClCompile Include="player_2.cpp">
       <Filter>05_Character\Player</Filter>
     </ClCompile>
-
     <ClCompile Include="character_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
@@ -266,9 +264,6 @@
     <ClCompile Include="ui_flame_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
-    <ClCompile Include="key_texture.cpp">
-      <Filter>08_UI</Filter>
-    </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
     </ClCompile>
@@ -299,7 +294,6 @@
     <ClCompile Include="Movie.cpp">
       <Filter>03_Mode\Movie</Filter>
     </ClCompile>
-
     <ClCompile Include="ranking.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
@@ -333,7 +327,6 @@
     <ClCompile Include="object_switch.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_switch_collision.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
@@ -490,6 +483,9 @@
     <ClCompile Include="jailer_return_routeState.cpp">
       <Filter>05_Character\Jjailer</Filter>
     </ClCompile>
+    <ClCompile Include="fog.cpp">
+      <Filter>07_Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -615,7 +611,6 @@
     <ClInclude Include="player_2.h">
       <Filter>05_Character\Player</Filter>
     </ClInclude>
-
     <ClInclude Include="character_collision_box.h">
       <Filter>06_Model</Filter>
     </ClInclude>
@@ -661,13 +656,11 @@
     <ClInclude Include="ui_flame_texture.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
-    <ClInclude Include="key_texture.h">
-      <Filter>08_UI</Filter>
-    </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
     </ClInclude>
-    <ClInclude Include="object_wall.h">      <Filter>09_Object</Filter>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="object_wall.h">
       <Filter>09_Object</Filter>
@@ -881,6 +874,9 @@
     </ClInclude>
     <ClInclude Include="jailer_return_routeState.h">
       <Filter>05_Character\Jjailer</Filter>
+    </ClInclude>
+    <ClInclude Include="fog.h">
+      <Filter>07_Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

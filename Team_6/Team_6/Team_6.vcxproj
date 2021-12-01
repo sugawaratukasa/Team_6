@@ -157,6 +157,7 @@
     <ClCompile Include="button_quit_game.cpp" />
     <ClCompile Include="button_ranking.cpp" />
     <ClCompile Include="button_start.cpp" />
+    <ClCompile Include="fog.cpp" />
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
+    <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="goal_area.h" />
     <ClInclude Include="guards_door.h" />
@@ -366,7 +368,8 @@
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
-    <ClInclude Include="prison_key_texture.h" />    <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="prison_key_texture.h" />
+    <ClInclude Include="prison_cell_door.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />

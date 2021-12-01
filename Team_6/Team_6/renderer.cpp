@@ -208,9 +208,11 @@ void CRenderer::Update(void)
 void CRenderer::Draw(void)
 {
 
+	float fStart = 500.0f;
+	float fEnd = 1000.0f;
+
 	if (CManager::GetMode() == CManager::MODE_TYPE_MOVIE)
 	{
-
 
 	}
 	else
@@ -243,6 +245,23 @@ void CRenderer::Draw(void)
 				// 監視カメラを見ているなら
 				if (m_bUseSecCam)
 				{
+					// フォグ有効化
+					m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+					// フォグカラー設定
+					m_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+					// バーテックスフォグ(線形公式)を使用
+					m_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+					// 範囲ベースのフォグを使用
+					m_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+
+					fStart = 500.0f;
+					fEnd = 1000.0f;
+
+					// フォグ範囲設定
+					m_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *((LPDWORD)(&fStart)));
+					m_pD3DDevice->SetRenderState(D3DRS_FOGEND, *((LPDWORD)(&fEnd)));
+
 					// ビューポート設定
 					SetUpViewPort(CCamera::SCREEN_NONE);
 					//オブジェクトクラスの全描画処理呼び出し
@@ -260,6 +279,22 @@ void CRenderer::Draw(void)
 					// ビューポートの数だけ描画する
 					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 					{
+						// フォグ有効化
+						m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+						// フォグカラー設定
+						m_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+						// バーテックスフォグ(線形公式)を使用
+						m_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+						// 範囲ベースのフォグを使用
+						m_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+
+						fStart = 1600.0f;
+						fEnd = 2000.0f;
+						// フォグ範囲設定
+						m_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *((LPDWORD)(&fStart)));
+						m_pD3DDevice->SetRenderState(D3DRS_FOGEND, *((LPDWORD)(&fEnd)));
+
 						// ビューポート設定
 						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
 

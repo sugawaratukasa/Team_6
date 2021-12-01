@@ -43,6 +43,7 @@
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
 #include "player1_ui.h"
+#include "fog.h"
 
 //=======================================================================================
 // マクロ定義
@@ -131,6 +132,9 @@ HRESULT CGame::Init(void)
 	/*CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);*/
+
+	// フォグ有効化
+	CFog::Init();
 
 	return S_OK;
 }

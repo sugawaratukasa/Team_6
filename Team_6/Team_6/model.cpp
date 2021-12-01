@@ -182,8 +182,6 @@ void CModel::Draw(void)
 		//•ÛŽ‚µ‚Ä‚¢‚½ƒ}ƒeƒŠƒAƒ‹‚ð–ß‚·
 		pDevice->SetMaterial(&matDef);
 
-		pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
 		// ‰e‚Ì•`‰æ
 		ShadowDraw(m_rot);
 	}

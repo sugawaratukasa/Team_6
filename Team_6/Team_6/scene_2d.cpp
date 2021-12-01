@@ -141,6 +141,9 @@ void CScene2D::Draw(void)
 	// 頂点バッファをデータストリームに設定
 	pD3DDevice->SetStreamSource(0, GetVtxBuff(), 0, sizeof(VERTEX_2D));
 
+	// フォグを無効化
+	pD3DDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 	// 頂点フォーマットの設定
 	pD3DDevice->SetFVF(FVF_VERTEX_2D);
 
@@ -154,6 +157,9 @@ void CScene2D::Draw(void)
 
 	//アルファテストを無効化
 	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	// フォグを有効化
+	pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
 	// テクスチャの設定
 	pD3DDevice->SetTexture(0, nullptr);

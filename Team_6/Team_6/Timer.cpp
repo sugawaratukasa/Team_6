@@ -67,6 +67,9 @@ void CTimer::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
+	// フォグを無効化
+	pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -86,6 +89,9 @@ void CTimer::Draw(void)
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 
 	CScene2D::Draw();
+
+	// フォグを有効化
+	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 }
 
 //=============================================================================
