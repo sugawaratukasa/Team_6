@@ -10,8 +10,8 @@
 //=============================================================================
 #include "map_spot.h"
 
-vector<CMapSpot::SPOT_DATA> CMapSpot::m_vaSpotWorld[CMapSpot::MAP_AREA_MAX];
-CMapSpot::JAILER_SPOT CMapSpot::m_aJailerMoveSpot[4];
+vector<CMapSpot::SPOT> CMapSpot::m_vaSpot[CMapSpot::MAP_AREA_MAX];
+CMapSpot::PATROL_DATA CMapSpot::m_aPatrolData[4];
 
 //=============================================================================
 //コンストラクタ
@@ -53,7 +53,7 @@ void CMapSpot::LoadSpot(void)
 
 	pFile = fopen("data/Text/Spot/spot_data.txt", "r");
 
-	SPOT_DATA spotData;
+	SPOT spotData;
 	MAP_AREA eArea;
 	NEXT next;
 
@@ -94,13 +94,13 @@ void CMapSpot::LoadSpot(void)
 							{
 								sscanf(aHead,
 									"%*s %*s %f %f %f",
-									&spotData.spot.pos.x, &spotData.spot.pos.y, &spotData.spot.pos.z);
+									&spotData.node.pos.x, &spotData.node.pos.y, &spotData.node.pos.z);
 							}
 
 							//番号の読み込み
 							if (strcmp(aMode, "NUMBER") == 0)
 							{
-								sscanf(aHead, "%*s %*s %d", &spotData.spot.nNumber);
+								sscanf(aHead, "%*s %*s %d", &spotData.node.nNumber);
 							}
 							
 							//ネクスト情報の読み込み
@@ -114,7 +114,7 @@ void CMapSpot::LoadSpot(void)
 									//番号読み込み
 									if (strcmp(aMode, "NUM") == 0)
 									{
-										sscanf(aHead, "%*s %*s %d", &next.nNum);
+										sscanf(aHead, "%*s %*s %d", &next.nNumber);
 									}
 
 									//長さ読み込み
@@ -130,7 +130,7 @@ void CMapSpot::LoadSpot(void)
 						}
 
 						//現在読み込んだデータを保存
-						m_vaSpotWorld[eArea].push_back(spotData);
+						m_vaSpot[eArea].push_back(spotData);
 
 						spotData.vNext.clear();
 					}
@@ -157,7 +157,7 @@ void CMapSpot::LoadSpot(void)
 					//エリアの読み込み
 					if (strcmp(aMode, "AREA") == 0)
 					{
-						sscanf(aHead, "%*s %*s %d", &m_aJailerMoveSpot[nJaierNum].eArea);
+						sscanf(aHead, "%*s %*s %d", &m_aPatrolData[nJaierNum].eArea);
 					}
 
 					//要素の読み込み
@@ -165,7 +165,7 @@ void CMapSpot::LoadSpot(void)
 					{
 						sscanf(aHead, "%*s %*s %d", &nNum);
 
-						m_aJailerMoveSpot[nJaierNum].vnNumber.push_back(nNum);
+						m_aPatrolData[nJaierNum].vnNumber.push_back(nNum);
 					}
 				}
 			}
@@ -185,12 +185,12 @@ void CMapSpot::InitializeDijkstra(const MAP_AREA eArea)
 {
 }
 
-CMapSpot::SPOT CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTOR3 pos)
+CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 pos)
 {
-	auto itrBase = m_vaSpotWorld[eArea].begin();
-	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
+	auto itrBase = m_vaSpot[eArea].begin();
+	auto itrBaseEnd = m_vaSpot[eArea].end();
 
-	SPOT returnInfo;	//返すスポット情報
+	NODE returnInfo;	//返すスポット情報
 
 	int nCnt = 0;
 	float fKeepRange = ZERO_FLOAT;
@@ -198,7 +198,7 @@ CMapSpot::SPOT CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTO
 	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
 	{
 		//現在地と目的地までのベクトルを計算
-		D3DXVECTOR3 Distance = pos - itrBase->spot.pos;
+		D3DXVECTOR3 Distance = pos - itrBase->node.pos;
 
 		//長さを求める
 		 float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
@@ -207,7 +207,7 @@ CMapSpot::SPOT CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTO
 		 if (nCnt == ZERO_INT)
 		 {
 			 fKeepRange = fRange;
-			 returnInfo = itrBase->spot;
+			 returnInfo = itrBase->node;
 
 			 nCnt++;
 		 }
@@ -218,57 +218,10 @@ CMapSpot::SPOT CMapSpot::ClosestSpotSearch(const MAP_AREA eArea, const D3DXVECTO
 			 {
 				 //データを更新
 				 fKeepRange = fRange;
-				 returnInfo = itrBase->spot;
+				 returnInfo = itrBase->node;
 			 }
 		 }
 	}
 
 	return returnInfo;
 }
-
-void CMapSpot::Dijkstra(const MAP_AREA eArea,SPOT Begin, SPOT end)
-{
-	auto itrBase = m_vaSpotWorld[eArea].begin();
-	auto itrBaseEnd = m_vaSpotWorld[eArea].end();
-
-	vector<SPOT_DATA>spot = m_vaSpotWorld[eArea];
-
-
-	int nSearchNum = Begin.nNumber;
-
-	vector<SPOT> Search;
-
-	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
-	{
-		//スタートと同じものを検索
-		if (itrBase->spot.nNumber == nSearchNum)
-		{
-			break;
-		}
-	}
-
-	//確定サーチ情報へ保存
-	Search.push_back(itrBase->spot);
-
-	//スタート地点のイテレーターを取得
-	auto itrNext = itrBase->vNext.begin();
-	auto itrNextEnd = itrBase->vNext.end();
-
-	vector<SPOT_DATA> spData;
-
-	for (itrNext; itrNext != itrNextEnd; ++itrNext)
-	{
-		//ネクストの番号が終点位置の番号と同値
-		if (itrNext->nNum == end.nNumber)
-		{
-
-		}
-		else
-		{
-			spData.push_back(GetALLSpotData(eArea, itrNext->nNum));
-
-		}
-	}
-}
-
-

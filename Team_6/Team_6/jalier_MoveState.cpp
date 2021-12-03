@@ -32,7 +32,7 @@ CMoveState * CMoveState::GetInstance()
 //=============================================================================
 void CMoveState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	pJailer->SetTimer(ZERO_INT);
+	pJailer->SetTime(ZERO_INT);
 }
 
 //=============================================================================
@@ -42,7 +42,7 @@ void CMoveState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
 	if (pJailerView->GetIsDetection() == false)
 	{
-		pJailer->Move();
+		pJailer->Patrol();
 	}
 	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
 	else 

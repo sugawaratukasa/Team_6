@@ -28,7 +28,7 @@ CChaseState * CChaseState::GetInstance()
 //=============================================================================
 void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	pJailer->SetTimer(0);
+	pJailer->SetTime(0);
 }
 
 //=============================================================================
@@ -37,12 +37,12 @@ void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
 	//追跡する
-	pJailer->Chase();
+	pJailer->ChasePlayer();
 
 	//プレイヤーを発見している
 	if (pJailerView->GetIsDetection() == true)
 	{
-		pJailer->SetTimer(0);
+		pJailer->SetTime(0);
 		//当たり判定を行う
 		if (pJailer->IsHitPlayer() == true)
 		{
@@ -53,9 +53,9 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 	}
 	else
 	{
-		int nTime = pJailer->AddTimer(1);
+		int nTime = pJailer->AddTime(1);
 
-		if (pJailer->GetDistanceRange() <= 10.0f || nTime == 60)
+		if (pJailer->GetDestLength() <= 10.0f || nTime == 60)
 		{
 			//警戒状態へ
 			pJailer->ChangeState(CJailer_LostTarget::GetInstance());

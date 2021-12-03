@@ -1,19 +1,26 @@
 #include "jailer_spot.h"
 #include "debug_proc.h"
-
+//=============================================================================
+//コンストラクタ
+//=============================================================================
 CJailerSpot::CJailerSpot()
 {
 	m_eArea = MAP_AREA_LEFT;
-	m_vSpotDest.clear();
+	m_vPatrolSpot.clear();
 	m_nJailerNumber = ZERO_INT;
 	m_nIndex = ZERO_INT;
 }
-
+//=============================================================================
+//デストラクタ
+//=============================================================================
 CJailerSpot::~CJailerSpot()
 {
 }
 
 
+//=============================================================================
+//クリエイト処理
+//=============================================================================
 CJailerSpot * CJailerSpot::Create(const int nJaierNumber)
 {
 	CJailerSpot *pJailerSpot = nullptr;
@@ -30,19 +37,77 @@ CJailerSpot * CJailerSpot::Create(const int nJaierNumber)
 	return nullptr;
 }
 
-D3DXVECTOR3 CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
+//=============================================================================
+//初期化処理
+//=============================================================================
+HRESULT CJailerSpot::Init(const int nJaierNumber)
+{
+	//看守番号を保存
+	m_nJailerNumber = nJaierNumber;
+
+	//パトロールデータの初期化
+	InitializePatrolSpot();
+
+	return S_OK;
+}
+
+//=============================================================================
+//各種データの初期化
+//=============================================================================
+void CJailerSpot::InitializePatrolSpot(void)
+{
+	//自分の巡回データを取得
+	PATROL_DATA patrolData = GetPatrolData(m_nJailerNumber);
+
+	//エリア情報を保存
+	m_eArea = patrolData.eArea;
+
+	//イテレーターを取得
+	auto itrJaier = patrolData.vnNumber.begin();
+	auto itrJaierEnd = patrolData.vnNumber.end();
+
+	for (itrJaier; itrJaier != itrJaierEnd; ++itrJaier)
+	{
+		PATROL_SPOT patrolSpot;
+
+		//スポットの番号を保存
+		patrolSpot.nNumber = *itrJaier;
+
+		//スポットの番号に対応した位置を取得
+		patrolSpot.pos = GetNodePos(m_eArea, patrolSpot.nNumber);
+
+		//データ追加
+		m_vPatrolSpot.push_back(patrolSpot);
+
+		CSpotPolygon *pPolygon = CSpotPolygon::Create(patrolSpot.pos, patrolSpot.nNumber);
+
+		m_pPolygon.push_back(pPolygon);
+	}
+}
+
+void CJailerSpot::Update(void)
+{
+	CDebugProc::Print("前回のインデックス:%d\n", m_nOldIndex);
+	CDebugProc::Print("今回のインデックス:%d\n", m_nIndex);
+
+	if (m_pPolygon.at(m_nIndex))
+	{
+		m_pPolygon.at(m_nIndex)->SetFlashing();
+	}
+}
+
+D3DXVECTOR3 CJailerSpot::SearchRoute(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
 {
 	//看守の位置に一番近いスポットを検索
-	SPOT jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
+	NODE jailerSpot = SearchNearNode(m_eArea, jailerPos);
 
 	//プレイヤーの位置に一番近いスポットを検索
-	SPOT playerSpot = ClosestSpotSearch(m_eArea, playerPos);
+	NODE playerSpot = SearchNearNode(m_eArea, playerPos);
 
 
 	//そのまま追跡ルートにする
 	m_vRoute.push_back(playerSpot);
 
-	Dijkstra(m_eArea, m_vSpotDest[m_nIndex], playerSpot);
 
 	return playerSpot.pos;
 }
@@ -50,22 +115,21 @@ D3DXVECTOR3 CJailerSpot::RouteSearch(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPo
 D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 {
 	//看守の位置に一番近いスポットを検索
-	SPOT jailerSpot = ClosestSpotSearch(m_eArea, jailerPos);
+	NODE jailerSpot = SearchNearNode(m_eArea, jailerPos);
 
 	//一番近い巡回ルートの位置を割り出す
-	SPOT jailerMove = ClosestSpotSearchJailer(jailerPos);
+	NODE jailerMove = SearchNearPatrolSpot(jailerPos);
 
 	int nCntIndex = ZERO_INT;
 
-	auto itr = m_vSpotDest.begin();
-	auto itrEnd = m_vSpotDest.end();
+	auto itr = m_vPatrolSpot.begin();
+	auto itrEnd = m_vPatrolSpot.end();
 	
-	
-	int nSpotNum = m_vSpotDest.size();
+	int nSpotNum = m_vPatrolSpot.size();
 
 	for (nCntIndex = 0; nCntIndex < nSpotNum; nCntIndex++)
 	{
-		if (m_vSpotDest[nCntIndex].nNumber == jailerMove.nNumber)
+		if (m_vPatrolSpot[nCntIndex].nNumber == jailerMove.nNumber)
 		{
 			break;
 		}
@@ -89,12 +153,15 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 	return jailerSpot.pos;
 }
 
-CJailerSpot::MOVE_SPOT CJailerSpot::ClosestSpotSearchJailer(D3DXVECTOR3 jailerPos)
+//=============================================================================
+//一番近い巡回スポットを求める
+//=============================================================================
+CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos)
 {
-	auto itrBase = m_vSpotDest.begin();
-	auto itrBaseEnd = m_vSpotDest.end();
+	auto itrBase = m_vPatrolSpot.begin();
+	auto itrBaseEnd = m_vPatrolSpot.end();
 
-	SPOT returnInfo;	//返すスポット情報
+	NODE returnInfo;	//返すスポット情報
 
 	int nCnt = 0;
 	float fKeepRange = ZERO_FLOAT;
@@ -130,49 +197,18 @@ CJailerSpot::MOVE_SPOT CJailerSpot::ClosestSpotSearchJailer(D3DXVECTOR3 jailerPo
 	return returnInfo;
 }
 
-HRESULT CJailerSpot::Init(const int nJaierNumber)
-{
-	//看守番号を保存
-	m_nJailerNumber = nJaierNumber;
 
-	InitData();
 
-	return S_OK;
-}
-
-void CJailerSpot::InitData()
-{
-	//自分の情報を取得
-	JAILER_SPOT jailerInfo = GetJailerInfo(m_nJailerNumber);
-
-	//エリア情報を保存
-	m_eArea = jailerInfo.eArea;
-
-	auto itrJaier = jailerInfo.vnNumber.begin();
-	auto itrJaierEnd = jailerInfo.vnNumber.end();
-
-	for (itrJaier; itrJaier != itrJaierEnd; ++itrJaier)
-	{
-		MOVE_SPOT moveSpot;
-
-		//スポットの番号を保存
-		moveSpot.nNumber = *itrJaier;
-
-		//番号に対応した位置を取得
-		moveSpot.pos = GetSpotPos(m_eArea, moveSpot.nNumber);
-
-		//データ保存
-		m_vSpotDest.push_back(moveSpot);
-	}
-}
-
-D3DXVECTOR3 CJailerSpot::ChangeSpotDest(void)
+//=============================================================================
+//巡回スポットの変更処理
+//=============================================================================
+D3DXVECTOR3 CJailerSpot::ChangePatrolSpot(void)
 {
 	//前回番号を保存
 	m_nOldIndex = m_nIndex;
 
 	//スポットのサイズを取得
-	int nSpotNum = m_vSpotDest.size();
+	int nSpotNum = m_vPatrolSpot.size();
 	
 	//インデックスを1つ進める
 	m_nIndex++;
@@ -184,5 +220,5 @@ D3DXVECTOR3 CJailerSpot::ChangeSpotDest(void)
 		m_nIndex = ZERO_INT;
 	}
 	
-	return m_vSpotDest[m_nIndex].pos;
+	return m_vPatrolSpot[m_nIndex].pos;
 }

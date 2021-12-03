@@ -258,6 +258,7 @@
     <ClCompile Include="shadow_volume.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="spot_polygon.cpp" />
     <ClCompile Include="storage_key_texture.cpp" />
     <ClCompile Include="map_spot.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -366,7 +367,8 @@
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
-    <ClInclude Include="prison_key_texture.h" />    <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="prison_key_texture.h" />
+    <ClInclude Include="prison_cell_door.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
@@ -382,6 +384,7 @@
     <ClInclude Include="shadow_polygon.h" />
     <ClInclude Include="shadow_volume.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="spot_polygon.h" />
     <ClInclude Include="storage_key_texture.h" />
     <ClInclude Include="map_spot.h" />
     <ClInclude Include="texture.h" />

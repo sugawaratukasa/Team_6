@@ -20,17 +20,17 @@
 //=============================================================================
 //待機状態クラス
 //=============================================================================
-class CWaitState : public CJailerState
+class CReturnRouteState : public CJailerState
 {
 public:
 	//インスタンス生成
-	static CWaitState *GetInstance();
+	static CReturnRouteState *GetInstance();
 
 	virtual void Init(CJailer *pJailer, CJailerView *pJailerView);
 	virtual void Update(CJailer *pJailer, CJailerView *pJailerView);
 
 private:
-	CWaitState(){}
-	~CWaitState(){}
+	CReturnRouteState(){}
+	~CReturnRouteState(){}
 };
 #endif // !JAILER_WAITSTATE_H_

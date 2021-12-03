@@ -14,7 +14,7 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define CAUTION_TIME (60)	//警戒する時間
+#define CAUTION_TIME (180)	//警戒する時間
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -69,9 +69,10 @@ void CJailer_LostTarget::Release(void)
 void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 {
 	//タイマーのセット
-	pJailer->SetTimer(ZERO_INT);
+	pJailer->SetTime(ZERO_INT);
 	pJailer->SetSpeed(ZERO_FLOAT);
 	pJailer->SetMove(ZeroVector3);
+	pJailer->SetGuardBaseDir();
 	pJailerView->JailerCaution(false);
 }
 
@@ -81,7 +82,7 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 void CJailer_LostTarget::Update(CJailer * pJailer, CJailerView * pJailerView)
 {
 	//警戒
-	pJailer->Caution();
+	pJailer->GuardSurrounding();
 
 	//発見したら
 	if (pJailerView->GetIsDetection() == true)
@@ -92,10 +93,10 @@ void CJailer_LostTarget::Update(CJailer * pJailer, CJailerView * pJailerView)
 	else
 	{
 		//未発見状態が一定時間続いたら
-		if (pJailer->AddTimer(ADD_TIME) >= CAUTION_TIME)
+		if (pJailer->AddTime(ADD_TIME) >= CAUTION_TIME)
 		{
 			//巡回状態へ
-			pJailer->ChangeState(CWaitState::GetInstance());
+			pJailer->ChangeState(CReturnRouteState::GetInstance());
 		}
 	}
 }

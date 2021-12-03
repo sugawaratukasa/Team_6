@@ -19,7 +19,6 @@ class CJailerSpot;
 //=============================================================================
 #include "character.h"
 #include "jailer_view.h"
-#include "jailer_return_routeState.h"
 
 //=============================================================================
 //看守クラス
@@ -53,24 +52,26 @@ public:
 
 	//看守AIのそれぞれ状態の処理関数
 	void ChangeState(CJailerState *jailerstate);	//状態遷移
-	void Move(void);								//移動関数
-	void RetrunRoute(void);								//待機
-	void Chase(void);								//追跡
-	void Caution(void);								//警戒状態
+	void Patrol(void);								//巡回関数
+	void RetrunRoute(void);							//待機
+	void ChasePlayer(void);							//プレイヤーを追跡
+	void GuardSurrounding(void);					//周囲警戒状態
 	void Attack(void);								//攻撃状態
 
-	int AddTimer(int add);		//秒数加算
-	void SettingPosDest(void);	//目的地の設定
-	void SetRotDest();			//向きの目的の値の設定
-	bool IsHitPlayer(void);		//プレイヤーとの衝突判定
-	void MapCollision(void);										// マップとの当たり判定
+	int AddTime(int add);			//秒数加算
+	void ChangePosDest(void);		//目的地の設定
+	void ChangeRotDest(void);		//向きの目的の値の設定
+	bool IsHitPlayer(void);			//プレイヤーとの衝突判定
+	void CheckMapCollision(void);	// マップとの当たり判定
 	void SetRetrunData(void);
+	void SetGuardBaseDir(void);
 	//publicセッター
-	void SetTimer(int time) { m_nSwitchingTimer = time; }	//タイマーセット
+	void SetTime(int time) { m_nSwitchingTime = time; }	//タイマーセット
 	
+
 	//publicゲッター
-	int GetTimer(void) { return m_nSwitchingTimer; }					//タイマーゲット
-	float GetDistanceRange(void)const { return m_fDestinationRange; }	//目的地の距離の長さの取得
+	int GetTime(void) { return m_nSwitchingTime; }					//タイマーゲット
+	float GetDestLength(void)const { return m_fDestLength; }	//目的地の距離の長さの取得
 
 private:
 	//=========================================================================
@@ -79,15 +80,15 @@ private:
 	static int m_nJailerTotal;		//看守の総数
 	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
 	CJailerState *m_pJailerState;	//状態のポインタ
+	CJailerSpot *m_pSpot;
 	D3DXVECTOR3 m_rotDest;			//向きの目的地
 	D3DXVECTOR3 m_posDest;			//位置の目的地
 	D3DXVECTOR3 m_posDestOld;		//前回の位置の目的地
-	D3DXVECTOR3 m_Distance;			//目的地までの距離
-	int m_nSwitchingTimer;			//状態の切り替えタイマー
+	D3DXVECTOR3 m_distance;			//目的地までの距離
+	D3DXVECTOR3 m_GuardBaseDir;		//警戒時の基準の方向
+	int m_nSwitchingTime;			//状態の切り替えタイマー
 	int m_nNumber;					//自分の番号	
-	float m_fDestinationRange;		//目的地と自分の距離の長さ
-	CJailerSpot *m_pSpot;
-
-	
+	float m_fDestLength;			//目的地と自分の距離の長さ
+	float m_TurnSpeed;				//振り向き速度
 };
 #endif // !_JAILER_H_

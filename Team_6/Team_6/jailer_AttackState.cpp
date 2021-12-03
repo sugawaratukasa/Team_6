@@ -26,7 +26,7 @@ CAttackState * CAttackState::GetInstance()
 //=============================================================================
 void CAttackState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	pJailer->SetTimer(ZERO_INT);
+	pJailer->SetTime(ZERO_INT);
 }
 
 //=============================================================================
@@ -34,8 +34,8 @@ void CAttackState::Init(CJailer *pJailer, CJailerView *pJailerView)
 //=============================================================================
 void CAttackState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {
-	if (pJailer->AddTimer(1) >= 10)
+	if (pJailer->AddTime(1) >= 10)
 	{
-		pJailer->ChangeState(CWaitState::GetInstance());
+		pJailer->ChangeState(CReturnRouteState::GetInstance());
 	}
 }

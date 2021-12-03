@@ -16,25 +16,25 @@
 //=============================================================================
 //インスタンス生成関数
 //=============================================================================
-CWaitState * CWaitState::GetInstance()
+CReturnRouteState * CReturnRouteState::GetInstance()
 {
-	static CWaitState instance;
+	static CReturnRouteState instance;
 	return &instance;
 }
 
 //=============================================================================
 //初期化関数
 //=============================================================================
-void CWaitState::Init(CJailer *pJailer, CJailerView *pJailerView)
+void CReturnRouteState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
-	pJailer->SetTimer(ZERO_INT);
+	pJailer->SetTime(ZERO_INT);
 
 	pJailer->SetRetrunData();
 }
 //=============================================================================
 //更新関数
 //=============================================================================
-void CWaitState::Update(CJailer *pJailer, CJailerView *pJailerView)
+void CReturnRouteState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {//索敵範囲にがいる場合
 
 	pJailer->RetrunRoute();

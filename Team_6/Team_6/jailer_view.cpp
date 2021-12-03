@@ -153,7 +153,7 @@ void CJailerView::Update(void)
 void CJailerView::Draw(void)
 {
 	//CFan3D‚Ì•`‰æ
-	CFan3D::Draw();
+	//CFan3D::Draw();
 }
 
 void CJailerView::JailerCaution(const bool bIsCaution)
