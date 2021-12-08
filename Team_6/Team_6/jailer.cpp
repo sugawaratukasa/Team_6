@@ -114,7 +114,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	SetUseShadow();
 
-	// 影の向き
+	//// 影の向き
 	SetShadowRotCalculation();
 
 	//自分の番号を設定
@@ -140,7 +140,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetSize(JAILER_SIZE);
 
 	m_TurnSpeed = TURN_SPEED;
-	CCharacterCollisionBox::Create(GetPos(), GetRot(), this);
+	//CCharacterCollisionBox::Create(GetPos(), GetRot(), this);
 
 	return S_OK;
 }
@@ -515,6 +515,9 @@ bool CJailer::IsHitPlayer(void)
 	return bIsHit;
 }
 
+//=============================================================================
+// マップとの当たり判定
+//=============================================================================
 void CJailer::CheckMapCollision(void)
 {
 	// CSceneのポインタ
@@ -634,16 +637,25 @@ void CJailer::CheckMapCollision(void)
 	}
 }
 
+//=============================================================================
+//ルート復帰の目的地の設定
+//=============================================================================
 void CJailer::SetRetrunData(void)
 {
 	m_posDest = m_pSpot->BackToRoute(GetPos());
 }
 
+//=============================================================================
+//警戒時の基準の向きの設定
+//=============================================================================
 void CJailer::SetGuardBaseDir(void)
 {
+	//向き取得
 	D3DXVECTOR3 rot = GetRot();
 
+	//向きの設定
 	m_GuardBaseDir = rot;
 
+	//向きの目的値設定
 	m_rotDest.y = m_GuardBaseDir.y - GUARD_ROT_ANGLE;
 }

@@ -1,5 +1,12 @@
+//=============================================================================
+//
+// 看守スポットクラス [jailer_spot.cpp]
+// Author : Yamada Ryota
+//
+//=============================================================================
 #include "jailer_spot.h"
 #include "debug_proc.h"
+
 //=============================================================================
 //コンストラクタ
 //=============================================================================
@@ -25,10 +32,12 @@ CJailerSpot * CJailerSpot::Create(const int nJaierNumber)
 {
 	CJailerSpot *pJailerSpot = nullptr;
 
+	//インスタンス生成
 	pJailerSpot = new CJailerSpot;
 
 	if (pJailerSpot)
 	{
+		//初期化処理
 		pJailerSpot->Init(nJaierNumber);
 
 		return pJailerSpot;
@@ -85,6 +94,9 @@ void CJailerSpot::InitializePatrolSpot(void)
 	}
 }
 
+//=============================================================================
+//更新処理
+//=============================================================================
 void CJailerSpot::Update(void)
 {
 	CDebugProc::Print("前回のインデックス:%d\n", m_nOldIndex);
@@ -96,6 +108,9 @@ void CJailerSpot::Update(void)
 	}
 }
 
+//=============================================================================
+//ルートの検索
+//=============================================================================
 D3DXVECTOR3 CJailerSpot::SearchRoute(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
 {
 	//看守の位置に一番近いスポットを検索
@@ -104,53 +119,119 @@ D3DXVECTOR3 CJailerSpot::SearchRoute(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPo
 	//プレイヤーの位置に一番近いスポットを検索
 	NODE playerSpot = SearchNearNode(m_eArea, playerPos);
 
-
-	//そのまま追跡ルートにする
-	m_vRoute.push_back(playerSpot);
-
-
 	return playerSpot.pos;
 }
 
+//=============================================================================
+//ルートへ帰還
+//=============================================================================
 D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 {
 	//看守の位置に一番近いスポットを検索
-	NODE jailerSpot = SearchNearNode(m_eArea, jailerPos);
+	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
+	SearchTest(nearSpot);
+	
+
 
 	//一番近い巡回ルートの位置を割り出す
-	NODE jailerMove = SearchNearPatrolSpot(jailerPos);
+	NODE nearPatrolSpot = SearchNearPatrolSpot(jailerPos);
 
-	int nCntIndex = ZERO_INT;
+	//近いスポットと近い巡回ルートの番号が同じだった場合
+	if (nearSpot.nNumber == nearPatrolSpot.nNumber)
+	{
+		int nCntIndex = ZERO_INT;
 
-	auto itr = m_vPatrolSpot.begin();
-	auto itrEnd = m_vPatrolSpot.end();
+		//サイズを取得
+		int nSize = m_vPatrolSpot.size();
+
+		//巡回ルートの中から検出したものと同じナンバーのものを探す
+		for (nCntIndex = ZERO_INT; nCntIndex < nSize; nCntIndex++)
+		{
+			if (m_vPatrolSpot[nCntIndex].nNumber == nearPatrolSpot.nNumber)
+			{
+				break;
+			}
+		}
+
+		m_nOldIndex = m_nIndex;
+
+		//検索した配列番号を保存
+		m_nIndex = nCntIndex;
+	}
+	else
+	{
+
+	}
+
+	return nearPatrolSpot.pos;
+}
+
+void CJailerSpot::SearchTest(const NODE node)
+{
+	vector<NODE> vRetrunRute;
+
+	//巡回ルートの要素数の取得
+	int nSize = m_vPatrolSpot.size();
+	int nNextNumOld = 0;
+	//開始地点とする
+	vRetrunRute.push_back(node);
 	
-	int nSpotNum = m_vPatrolSpot.size();
+	//現在ノードとして保存
+	NODE nowNode = node;
+	nNextNumOld = nowNode.nNumber;
 
-	for (nCntIndex = 0; nCntIndex < nSpotNum; nCntIndex++)
+	while (1)
 	{
-		if (m_vPatrolSpot[nCntIndex].nNumber == jailerMove.nNumber)
+		for (int nCntSize = ZERO_INT; nCntSize < nSize; nCntSize)
 		{
-			break;
+			//現在ノードと比較
+			if (m_vPatrolSpot[nCntSize].nNumber == nowNode.nNumber)
+			{
+				return;
+			}
 		}
-	}
 
-	m_nIndex = nCntIndex;
+		//現在ノードからネクストの取得
+		vector<NEXT> vNext = GetNextList(m_eArea, nowNode.nNumber);
 
-	//設定したインデックスが前回と同じだった場合
-	if (m_nIndex == m_nOldIndex)
-	{
-		m_nIndex++;
+		//ネクストの要素数の取得
+		int nNextSize = vNext.size();
 
-		//インデックスが要素数より大きくなったときは修正
-		if (m_nIndex >= nSpotNum)
+		//要素が一つのみの場合
+		if (nNextSize == 1)
 		{
-			//最初に戻す
-			m_nIndex = ZERO_INT;
-		}
-	}
+			//該当のノード情報を取得
+			NODE nodeGet = GetNode(m_eArea, vNext.at(0).nNumber);
 
-	return jailerSpot.pos;
+			//地点を追加する
+			vRetrunRute.push_back(nodeGet);
+
+			//前回ノードの番号を保存
+			nNextNumOld = nowNode.nNumber;
+
+			//現在ノードを更新
+			nowNode = nodeGet;
+
+			
+		}
+		//要素が複数ある場合
+		else
+		{
+			//現在ノードが持つネクストの中から一番近いネクストを取得。
+			NEXT KeepNext = SearchNearNext(m_eArea, nowNode.nNumber, nNextNumOld);
+
+			NODE nodeGet = GetNode(m_eArea, KeepNext.nNumber);
+
+			//地点を追加する
+			vRetrunRute.push_back(nodeGet);
+
+			//前回ノードの番号を保存
+			nNextNumOld = nowNode.nNumber;
+
+			//現在ノードを更新
+			nowNode = nodeGet;
+		}	
+	}
 }
 
 //=============================================================================
@@ -158,29 +239,25 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 //=============================================================================
 CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos)
 {
-	auto itrBase = m_vPatrolSpot.begin();
-	auto itrBaseEnd = m_vPatrolSpot.end();
-
 	NODE returnInfo;	//返すスポット情報
 
-	int nCnt = 0;
 	float fKeepRange = ZERO_FLOAT;
 
-	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	int nSize = m_vPatrolSpot.size();
+
+	for (int nCntNum = ZERO_INT; nCntNum < nSize; nCntNum++)
 	{
 		//現在地(看守の位置)と目的地（スポットの位置）までの2点間ベクトルを計算
-		D3DXVECTOR3 Distance = itrBase->pos - jailerPos;
+		D3DXVECTOR3 Distance = m_vPatrolSpot.at(nCntNum).pos - jailerPos;
 
 		//長さを求める
 		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
 
 		//初めの計算の時はそのまま記録
-		if (nCnt == ZERO_INT)
+		if (nCntNum == ZERO_INT)
 		{
 			fKeepRange = fRange;
-			returnInfo = *itrBase;
-
-			nCnt++;
+			returnInfo = m_vPatrolSpot.at(nCntNum);
 		}
 		else
 		{
@@ -189,15 +266,13 @@ CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos
 			{
 				//データを更新
 				fKeepRange = fRange;
-				returnInfo = *itrBase;
+				returnInfo = m_vPatrolSpot.at(nCntNum);
 			}
 		}
 	}
-
+	
 	return returnInfo;
 }
-
-
 
 //=============================================================================
 //巡回スポットの変更処理

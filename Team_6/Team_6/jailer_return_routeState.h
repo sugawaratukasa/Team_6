@@ -1,11 +1,11 @@
+#ifndef JAILER_WAITSTATE_H_
+#define JAILER_WAITSTATE_H_
 #//=============================================================================
 //
 // 看守待機状態クラス [jailer_WaitState.cpp]
-// Author : OgumaAkira
+// Author : Yamada Ryota
 //
 //=============================================================================
-#ifndef JAILER_WAITSTATE_H_
-#define JAILER_WAITSTATE_H_
 
 //=============================================================================
 //インクルードファイル

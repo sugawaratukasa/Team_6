@@ -10,6 +10,9 @@
 //=============================================================================
 #include "map_spot.h"
 
+//=============================================================================
+//静的メンバ変数宣言
+//=============================================================================
 vector<CMapSpot::SPOT> CMapSpot::m_vaSpot[CMapSpot::MAP_AREA_MAX];
 CMapSpot::PATROL_DATA CMapSpot::m_aPatrolData[4];
 
@@ -34,6 +37,7 @@ CMapSpot * CMapSpot::Create(void)
 {
 	CMapSpot *pSpot = nullptr;
 
+	//インスタンス生成
 	pSpot = new CMapSpot;
 
 	if (pSpot)
@@ -181,47 +185,80 @@ void CMapSpot::LoadSpot(void)
 	}
 }
 
-void CMapSpot::InitializeDijkstra(const MAP_AREA eArea)
-{
-}
-
+//=============================================================================
+//一番近いノードの検索
+//=============================================================================
 CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 pos)
 {
-	auto itrBase = m_vaSpot[eArea].begin();
-	auto itrBaseEnd = m_vaSpot[eArea].end();
-
 	NODE returnInfo;	//返すスポット情報
 
-	int nCnt = 0;
 	float fKeepRange = ZERO_FLOAT;
 
-	for (itrBase; itrBase != itrBaseEnd; ++itrBase)
+	int nSize = m_vaSpot[eArea].size();
+
+	for (int nCntSpot = ZERO_INT; nCntSpot < nSize; nCntSpot++)
 	{
 		//現在地と目的地までのベクトルを計算
-		D3DXVECTOR3 Distance = pos - itrBase->node.pos;
+		D3DXVECTOR3 Distance = m_vaSpot[eArea].at(nCntSpot).node.pos - pos;
 
 		//長さを求める
-		 float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
+		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
 
-		 //初めの計算の時はそのまま記録
-		 if (nCnt == ZERO_INT)
-		 {
-			 fKeepRange = fRange;
-			 returnInfo = itrBase->node;
-
-			 nCnt++;
-		 }
-		 else
-		 {
-			 //現在の距離がすでに保存している距離より短いなら
-			 if (fRange < fKeepRange)
-			 {
-				 //データを更新
-				 fKeepRange = fRange;
-				 returnInfo = itrBase->node;
-			 }
-		 }
+		//初めの計算の時はそのまま記録
+		if (nCntSpot == ZERO_INT)
+		{
+			fKeepRange = fRange;
+			returnInfo = m_vaSpot[eArea].at(nCntSpot).node;
+		}
+		else
+		{
+			//現在の距離がすでに保存している距離より短いなら
+			if (fRange < fKeepRange)
+			{
+				//データを更新
+				fKeepRange = fRange;
+				returnInfo = m_vaSpot[eArea].at(nCntSpot).node;
+			}
+		}
 	}
 
 	return returnInfo;
+}
+
+CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber)
+{
+	//該当のネクストを取得
+	vector<NEXT> Next = GetNextList(eArea, nSearchNumber);
+
+	NEXT keepNext;
+
+	int nCntKeep = ZERO_INT;	//キープの変更した回数
+
+	for (int nCntNext = ZERO_INT; nCntNext < (int)Next.size(); nCntNext++)
+	{
+		//ネクストの番号が除外番号と一致した場合
+		if (Next.at(nCntNext).nNumber == nExclusionNumber)
+		{
+			//先頭に戻る
+			continue;
+		}
+
+		//最初のものは強制的にキープする
+		if (nCntKeep == ZERO_INT)
+		{
+			keepNext = Next.at(nCntNext);
+		}
+		else
+		{
+			//今回の長さとキープの長さを比較し、今回の奴が短ければ更新
+			if (Next.at(nCntNext).fLength < keepNext.fLength)
+			{
+				keepNext = Next.at(nCntNext);
+			}
+		}
+		//キープカウンタを進める
+		nCntKeep++;
+	}
+
+	return keepNext;
 }

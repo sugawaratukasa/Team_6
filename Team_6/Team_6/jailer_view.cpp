@@ -13,8 +13,11 @@
 #include "game.h"
 #include "object.h"
 
-#define DEFAULT_VIEW_LENGTH (1000.0f)
-#define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 2
+//=============================================================================
+//マクロ定義
+//=============================================================================
+#define DEFAULT_VIEW_LENGTH (1000.0f)					//長さのデフォルト値
+#define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 2		//警戒時の長さ
 
 //=============================================================================
 //コンストラクタ
@@ -156,6 +159,9 @@ void CJailerView::Draw(void)
 	//CFan3D::Draw();
 }
 
+//=============================================================================
+//警戒時の長さ変更
+//=============================================================================
 void CJailerView::JailerCaution(const bool bIsCaution)
 {
 	//警戒状態の時
@@ -272,6 +278,9 @@ void CJailerView::PlayerDetection(void)
 	m_bIsDetection = true;
 }
 
+//=============================================================================
+//マップの当たり判定
+//=============================================================================
 void CJailerView::MapCollision(void)
 {
 	CScene *pScene = nullptr;

@@ -63,12 +63,12 @@ public:
 	void ChangeRotDest(void);		//向きの目的の値の設定
 	bool IsHitPlayer(void);			//プレイヤーとの衝突判定
 	void CheckMapCollision(void);	// マップとの当たり判定
-	void SetRetrunData(void);
-	void SetGuardBaseDir(void);
+	
 	//publicセッター
+	void SetRetrunData(void);	//ルート復帰の情報設定
+	void SetGuardBaseDir(void);//警戒時の基準の方向の設定
 	void SetTime(int time) { m_nSwitchingTime = time; }	//タイマーセット
 	
-
 	//publicゲッター
 	int GetTime(void) { return m_nSwitchingTime; }					//タイマーゲット
 	float GetDestLength(void)const { return m_fDestLength; }	//目的地の距離の長さの取得
@@ -80,7 +80,7 @@ private:
 	static int m_nJailerTotal;		//看守の総数
 	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
 	CJailerState *m_pJailerState;	//状態のポインタ
-	CJailerSpot *m_pSpot;
+	CJailerSpot *m_pSpot;			//スポットのポインタ
 	D3DXVECTOR3 m_rotDest;			//向きの目的地
 	D3DXVECTOR3 m_posDest;			//位置の目的地
 	D3DXVECTOR3 m_posDestOld;		//前回の位置の目的地
