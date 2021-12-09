@@ -36,10 +36,11 @@ public:
 	D3DXVECTOR3 SearchRoute(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos);	//ルートの検索
 	D3DXVECTOR3 BackToRoute(D3DXVECTOR3 jailerPos);							//ルートの帰還
 
-	void SearchTest(const NODE node);
+	D3DXVECTOR3 SearchBackToRoute(const D3DXVECTOR3 jailerPos);
+
 	PATROL_SPOT SearchNearPatrolSpot(D3DXVECTOR3 jailerPos);	//近い巡回スポットを求める
 	D3DXVECTOR3 ChangePatrolSpot(void);							//巡回の変更処理
-
+	D3DXVECTOR3 ChangeBackToRoute(void);
 	//publicゲッター
 	MAP_AREA GetArea(void) { return m_eArea; }								//エリアの取得
 	vector<PATROL_SPOT> GetPatrolList(void) { return m_vPatrolSpot; }		//巡回リストの取得
@@ -52,9 +53,11 @@ private:
 	//=============================================================================
 	MAP_AREA m_eArea;					//担当エリア
 	vector<PATROL_SPOT> m_vPatrolSpot;	//巡回スポット情報
+	vector<NODE> m_vRetrunRute;
 	vector<CSpotPolygon*> m_pPolygon;	//ポリゴン
 	int m_nJailerNumber;				//看守番号
 	int m_nIndex;						//インデックス
+	int m_nRetrunIndex;
 	int m_nOldIndex;					//1フレーム前の目的地
 };
 #endif // !_JAILER_SPOT_H_

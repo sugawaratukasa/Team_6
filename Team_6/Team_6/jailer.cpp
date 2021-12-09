@@ -294,19 +294,14 @@ void CJailer::RetrunRoute(void)
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
 
-	//現在位置と検出した位置までのベクトルを計算
-	m_distance = (m_posDest - GetPos());
+	//現在地と目的地までのベクトルを計算
+	m_distance = m_posDest - GetPos();
 
-	//目的地と自分の距離を計算
+	//目的地と自分の距離の長さを計算
 	m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
 
-	if (m_fDestLength > 5.0f)
-	{
-		//ステートを移動に変更
-		ChangeState(CMoveState::GetInstance());
-
-		return;
-	}
+	//向きの目的の値の計算
+	ChangeRotDest();
 
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
@@ -323,6 +318,19 @@ void CJailer::RetrunRoute(void)
 
 	//移動量の設定
 	SetMove(move);
+
+	if (m_fDestLength <= 5.0f)
+	{
+		m_posDest = m_pSpot->ChangeBackToRoute();
+
+		if (m_posDest == ZeroVector3)
+		{
+			//ステートを移動に変更
+			ChangeState(CMoveState::GetInstance());
+			ChangePosDest();
+			return;
+		}
+	}
 }
 
 //=============================================================================
@@ -642,7 +650,7 @@ void CJailer::CheckMapCollision(void)
 //=============================================================================
 void CJailer::SetRetrunData(void)
 {
-	m_posDest = m_pSpot->BackToRoute(GetPos());
+	m_posDest = m_pSpot->SearchBackToRoute(GetPos());
 }
 
 //=============================================================================

@@ -225,6 +225,7 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 	return returnInfo;
 }
 
+
 CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber)
 {
 	//該当のネクストを取得
@@ -261,4 +262,56 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 	}
 
 	return keepNext;
+}
+
+
+void CMapSpot::dikusutor(const MAP_AREA eArea, const NODE startNode, const NODE goalNode)
+{
+	int nParent;//親ノード
+	//int nChild; //子ノード
+	//
+	//float fParentToGoal;	//親ノードからゴールノードまでの推定最小コスト
+	//float fStratToParent;	//スタートノードから親ノードまでの推定最小コスト
+	//float fParentToChildCost;	//親から子ノードへ移動する際のコスト
+	//float fStratToChildToGoal;	//スタートから子ノードをを経由してゴールに到達するまでの最小コスト
+
+	//float fCandidateValue;	//fStratToParentの候補
+	//fCandidateValue=
+	vector<A_SPOT> vASpot;
+	for (int nCntSpot = 0; nCntSpot < m_vaSpot[eArea].size(); nCntSpot++)
+	{
+		A_SPOT aSpot;
+		aSpot.spot = m_vaSpot[eArea].at(nCntSpot);
+		aSpot.state = A_STAR_STATE_NONE;
+
+		vASpot.push_back(aSpot);
+	}
+
+	//スタートノードをOpenリストに追加する
+	vASpot.at(startNode.nNumber).state = A_STAR_STATE_OPEN;
+
+	nParent = startNode.nNumber;
+
+	//親ノードが持つ子ノードを取得
+	vector<NEXT> vChild = vASpot.at(startNode.nNumber).spot.vNext;
+
+	int nSize = vChild.size();
+	float fDummy = 90000.0f;
+	int nSelectNum = -1;
+	for (int nCntSize = 0; nCntSize < nSize; nCntSize++)
+	{
+		if (vChild.at(nCntSize).fLength < fDummy)
+		{
+			nSelectNum = vChild.at(nCntSize).nNumber;
+		}
+	}
+}
+
+float CMapSpot::Distance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint)
+{
+	D3DXVECTOR3 distanec = EndPoint - StartPoint;
+
+	float fLength = D3DXVec3Length(&distanec);
+
+	return fLength;
 }

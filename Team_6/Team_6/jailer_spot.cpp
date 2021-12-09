@@ -14,7 +14,9 @@ CJailerSpot::CJailerSpot()
 {
 	m_eArea = MAP_AREA_LEFT;
 	m_vPatrolSpot.clear();
+	m_vRetrunRute.clear();
 	m_nJailerNumber = ZERO_INT;
+	m_nRetrunIndex = ZERO_INT;
 	m_nIndex = ZERO_INT;
 }
 //=============================================================================
@@ -129,10 +131,7 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 {
 	//看守の位置に一番近いスポットを検索
 	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
-	SearchTest(nearSpot);
 	
-
-
 	//一番近い巡回ルートの位置を割り出す
 	NODE nearPatrolSpot = SearchNearPatrolSpot(jailerPos);
 
@@ -166,28 +165,39 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 	return nearPatrolSpot.pos;
 }
 
-void CJailerSpot::SearchTest(const NODE node)
+D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 {
-	vector<NODE> vRetrunRute;
+	m_vRetrunRute.clear();
+
+	//看守の位置に一番近いスポットを検索
+	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
+
+	NODE nearPatrol = SearchNearPatrolSpot(jailerPos);
 
 	//巡回ルートの要素数の取得
 	int nSize = m_vPatrolSpot.size();
-	int nNextNumOld = 0;
+	int nNextNumOld = ZERO_INT;
+
 	//開始地点とする
-	vRetrunRute.push_back(node);
+	m_vRetrunRute.push_back(nearSpot);
 	
 	//現在ノードとして保存
-	NODE nowNode = node;
+	NODE nowNode = nearSpot;
 	nNextNumOld = nowNode.nNumber;
 
 	while (1)
 	{
-		for (int nCntSize = ZERO_INT; nCntSize < nSize; nCntSize)
+		for (int nCntSize = ZERO_INT; nCntSize < nSize; nCntSize++)
 		{
 			//現在ノードと比較
 			if (m_vPatrolSpot[nCntSize].nNumber == nowNode.nNumber)
 			{
-				return;
+				m_nIndex = nCntSize;
+
+				m_nRetrunIndex = ZERO_INT;
+
+				//処理終了
+				return m_vRetrunRute.at(m_nRetrunIndex).pos;
 			}
 		}
 
@@ -204,26 +214,24 @@ void CJailerSpot::SearchTest(const NODE node)
 			NODE nodeGet = GetNode(m_eArea, vNext.at(0).nNumber);
 
 			//地点を追加する
-			vRetrunRute.push_back(nodeGet);
+			m_vRetrunRute.push_back(nodeGet);
 
 			//前回ノードの番号を保存
 			nNextNumOld = nowNode.nNumber;
 
 			//現在ノードを更新
 			nowNode = nodeGet;
-
-			
 		}
 		//要素が複数ある場合
 		else
 		{
-			//現在ノードが持つネクストの中から一番近いネクストを取得。
+			//現在ノードが持つネクストの中から一番距離が短いネクストを取得。
 			NEXT KeepNext = SearchNearNext(m_eArea, nowNode.nNumber, nNextNumOld);
 
 			NODE nodeGet = GetNode(m_eArea, KeepNext.nNumber);
 
 			//地点を追加する
-			vRetrunRute.push_back(nodeGet);
+			m_vRetrunRute.push_back(nodeGet);
 
 			//前回ノードの番号を保存
 			nNextNumOld = nowNode.nNumber;
@@ -295,5 +303,22 @@ D3DXVECTOR3 CJailerSpot::ChangePatrolSpot(void)
 		m_nIndex = ZERO_INT;
 	}
 	
-	return m_vPatrolSpot[m_nIndex].pos;
+	return m_vPatrolSpot.at(m_nIndex).pos;
+}
+
+D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
+{
+	//スポットのサイズを取得
+	int nSpotNum = m_vRetrunRute.size();
+
+	//インデックスを1つ進める
+	m_nRetrunIndex++;
+
+	//インデックスが要素数より大きくなったときは修正
+	if (m_nRetrunIndex >= nSpotNum)
+	{
+		return ZeroVector3;
+	}
+
+	return m_vRetrunRute.at(m_nRetrunIndex).pos;
 }
