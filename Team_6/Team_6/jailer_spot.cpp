@@ -67,6 +67,7 @@ HRESULT CJailerSpot::Init(const int nJaierNumber)
 //=============================================================================
 void CJailerSpot::InitializePatrolSpot(void)
 {
+
 	//自分の巡回データを取得
 	PATROL_DATA patrolData = GetPatrolData(m_nJailerNumber);
 
@@ -135,6 +136,8 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 	//一番近い巡回ルートの位置を割り出す
 	NODE nearPatrolSpot = SearchNearPatrolSpot(jailerPos);
 
+	dikusutor(m_eArea, nearSpot, nearPatrolSpot);
+
 	//近いスポットと近い巡回ルートの番号が同じだった場合
 	if (nearSpot.nNumber == nearPatrolSpot.nNumber)
 	{
@@ -174,72 +177,10 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 
 	NODE nearPatrol = SearchNearPatrolSpot(jailerPos);
 
-	//巡回ルートの要素数の取得
-	int nSize = m_vPatrolSpot.size();
-	int nNextNumOld = ZERO_INT;
+	m_vRetrunRute = dikusutor(m_eArea, nearSpot, nearPatrol);
 
-	//開始地点とする
-	m_vRetrunRute.push_back(nearSpot);
-	
-	//現在ノードとして保存
-	NODE nowNode = nearSpot;
-	nNextNumOld = nowNode.nNumber;
-
-	while (1)
-	{
-		for (int nCntSize = ZERO_INT; nCntSize < nSize; nCntSize++)
-		{
-			//現在ノードと比較
-			if (m_vPatrolSpot[nCntSize].nNumber == nowNode.nNumber)
-			{
-				m_nIndex = nCntSize;
-
-				m_nRetrunIndex = ZERO_INT;
-
-				//処理終了
-				return m_vRetrunRute.at(m_nRetrunIndex).pos;
-			}
-		}
-
-		//現在ノードからネクストの取得
-		vector<NEXT> vNext = GetNextList(m_eArea, nowNode.nNumber);
-
-		//ネクストの要素数の取得
-		int nNextSize = vNext.size();
-
-		//要素が一つのみの場合
-		if (nNextSize == 1)
-		{
-			//該当のノード情報を取得
-			NODE nodeGet = GetNode(m_eArea, vNext.at(0).nNumber);
-
-			//地点を追加する
-			m_vRetrunRute.push_back(nodeGet);
-
-			//前回ノードの番号を保存
-			nNextNumOld = nowNode.nNumber;
-
-			//現在ノードを更新
-			nowNode = nodeGet;
-		}
-		//要素が複数ある場合
-		else
-		{
-			//現在ノードが持つネクストの中から一番距離が短いネクストを取得。
-			NEXT KeepNext = SearchNearNext(m_eArea, nowNode.nNumber, nNextNumOld);
-
-			NODE nodeGet = GetNode(m_eArea, KeepNext.nNumber);
-
-			//地点を追加する
-			m_vRetrunRute.push_back(nodeGet);
-
-			//前回ノードの番号を保存
-			nNextNumOld = nowNode.nNumber;
-
-			//現在ノードを更新
-			nowNode = nodeGet;
-		}	
-	}
+	//処理終了
+	return m_vRetrunRute.at(m_nRetrunIndex).pos;
 }
 
 //=============================================================================
@@ -317,6 +258,18 @@ D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 	//インデックスが要素数より大きくなったときは修正
 	if (m_nRetrunIndex >= nSpotNum)
 	{
+		int nCntIndex = 0;
+		for (int nCnt0 = 0; nCnt0 < (int)m_vPatrolSpot.size(); nCnt0++)
+		{
+			if (m_vPatrolSpot.at(nCnt0).nNumber == m_vRetrunRute.at(m_nRetrunIndex - 1).nNumber)
+			{
+				m_nIndex = nCntIndex;
+
+				break;
+			}
+
+			nCntIndex++;
+		}
 		return ZeroVector3;
 	}
 

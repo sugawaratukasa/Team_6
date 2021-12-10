@@ -11,6 +11,7 @@
 //インクルードファイル
 //=============================================================================
 #include "main.h"
+#include <list>
 
 //=============================================================================
 //スポットクラス
@@ -69,17 +70,22 @@ public:
 		vector<int> vnNumber;		//スポット番号
 		MAP_AREA eArea;				//マップのエリア属性
 	};
-
+	
+	struct COST
+	{
+		float StratToNow;	//スタートからここまでのコスト(g*(n))
+		float NowToGoal;	//ここからゴールまでのコスト(h*(n))
+		float Total;		//推定最短コスト(f*(n))
+	};
 	struct A_SPOT
 	{
-		SPOT spot;
 		A_STAR_STATE state;
+		NODE node;
+		int nParentNumber;		//親の番号
+		COST cost;
 	};
-	struct dai
-	{
-		float fCost;
-		
-	};
+	
+
 	//=========================================================================
 	//メンバ関数宣言
 	//=========================================================================
@@ -100,8 +106,13 @@ protected:
 	D3DXVECTOR3 GetNodePos(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node.pos; }	//スポットの位置の取得
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
 	
-	void dikusutor(const MAP_AREA eArea, const NODE startNode, const NODE goalNode);
+	vector<NODE> dikusutor(const MAP_AREA eArea, const NODE startNode, const NODE goalNode);
 	float Distance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);
+	int CountOpen(vector<A_SPOT> vSpot);
+	void AddOpenList(A_SPOT A_Spot);
+	int ASFASG(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);
+	int GetOpenNum(void) { return (int)m_vOpen.size(); }
+	//float CalculationEtaCost(float )
 private:
 	//=========================================================================
 	//メンバ変数宣言
@@ -109,11 +120,8 @@ private:
 	static vector<SPOT> m_vaSpot[MAP_AREA_MAX];	//スポットデータ
 	static PATROL_DATA m_aPatrolData[4];				//看守のスポットデータ
 
-	float m_fStrattoDestCost;	//開始地点からとある場所までのコスト
-	float m_fDesttoGoalCost;	//とある場所からゴールまでのコスト
-	float m_fShortestCost;		//最短経路コスト
-	vector<NODE> m_vOpen;
-	NODE m_Parent;
-	SPOT m_Child;
+
+	vector<A_SPOT>  m_vOpen;
+	vector<A_SPOT>  m_vClose;
 };
 #endif // !_SPOT_H_
