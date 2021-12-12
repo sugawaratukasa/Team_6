@@ -226,7 +226,9 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 	return returnInfo;
 }
 
-
+//=============================================================================
+//ネクスト情報の検索
+//=============================================================================
 CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber)
 {
 	//該当のネクストを取得
@@ -265,18 +267,20 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 	return keepNext;
 }
 
-
-vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE startNode, const NODE goalNode)
+//=============================================================================
+//経路探索
+//=============================================================================
+vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE startNode, const NODE goalNode)
 {
-	m_vOpen.clear();
-	m_vClose.clear();
+	m_vOpenList.clear();
+	m_CloseList.clear();
 
 	vector<A_SPOT> vASpot;
 
-	COST defaultCost;
-	defaultCost.Total = INFINITY_COST;
-	defaultCost.StratToNow = INFINITY_COST;
-	defaultCost.NowToGoal = INFINITY_COST;
+	A_STAR_COST defaultCost;
+	defaultCost.fTotal = INFINITY_COST;
+	defaultCost.fStratToNow = INFINITY_COST;
+	defaultCost.fHeuristic = INFINITY_COST;
 	
 	for (int nCntSpot = 0; nCntSpot < (int)m_vaSpot[eArea].size(); nCntSpot++)
 	{
@@ -292,16 +296,16 @@ vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE star
 	//=======================================
 	//スタート地点の推定コストを算出する
 	//=======================================
-	COST StratCost;	//スタートコスト計算変数
+	A_STAR_COST StratCost;	//スタートコスト計算変数
 
 	//スタートからスタートまでのコスト(g*(S))は0(S - S == 0)
-	StratCost.StratToNow = 0.0f;
+	StratCost.fStratToNow = ZERO_FLOAT;
 
 	//スタートからゴールまでのコスト(h*(S))を求める(G - S)
-	StratCost.NowToGoal = Distance(startNode.pos, goalNode.pos);
+	StratCost.fHeuristic = CalculationDistance(startNode.pos, goalNode.pos);
 
 	//スタートの推定コスト(f*(S))を決める(f*(S) = g*(S) + h*(S))
-	StratCost.Total = StratCost.StratToNow + StratCost.NowToGoal;
+	StratCost.fTotal = StratCost.fStratToNow + StratCost.fHeuristic;
 	
 	//計算したコストを保存する
 	vASpot.at(startNode.nNumber).cost = StratCost;
@@ -313,17 +317,16 @@ vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE star
 	vASpot.at(startNode.nNumber).state = A_STAR_STATE_OPEN;
 
 	//計算中のノードが存在するなら
-	while (CountOpen(vASpot) != 0)
+	while (CountOpenList(vASpot) != 0)
 	{
 		//Open内のノードの中で最もf*(n)が小さいノードnを探す
-		nParent = ASFASG(vASpot, startNode, goalNode);
+		nParent = SearchMinTotal(vASpot, startNode, goalNode);
 
 		//ゴールノードと同じなら処理終了(n == G)
 		if (nParent == goalNode.nNumber)
 		{
 			//Closeリストへ追加
-			m_vClose.push_back(vASpot.at(nParent));
-
+			m_CloseList.push_back(vASpot.at(nParent));
 			break;
 		}
 		//ゴールノードでないならCloseへ入れる
@@ -333,7 +336,7 @@ vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE star
 			vASpot.at(nParent).state = A_STAR_STATE_CLOSE;
 
 			//Closeリストへ追加
-			m_vClose.push_back(vASpot.at(nParent));
+			m_CloseList.push_back(vASpot.at(nParent));
 		}
 		
 		
@@ -347,20 +350,26 @@ vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE star
 			//子ノードの番号を取得
 			int nMNuber = next.at(nCntM).nNumber;
 			//=======================================
-			//f'(m) = g*(n) + h*(m) +COST(n,m)を行う
+			//f'(m) = g*(n) + h*(m) +A_STAR_COST(n,m)を行う
 			//=======================================
-			float fStratToPearent = vASpot.at(nParent).cost.StratToNow;
 
-			//子ノードのゴールまでの長さを計算
-			vASpot.at(nMNuber).cost.NowToGoal = Distance(vASpot.at(nMNuber).node.pos, goalNode.pos);
+			//子ノードのゴールまでの長さを計算（ヒューリスティックコスト）
+			vASpot.at(nMNuber).cost.fHeuristic = CalculationDistance(vASpot.at(nMNuber).node.pos, goalNode.pos);
 
-			float fToarl = fStratToPearent + vASpot.at(nMNuber).cost.NowToGoal + next.at(nCntM).fLength;
+			//ノード間のコストを取得
+			float fBetweenCost = next.at(nCntM).fLength;
 
+			//親のトータルコストを取得
+			float fPearentToarlCost = vASpot.at(nParent).cost.fTotal - vASpot.at(nParent).cost.fHeuristic;
+
+			//このトータルコストを算出
+			float fToarl = fPearentToarlCost + vASpot.at(nMNuber).cost.fHeuristic + fBetweenCost;
+			
 			//子ノードがNONEの場合
 			if (vASpot.at(nMNuber).state == A_STAR_STATE_NONE)
 			{
 				//子の推定トータルコストを設定
-				vASpot.at(nMNuber).cost.Total = fToarl;
+				vASpot.at(nMNuber).cost.fTotal = fToarl;
 
 				//子の親を設定
 				vASpot.at(nMNuber).nParentNumber = nParent;
@@ -369,49 +378,57 @@ vector<CMapSpot::NODE> CMapSpot::dikusutor(const MAP_AREA eArea, const NODE star
 				vASpot.at(nMNuber).state = A_STAR_STATE_OPEN;
 			}
 			//Openリストにある場合
-			else if (vASpot.at(nMNuber).state == A_STAR_STATE_OPEN)
+			if (vASpot.at(nMNuber).state == A_STAR_STATE_OPEN)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vASpot.at(nMNuber).cost.Total)
+				if (fToarl < vASpot.at(nMNuber).cost.fTotal)
 				{
 					//上書きする
-					vASpot.at(nMNuber).cost.Total = fToarl;
+					vASpot.at(nMNuber).cost.fTotal = fToarl;
 
 					//子の親を設定
 					vASpot.at(nMNuber).nParentNumber = nParent;
 				}
 			}
 			//Closeリストにある場合
-			else if (vASpot.at(nMNuber).state == A_STAR_STATE_CLOSE)
+			if (vASpot.at(nMNuber).state == A_STAR_STATE_CLOSE)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vASpot.at(nMNuber).cost.Total)
+				if (fToarl < vASpot.at(nMNuber).cost.fTotal)
 				{
 					//上書きする
-					vASpot.at(nMNuber).cost.Total = fToarl;
+					vASpot.at(nMNuber).cost.fTotal = fToarl;
 
 					//子の親を設定
 					vASpot.at(nMNuber).nParentNumber = nParent;
 
 					//Openリストに追加
 					vASpot.at(nMNuber).state = A_STAR_STATE_OPEN;
+
+					//クローズリストから削除
+					DeletCloseList(nMNuber);
 				}
 			}
 		}
 	}
+
+	auto itr = m_CloseList.begin();
+	auto itrEnd = m_CloseList.end();
+
 	vector<NODE> Node;
 
-	for (int nCntNode = 0; nCntNode < (int)m_vClose.size(); nCntNode++)
+	for (itr; itr != itrEnd; itr++)
 	{
-		Node.push_back(m_vClose.at(nCntNode).node);
+		Node.push_back(itr->node);
 	}
-	int nmksad;
-	nmksad = 0;
 
 	return Node;
 }
 
-float CMapSpot::Distance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint)
+//=============================================================================
+//距離の計算
+//=============================================================================
+float CMapSpot::CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint)
 {
 	D3DXVECTOR3 distanec = EndPoint - StartPoint;
 
@@ -420,48 +437,44 @@ float CMapSpot::Distance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoin
 	return fLength;
 }
 
-int CMapSpot::CountOpen(vector<A_SPOT> vSpot)
+//=============================================================================
+//オープンリストのカウント
+//=============================================================================
+int CMapSpot::CountOpenList(vector<A_SPOT>& rvSpot)
 {
 	//オープンリストをリセット
-	m_vOpen.clear();
-	m_vClose.clear();
+	m_vOpenList.clear();
 
 	int nTarget = 0;
 
-	int nSize = vSpot.size();
+	int nSize = rvSpot.size();
 
 	for (int nCntSpot = 0; nCntSpot < nSize; nCntSpot++)
 	{
 		//Open状態のものをカウントする
-		if (vSpot.at(nCntSpot).state == A_STAR_STATE_OPEN)
+		if (rvSpot.at(nCntSpot).state == A_STAR_STATE_OPEN)
 		{
 			//リストに追加
-			m_vOpen.push_back(vSpot.at(nCntSpot));
+			m_vOpenList.push_back(rvSpot.at(nCntSpot));
 			nTarget++;
-		}
-		else if (vSpot.at(nCntSpot).state == A_STAR_STATE_CLOSE)
-		{
-			m_vClose.push_back(vSpot.at(nCntSpot));
 		}
 	}
 	return nTarget;
 }
 
-void CMapSpot::AddOpenList(A_SPOT A_Spot)
-{
-	m_vOpen.push_back(A_Spot);
-}
-
-int CMapSpot::ASFASG(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode)
+//=============================================================================
+//最小トータル数のノードの検索
+//=============================================================================
+int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode)
 {
 	//オープンリストのサイズを取得
-	int nSize = m_vOpen.size();
+	int nSize = m_vOpenList.size();
 
-	COST Keepcost;
+	A_STAR_COST Keepcost;
 	int nKeepNum = -1;
 	A_SPOT Keep_A_Spot;
-	Keep_A_Spot.cost.Total = INFINITY_COST;
-	Keepcost.Total = INFINITY_COST;
+	Keep_A_Spot.cost.fTotal = INFINITY_COST;
+	Keepcost.fTotal = INFINITY_COST;
 
 	//=======================================
 	//nCntOpenをnとし、f*(n) = g*(n) + h*(n)を行う
@@ -470,24 +483,24 @@ int CMapSpot::ASFASG(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE go
 	for (int nCntOpen = 0; nCntOpen < nSize; nCntOpen++)
 	{
 		//自分の番号を取得
-		int nNumber = m_vOpen.at(nCntOpen).node.nNumber;
-		int nParent = m_vOpen.at(nCntOpen).nParentNumber;
+		int nNumber = m_vOpenList.at(nCntOpen).node.nNumber;
+		int nParent = m_vOpenList.at(nCntOpen).nParentNumber;
 
-		COST costN;
+		A_STAR_COST costN;
 
 		//g*(n)を求める
-		costN.StratToNow = Distance(startNode.pos, m_vOpen.at(nCntOpen).node.pos);
+		costN.fStratToNow = CalculationDistance(startNode.pos, m_vOpenList.at(nCntOpen).node.pos);
 
 		//h*(n)を求める
-		costN.NowToGoal = Distance(m_vOpen.at(nCntOpen).node.pos, goalNode.pos);
+		costN.fHeuristic = CalculationDistance(m_vOpenList.at(nCntOpen).node.pos, goalNode.pos);
 
 		//f*(n)を求める
-		costN.Total = costN.StratToNow + costN.NowToGoal;
+		costN.fTotal = costN.fStratToNow + costN.fHeuristic;
 
 		//計算したコストを記録
 		rvSpot.at(nNumber).cost = costN;
 
-		if (costN.Total < Keepcost.Total)
+		if (costN.fTotal < Keepcost.fTotal)
 		{
 			//コストと番号を変更
 			Keepcost = costN;
@@ -495,4 +508,23 @@ int CMapSpot::ASFASG(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE go
 		}
 	}
 	return nKeepNum;
+}
+
+//=============================================================================
+//クローズリストの削除処理
+//=============================================================================
+void CMapSpot::DeletCloseList(const int nNum)
+{
+	auto itrBgin = m_CloseList.begin();
+	auto itrEnd = m_CloseList.end();
+
+	for (itrBgin; itrBgin != itrEnd; ++itrBgin)
+	{
+		if (itrBgin->nParentNumber == nNum)
+		{
+			m_CloseList.erase(itrBgin);
+
+			break;
+		}
+	}
 }

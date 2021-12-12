@@ -10,8 +10,8 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "main.h"
 #include <list>
+#include "main.h"
 
 //=============================================================================
 //スポットクラス
@@ -71,18 +71,18 @@ public:
 		MAP_AREA eArea;				//マップのエリア属性
 	};
 	
-	struct COST
+	struct A_STAR_COST
 	{
-		float StratToNow;	//スタートからここまでのコスト(g*(n))
-		float NowToGoal;	//ここからゴールまでのコスト(h*(n))
-		float Total;		//推定最短コスト(f*(n))
+		float fStratToNow;	//スタートからここまでのコスト(g*(n))
+		float fHeuristic;	//ここからゴールまでのコスト(h*(n))
+		float fTotal;		//推定最短コスト(f*(n))
 	};
 	struct A_SPOT
 	{
 		A_STAR_STATE state;
 		NODE node;
 		int nParentNumber;		//親の番号
-		COST cost;
+		A_STAR_COST cost;
 	};
 	
 
@@ -99,29 +99,30 @@ public:
 protected:
 	NODE SearchNearNode(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
 	NEXT SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber);
-	//ゲッター
+	vector<NODE> PathSearch(const MAP_AREA eArea, const NODE startNode, const NODE goalNode);	//経路探索
+
+	//protectedゲッター
 	SPOT GetSpot(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber); }						//スポットデータの取得
 	NODE GetNode(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node; }					//スポットが持つノードの取得
 	vector<NEXT> GetNextList(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).vNext; }		//スポットが持つネクストの取得
 	D3DXVECTOR3 GetNodePos(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node.pos; }	//スポットの位置の取得
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
 	
-	vector<NODE> dikusutor(const MAP_AREA eArea, const NODE startNode, const NODE goalNode);
-	float Distance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);
-	int CountOpen(vector<A_SPOT> vSpot);
-	void AddOpenList(A_SPOT A_Spot);
-	int ASFASG(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);
-	int GetOpenNum(void) { return (int)m_vOpen.size(); }
-	//float CalculationEtaCost(float )
 private:
+	float CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//距離の計算
+	int CountOpenList(vector<A_SPOT>& rvSpot);												//オープンリストの計算
+	int SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);	//トータルの最小のものを探す
+	void DeletCloseList(const int nNum);													//クローズリストから削除
+
+	//privateゲッター
+	int GetOpenNum(void) { return (int)m_vOpenList.size(); }
+
 	//=========================================================================
 	//メンバ変数宣言
 	//=========================================================================
 	static vector<SPOT> m_vaSpot[MAP_AREA_MAX];	//スポットデータ
-	static PATROL_DATA m_aPatrolData[4];				//看守のスポットデータ
-
-
-	vector<A_SPOT>  m_vOpen;
-	vector<A_SPOT>  m_vClose;
+	static PATROL_DATA m_aPatrolData[4];	//看守のスポットデータ
+	vector<A_SPOT>  m_vOpenList;
+	list<A_SPOT> m_CloseList;
 };
 #endif // !_SPOT_H_

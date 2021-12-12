@@ -136,7 +136,7 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 	//一番近い巡回ルートの位置を割り出す
 	NODE nearPatrolSpot = SearchNearPatrolSpot(jailerPos);
 
-	dikusutor(m_eArea, nearSpot, nearPatrolSpot);
+	PathSearch(m_eArea, nearSpot, nearPatrolSpot);
 
 	//近いスポットと近い巡回ルートの番号が同じだった場合
 	if (nearSpot.nNumber == nearPatrolSpot.nNumber)
@@ -171,13 +171,13 @@ D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
 D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 {
 	m_vRetrunRute.clear();
-
+	m_nRetrunIndex = 0;
 	//看守の位置に一番近いスポットを検索
 	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
 
 	NODE nearPatrol = SearchNearPatrolSpot(jailerPos);
 
-	m_vRetrunRute = dikusutor(m_eArea, nearSpot, nearPatrol);
+	m_vRetrunRute = PathSearch(m_eArea, nearSpot, nearPatrol);
 
 	//処理終了
 	return m_vRetrunRute.at(m_nRetrunIndex).pos;
