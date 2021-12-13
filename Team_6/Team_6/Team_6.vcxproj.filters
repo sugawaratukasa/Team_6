@@ -106,6 +106,9 @@
     <Filter Include="09_Object\Lever">
       <UniqueIdentifier>{5280f7d9-ec2b-4571-a201-6f02eefa69f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07_Effect\particle">
+      <UniqueIdentifier>{56f984be-38bd-4d19-ba99-8842925043a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -509,6 +512,15 @@
     </ClCompile>
     <ClCompile Include="lever_body.cpp">
       <Filter>09_Object\Lever</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_manager.cpp">
+      <Filter>07_Effect\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>07_Effect\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_emitter.cpp">
+      <Filter>07_Effect\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -916,6 +928,15 @@
     </ClInclude>
     <ClInclude Include="lever_body.h">
       <Filter>09_Object\Lever</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_manager.h">
+      <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_emitter.h">
+      <Filter>07_Effect\particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

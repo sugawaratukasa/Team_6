@@ -210,6 +210,9 @@
     <ClCompile Include="lever.cpp" />
     <ClCompile Include="lever_body.cpp" />
     <ClCompile Include="lever_handle.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particle_emitter.cpp" />
+    <ClCompile Include="particle_manager.cpp" />
     <ClCompile Include="pc_room_key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
@@ -342,6 +345,8 @@
     <ClInclude Include="lever.h" />
     <ClInclude Include="lever_body.h" />
     <ClInclude Include="lever_handle.h" />
+    <ClInclude Include="particle_emitter.h" />
+    <ClInclude Include="particle_manager.h" />
     <ClInclude Include="pc_room_key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
@@ -380,6 +385,7 @@
     <ClInclude Include="prison_door_collision.h" />
     <ClInclude Include="prison_key_texture.h" />
     <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />

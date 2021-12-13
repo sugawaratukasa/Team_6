@@ -44,6 +44,7 @@
 #include "pause_button_manager.h"
 #include "player1_ui.h"
 #include "lever.h"
+#include "particle_emitter.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -64,7 +65,7 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-
+#define POS	(D3DXVECTOR3(0.0f,50.0f,0.0f))
 
 
 //=======================================================================================
@@ -117,7 +118,7 @@ HRESULT CGame::Init(void)
 	CreateGround();
 	//
 	// 監視カメラの生成
-	CreateSecCam();
+	//CreateSecCam();
 
 	// マップ生成	
 	CMap::Create();
@@ -132,6 +133,7 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);*/
 
+	CParticle_Emitter::Create(POS,CParticle_Manager::TYPE_ITEM_RAINBOW);
 	return S_OK;
 }
 //=======================================================================================
@@ -225,7 +227,7 @@ void CGame::CreatePlayer(void)
 
 	if (m_apPlayer[0] == nullptr)
 	{
-		m_apPlayer[0] = CPlayer1::Create(ZeroVector3, ZeroVector3);
+		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
 	}
 	// プレイヤーの生成
 	if (m_apPlayer[1] == nullptr)
