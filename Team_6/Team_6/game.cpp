@@ -43,6 +43,7 @@
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
 #include "player1_ui.h"
+#include "lever.h"
 
 //=======================================================================================
 // マクロ定義
@@ -64,7 +65,7 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-
+#define POS	(D3DXVECTOR3(0.0f,50.0f,0.0f))
 
 
 //=======================================================================================
@@ -117,7 +118,7 @@ HRESULT CGame::Init(void)
 	CreateGround();
 	//
 	// 監視カメラの生成
-	CreateSecCam();
+	//CreateSecCam();
 
 	// マップ生成	
 	CMap::Create();

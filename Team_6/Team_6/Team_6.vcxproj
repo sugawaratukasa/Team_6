@@ -157,6 +157,7 @@
     <ClCompile Include="button_quit_game.cpp" />
     <ClCompile Include="button_ranking.cpp" />
     <ClCompile Include="button_start.cpp" />
+    <ClCompile Include="door_collision.cpp" />
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
@@ -206,6 +207,12 @@
     <ClCompile Include="item_object_storage_key.cpp" />
     <ClCompile Include="joypad.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="lever.cpp" />
+    <ClCompile Include="lever_body.cpp" />
+    <ClCompile Include="lever_handle.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particle_emitter.cpp" />
+    <ClCompile Include="particle_manager.cpp" />
     <ClCompile Include="pc_room_key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
@@ -240,6 +247,8 @@
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
     <ClCompile Include="player_ui.cpp" />
+    <ClCompile Include="guards_door_collision.cpp" />
+    <ClCompile Include="prison_door_collision.cpp" />
     <ClCompile Include="prison_key_texture.cpp" />
     <ClCompile Include="prison_cell_door.cpp" />
     <ClCompile Include="ranking_bg.cpp" />
@@ -253,9 +262,6 @@
     <ClCompile Include="scene_base.cpp" />
     <ClCompile Include="Screenframe.cpp" />
     <ClCompile Include="select_item_flame.cpp" />
-    <ClCompile Include="shadow.cpp" />
-    <ClCompile Include="shadow_polygon.cpp" />
-    <ClCompile Include="shadow_volume.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="storage_key_texture.cpp" />
@@ -290,6 +296,7 @@
     <ClInclude Include="character_collision_box.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="debug_proc.h" />
+    <ClInclude Include="door_collision.h" />
     <ClInclude Include="door_pc_room.h" />
     <ClInclude Include="door_wall_collision.h" />
     <ClInclude Include="fade.h" />
@@ -332,6 +339,11 @@
     <ClInclude Include="item_object_storage_key.h" />
     <ClInclude Include="joypad.h" />
     <ClInclude Include="keyboard.h" />
+    <ClInclude Include="lever.h" />
+    <ClInclude Include="lever_body.h" />
+    <ClInclude Include="lever_handle.h" />
+    <ClInclude Include="particle_emitter.h" />
+    <ClInclude Include="particle_manager.h" />
     <ClInclude Include="pc_room_key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
@@ -366,7 +378,11 @@
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
-    <ClInclude Include="prison_key_texture.h" />    <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="guards_door_collision.h" />
+    <ClInclude Include="prison_door_collision.h" />
+    <ClInclude Include="prison_key_texture.h" />
+    <ClInclude Include="prison_cell_door.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
@@ -378,9 +394,6 @@
     <ClInclude Include="scene_base.h" />
     <ClInclude Include="Screenframe.h" />
     <ClInclude Include="select_item_flame.h" />
-    <ClInclude Include="shadow.h" />
-    <ClInclude Include="shadow_polygon.h" />
-    <ClInclude Include="shadow_volume.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="storage_key_texture.h" />
     <ClInclude Include="map_spot.h" />

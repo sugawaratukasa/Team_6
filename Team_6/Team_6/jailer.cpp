@@ -107,11 +107,6 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//‘¬‚³‚Ìİ’è
 	SetSpeed(0.0f);
 
-	SetUseShadow();
-
-	// ‰e‚ÌŒü‚«
-	SetShadowRotCalculation();
-
 	//©•ª‚Ì”Ô†‚ğİ’è
 	m_nNumber = m_nJailerTotal;
 

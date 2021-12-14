@@ -76,6 +76,7 @@ public:
 	void ItemGetGuideUIDelete(ITEM_GET_LIST Type);					// アイテム取得UI破棄処理
 	virtual void KeyboardMove(float fSpeed, float fAngle) = 0;		// キーボード移動処理
 	virtual void PadMove(float fSpeed, float fAngle) = 0;			// ジョイパッド移動処理
+	void DoorOpen(void);											// 扉を開く処理
 	//=============================================================================
 	//　Set関数
 	//=============================================================================

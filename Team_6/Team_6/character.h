@@ -67,7 +67,6 @@ public:
 	void Gravity(void);												// 重力
 	void Landing(float fHeight);									// 着地
 	void SetMotion(int nMotionState);								// モーションの設定
-	void SetShadowRotCalculation(void);
 
 	// Set関数
 	void SetPos(D3DXVECTOR3 &pos) { m_pos = pos; }					// 座標の設定

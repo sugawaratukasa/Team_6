@@ -135,7 +135,7 @@ void CPolygon::Draw(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pD3DDevice = CManager::GetRenderer()->GetDevice();	//デバイスのポインタ
 
-																			//頂点バッファをデバイスのデータストリームにバインド
+	//頂点バッファをデバイスのデータストリームにバインド
 	pD3DDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
 
 	// 頂点フォーマットの設定
@@ -150,7 +150,7 @@ void CPolygon::Draw(void)
 		0,
 		NUM_POLYGON);	//ポリゴン数
 
-						//テクスチャの設定を元に戻す
+	//テクスチャの設定を元に戻す
 	pD3DDevice->SetTexture(0, nullptr);
 }
 

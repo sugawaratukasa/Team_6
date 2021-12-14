@@ -121,7 +121,7 @@ void CDoor::Update(void)
 		if (m_nCloseCnt <= CLOSE_COUNT)
 		{
 			// ƒhƒA‚ğŠJ‚­ˆ—
-			Open();
+			this->Open();
 		}
 
 		// CLOSE_COUNT‚æ‚è‘å‚«‚­‚È‚Á‚½ê‡

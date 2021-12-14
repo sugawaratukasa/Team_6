@@ -14,7 +14,6 @@
 #include "player.h"
 #include "game.h"
 #include "xfile.h"
-#include "shadow.h"
 #include "collision.h"
 
 //=============================================================================
@@ -37,7 +36,6 @@ CModel::CModel(PRIORITY Priority) : CScene(Priority)
 	m_nLife = 0;
 	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_fAlphaNum = 0.0f;
-	m_pShadow = nullptr;
 	m_State = STATE_NORMAL;
 	m_RayData = { ZERO_FLOAT,ZERO_FLOAT,ZERO_INT };
 	m_bDraw = true;
@@ -97,9 +95,6 @@ void CModel::Uninit(void)
 {
 	//オブジェクトの破棄
 	Release();
-
-	// 影の終了処理
-	HasPtrDelete();
 }
 
 //=============================================================================
@@ -127,7 +122,7 @@ void CModel::Draw(void)
 		D3DXMATRIX mtxRot, mtxTrans, mtxScale;
 		D3DMATERIAL9 matDef;					//現在のマテリアル保持用
 
-												//ワールドマトリックスの初期化
+		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
 
 		// 拡大率を反映
@@ -182,39 +177,7 @@ void CModel::Draw(void)
 		//保持していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 
-		pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
-		// 影の描画
-		ShadowDraw(m_rot);
-	}
-}
-
-//=============================================================================
-// 影の描画
-//=============================================================================
-void CModel::ShadowDraw(D3DXVECTOR3 rot)
-{
-	if (m_pShadow)
-	{
-		// 影の生成
-		m_pShadow->CreateShadow(m_rot, ZeroVector3, m_mtxWorld);
-
-		// 影の描画処理
-		m_pShadow->VolumeDraw();
-	}
-}
-
-//=============================================================================
-// モデル情報の設定
-//=============================================================================
-void CModel::HasPtrDelete(void)
-{
-	if (m_pShadow)
-	{
-		// 影の終了処理
-		m_pShadow->Uninit();
-		delete m_pShadow;
-		m_pShadow = nullptr;
+		//pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
 	}
 }
 
@@ -227,19 +190,6 @@ void CModel::BindModel(CXfile::MODEL model)
 	m_Model.pBuffMat = model.pBuffMat;
 	m_Model.dwNumMat = model.dwNumMat;
 	m_Model.apTexture = model.apTexture;
-}
-
-//=============================================================================
-// 影の設定
-//=============================================================================
-void CModel::SetShadowInfo(CXfile::MODEL model)
-{
-	// nullcheck
-	if (!m_pShadow)
-	{
-		// 影の生成
-		m_pShadow = CShadow::Create(model.pMesh);
-	}
 }
 //=============================================================================
 // レイの当たり判定
