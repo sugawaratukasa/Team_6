@@ -20,10 +20,15 @@ public:
 	enum SOUND_LABEL
 	{
 		SOUND_BGM_TITLE = 0,		// タイトル
+		SOUND_BGM_GAME,				// ゲーム
+		SOUND_BGM_RANKING,			// ランキング
 		SOUND_SE_BUTTON_SELECT,		// ボタン選択音
 		SOUND_SE_BUTTON_PUSH,       // ボタン決定音
 		SOUND_SE_BUTTON_CANCEL,		// ボタンキャンセル音
-		SOUND_LABEL_MAX,
+		SOUND_SE_OPEN_DOOR,
+		SOUND_SE_ITEM_GET,
+		SOUND_SE_ITEM_RELEASE,
+		SOUND_LABEL_MAX
 	};
 
 	enum SOUND_LOOP

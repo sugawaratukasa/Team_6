@@ -27,7 +27,7 @@ class CCameraGame;
 class CLight;
 class CPlayer;
 class CPauseButtonManager;
-class CPlayer1UI;
+class CPlayer1ItemUI;
 
 //=======================================================================================
 // ゲームクラス
@@ -69,12 +69,9 @@ public:
 	void Uninit(void);								// 終了処理
 	void Update(void);								// 更新処理
 	void Draw(void);								// 描画処理
-	void SetGame(void);								// ゲームの設定
 
 	void CreatePlayer(void);						// プレイヤーの生成	
 	void CreateItem(void);							// プレイヤーの生成	
-	void CreateMap(void);							// マップの生成	
-	void CreateGround(void);						// 地面の生成
 	void CreateSecCam(void);						// 監視カメラの生成
 
 	// Get関数

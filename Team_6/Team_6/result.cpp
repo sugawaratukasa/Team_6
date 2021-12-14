@@ -18,6 +18,9 @@
 #include "sound.h"
 #include "joypad.h"
 #include "resource_manager.h"
+#include "manager.h"
+#include "resource_manager.h"
+#include "sound.h"
 
 //=======================================================================================
 // コンストラクタ
@@ -40,7 +43,6 @@ CResult::~CResult()
 //=======================================================================================
 HRESULT CResult::Init(void)
 {
-
 	return S_OK;
 }
 

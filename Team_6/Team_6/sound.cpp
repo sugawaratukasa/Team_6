@@ -15,9 +15,15 @@
 //====================================================
 CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 {
+	{ "data/Sound/Title_BGM.wav", SOUND_LOOP_ON },			// タイトルBGM
+	{ "data/Sound/Game_BGM.wav", SOUND_LOOP_ON },			// ゲームBGM
+	{ "data/Sound/Ranking_BGM.wav", SOUND_LOOP_ON },		// ランキングBGM
 	{ "data/Sound/Button_Select.wav", SOUND_LOOP_OFF },		// ボタン選択音
 	{ "data/Sound/Button_Push.wav", SOUND_LOOP_OFF },		// ボタン決定音
 	{ "data/Sound/Button_Cancel.wav", SOUND_LOOP_OFF },		// ボタンキャンセル音
+	{ "data/Sound/open_door.wav",SOUND_LOOP_OFF },			// ドアを開ける音
+	{ "data/Sound/item_get.wav", SOUND_LOOP_OFF },
+	{ "data/Sound/item_release.wav",SOUND_LOOP_OFF },
 };
 
 //================================================

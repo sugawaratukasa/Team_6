@@ -100,8 +100,6 @@ void CCameraGame::Update(void)
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
-	CCameraSecurity *pSecCam;
-
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
 	// 監視カメラを使っているなら

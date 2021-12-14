@@ -15,7 +15,7 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CPlayer2UI;
+class CPlayer2ItemUI;
 
 //=============================================================================
 // プレイヤークラス
@@ -30,8 +30,8 @@ public:
 	void Uninit(void);												// 終了処理
 	void Update(void);												// プレイヤーの制御
 	void Draw(void);												// 描画処理
-private:
 	void PrisonWarp(void);											// 独房ワープ処理
+private:
 	void KeyboardMove(float fSpeed, float fAngle);					// キーボード移動処理
 	void PadMove(float fSpeed, float fAngle);						// ジョイパッド移動処理
 	void UpdateRot(void);											// 向き更新処理

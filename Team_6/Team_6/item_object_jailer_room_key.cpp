@@ -65,18 +65,6 @@ CJailerKeyObject * CJailerKeyObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CJailerKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_KEY_OBJECT);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_JAILER_ROOM);
 	// サイズ設定

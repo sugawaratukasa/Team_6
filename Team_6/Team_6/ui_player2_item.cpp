@@ -1,5 +1,5 @@
 //=============================================================================
-// プレイヤー2UI [player2_ui.cpp]
+// プレイヤー2アイテムUI [ui_player2_item.cpp]
 // Author : Nikaido Taichi
 //=============================================================================
 
@@ -10,7 +10,7 @@
 #include "main.h"
 #include "manager.h"
 #include "mode_base.h"
-#include "player2_ui.h"
+#include "ui_player2_item.h"
 #include "ui_flame_texture.h"
 #include "item_object.h"
 #include "baton_texture.h"
@@ -34,7 +34,7 @@
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer2UI::CPlayer2UI()
+CPlayer2ItemUI::CPlayer2ItemUI()
 {
 	m_nItemTextureCount = ZERO_INT;		// アイテムテクスチャ生成数
 	m_nSelectCount = ZERO_INT;			// アイテム選択のカウント
@@ -49,7 +49,7 @@ CPlayer2UI::CPlayer2UI()
 // デストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer2UI::~CPlayer2UI()
+CPlayer2ItemUI::~CPlayer2ItemUI()
 {
 }
 
@@ -57,16 +57,16 @@ CPlayer2UI::~CPlayer2UI()
 // 生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer2UI * CPlayer2UI::Create(void)
+CPlayer2ItemUI * CPlayer2ItemUI::Create(void)
 {
-	// CPlayer2UIのポインタ
-	CPlayer2UI *pPlayer1UI = nullptr;
+	// CPlayer2ItemUIのポインタ
+	CPlayer2ItemUI *pPlayer1UI = nullptr;
 
 	// nullcheck
 	if (pPlayer1UI == nullptr)
 	{
 		// メモリ確保
-		pPlayer1UI = new CPlayer2UI;
+		pPlayer1UI = new CPlayer2ItemUI;
 
 		// !nullcheck
 		if (pPlayer1UI != nullptr)
@@ -83,7 +83,7 @@ CPlayer2UI * CPlayer2UI::Create(void)
 // 初期化処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-HRESULT CPlayer2UI::Init(void)
+HRESULT CPlayer2ItemUI::Init(void)
 {
 	CUIFlameTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 110.0f, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(200.0f, 60.0f, 0.0f));
 	m_pSelectItemFlame = CSelectItemFlame::Create(D3DXVECTOR3(1236.5f, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(61.5f, 59.5f, 0.0f));
@@ -94,7 +94,7 @@ HRESULT CPlayer2UI::Init(void)
 // 終了処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer2UI::Uninit(void)
+void CPlayer2ItemUI::Uninit(void)
 {
 	//------------------------
 	//　牢屋のカギ
@@ -152,7 +152,7 @@ void CPlayer2UI::Uninit(void)
 // 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer2UI::Update(void)
+void CPlayer2ItemUI::Update(void)
 {
 	// UI生成処理
 	ItemGetGuideUICreate();
@@ -163,7 +163,7 @@ void CPlayer2UI::Update(void)
 // 入力処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer2UI::PlayerItemGet(void)
+void CPlayer2ItemUI::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
@@ -204,7 +204,7 @@ void CPlayer2UI::PlayerItemGet(void)
 // UI生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer2UI::ItemGetGuideUICreate(void)
+void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 {
 	// ゲームモードの取得
 	CGame * pGame = ((CGame*)CManager::GetModePtr());
