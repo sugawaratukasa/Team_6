@@ -106,6 +106,9 @@
     <Filter Include="09_Object\Lever">
       <UniqueIdentifier>{5280f7d9-ec2b-4571-a201-6f02eefa69f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07_Effect\particle">
+      <UniqueIdentifier>{56f984be-38bd-4d19-ba99-8842925043a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -272,9 +275,6 @@
     </ClCompile>
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="object_wall.cpp">
-      <Filter>09_Object</Filter>
     </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>11_Map</Filter>
@@ -477,6 +477,17 @@
     <ClCompile Include="lever_body.cpp">
       <Filter>09_Object\Lever</Filter>
     </ClCompile>
+    <ClCompile Include="particle_manager.cpp">
+      <Filter>07_Effect\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>07_Effect\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_emitter.cpp">
+      <Filter>07_Effect\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
     <ClCompile Include="item_guid_prison_key.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
@@ -661,9 +672,6 @@
     </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="object_wall.h">
-      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
       <Filter>11_Map</Filter>
@@ -866,6 +874,17 @@
     <ClInclude Include="lever_body.h">
       <Filter>09_Object\Lever</Filter>
     </ClInclude>
+    <ClInclude Include="particle_manager.h">
+      <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_emitter.h">
+      <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object\Wall</Filter>
     <ClInclude Include="item_guid_prison_key.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>

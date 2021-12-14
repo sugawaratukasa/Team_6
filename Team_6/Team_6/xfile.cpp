@@ -43,7 +43,7 @@ CXfile::CXfile()
 		{ "data/Model/Object/map_object.x" },				// マップ
 		{ "data/Model/Object/baton_Item.x" },				// 警棒
 		{ "data/Model/Map/01_Door.x"},						// ドア
-		{ "data/Model/Map/02_Door_Wall.x" },				// ドアの壁
+		{ "data/Model/Map/02_DoorWall.x" },					// ドアの壁
 		{ "data/Model/Map/03_Wall.x" },						// 壁
 		{ "data/Model/Map/04_PrisonWall.x"},				// 牢屋の壁
 		{ "data/Model/Map/05_PrisonDoor_CentralPoint.x" },	// 牢屋のドア

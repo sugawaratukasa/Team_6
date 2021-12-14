@@ -11,7 +11,10 @@
 #include "billboard.h"
 #include "manager.h"
 #include "renderer.h"
-
+//=====================================================
+// マクロ定義
+//=====================================================
+#define DEF_SCALE	(1.0f)
 //=====================================================
 // コンストラクタ
 //=====================================================
@@ -27,6 +30,7 @@ CBillboard::CBillboard(PRIORITY Priority) : CSceneBase(Priority)
 	m_nLoop = -1;
 	m_nAlphaNum = 0;
 	m_bBlend = false;
+	m_fScale = ZERO_FLOAT;
 }
 
 //=====================================================
@@ -60,6 +64,7 @@ HRESULT CBillboard::Init(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 	SetSize(size);
 	m_sizeBase = size;
 	D3DXCOLOR color = GetColor();
+	m_fScale = DEF_SCALE;
 
 	//頂点バッファをロック
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -175,9 +180,9 @@ void CBillboard::Draw(void)
 
 	// サイズを反映
 	D3DXMatrixScaling(&mtxScale,
-		size.x / m_sizeBase.x,
-		size.y / m_sizeBase.y,
-		1.0f);
+		(size.x / m_sizeBase.x) *m_fScale,
+		(size.y / m_sizeBase.y) *m_fScale,
+		1.0f *m_fScale);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScale);
 
 	// 向き取得
@@ -320,7 +325,6 @@ void CBillboard::SetColor(D3DXCOLOR col)
 
 void CBillboard::SetPosition(D3DXVECTOR3 Pos)
 {
-	D3DXVECTOR3 Position = Pos;
 	SetPos(Pos);
 }
 

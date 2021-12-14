@@ -127,7 +127,7 @@ void CModel::Draw(void)
 		D3DXMATRIX mtxRot, mtxTrans, mtxScale;
 		D3DMATERIAL9 matDef;					//現在のマテリアル保持用
 
-												//ワールドマトリックスの初期化
+		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
 
 		// 拡大率を反映
@@ -182,7 +182,7 @@ void CModel::Draw(void)
 		//保持していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 
-		pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+		//pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 		// 影の描画
 		ShadowDraw(m_rot);

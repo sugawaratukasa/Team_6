@@ -16,8 +16,8 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(200.0f,450.0f,50.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,450.0f,200.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(180.0f,450.0f,50.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,450.0f,180.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // コンストラクタ
