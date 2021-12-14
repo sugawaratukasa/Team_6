@@ -1,8 +1,8 @@
-#ifndef _ITEM_GET_UI_MAP_KEY_H_
-#define _ITEM_GET_UI_MAP_KEY_H_
+#ifndef _UI_PLAYER2_ITEM_H_
+#define _UI_PLAYER2_ITEM_H_
 //=============================================================================
 //
-// プレイヤーUIクラスヘッダー [item_get_ui.h]
+// プレイヤー2アイテムUI [ui_player2_item.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,8 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "main.h"
-#include "item_get_ui.h"
+#include "ui_player_item.h"
 
 //=============================================================================
 // マクロ定義
@@ -20,20 +19,27 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
+class CScene2D;
+class CSelectItemFlame;
 
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CItemGetUIMap : public CItemGetUI
+class CPlayer2ItemUI :public CPlayerItemUI
 {
 public:
-	CItemGetUIMap();														// コンストラクタ
-	~CItemGetUIMap();														// デストラクタ
-	static CItemGetUIMap * Create(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);		// 生成処理
-	HRESULT Init(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);							// 初期化処理
-	void Uninit(void);															// 終了処理
-	void Draw(void);															// 描画処理
-	void Update(void);															// プレイヤーの制御
+	CPlayer2ItemUI();												// コンストラクタ
+	~CPlayer2ItemUI();												// デストラクタ
+	static CPlayer2ItemUI * Create(void);							// 生成処理
+	HRESULT Init(void);											// 初期化処理
+	void Uninit(void);											// 終了処理
+	void Update(void);											// プレイヤーの制御
 private:
+	void PlayerItemGet(void);									// 入力処理
+	void ItemGetGuideUICreate(void);							// UI生成処理
+	int m_nItemTextureCount;									// アイテムテクスチャ生成数
+	int m_nSelectCount;											// アイテム選択のカウント
+	CSelectItemFlame * m_pSelectItemFlame;						// アイテム選択枠のポインタ
+	CScene2D * m_apItemTexture[CItemObject::ITEM_OBJECT_MAX];	// アイテムテクスチャのポインタ
 };
 #endif

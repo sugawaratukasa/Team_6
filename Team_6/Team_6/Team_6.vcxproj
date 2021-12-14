@@ -161,13 +161,7 @@
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
-    <ClCompile Include="item_get_ui.cpp" />
-    <ClCompile Include="item_get_ui_baton.cpp" />
-    <ClCompile Include="item_get_ui_jailer_key.cpp" />
-    <ClCompile Include="item_get_ui_map.cpp" />
-    <ClCompile Include="item_get_ui_pc_room_key.cpp" />
-    <ClCompile Include="item_get_ui_prison_key.cpp" />
-    <ClCompile Include="item_get_ui_storage_key.cpp" />
+    <ClCompile Include="item_guid_prison_key.cpp" />
     <ClCompile Include="item_jailer_room_key.cpp" />
     <ClCompile Include="item_map.cpp" />
     <ClCompile Include="item_pc_room_key.cpp" />
@@ -239,11 +233,10 @@
     <ClCompile Include="object_wall.cpp" />
     <ClCompile Include="pause_button_manager.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="player1_ui.cpp" />
-    <ClCompile Include="player2_ui.cpp" />
+    <ClCompile Include="ui_player1_item.cpp" />
+    <ClCompile Include="ui_player2_item.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
-    <ClCompile Include="player_ui.cpp" />
     <ClCompile Include="guards_door_collision.cpp" />
     <ClCompile Include="prison_door_collision.cpp" />
     <ClCompile Include="prison_key_texture.cpp" />
@@ -274,6 +267,7 @@
     <ClCompile Include="title_button_manager.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="ui_flame_texture.cpp" />
+    <ClCompile Include="ui_player_item.cpp" />
     <ClCompile Include="xfile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -308,13 +302,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="item_baton.h" />
-    <ClInclude Include="item_get_ui.h" />
-    <ClInclude Include="item_get_ui_baton.h" />
-    <ClInclude Include="item_get_ui_jailer_key.h" />
-    <ClInclude Include="item_get_ui_map.h" />
-    <ClInclude Include="item_get_ui_pc_room_key.h" />
-    <ClInclude Include="item_get_ui_prison_key.h" />
-    <ClInclude Include="item_get_ui_storage_key.h" />
+    <ClInclude Include="item_guid_prison_key.h" />
     <ClInclude Include="item_jailer_room_key.h" />
     <ClInclude Include="item_map.h" />
     <ClInclude Include="item_pc_room_key.h" />
@@ -370,11 +358,10 @@
     <ClInclude Include="object_wall.h" />
     <ClInclude Include="pause_button_manager.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="player1_ui.h" />
-    <ClInclude Include="player2_ui.h" />
+    <ClInclude Include="ui_player1_item.h" />
+    <ClInclude Include="ui_player2_item.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />
-    <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="guards_door_collision.h" />
     <ClInclude Include="prison_door_collision.h" />
@@ -405,6 +392,7 @@
     <ClInclude Include="title_button_manager.h" />
     <ClInclude Include="tutorial.h" />
     <ClInclude Include="ui_flame_texture.h" />
+    <ClInclude Include="ui_player_item.h" />
     <ClInclude Include="xfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

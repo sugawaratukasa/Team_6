@@ -13,7 +13,16 @@
 #include "keyboard.h"
 #include "joypad.h"
 #include "resource_manager.h"
-#include "player2_ui.h"
+#include "ui_player2_item.h"
+#include "manager.h"
+#include "resource_manager.h"
+#include "sound.h"
+
+//=============================================================================
+// マクロ定義
+// Author : Nikaido Taichi
+//=============================================================================
+#define PRISON_POSITION (D3DXVECTOR3(-1370.0f, 0.0f, -6800.0f))	//独房の位置
 
 //=============================================================================
 // コンストラクタ
@@ -76,7 +85,7 @@ HRESULT CPlayer2::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// プレイヤーの初期化処理関数呼び出し
 	CPlayer::Init(pos, rot);
 	// プレイヤー2のUI生成
-	SetUI(CPlayer2UI::Create());
+	SetUI(CPlayer2ItemUI::Create());
 	return S_OK;
 }
 
@@ -118,11 +127,14 @@ void CPlayer2::Update(void)
 	if (bIncapacitated == true || bGoal == true)
 	{
 		// 移動量を0にする
-		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		SetMove(ZeroVector3);
+		// アイドルモーション再生
+		SetMotion(MOTION_IDOL);
 	}
+	// 向き補正処理
 	UpdateRot();
 	// アイテム削除処理関数呼び出し
-	ItemDelete(1);
+	ItemDelete(PLAYER_2);
 }
 
 //=============================================================================
@@ -141,13 +153,14 @@ void CPlayer2::Draw(void)
 //=============================================================================
 void CPlayer2::PrisonWarp(void)
 {
-	// 行動不能状態取得
-	bool bIncapacitated = GetbIncapacitated();
+	// サウンドのポインタを取得する
+	CSound * pSound = GET_SOUND_PTR;
+	// ワープ時SEを再生する
+	pSound->Play(CSound::SOUND_SE_OPEN_DOOR);
 	// 行動不能状態にする
-	bIncapacitated = true;
-	SetbIncapacitated(bIncapacitated);
+	SetbIncapacitated(true);
 	// 独房にワープさせる
-	SetPos(D3DXVECTOR3(-1370.0f, 0.0f, -6800.0f));
+	SetPos(PRISON_POSITION);
 }
 
 //=============================================================================
@@ -172,7 +185,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle)*fSpeed;
 		move.z = -cosf(fAngle)*fSpeed;
 		m_rotDest.y = fAngle;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 後ろに移動
 	if (pKeyboard->GetPress(DIK_DOWN))
@@ -181,7 +195,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf((fAngle))*fSpeed;
 		move.z = cosf((fAngle))*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_180;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 左に移動
 	if (pKeyboard->GetPress(DIK_LEFT))
@@ -190,7 +205,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle + ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle + ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_90;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 右に移動
 	if (pKeyboard->GetPress(DIK_RIGHT))
@@ -199,7 +215,7 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = sinf(fAngle - ANGLE_90)*fSpeed;
 		move.z = cosf(fAngle - ANGLE_90)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_90;
-		SetMotion(1);
+		SetMotion(MOTION_WALK);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_UP) && pKeyboard->GetPress(DIK_LEFT))
@@ -208,7 +224,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_45;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_UP) && pKeyboard->GetPress(DIK_RIGHT))
@@ -217,7 +234,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_45)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_45)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_45;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_DOWN) && pKeyboard->GetPress(DIK_LEFT))
@@ -226,7 +244,8 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle - ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle - ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle - ANGLE_135;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	// 前に移動
 	if (pKeyboard->GetPress(DIK_DOWN) && pKeyboard->GetPress(DIK_RIGHT))
@@ -235,11 +254,13 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 		move.x = -sinf(fAngle + ANGLE_135)*fSpeed;
 		move.z = -cosf(fAngle + ANGLE_135)*fSpeed;
 		m_rotDest.y = fAngle + ANGLE_135;
-		SetMotion(1);
+		// 歩行モーション再生
+		SetMotion(MOTION_WALK);
 	}
 	if (move == ZeroVector3)
 	{
-		SetMotion(0);
+		// アイドルモーション再生
+		SetMotion(MOTION_IDOL);
 	}
 	// 移動量設定
 	SetMove(move);
@@ -252,13 +273,13 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 void CPlayer2::PadMove(float fSpeed, float fAngle)
 {
 	// パッド取得
-	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(1);
+	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(PLAYER_1);
 
 	// !nullcheck 
 	if (P1_PAD != nullptr)
 	{
 		// スティック取得
-		DIJOYSTATE js = CInputJoypad::GetStick(1);
+		DIJOYSTATE js = CInputJoypad::GetStick(PLAYER_1);
 
 		// 移動量
 		D3DXVECTOR3 move = ZeroVector3;

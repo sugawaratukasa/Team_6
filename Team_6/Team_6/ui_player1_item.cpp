@@ -1,5 +1,5 @@
 //=============================================================================
-// プレイヤー1UI [player1_ui.cpp]
+// プレイヤー1アイテムUI [ui_player1_item.cpp]
 // Author : Nikaido Taichi
 //=============================================================================
 
@@ -10,7 +10,7 @@
 #include "main.h"
 #include "manager.h"
 #include "mode_base.h"
-#include "player1_ui.h"
+#include "ui_player1_item.h"
 #include "ui_flame_texture.h"
 #include "item_object.h"
 #include "baton_texture.h"
@@ -34,7 +34,7 @@
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer1UI::CPlayer1UI()
+CPlayer1ItemUI::CPlayer1ItemUI()
 {
 	m_nItemTextureCount = ZERO_INT;		// アイテムテクスチャ生成数
 	m_nSelectCount = ZERO_INT;			// アイテム選択のカウント
@@ -49,7 +49,7 @@ CPlayer1UI::CPlayer1UI()
 // デストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer1UI::~CPlayer1UI()
+CPlayer1ItemUI::~CPlayer1ItemUI()
 {
 }
 
@@ -57,16 +57,16 @@ CPlayer1UI::~CPlayer1UI()
 // 生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-CPlayer1UI * CPlayer1UI::Create(void)
+CPlayer1ItemUI * CPlayer1ItemUI::Create(void)
 {
-	// CPlayer1UIのポインタ
-	CPlayer1UI *pPlayer1UI = nullptr;
+	// CPlayer1ItemUIのポインタ
+	CPlayer1ItemUI *pPlayer1UI = nullptr;
 
 	// nullcheck
 	if (pPlayer1UI == nullptr)
 	{
 		// メモリ確保
-		pPlayer1UI = new CPlayer1UI;
+		pPlayer1UI = new CPlayer1ItemUI;
 
 		// !nullcheck
 		if (pPlayer1UI != nullptr)
@@ -83,7 +83,7 @@ CPlayer1UI * CPlayer1UI::Create(void)
 // 初期化処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-HRESULT CPlayer1UI::Init(void)
+HRESULT CPlayer1ItemUI::Init(void)
 {
 	// UIの枠生成
 	CUIFlameTexture::Create(D3DXVECTOR3(110.0f, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(200.0f, 60.0f, 0.0f));
@@ -96,7 +96,7 @@ HRESULT CPlayer1UI::Init(void)
 // 終了処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer1UI::Uninit(void)
+void CPlayer1ItemUI::Uninit(void)
 {
 	//------------------------
 	//　牢屋のカギ
@@ -154,7 +154,7 @@ void CPlayer1UI::Uninit(void)
 // 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer1UI::Update(void)
+void CPlayer1ItemUI::Update(void)
 {
 	// UI生成処理
 	ItemGetGuideUICreate();
@@ -166,7 +166,7 @@ void CPlayer1UI::Update(void)
 // 入力処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer1UI::PlayerItemGet(void)
+void CPlayer1ItemUI::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
@@ -206,7 +206,7 @@ void CPlayer1UI::PlayerItemGet(void)
 // UI生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer1UI::ItemGetGuideUICreate(void)
+void CPlayer1ItemUI::ItemGetGuideUICreate(void)
 {
 	CGame * pGame = ((CGame*)CManager::GetModePtr());
 	CPlayer * pPlayer1 = pGame->GetPlayer(0);

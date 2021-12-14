@@ -24,11 +24,11 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define JAILER_NORMAL_SPEED (10.0f)	//通常時の移動速度
-#define JAILER_CHASE_SPEED (20.0f)	//追跡時の移動速度
-#define JAILER_ROTSTION_RATE (0.1f)	//回転の係数
-#define VIEW_POS_Y (70.0f)			//視線の高さ
-#define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
+#define JAILER_NORMAL_SPEED (10.0f)							//通常時の移動速度
+#define JAILER_CHASE_SPEED (20.0f)							//追跡時の移動速度
+#define JAILER_ROTSTION_RATE (0.1f)							//回転の係数
+#define VIEW_POS_Y (70.0f)									//視線の高さ
+#define VIEW_POLYGON_NUM (8)								//視線のポリゴン数
 #define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 
 //=============================================================================
@@ -436,6 +436,7 @@ bool CJailer::IsHitPlayer(void)
 
 	for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
+		bIsHit = false;
 		//プレイヤーのポインタを取得
 		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
 
@@ -487,7 +488,7 @@ bool CJailer::IsHitPlayer(void)
 		if (bIsHit)
 		{
 			//プレイヤーに対しアクションする
-			//pPlayer->
+			pPlayer->PrisonWarp();
 		}
 	}
 

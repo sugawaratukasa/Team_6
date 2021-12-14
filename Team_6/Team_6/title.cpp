@@ -16,6 +16,10 @@
 #include "bg_title.h"
 #include "title_button_manager.h"
 #include "fade.h"
+#include "manager.h"
+#include "resource_manager.h"
+#include "sound.h"
+
 //=============================================================================
 // マクロ定義
 //=============================================================================
@@ -49,7 +53,8 @@ HRESULT CTitle::Init(void)
 	// カウンタ初期化
 	m_nCountToMovie = 0;
 	m_bCount = true;
-
+	CSound * pSound = GET_SOUND_PTR;
+	pSound->CSound::Play(CSound::SOUND_BGM_TITLE);
 	return S_OK;
 }
 

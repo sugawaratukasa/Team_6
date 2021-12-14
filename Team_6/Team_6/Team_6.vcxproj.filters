@@ -405,15 +405,6 @@
     <ClCompile Include="select_item_flame.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
-    <ClCompile Include="player_ui.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="player1_ui.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="player2_ui.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
     <ClCompile Include="map_ui_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
@@ -431,27 +422,6 @@
     </ClCompile>
     <ClCompile Include="jailer_key_texture.cpp">
       <Filter>08_2dPolygon</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_prison_key.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_jailer_key.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_map.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_pc_room_key.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_storage_key.cpp">
-      <Filter>13_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="item_get_ui_baton.cpp">
-      <Filter>13_UI</Filter>
     </ClCompile>
     <ClCompile Include="jailer_view.cpp">
       <Filter>05_Character\Jjailer</Filter>
@@ -509,6 +479,18 @@
     </ClCompile>
     <ClCompile Include="lever_body.cpp">
       <Filter>09_Object\Lever</Filter>
+    </ClCompile>
+    <ClCompile Include="item_guid_prison_key.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_player1_item.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_player2_item.cpp">
+      <Filter>13_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_player_item.cpp">
+      <Filter>13_UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -806,15 +788,6 @@
     <ClInclude Include="select_item_flame.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
-    <ClInclude Include="player_ui.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="player1_ui.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="player2_ui.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
     <ClInclude Include="map_ui_texture.h">
       <Filter>08_2dPolygon</Filter>
     </ClInclude>
@@ -832,27 +805,6 @@
     </ClInclude>
     <ClInclude Include="jailer_key_texture.h">
       <Filter>08_2dPolygon</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_prison_key.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_jailer_key.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_map.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_pc_room_key.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_storage_key.h">
-      <Filter>13_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="item_get_ui_baton.h">
-      <Filter>13_UI</Filter>
     </ClInclude>
     <ClInclude Include="Camera_Security.h">
       <Filter>00_Important\Camera</Filter>
@@ -916,6 +868,18 @@
     </ClInclude>
     <ClInclude Include="lever_body.h">
       <Filter>09_Object\Lever</Filter>
+    </ClInclude>
+    <ClInclude Include="item_guid_prison_key.h">
+      <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_player1_item.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_player2_item.h">
+      <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_player_item.h">
+      <Filter>13_UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

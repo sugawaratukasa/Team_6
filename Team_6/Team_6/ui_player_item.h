@@ -1,8 +1,8 @@
-#ifndef _ITEM_GET_UI_JAILER_KEY_H_
-#define _ITEM_GET_UI_JAILER_KEY_H_
+#ifndef _UI_PLAYER_ITEM_H_
+#define _UI_PLAYER_ITEM_H_
 //=============================================================================
 //
-// プレイヤーUIクラスヘッダー [item_get_ui.h]
+// プレイヤーのアイテムUI [ui_player_item.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -11,7 +11,7 @@
 // インクルード
 //=============================================================================
 #include "main.h"
-#include "item_get_ui.h"
+#include "item_object.h"
 
 //=============================================================================
 // マクロ定義
@@ -24,16 +24,14 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CItemGetUIJailerKey: public CItemGetUI
+class CPlayerItemUI
 {
 public:
-	CItemGetUIJailerKey();														// コンストラクタ
-	~CItemGetUIJailerKey();														// デストラクタ
-	static CItemGetUIJailerKey * Create(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);		// 生成処理
-	HRESULT Init(D3DXVECTOR3 Pos, D3DXVECTOR3 Size);							// 初期化処理
-	void Uninit(void);															// 終了処理
-	void Draw(void);															// 描画処理
-	void Update(void);															// プレイヤーの制御
+	CPlayerItemUI();					// コンストラクタ
+	virtual ~CPlayerItemUI();			// デストラクタ
+	virtual HRESULT Init(void) = 0;		// 初期化処理
+	virtual void Uninit(void) = 0;		// 終了処理
+	virtual void Update(void) = 0;		// 更新
 private:
 };
 #endif

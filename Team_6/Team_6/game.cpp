@@ -42,14 +42,13 @@
 #include "object_prison_door_right.h"
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
-#include "player1_ui.h"
+#include "ui_player1_item.h"
 #include "lever.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
 #define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// 床のサイズ
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
-
 #define PLAYER1_POS (D3DXVECTOR3(5768.0f,0.0f,-14056.0f))
 #define PLAYER2_POS (D3DXVECTOR3(-1350.0f,0.0f,-250.0f))
 #define MAP_POS1 (D3DXVECTOR3(5768.0f,0.0f,-12888.0f))
@@ -64,8 +63,6 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-
-
 
 //=======================================================================================
 // コンストラクタ
@@ -94,7 +91,6 @@ CGame::~CGame()
 HRESULT CGame::Init(void)
 {
 	// カメラクラスのクリエイト
-
 	m_pCamera[ID_PLAYER_01] = CCameraGame::Create(CCamera::SCREEN_LEFT);
 	m_pCamera[ID_PLAYER_02] = CCameraGame::Create(CCamera::SCREEN_RIGHT);
 
@@ -112,9 +108,6 @@ HRESULT CGame::Init(void)
 	// アイテムの生成
 	CreateItem();
 
-	// 生成
-	CreateGround();
-
 	// 監視カメラの生成
 	CreateSecCam();
 
@@ -125,7 +118,7 @@ HRESULT CGame::Init(void)
 	CScreenFrame::Create();
 	CTimer::Create();
 
-	//看守の生成
+	// 看守の生成
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
@@ -133,6 +126,10 @@ HRESULT CGame::Init(void)
 
 	// プレイヤーの生成
 	CreatePlayer();
+
+	CSound * pSound = GET_SOUND_PTR;
+	pSound->StopAll();
+	//pSound->CSound::Play(CSound::SOUND_BGM_GAME);
 
 	return S_OK;
 }
@@ -164,14 +161,15 @@ void CGame::Uninit(void)
 		m_pLight = nullptr;
 	}
 
-
-
-	for (int nCount = 0; nCount < 2; nCount++)
+	// プレイヤーの最大数分回す
+	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
 	{
-
+		// プレイヤーポインタのnullptrチェック
 		if (m_apPlayer[nCount] != NULL)
 		{
+			// プレイヤーの終了処理関数呼び出し
 			m_apPlayer[nCount]->Uninit();
+			// プレイヤーのポインタを初期化する
 			m_apPlayer[nCount] = nullptr;
 		}
 	}
@@ -200,8 +198,6 @@ void CGame::Update(void)
 	}
 	// ポーズ入力処理
 	PauseInput();
-	// ゲームの設定
-	SetGame();
 }
 
 //=======================================================================================
@@ -212,24 +208,16 @@ void CGame::Draw(void)
 }
 
 //=======================================================================================
-// ゲームの設定
-//=======================================================================================
-void CGame::SetGame(void)
-{
-}
-
-//=======================================================================================
 // プレイヤーの生成
 //=======================================================================================
 void CGame::CreatePlayer(void)
 {
-	// プレイヤーの生成
-
+	// プレイヤー1の生成
 	if (m_apPlayer[0] == nullptr)
 	{
-		m_apPlayer[0] = CPlayer1::Create(ZeroVector3, ZeroVector3);
+		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
 	}
-	// プレイヤーの生成
+	// プレイヤー2の生成
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
@@ -248,31 +236,25 @@ void CGame::CreateItem(void)
 	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS1, ZeroVector3);
 	CBatonObject::Create(BATON_POS1, ZeroVector3);
 
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS2, ZeroVector3);
+	CMapObject::Create(MAP_POS2, ZeroVector3);
+	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
 	CStorageKeyObject::Create(STORAGE_KEY_POS2, ZeroVector3);
 	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS2, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
-	CMapObject::Create(MAP_POS2, ZeroVector3);
+	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS2, ZeroVector3);
 	CBatonObject::Create(BATON_POS2, ZeroVector3);
 }
 
 //=======================================================================================
-// マップの生成
+// 監視カメラの生成
 //=======================================================================================
-void CGame::CreateMap(void)
+void CGame::CreateSecCam(void)
 {
-	// 地面の生成
-	CreateGround();
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
 }
-
-//=======================================================================================
-// 地面の生成
-//=======================================================================================
-void CGame::CreateGround(void)
-{
-	
-}
-
 
 //=======================================================================================
 // ポーズ入力処理
@@ -301,16 +283,4 @@ void CGame::PauseInput(void)
 			m_pPauseButtonManager = nullptr;
 		}
 	}
-}
-
-//=======================================================================================
-// 監視カメラの生成
-//=======================================================================================
-void CGame::CreateSecCam(void)
-{
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
 }
