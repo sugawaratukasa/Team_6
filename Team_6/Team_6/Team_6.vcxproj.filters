@@ -267,9 +267,6 @@
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
     </ClCompile>
-    <ClCompile Include="baton_texture.cpp">
-      <Filter>08_2dPolygon</Filter>
-    </ClCompile>
     <ClCompile Include="ui_flame_texture.cpp">
       <Filter>08_2dPolygon</Filter>
     </ClCompile>
@@ -492,6 +489,9 @@
     <ClCompile Include="ui_player_item.cpp">
       <Filter>13_UI</Filter>
     </ClCompile>
+    <ClCompile Include="baton_texture.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -655,9 +655,6 @@
     </ClInclude>
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
-    </ClInclude>
-    <ClInclude Include="baton_texture.h">
-      <Filter>08_2dPolygon</Filter>
     </ClInclude>
     <ClInclude Include="ui_flame_texture.h">
       <Filter>08_2dPolygon</Filter>
@@ -880,6 +877,9 @@
     </ClInclude>
     <ClInclude Include="ui_player_item.h">
       <Filter>13_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="baton_texture.h">
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

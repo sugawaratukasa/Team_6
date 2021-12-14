@@ -35,7 +35,7 @@ public:
 	void Update(void);														// プレイヤーの制御
 	void Draw(void);														// 描画処理
 private:
-	void Input(void);
-	CPrisonKeyTexture * m_pPrisonKeyTexture;
+	void Input(void);														// 入力処理
+	CPrisonKeyTexture * m_pPrisonKeyTexture;								// 看守室の鍵テクスチャのポインタ
 };
 #endif
