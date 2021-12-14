@@ -61,7 +61,7 @@ HRESULT CGoalArea::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// ƒ‚ƒfƒ‹‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
 	CModel::Init(pos, rot);
-	SetSize(D3DXVECTOR3(1800.0f, 1000.0f, 500.0f));
+	SetSize(D3DXVECTOR3(1200.0f, 1000.0f, 500.0f));
 	CModelCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }

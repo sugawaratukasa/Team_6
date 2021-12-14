@@ -26,7 +26,6 @@
 #include "result.h"
 #include "xfile.h"
 #include "polygon.h"
-#include "shadow.h"
 #include "debug_proc.h"
 #include "Movie.h"
 #include "mode_ranking.h"
@@ -293,9 +292,6 @@ void CManager::SetMode(MODE_TYPE mode)
 
 	//サウンドストップ
 	pSound->StopAll();
-
-	// 影の終了処理
-	CShadow::PolygonUninit();
 
 	// シーン情報のリリース
 	CScene::ReleaseAll();

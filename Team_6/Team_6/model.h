@@ -21,7 +21,6 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CShadow;
 
 //=============================================================================
 // モデルクラス
@@ -58,11 +57,8 @@ public:
 	static CModel *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// インスタンス生成
 	void BindModel(CXfile::MODEL model);						// モデルの設定
 	void SubAlpha(float fAlpha);								// 透明度の減算
-	void ShadowDraw(D3DXVECTOR3 rot);							// 影の描画
-	void HasPtrDelete(void);									// 保持ポインタの開放処理
-	void SetShadowInfo(CXfile::MODEL model);					// 影の情報設定
-	bool RayCollision(void);									// レイの当たり判定
-																// Set関数
+
+	// Set関数
 	void SetPos(const D3DXVECTOR3 pos) { m_pos = pos; }					// 座標の設定
 	void SetMove(const D3DXVECTOR3 move) { m_move = move; }					// 移動量の設定
 	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }					// 座標の情報
@@ -107,8 +103,6 @@ private:
 	float m_fAlphaNum;					// 透明度の値
 	STATE m_State;						// 状態
 	RAY_DATA m_RayData;					// レイの情報
-	bool	m_bDraw;
-										// 影の生成用
-	CShadow *m_pShadow;		// 影のポインタ
+	bool m_bDraw;
 };
 #endif 

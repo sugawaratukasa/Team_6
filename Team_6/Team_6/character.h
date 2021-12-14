@@ -67,7 +67,6 @@ public:
 	void Gravity(void);												// 重力
 	void Landing(float fHeight);									// 着地
 	void SetMotion(int nMotionState);								// モーションの設定
-	void SetShadowRotCalculation(void);
 
 	// Set関数
 	void SetPos(D3DXVECTOR3 &pos) { m_pos = pos; }					// 座標の設定
@@ -79,7 +78,6 @@ public:
 	void SetSpeed(float fSpeed) { m_fSpeed = fSpeed; }				// 速度の設定
 	void SetState(STATE state) { m_State = state; }					// 状態設定
 	void SetLanding(bool bLanding) { m_bLanding = bLanding; }		// 着地
-	void SetUseShadow(void) { m_bUseShadow = true; }				// 影の使用判定
 	void SetRay_Data(RAY_DATA Ray_Info) { m_RayData = Ray_Info; }	// レイの情報設定
 
 	// Get関数
@@ -115,6 +113,5 @@ private:
 	float m_fSpeed;							// 移動量
 	bool m_bArmor;							// 無敵フラグ
 	bool m_bLanding;						// 着地フラグ
-	bool m_bUseShadow;						// 影をつけるフラグ
 };
 #endif

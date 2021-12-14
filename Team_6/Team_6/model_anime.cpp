@@ -12,7 +12,6 @@
 #include "manager.h"
 #include "renderer.h"
 #include "resource_manager.h"
-#include "shadow.h"
 
 //=============================================================================
 // コンストラクタ
@@ -28,8 +27,6 @@ CModelAnime::CModelAnime()
 	m_pParent = nullptr;
 	ZeroMemory(m_OldMtxWorld, sizeof(m_OldMtxWorld));
 	ZeroMemory(m_mtxWorld, sizeof(m_mtxWorld));
-	m_pShadow = nullptr;
-	m_bRotCalculation = false;
 }
 
 //=============================================================================
@@ -37,8 +34,6 @@ CModelAnime::CModelAnime()
 //=============================================================================
 CModelAnime::~CModelAnime()
 {
-	// ポインタの開放
-	HasPtrDelete();
 }
 
 //=============================================================================
@@ -80,14 +75,6 @@ HRESULT CModelAnime::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CXfile::MODEL model)
 
 	// モデル情報設定
 	SetModel(model);
-
-	// nullcheck
-	if (!m_pShadow)
-	{
-		// 影の生成
-		m_pShadow = CShadow::Create(model.pMesh);
-	}
-
 	return S_OK;
 }
 
@@ -175,69 +162,6 @@ void CModelAnime::Draw(D3DXVECTOR3 rot)
 
 	//保持していたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
-
-	// ワールドマトリックス
-	if (m_pShadow)
-	{
-		if (m_bRotCalculation)
-		{
-			// 影の生成
-			m_pShadow->CreateShadow(m_rot, rot, SetShadowInfo(rot, mtxParent));
-		}
-		else
-		{
-			// 影の生成
-			m_pShadow->CreateShadow(m_rot + rot, m_mtxWorld);
-		}
-	}
-}
-
-//=============================================================================
-// 影の描画
-//=============================================================================
-void CModelAnime::ShadowDraw(D3DXVECTOR3 rot)
-{
-	if (m_pShadow)
-	{
-		// 影の描画処理
-		m_pShadow->VolumeDraw();
-	}
-}
-
-//=============================================================================
-// 影の情報の設定
-//=============================================================================
-D3DXMATRIX CModelAnime::SetShadowInfo(D3DXVECTOR3 rot, D3DXMATRIX pParent)
-{
-	D3DXMATRIX mtxRot, mtxTrans;
-	D3DXMATRIX mtxWorld;                            // ワールドマトリックス
-	D3DXMatrixIdentity(&mtxWorld);
-
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, 0.0f, 0.0f, 0.0f);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTrans);
-
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &pParent);
-
-	return mtxWorld;
-}
-
-//=============================================================================
-// 保持ポインタの開放処理
-//=============================================================================
-void CModelAnime::HasPtrDelete(void)
-{
-	if (m_pShadow)
-	{
-		// 影の終了処理
-		m_pShadow->Uninit();
-		delete m_pShadow;
-		m_pShadow = nullptr;
-	}
 }
 
 //=============================================================================

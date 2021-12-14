@@ -16,7 +16,6 @@
 #include "game.h"
 #include "keyboard.h"
 #include "polygon.h"
-#include "shadow.h"
 #include "debug_proc.h"
 #include "camera_game.h"
 

@@ -111,7 +111,7 @@ HRESULT CGame::Init(void)
 	CreateItem();
 
 	// 監視カメラの生成
-	//CreateSecCam();
+	CreateSecCam();
 
 	// マップ生成	
 	CMap::Create();
@@ -265,23 +265,32 @@ void CGame::PauseInput(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	// ポーズボタンマネージャーポインタのnullptrチェック
 	if (m_pPauseButtonManager == nullptr)
 	{
+		// もしESCAPEキー押したら
 		if (pKeyboard->GetTrigger(DIK_ESCAPE))
 		{
+			// ポーズボタンマネージャーを生成する
 			m_pPauseButtonManager = CPauseButtonManager::Create();
 		}
 	}
 	else
 	{
+		// ポーズボタンマネージャーの更新処理関数
 		m_pPauseButtonManager->Update();
+		// もしESCAPEキー押したら
 		if (pKeyboard->GetTrigger(DIK_ESCAPE))
 		{
+			// ポーズ状態を解除する
 			CScene::SetPause(false);
 		}
+		// もしポーズ状態が解除されたら
 		if (CScene::GetPause() == false)
 		{
+			// ポーズボタンマネージャーの終了処理関数
 			m_pPauseButtonManager->Uninit();
+			// ポーズボタンマネージャーのポインタを初期化する
 			m_pPauseButtonManager = nullptr;
 		}
 	}
