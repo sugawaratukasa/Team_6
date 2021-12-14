@@ -8,10 +8,10 @@
 // Author : Sugawara Tsukasa
 //=============================================================================
 #define ROT_90				(D3DXToRadian(89.0f))						// 90向き
-#define COLLISION_POS_ADDX	(D3DXVECTOR3(pos.x + 150.0f,pos.y,pos.z))	// 位置
-#define COLLISION_POS_SUBX	(D3DXVECTOR3(pos.x - 150.0f, pos.y, pos.z))	// 位置
-#define COLLISION_POS_ADDZ	(D3DXVECTOR3(pos.x, pos.y, pos.z + 125.0f))	// 位置
-#define COLLISION_POS_SUBZ	(D3DXVECTOR3(pos.x, pos.y, pos.z - 125.0f))	// 位置
+#define COLLISION_POS_ADDX	(D3DXVECTOR3(pos.x + 85.0f,pos.y,pos.z))	// 位置
+#define COLLISION_POS_SUBX	(D3DXVECTOR3(pos.x - 85.0f, pos.y, pos.z))	// 位置
+#define COLLISION_POS_ADDZ	(D3DXVECTOR3(pos.x, pos.y, pos.z + 85.0f))	// 位置
+#define COLLISION_POS_SUBZ	(D3DXVECTOR3(pos.x, pos.y, pos.z - 85.0f))	// 位置
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa

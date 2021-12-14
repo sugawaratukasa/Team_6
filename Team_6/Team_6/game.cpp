@@ -44,7 +44,7 @@
 #include "pause_button_manager.h"
 #include "player1_ui.h"
 #include "lever.h"
-#include "particle_emitter.h"
+
 //=======================================================================================
 // É}ÉNÉçíËã`
 //=======================================================================================
@@ -133,7 +133,6 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);*/
 
-	CParticle_Emitter::Create(POS,CParticle_Manager::TYPE_ITEM_RAINBOW);
 	return S_OK;
 }
 //=======================================================================================

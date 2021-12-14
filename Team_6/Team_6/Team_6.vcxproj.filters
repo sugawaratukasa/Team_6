@@ -279,9 +279,6 @@
     <ClCompile Include="map_texture.cpp">
       <Filter>08_UI</Filter>
     </ClCompile>
-    <ClCompile Include="object_wall.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>11_Map</Filter>
     </ClCompile>
@@ -522,6 +519,9 @@
     <ClCompile Include="particle_emitter.cpp">
       <Filter>07_Effect\particle</Filter>
     </ClCompile>
+    <ClCompile Include="object_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -694,9 +694,6 @@
     </ClInclude>
     <ClInclude Include="map_texture.h">
       <Filter>08_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="object_wall.h">
-      <Filter>09_Object</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
       <Filter>11_Map</Filter>
@@ -937,6 +934,9 @@
     </ClInclude>
     <ClInclude Include="particle_emitter.h">
       <Filter>07_Effect\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wall.h">
+      <Filter>09_Object\Wall</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
