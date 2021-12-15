@@ -67,7 +67,6 @@ HRESULT CJailerSpot::Init(const int nJaierNumber)
 //=============================================================================
 void CJailerSpot::InitializePatrolSpot(void)
 {
-
 	//自分の巡回データを取得
 	PATROL_DATA patrolData = GetPatrolData(m_nJailerNumber);
 
@@ -91,9 +90,12 @@ void CJailerSpot::InitializePatrolSpot(void)
 		//データ追加
 		m_vPatrolSpot.push_back(patrolSpot);
 
+#ifdef _DEBUG
+		//スポットのポリゴンを作成
 		CSpotPolygon *pPolygon = CSpotPolygon::Create(patrolSpot.pos, patrolSpot.nNumber);
 
 		m_pPolygon.push_back(pPolygon);
+#endif // !_DEBUG
 	}
 }
 
@@ -102,6 +104,8 @@ void CJailerSpot::InitializePatrolSpot(void)
 //=============================================================================
 void CJailerSpot::Update(void)
 {
+#ifdef _DEBUG
+
 	CDebugProc::Print("前回のインデックス:%d\n", m_nOldIndex);
 	CDebugProc::Print("今回のインデックス:%d\n", m_nIndex);
 
@@ -109,77 +113,27 @@ void CJailerSpot::Update(void)
 	{
 		m_pPolygon.at(m_nIndex)->SetFlashing();
 	}
+
+#endif // !_DEBUG
 }
 
 //=============================================================================
-//ルートの検索
+//巡回ルートへ帰還するための移動ルート検索
 //=============================================================================
-D3DXVECTOR3 CJailerSpot::SearchRoute(D3DXVECTOR3 jailerPos, D3DXVECTOR3 playerPos)
-{
-	//看守の位置に一番近いスポットを検索
-	NODE jailerSpot = SearchNearNode(m_eArea, jailerPos);
-
-	//プレイヤーの位置に一番近いスポットを検索
-	NODE playerSpot = SearchNearNode(m_eArea, playerPos);
-
-	return playerSpot.pos;
-}
-
-//=============================================================================
-//ルートへ帰還
-//=============================================================================
-D3DXVECTOR3 CJailerSpot::BackToRoute(D3DXVECTOR3 jailerPos)
-{
-	//看守の位置に一番近いスポットを検索
-	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
-	
-	//一番近い巡回ルートの位置を割り出す
-	NODE nearPatrolSpot = SearchNearPatrolSpot(jailerPos);
-
-	PathSearch(m_eArea, nearSpot, nearPatrolSpot);
-
-	//近いスポットと近い巡回ルートの番号が同じだった場合
-	if (nearSpot.nNumber == nearPatrolSpot.nNumber)
-	{
-		int nCntIndex = ZERO_INT;
-
-		//サイズを取得
-		int nSize = m_vPatrolSpot.size();
-
-		//巡回ルートの中から検出したものと同じナンバーのものを探す
-		for (nCntIndex = ZERO_INT; nCntIndex < nSize; nCntIndex++)
-		{
-			if (m_vPatrolSpot[nCntIndex].nNumber == nearPatrolSpot.nNumber)
-			{
-				break;
-			}
-		}
-
-		m_nOldIndex = m_nIndex;
-
-		//検索した配列番号を保存
-		m_nIndex = nCntIndex;
-	}
-	else
-	{
-
-	}
-
-	return nearPatrolSpot.pos;
-}
-
 D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 {
 	m_vRetrunRute.clear();
 	m_nRetrunIndex = 0;
+
 	//看守の位置に一番近いスポットを検索
 	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
 
+	////看守の位置に一番近い巡回スポットを検索
 	NODE nearPatrol = SearchNearPatrolSpot(jailerPos);
 
+	//ルートを検索する
 	m_vRetrunRute = PathSearch(m_eArea, nearSpot, nearPatrol);
 
-	//処理終了
 	return m_vRetrunRute.at(m_nRetrunIndex).pos;
 }
 
@@ -247,6 +201,9 @@ D3DXVECTOR3 CJailerSpot::ChangePatrolSpot(void)
 	return m_vPatrolSpot.at(m_nIndex).pos;
 }
 
+//=============================================================================
+//帰還ルートのインデックス変更
+//=============================================================================
 D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 {
 	//スポットのサイズを取得
@@ -259,6 +216,8 @@ D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 	if (m_nRetrunIndex >= nSpotNum)
 	{
 		int nCntIndex = 0;
+
+		//帰還ルートの最後のスポットの番号が、巡回ルートのどこの番号か探す。
 		for (int nCnt0 = 0; nCnt0 < (int)m_vPatrolSpot.size(); nCnt0++)
 		{
 			if (m_vPatrolSpot.at(nCnt0).nNumber == m_vRetrunRute.at(m_nRetrunIndex - 1).nNumber)

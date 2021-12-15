@@ -41,6 +41,9 @@ CModel::CModel(PRIORITY Priority) : CScene(Priority)
 	m_State = STATE_NORMAL;
 	m_RayData = { ZERO_FLOAT,ZERO_FLOAT,ZERO_INT };
 	m_bDraw = true;
+	m_Model.dwNumMat = ZERO_INT;
+	m_Model.pBuffMat = nullptr;
+	m_Model.pMesh = nullptr;
 }
 
 //=============================================================================

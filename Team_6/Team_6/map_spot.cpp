@@ -8,7 +8,13 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
+#define _CRT_SECURE_NO_WARNINGS
 #include "map_spot.h"
+
+//=============================================================================
+//マクロ定義
+//=============================================================================
+#define INFINITY_COST (999999.0f)	//A*Starの各ノードのデフォルトコスト
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -16,12 +22,13 @@
 vector<CMapSpot::SPOT> CMapSpot::m_vaSpot[CMapSpot::MAP_AREA_MAX];
 CMapSpot::PATROL_DATA CMapSpot::m_aPatrolData[4];
 
-#define INFINITY_COST (999999.0f)
 //=============================================================================
 //コンストラクタ
 //=============================================================================
 CMapSpot::CMapSpot()
 {
+	m_vOpenList.clear();
+	m_CloseList.clear();
 }
 
 //=============================================================================
@@ -296,7 +303,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 	//=======================================
 	//スタート地点の推定コストを算出する
 	//=======================================
-	A_STAR_COST StratCost;	//スタートコスト計算変数
+	A_STAR_COST StratCost;	//スタートコスト変数
 
 	//スタートからスタートまでのコスト(g*(S))は0(S - S == 0)
 	StratCost.fStratToNow = ZERO_FLOAT;
@@ -345,68 +352,68 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 		int nSize = next.size();
 
 		//子ノード(m)の探索をする
-		for (int nCntM = 0; nCntM < nSize; nCntM++)
+		for (int nCntChild = 0; nCntChild < nSize; nCntChild++)
 		{
 			//子ノードの番号を取得
-			int nMNuber = next.at(nCntM).nNumber;
+			int nChildNuber = next.at(nCntChild).nNumber;
 			//=======================================
 			//f'(m) = g*(n) + h*(m) +A_STAR_COST(n,m)を行う
 			//=======================================
 
 			//子ノードのゴールまでの長さを計算（ヒューリスティックコスト）
-			vASpot.at(nMNuber).cost.fHeuristic = CalculationDistance(vASpot.at(nMNuber).node.pos, goalNode.pos);
+			vASpot.at(nChildNuber).cost.fHeuristic = CalculationDistance(vASpot.at(nChildNuber).node.pos, goalNode.pos);
 
 			//ノード間のコストを取得
-			float fBetweenCost = next.at(nCntM).fLength;
+			float fBetweenCost = next.at(nCntChild).fLength;
 
 			//親のトータルコストを取得
 			float fPearentToarlCost = vASpot.at(nParent).cost.fTotal - vASpot.at(nParent).cost.fHeuristic;
 
 			//このトータルコストを算出
-			float fToarl = fPearentToarlCost + vASpot.at(nMNuber).cost.fHeuristic + fBetweenCost;
+			float fToarl = fPearentToarlCost + vASpot.at(nChildNuber).cost.fHeuristic + fBetweenCost;
 			
 			//子ノードがNONEの場合
-			if (vASpot.at(nMNuber).state == A_STAR_STATE_NONE)
+			if (vASpot.at(nChildNuber).state == A_STAR_STATE_NONE)
 			{
 				//子の推定トータルコストを設定
-				vASpot.at(nMNuber).cost.fTotal = fToarl;
+				vASpot.at(nChildNuber).cost.fTotal = fToarl;
 
 				//子の親を設定
-				vASpot.at(nMNuber).nParentNumber = nParent;
+				vASpot.at(nChildNuber).nParentNumber = nParent;
 
 				//Openリストに追加
-				vASpot.at(nMNuber).state = A_STAR_STATE_OPEN;
+				vASpot.at(nChildNuber).state = A_STAR_STATE_OPEN;
 			}
 			//Openリストにある場合
-			if (vASpot.at(nMNuber).state == A_STAR_STATE_OPEN)
+			if (vASpot.at(nChildNuber).state == A_STAR_STATE_OPEN)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vASpot.at(nMNuber).cost.fTotal)
+				if (fToarl < vASpot.at(nChildNuber).cost.fTotal)
 				{
 					//上書きする
-					vASpot.at(nMNuber).cost.fTotal = fToarl;
+					vASpot.at(nChildNuber).cost.fTotal = fToarl;
 
 					//子の親を設定
-					vASpot.at(nMNuber).nParentNumber = nParent;
+					vASpot.at(nChildNuber).nParentNumber = nParent;
 				}
 			}
 			//Closeリストにある場合
-			if (vASpot.at(nMNuber).state == A_STAR_STATE_CLOSE)
+			if (vASpot.at(nChildNuber).state == A_STAR_STATE_CLOSE)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vASpot.at(nMNuber).cost.fTotal)
+				if (fToarl < vASpot.at(nChildNuber).cost.fTotal)
 				{
 					//上書きする
-					vASpot.at(nMNuber).cost.fTotal = fToarl;
+					vASpot.at(nChildNuber).cost.fTotal = fToarl;
 
 					//子の親を設定
-					vASpot.at(nMNuber).nParentNumber = nParent;
+					vASpot.at(nChildNuber).nParentNumber = nParent;
 
 					//Openリストに追加
-					vASpot.at(nMNuber).state = A_STAR_STATE_OPEN;
+					vASpot.at(nChildNuber).state = A_STAR_STATE_OPEN;
 
 					//クローズリストから削除
-					DeletCloseList(nMNuber);
+					DeletCloseList(nChildNuber);
 				}
 			}
 		}

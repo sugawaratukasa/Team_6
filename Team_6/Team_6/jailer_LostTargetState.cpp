@@ -73,7 +73,7 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 	pJailer->SetSpeed(ZERO_FLOAT);
 	pJailer->SetMove(ZeroVector3);
 	pJailer->SetGuardBaseDir();
-	pJailerView->JailerCaution(false);
+	pJailerView->CautionJailer(false);
 }
 
 //=============================================================================

@@ -122,7 +122,7 @@ private:
 	//=========================================================================
 	static vector<SPOT> m_vaSpot[MAP_AREA_MAX];	//スポットデータ
 	static PATROL_DATA m_aPatrolData[4];	//看守のスポットデータ
-	vector<A_SPOT>  m_vOpenList;
-	list<A_SPOT> m_CloseList;
+	vector<A_SPOT>  m_vOpenList;	//オープンリスト
+	list<A_SPOT> m_CloseList;		//クローズリスト
 };
 #endif // !_SPOT_H_

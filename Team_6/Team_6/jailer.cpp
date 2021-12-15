@@ -349,7 +349,7 @@ void CJailer::ChasePlayer()
 	{
 		//検出した位置の取得
 		detectedPos = m_pView->GetDetectionPos();
-		m_pView->JailerCaution(true);
+		m_pView->CautionJailer(true);
 	}
 
 	//現在位置と検出した位置までのベクトルを計算
@@ -377,7 +377,7 @@ void CJailer::ChasePlayer()
 		move.z = nor.z * GetSpeed();
 
 		//ルートの検索
-		m_posDest = m_pSpot->SearchRoute(GetPos(), detectedPos);
+		//m_posDest = m_pSpot->SearchRoute(GetPos(), detectedPos);
 	}
 
 	//移動量の設定
