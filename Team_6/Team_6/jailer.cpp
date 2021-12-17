@@ -42,6 +42,7 @@ int CJailer::m_nJailerTotal = -1;
 //=============================================================================
 CJailer::CJailer()
 {
+
 	m_pView = nullptr;				//看守の視線クラスのポインタ変数
 	m_pJailerState = nullptr;		//状態のポインタ
 	m_pSpot = nullptr;
@@ -114,8 +115,6 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	SetUseShadow();
 
-	//// 影の向き
-	SetShadowRotCalculation();
 
 	//自分の番号を設定
 	m_nNumber = m_nJailerTotal;
@@ -203,6 +202,7 @@ void CJailer::Draw(void)
 //回転関数
 //=============================================================================
 void CJailer::Rotation(void)
+
 {
 	//向きを取得
 	D3DXVECTOR3 rot = GetRot();
@@ -217,7 +217,6 @@ void CJailer::Rotation(void)
 	{
 		m_rotDest.y += D3DXToRadian(360.0f);
 	}
-
 	rot += (m_rotDest - rot) * JAILER_ROTSTION_RATE;
 
 	if (rot.y > D3DXToRadian(360.0f))

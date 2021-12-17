@@ -161,18 +161,6 @@ void CCharacter::Draw()
 			model->Draw(m_rot);
 		}
 	}
-
-	if (m_bUseShadow)
-	{
-		// ‰e‚Ì•`‰æ
-		for (auto &shadow : m_apModelAnime)
-		{
-			if (shadow != nullptr)
-			{
-				shadow->ShadowDraw(m_rot);
-			}
-		}
-	}
 }
 
 //=============================================================================
@@ -288,20 +276,5 @@ void CCharacter::SetMotion(int nMotionState)
 	{
 		// ƒ‚[ƒVƒ‡ƒ“‚ÌXV
 		m_pMotion->SetMotion(nMotionState, m_nParts, m_apModelAnime);
-	}
-}
-
-//=============================================================================
-// ‰e‚Ì‰ñ“]‚ð”½‰f‚³‚¹‚é‚©
-//=============================================================================
-void CCharacter::SetShadowRotCalculation(void)
-{
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	for (auto &model : m_apModelAnime)
-	{
-		if (model != nullptr)
-		{
-			model->SetRotCalculation(true);
-		}
 	}
 }

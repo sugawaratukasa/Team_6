@@ -36,11 +36,12 @@ public:
 	void SetBlend(bool bBlend);									// 加算合成
 	void SetLife(int nLife);									// 体力の設定
 	void SetColor(D3DXCOLOR col);								// 色の設定
-	void SetPosition(D3DXVECTOR3 Pos);
-																// Get関数
+	void SetPosition(D3DXVECTOR3 Pos);							// 位置設定
+	void SetScale(float fScale) { m_fScale = fScale; }			// 拡大率の設定
+	// Get関数
 	D3DXVECTOR3 GetMove(void);									// 移動量情報
 	int GetLife(void) { return m_nLife; }						// ライフの情報
-
+	float GetScale(void) { return m_fScale; }					// 拡大率取得
 private:
 	D3DXVECTOR3 m_move;			// 移動量
 	D3DXVECTOR3 m_sizeBase;		// サイズのベース
@@ -53,6 +54,7 @@ private:
 	int m_nLife;				// ライフ
 	int m_nAlphaNum;			// アルファテストの値
 	bool m_bBlend;				// 加算合成
+	float m_fScale;				// 拡大率
 };
 
 #endif

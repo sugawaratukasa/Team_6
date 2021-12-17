@@ -43,13 +43,15 @@ CXfile::CXfile()
 		{ "data/Model/Object/map_object.x" },				// マップ
 		{ "data/Model/Object/baton_Item.x" },				// 警棒
 		{ "data/Model/Map/01_Door.x"},						// ドア
-		{ "data/Model/Map/02_Door_Wall.x" },				// ドアの壁
+		{ "data/Model/Map/02_DoorWall.x" },					// ドアの壁
 		{ "data/Model/Map/03_Wall.x" },						// 壁
 		{ "data/Model/Map/04_PrisonWall.x"},				// 牢屋の壁
 		{ "data/Model/Map/05_PrisonDoor_CentralPoint.x" },	// 牢屋のドア
 		{ "data/Model/Map/06_PrisonDoor_LeftPoint.x" },		// 牢屋のドア
 		{ "data/Model/Map/07_Switch.x" },					// スイッチ
-		{"data/Model/Map/04_Camera.x"}, // 監視カメラ
+		{"data/Model/Map/04_Camera.x"},						// 監視カメラ
+		{ "data/Model/Map/08_Lever_Handle.x" },				// レバーハンドル
+		{ "data/Model/Map/09_Lever_Body.x" },				// レバーボディー
 	};
 
 	// 階層構造モデル
