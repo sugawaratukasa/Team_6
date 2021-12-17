@@ -45,6 +45,8 @@ public:
 	bool GetIsDetection(void)const { return m_bIsDetection; }	//検出情報の取得
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
 
+	void SetIsActive(bool bActive) { m_bIsActive = bActive; }
+
 private:
 	void PlayerDetection(void);	//プレイヤーの検出
 	void MapCollision(void);	//マップとの判定
@@ -54,6 +56,7 @@ private:
 	//メンバ変数宣言
 	//=========================================================================
 	bool m_bIsDetection;		//検出したかどうか
+	bool m_bIsActive;			// 当たり判定が有効かどうか
 	D3DXVECTOR3 m_detectedPos;	//検出した位置
 };
 #endif // !_JAILER_H_

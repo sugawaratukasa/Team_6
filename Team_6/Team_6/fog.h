@@ -12,20 +12,17 @@
 //=========================================================================
 #include "main.h"
 
-//=========================================================================
-// 前方宣言
-//=========================================================================
-
-//=========================================================================
-// クラス定義
-//=========================================================================
-class CFog
+typedef enum
 {
-public:
-	CFog();		// コンストラクタ
-	~CFog();		// デストラクタ
+	FOG_NONE = 0,
+	FOG_END,
+	FOG_WARNING,
+}FOG_STATE;
 
-	static HRESULT Init(void);
-private:
-};
+HRESULT InitFog(void);
+HRESULT InitPlayerFog(void);
+HRESULT InitSecCamFog(void);
+void UpdateFog(void);
+void SetFogState(FOG_STATE state);
+
 #endif

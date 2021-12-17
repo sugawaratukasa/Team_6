@@ -486,6 +486,9 @@
     <ClCompile Include="fog.cpp">
       <Filter>07_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="textlog.cpp">
+      <Filter>08_2dPolygon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -877,6 +880,9 @@
     </ClInclude>
     <ClInclude Include="fog.h">
       <Filter>07_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="textlog.h">
+      <Filter>08_2dPolygon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

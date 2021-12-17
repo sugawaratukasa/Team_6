@@ -133,9 +133,6 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);*/
 
-	// フォグ有効化
-	CFog::Init();
-
 	return S_OK;
 }
 //=======================================================================================

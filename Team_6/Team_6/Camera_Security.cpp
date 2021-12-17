@@ -101,6 +101,7 @@ HRESULT CCameraSecurity::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_fAngle = m_fDir;
 	m_fAngleMoveRate = D3DXToRadian(0.1);
 	m_nCamReturnCount = 0;
+	m_bIsActive = false;
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_pos.x, VIEW_POS_Y, m_pos.z),
@@ -132,6 +133,8 @@ void CCameraSecurity::Update(void)
 	// 監視カメラ回転
 	m_pView->SetRotation(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	m_pCamModel->SetRot(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
+	// 監視カメラの当たり判定を更新
+	m_pView->SetIsActive(m_bIsActive);
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
@@ -169,6 +172,11 @@ void CCameraSecurity::Uninit(void)
 //=============================================================================
 void CCameraSecurity::SearchPlayer(void)
 {
+	// 監視カメラに見つかった場合
+	if (m_pView->GetIsDetection())
+	{
+		
+	}
 }
 
 //=============================================================================

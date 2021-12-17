@@ -44,6 +44,8 @@ public:
 	CCameraSecurity * GetPrev(void) { return m_pPrev; }
 	CCameraSecurity * GetBottom(void) { return m_pBot; }
 
+	void SetIsActive(bool bActive) { m_bIsActive = bActive; }
+
 private:
 	D3DXVECTOR3 m_pos;
 	float		m_fDir;
@@ -57,5 +59,6 @@ private:
 	CCameraSecurity *m_pPrev;
 	CCameraSecurity *m_pNext;
 	CModel *m_pCamModel;
+	bool m_bIsActive;
 };
 #endif 

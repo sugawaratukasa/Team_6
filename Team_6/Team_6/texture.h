@@ -59,6 +59,7 @@ public:
 		TEXTURE_NUM_Y,						// Y
 		TEXTURE_NUM_RANKING_BG,			// ランキング背景
 		TEXTURE_NUM_RANKING_NUMBER,		// ランキングナンバー
+		TEXTURE_NUM_TEXTLOG_TEST,       // ログテスト用
 		TEXTURE_NUM_MAX
 	};
 

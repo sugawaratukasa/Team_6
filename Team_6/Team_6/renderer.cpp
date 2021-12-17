@@ -19,6 +19,16 @@
 #include "shadow.h"
 #include "debug_proc.h"
 #include "camera_game.h"
+#include "fog.h"
+#include "textlog.h"
+
+//=============================================================================
+// マクロ定義
+//=============================================================================
+#define FOG_START_PLAYER 1600.0f
+#define FOG_START_SECCAM 1900.0f
+#define FOG_END_PLAYER 2300.0f
+#define FOG_END_SECCAM 2500.0f
 
 //=============================================================================
 // レンダリングクラスのコンストラクタ
@@ -144,6 +154,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 
 	m_bUseSecCam = false;
 
+	InitFog();
+
 	return S_OK;
 }
 
@@ -198,6 +210,18 @@ void CRenderer::Update(void)
 		SwitchCam();
 	}
 
+	if (pKeyboard->GetTrigger(DIK_4))
+	{
+		SetFogState(FOG_END);
+	}
+	if (pKeyboard->GetTrigger(DIK_5))
+	{
+		SetFogState(FOG_WARNING);
+	}
+	if (pKeyboard->GetTrigger(DIK_6))
+	{
+		CTextLog::Create(CTextLog::LOG_NONE);
+	}
 	// 全ての更新
 	CScene::UpdateAll();
 }
@@ -245,22 +269,7 @@ void CRenderer::Draw(void)
 				// 監視カメラを見ているなら
 				if (m_bUseSecCam)
 				{
-					// フォグ有効化
-					m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-
-					// フォグカラー設定
-					m_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
-					// バーテックスフォグ(線形公式)を使用
-					m_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-					// 範囲ベースのフォグを使用
-					m_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
-
-					fStart = 500.0f;
-					fEnd = 1000.0f;
-
-					// フォグ範囲設定
-					m_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *((LPDWORD)(&fStart)));
-					m_pD3DDevice->SetRenderState(D3DRS_FOGEND, *((LPDWORD)(&fEnd)));
+					InitSecCamFog();
 
 					// ビューポート設定
 					SetUpViewPort(CCamera::SCREEN_NONE);
@@ -279,21 +288,7 @@ void CRenderer::Draw(void)
 					// ビューポートの数だけ描画する
 					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 					{
-						// フォグ有効化
-						m_pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-
-						// フォグカラー設定
-						m_pD3DDevice->SetRenderState(D3DRS_FOGCOLOR, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
-						// バーテックスフォグ(線形公式)を使用
-						m_pD3DDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-						// 範囲ベースのフォグを使用
-						m_pD3DDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
-
-						fStart = 1600.0f;
-						fEnd = 2000.0f;
-						// フォグ範囲設定
-						m_pD3DDevice->SetRenderState(D3DRS_FOGSTART, *((LPDWORD)(&fStart)));
-						m_pD3DDevice->SetRenderState(D3DRS_FOGEND, *((LPDWORD)(&fEnd)));
+						InitPlayerFog();
 
 						// ビューポート設定
 						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
@@ -327,8 +322,9 @@ void CRenderer::Draw(void)
 						}
 					}
 				}
-			}
 
+				UpdateFog();
+			}
 			else
 			{
 				// ビューポート設定

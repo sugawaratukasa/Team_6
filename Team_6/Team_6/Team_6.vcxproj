@@ -261,6 +261,7 @@
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="storage_key_texture.cpp" />
     <ClCompile Include="map_spot.cpp" />
+    <ClCompile Include="textlog.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="time.cpp" />
@@ -387,6 +388,7 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="storage_key_texture.h" />
     <ClInclude Include="map_spot.h" />
+    <ClInclude Include="textlog.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
     <ClInclude Include="time.h" />

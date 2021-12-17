@@ -85,7 +85,8 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map_texture.png" },
 		{ "data/Texture/y.png" },
 		{ "data/Texture/Ranking_bg.png" },
-		{ "data/Texture/ui_number.png" }
+		{ "data/Texture/ui_number.png" },
+		{ "data/Texture/testlog2.png" },
 		
 	};
 
