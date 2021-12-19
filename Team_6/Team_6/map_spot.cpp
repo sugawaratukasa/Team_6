@@ -20,7 +20,7 @@
 //静的メンバ変数宣言
 //=============================================================================
 vector<CMapSpot::SPOT> CMapSpot::m_vaSpot[CMapSpot::MAP_AREA_MAX];
-CMapSpot::PATROL_DATA CMapSpot::m_aPatrolData[4];
+CMapSpot::PATROL_DATA CMapSpot::m_aPatrolData[JAILER_NUM];
 
 //=============================================================================
 //コンストラクタ
@@ -114,7 +114,13 @@ void CMapSpot::LoadSpot(void)
 							{
 								sscanf(aHead, "%*s %*s %d", &spotData.node.nNumber);
 							}
-							
+
+							//部屋の読み込み
+							if (strcmp(aMode, "ROOM_TYPE") == 0)
+							{
+								sscanf(aHead, "%*s %*s %d", &spotData.eRoom);
+							}
+
 							//ネクスト情報の読み込み
 							if (strcmp(aMode, "NEXT_SET") == 0)
 							{

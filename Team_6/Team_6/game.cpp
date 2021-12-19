@@ -132,6 +132,8 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);
+	CJailer::Create(ZeroVector3, ZeroVector3);
+	CJailer::Create(ZeroVector3, ZeroVector3); 
 
 	return S_OK;
 }
