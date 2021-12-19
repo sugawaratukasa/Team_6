@@ -96,7 +96,7 @@ public:
 	struct A_SPOT
 	{
 		A_STAR_STATE state;
-		NODE node;
+		SPOT spot;
 		int nParentNumber;		//親の番号
 		A_STAR_COST cost;
 	};
@@ -112,6 +112,10 @@ public:
 
 	static void LoadSpot(void);	//ファイル読み込み処理
 
+	static void Init(void);
+	static void SetOpenRoom(const MAP_AREA eArea, const ROOM_TYPE eRoom) { m_abIsOpenRoom[eArea][eRoom] = true; }
+	static bool GetIsOpenRoom(const MAP_AREA eArea, const ROOM_TYPE eRoom) { return m_abIsOpenRoom[eArea][eRoom]; }
+
 protected:
 	NODE SearchNearNode(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
 	NEXT SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber);
@@ -123,7 +127,8 @@ protected:
 	vector<NEXT> GetNextList(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).vNext; }		//スポットが持つネクストの取得
 	D3DXVECTOR3 GetNodePos(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node.pos; }	//スポットの位置の取得
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
-	
+	ROOM_TYPE GetRoomType(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).eRoom; }
+
 private:
 	float CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//距離の計算
 	int CountOpenList(vector<A_SPOT>& rvSpot);												//オープンリストの計算
@@ -138,6 +143,7 @@ private:
 	//=========================================================================
 	static vector<SPOT> m_vaSpot[MAP_AREA_MAX];	//スポットデータ
 	static PATROL_DATA m_aPatrolData[JAILER_NUM];	//看守のスポットデータ
+	static bool m_abIsOpenRoom[MAP_AREA_MAX][ROOM_TYPE_MAX];
 	vector<A_SPOT>  m_vOpenList;	//オープンリスト
 	list<A_SPOT> m_CloseList;		//クローズリスト
 };

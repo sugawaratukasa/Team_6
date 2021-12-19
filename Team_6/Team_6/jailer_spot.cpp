@@ -82,17 +82,20 @@ void CJailerSpot::InitializePatrolSpot(void)
 		PATROL_SPOT patrolSpot;
 
 		//スポットの番号を保存
-		patrolSpot.nNumber = *itrJaier;
+		patrolSpot.node.nNumber = *itrJaier;
+
+		//部屋タイプの取得
+		patrolSpot.eRoom = GetRoomType(m_eArea, patrolSpot.node.nNumber);
 
 		//スポットの番号に対応した位置を取得
-		patrolSpot.pos = GetNodePos(m_eArea, patrolSpot.nNumber);
+		patrolSpot.node.pos = GetNodePos(m_eArea, patrolSpot.node.nNumber);
 
 		//データ追加
 		m_vPatrolSpot.push_back(patrolSpot);
 
 #ifdef _DEBUG
 		//スポットのポリゴンを作成
-		CSpotPolygon *pPolygon = CSpotPolygon::Create(patrolSpot.pos, patrolSpot.nNumber);
+		CSpotPolygon *pPolygon = CSpotPolygon::Create(patrolSpot.node.pos, patrolSpot.node.nNumber);
 
 		m_pPolygon.push_back(pPolygon);
 #endif // !_DEBUG
@@ -140,7 +143,7 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 //=============================================================================
 //一番近い巡回スポットを求める
 //=============================================================================
-CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos)
+CJailerSpot::NODE CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos)
 {
 	NODE returnInfo;	//返すスポット情報
 
@@ -150,8 +153,17 @@ CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos
 
 	for (int nCntNum = ZERO_INT; nCntNum < nSize; nCntNum++)
 	{
+		//部屋が到達可能かどうか知らべる
+		bool bIsOpenRoom = GetIsOpenRoom(m_eArea, m_vPatrolSpot.at(nCntNum).eRoom);
+
+		//到達が不可能
+		if (bIsOpenRoom == false)
+		{
+			continue;
+		}
+
 		//現在地(看守の位置)と目的地（スポットの位置）までの2点間ベクトルを計算
-		D3DXVECTOR3 Distance = m_vPatrolSpot.at(nCntNum).pos - jailerPos;
+		D3DXVECTOR3 Distance = m_vPatrolSpot.at(nCntNum).node.pos - jailerPos;
 
 		//長さを求める
 		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
@@ -160,7 +172,7 @@ CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos
 		if (nCntNum == ZERO_INT)
 		{
 			fKeepRange = fRange;
-			returnInfo = m_vPatrolSpot.at(nCntNum);
+			returnInfo = m_vPatrolSpot.at(nCntNum).node;
 		}
 		else
 		{
@@ -169,7 +181,7 @@ CJailerSpot::PATROL_SPOT CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos
 			{
 				//データを更新
 				fKeepRange = fRange;
-				returnInfo = m_vPatrolSpot.at(nCntNum);
+				returnInfo = m_vPatrolSpot.at(nCntNum).node;
 			}
 		}
 	}
@@ -188,17 +200,26 @@ D3DXVECTOR3 CJailerSpot::ChangePatrolSpot(void)
 	//スポットのサイズを取得
 	int nSpotNum = m_vPatrolSpot.size();
 	
-	//インデックスを1つ進める
-	m_nIndex++;
+	bool bIsOpenRoom = false;
 
-	//インデックスが要素数より大きくなったときは修正
-	if (m_nIndex >= nSpotNum)
+	//未開放の部屋だった場合さらに1つ進める
+	while (bIsOpenRoom == false)
 	{
-		//最初に戻す
-		m_nIndex = ZERO_INT;
+		//インデックスを1つ進める
+		m_nIndex++;
+
+		//インデックスが要素数より大きくなったときは修正
+		if (m_nIndex >= nSpotNum)
+		{
+			//最初に戻す
+			m_nIndex = ZERO_INT;
+		}
+
+		//部屋が到達可能かどうか知らべる
+		bIsOpenRoom = GetIsOpenRoom(m_eArea, m_vPatrolSpot.at(m_nIndex).eRoom);
 	}
 	
-	return m_vPatrolSpot.at(m_nIndex).pos;
+	return m_vPatrolSpot.at(m_nIndex).node.pos;
 }
 
 //=============================================================================
@@ -220,7 +241,7 @@ D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 		//帰還ルートの最後のスポットの番号が、巡回ルートのどこの番号か探す。
 		for (int nCnt0 = 0; nCnt0 < (int)m_vPatrolSpot.size(); nCnt0++)
 		{
-			if (m_vPatrolSpot.at(nCnt0).nNumber == m_vRetrunRute.at(m_nRetrunIndex - 1).nNumber)
+			if (m_vPatrolSpot.at(nCnt0).node.nNumber == m_vRetrunRute.at(m_nRetrunIndex - 1).nNumber)
 			{
 				m_nIndex = nCntIndex;
 

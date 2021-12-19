@@ -72,13 +72,14 @@ public:
 	void ResetDetection(void) { m_bIsDetection = false; }		//検出情報のリセット
 	bool GetIsDetection(void)const { return m_bIsDetection; }	//検出情報の取得
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
-	void CautionJailer(const bool bIsCaution);																		//警戒時の長さ変更
+	void CautionJailer(const bool bIsCaution);					//警戒時の長さ変更
 
 private:
-	void PlayerDetection(void);																						//プレイヤーの検出
-	bool MapCollision(const D3DXVECTOR3 playerPos);																	//マップとの判定
-	void ChangeColor(void);																							//色の変更処理
-	HRESULT CreateOBBData(OBB_DATA *pOBB, const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const LPD3DXMESH pMesh);	//OBB情報の作成
+	void DetectionPlayer(void);										//プレイヤーの検出
+	bool MapCollision(const D3DXVECTOR3 playerPos);					//マップとの判定
+	void ChangeColor(void);											//色の変更処理
+	HRESULT CreateOBBData(OBB_DATA *pOBB, const D3DXVECTOR3 pos, 
+		const D3DXVECTOR3 rot, const LPD3DXMESH pMesh);				//OBB情報の作成
 
 	//=========================================================================
 	//メンバ変数宣言

@@ -140,7 +140,6 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	m_TurnSpeed = TURN_SPEED;
 	//CCharacterCollisionBox::Create(GetPos(), GetRot(), this);
-
 	return S_OK;
 }
 

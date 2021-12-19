@@ -19,8 +19,11 @@
 class CJailerSpot :public CMapSpot
 {
 public:
-	typedef NODE PATROL_SPOT;	//構造体の別名定義
-
+	struct PATROL_SPOT
+	{
+		NODE node;
+		ROOM_TYPE eRoom;
+	};
 	//=========================================================================
 	//メンバ関数宣言
 	//=========================================================================
@@ -35,15 +38,15 @@ public:
 
 	D3DXVECTOR3 SearchBackToRoute(const D3DXVECTOR3 jailerPos);	//帰還ルートの検索処理
 
-	PATROL_SPOT SearchNearPatrolSpot(D3DXVECTOR3 jailerPos);	//近い巡回スポットを求める
+	NODE SearchNearPatrolSpot(D3DXVECTOR3 jailerPos);	//近い巡回スポットを求める
 	D3DXVECTOR3 ChangePatrolSpot(void);							//巡回の変更処理
 	D3DXVECTOR3 ChangeBackToRoute(void);						//帰還ルートの変更処理
 	
 	//publicゲッター
 	MAP_AREA GetArea(void) { return m_eArea; }								//エリアの取得
 	vector<PATROL_SPOT> GetPatrolList(void) { return m_vPatrolSpot; }		//巡回リストの取得
-	int GetSpotNumber(void) { return m_vPatrolSpot[m_nIndex].nNumber; }		//現在の目的地の番号を取得
-	D3DXVECTOR3 GetSpotDest(void) { return m_vPatrolSpot[m_nIndex].pos; }	//現在の目的地の位置を取得
+	int GetSpotNumber(void) { return m_vPatrolSpot[m_nIndex].node.nNumber; }		//現在の目的地の番号を取得
+	D3DXVECTOR3 GetSpotDest(void) { return m_vPatrolSpot[m_nIndex].node.pos; }	//現在の目的地の位置を取得
 
 private:
 	//=============================================================================

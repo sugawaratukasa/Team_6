@@ -44,6 +44,7 @@
 #include "pause_button_manager.h"
 #include "player1_ui.h"
 #include "lever.h"
+#include "map_spot.h"
 
 //=======================================================================================
 // É}ÉNÉçíËã`
@@ -126,6 +127,8 @@ HRESULT CGame::Init(void)
 	// UIÇÃê∂ê¨
 	CScreenFrame::Create();
 	CTimer::Create();
+
+	CMapSpot::Init();
 
 	//ä≈éÁÇÃê∂ê¨
 	CJailer::Create(ZeroVector3, ZeroVector3);

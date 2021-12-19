@@ -100,7 +100,7 @@ void CJailerView::Update(void)
 	CFan3D::Update();
 
 	//プレイヤーの検出処理
-	PlayerDetection();
+	DetectionPlayer();
 
 	//色の変更処理
 	ChangeColor();
@@ -181,7 +181,7 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 //=============================================================================
 //プレイヤー検出処理
 //=============================================================================
-void CJailerView::PlayerDetection(void)
+void CJailerView::DetectionPlayer(void)
 {
 	ViewData view;
 	vector<ViewData> vecViewData;
@@ -302,7 +302,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 	//マップの先頭情報を取得
 	pScene = GetTop(CScene::PRIORITY_MAP);
 
-	//オブジェクトが存在しな場合は終了
+	//オブジェクトが存在しない場合は終了
 	if (pScene == nullptr)
 	{
 		return false;
@@ -340,13 +340,13 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//中点の位置を修正
 			midPoint = midPoint - obb.Center;
 
-			//中点をOBBの各軸の向きで修正
+			//中点の各軸をOBBの各軸の向きで修正
 			midPoint = D3DXVECTOR3(
 				D3DXVec3Dot(&obb.Dir[0], &midPoint),
 				D3DXVec3Dot(&obb.Dir[1], &midPoint),
 				D3DXVec3Dot(&obb.Dir[2], &midPoint));
 
-			//向きをOBBの各軸の向きで修正
+			//向きの各軸をOBBの各軸の向きで修正
 			dir = D3DXVECTOR3(
 				D3DXVec3Dot(&obb.Dir[0], &dir),
 				D3DXVec3Dot(&obb.Dir[1], &dir),
