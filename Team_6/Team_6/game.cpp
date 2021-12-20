@@ -234,7 +234,6 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
-		CStorageKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
 }
 
