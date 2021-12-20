@@ -52,8 +52,8 @@ void CTextLog::Create(LOG_TYPE type)
 
 			pos.y = pos.y - LOG_LINE_SPACE - (LOG_SIZE.y / 2.0f);
 
-			m_pTextLog[nNum]->Init(pos, LOG_SIZE);
 			m_pTextLog[nNum]->m_type = type;
+			m_pTextLog[nNum]->Init(pos, LOG_SIZE);
 			m_pTextLog[nNum]->m_nNum = nNum;
 
 			for (int nCount = 0; nCount < MAX_LOG; nCount++)
