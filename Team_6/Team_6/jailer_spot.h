@@ -23,6 +23,7 @@ public:
 	{
 		NODE node;
 		ROOM_TYPE eRoom;
+		bool bGuard;
 	};
 	//=========================================================================
 	//メンバ関数宣言
@@ -39,8 +40,8 @@ public:
 	D3DXVECTOR3 SearchBackToRoute(const D3DXVECTOR3 jailerPos);	//帰還ルートの検索処理
 
 	NODE SearchNearPatrolSpot(D3DXVECTOR3 jailerPos);	//近い巡回スポットを求める
-	D3DXVECTOR3 ChangePatrolSpot(void);							//巡回の変更処理
-	D3DXVECTOR3 ChangeBackToRoute(void);						//帰還ルートの変更処理
+	D3DXVECTOR3 ChangePatrolSpot(void);					//巡回の変更処理
+	D3DXVECTOR3 ChangeBackToRoute(void);				//帰還ルートの変更処理
 	
 	//publicゲッター
 	MAP_AREA GetArea(void) { return m_eArea; }								//エリアの取得

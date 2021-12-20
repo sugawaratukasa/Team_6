@@ -182,9 +182,13 @@ void CMapSpot::LoadSpot(void)
 					//要素の読み込み
 					if (strcmp(aMode, "NUM") == 0)
 					{
-						sscanf(aHead, "%*s %*s %d", &nNum);
+						JAILER_POINT point;
+						point.nNumber = 0;
+						point.bGuard = false;
 
-						m_aPatrolData[nJaierNum].vnNumber.push_back(nNum);
+						sscanf(aHead, "%*s %*s %d %d",&point.nNumber,&point.bGuard);
+
+						m_aPatrolData[nJaierNum].vnNumber.push_back(point);
 					}
 				}
 			}
@@ -400,7 +404,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			}
 
 			//=======================================
-			//f'(m) = g*(n) + h*(m) +A_STAR_COST(n,m)を行う
+			//f'(m) = g*(n) + h*(m) + A_STAR_COST(n,m)を行う
 			//=======================================
 
 			//子ノードのゴールまでの長さを計算（ヒューリスティックコスト）
@@ -411,11 +415,11 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			//ノード間のコストを取得
 			float fBetweenCost = next.at(nCntChild).fLength;
 
-			//親のトータルコストを取得
-			float fPearentToarlCost = vAStar.at(nParent).cost.fTotal - vAStar.at(nParent).cost.fHeuristic;
+			//親のスタートから自身までのコストを取得
+			float fPearentStartCost = vAStar.at(nParent).cost.fTotal - vAStar.at(nParent).cost.fHeuristic;
 
 			//このトータルコストを算出
-			float fToarl = fPearentToarlCost + vAStar.at(nChildNumber).cost.fHeuristic + fBetweenCost;
+			float fToarl = fPearentStartCost + vAStar.at(nChildNumber).cost.fHeuristic + fBetweenCost;
 			
 			//子ノードがNONEの場合
 			if (vAStar.at(nChildNumber).state == A_STAR_STATE_NONE)
@@ -458,7 +462,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 					vAStar.at(nChildNumber).state = A_STAR_STATE_OPEN;
 
 					//クローズリストから削除
-					DeletCloseList(nChildNumber);
+					DeleteCloseList(nChildNumber);
 				}
 			}
 		}
@@ -522,11 +526,8 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 	//オープンリストのサイズを取得
 	int nSize = m_vOpenList.size();
 
-	A_STAR_COST Keepcost;
 	int nKeepNum = -1;
-	A_SPOT Keep_A_Spot;
-	Keep_A_Spot.cost.fTotal = INFINITY_COST;
-	Keepcost.fTotal = INFINITY_COST;
+	float fKeepTotal = INFINITY_COST;
 
 	//=======================================
 	//nCntOpenをnとし、f*(n) = g*(n) + h*(n)を行う
@@ -537,25 +538,12 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 		//自分の番号を取得
 		int nNumber = m_vOpenList.at(nCntOpen).spot.node.nNumber;
 		int nParent = m_vOpenList.at(nCntOpen).nParentNumber;
+		 
 
-		A_STAR_COST costN;
-
-		//g*(n)を求める
-		costN.fStratToNow = CalculationDistance(startNode.pos, m_vOpenList.at(nCntOpen).spot.node.pos);
-
-		//h*(n)を求める
-		costN.fHeuristic = CalculationDistance(m_vOpenList.at(nCntOpen).spot.node.pos, goalNode.pos);
-
-		//f*(n)を求める
-		costN.fTotal = costN.fStratToNow + costN.fHeuristic;
-
-		//計算したコストを記録
-		rvSpot.at(nNumber).cost = costN;
-
-		if (costN.fTotal < Keepcost.fTotal)
+		if (m_vOpenList.at(nCntOpen).cost.fTotal < fKeepTotal)
 		{
 			//コストと番号を変更
-			Keepcost = costN;
+			fKeepTotal = m_vOpenList.at(nCntOpen).cost.fTotal;
 			nKeepNum = nNumber;
 		}
 	}
@@ -565,7 +553,7 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 //=============================================================================
 //クローズリストの削除処理
 //=============================================================================
-void CMapSpot::DeletCloseList(const int nNum)
+void CMapSpot::DeleteCloseList(const int nNum)
 {
 	auto itrBgin = m_CloseList.begin();
 	auto itrEnd = m_CloseList.end();

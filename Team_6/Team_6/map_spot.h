@@ -12,7 +12,9 @@
 //=============================================================================
 #include <list>
 #include "main.h"
+
 #define JAILER_NUM 6
+
 //=============================================================================
 //スポットクラス
 //=============================================================================
@@ -51,12 +53,12 @@ public:
 	};
 
 	//=========================================================================
-	//スポットの構造体
+	//ノードの構造体
 	//=========================================================================
 	struct NODE
 	{
-		int nNumber;		//スポットの番号
-		D3DXVECTOR3 pos;	//スポットの位置
+		int nNumber;		//ノードの番号
+		D3DXVECTOR3 pos;	//ノードの位置
 	};
 
 	//=========================================================================
@@ -73,17 +75,22 @@ public:
 	//=========================================================================
 	struct SPOT
 	{
-		NODE node;			//スポット
+		NODE node;			//ノード
 		ROOM_TYPE eRoom;	//部屋情報
 		vector<NEXT> vNext;	//通行可能なネクスト
 	};
 
+	struct JAILER_POINT
+	{
+		int nNumber;
+		bool bGuard;
+	};
 	//=========================================================================
 	//巡回データの構造体
 	//=========================================================================
 	struct PATROL_DATA
 	{
-		vector<int> vnNumber;		//スポット番号
+		vector<JAILER_POINT> vnNumber;		//スポット番号
 		MAP_AREA eArea;				//マップのエリア属性
 	};
 	
@@ -96,9 +103,9 @@ public:
 	struct A_SPOT
 	{
 		A_STAR_STATE state;
+		A_STAR_COST cost;
 		SPOT spot;
 		int nParentNumber;		//親の番号
-		A_STAR_COST cost;
 	};
 	
 
@@ -113,7 +120,7 @@ public:
 	static void LoadSpot(void);	//ファイル読み込み処理
 
 	static void Init(void);
-	static void SetOpenRoom(const MAP_AREA eArea, const ROOM_TYPE eRoom) { m_abIsOpenRoom[eArea][eRoom] = true; }
+	static void SetIsOpenRoom(const MAP_AREA eArea, const ROOM_TYPE eRoom) { m_abIsOpenRoom[eArea][eRoom] = true; }
 	static bool GetIsOpenRoom(const MAP_AREA eArea, const ROOM_TYPE eRoom) { return m_abIsOpenRoom[eArea][eRoom]; }
 
 protected:
@@ -128,12 +135,12 @@ protected:
 	D3DXVECTOR3 GetNodePos(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node.pos; }	//スポットの位置の取得
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
 	ROOM_TYPE GetRoomType(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).eRoom; }
-
+	bool GetGuard(const int nJailer, const int nSpotNumber) { return m_aPatrolData[nJailer].vnNumber.at(nSpotNumber).bGuard; }
 private:
 	float CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//距離の計算
 	int CountOpenList(vector<A_SPOT>& rvSpot);												//オープンリストの計算
 	int SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);	//トータルの最小のものを探す
-	void DeletCloseList(const int nNum);													//クローズリストから削除
+	void DeleteCloseList(const int nNum);													//クローズリストから削除
 
 	//privateゲッター
 	int GetOpenNum(void) { return (int)m_vOpenList.size(); }

@@ -15,7 +15,6 @@
 #include "fan3d.h"
 #include "mode_base.h"
 #include "collision.h"
-#include "character_collision_box.h"
 #include "jailer_spot.h"
 #include "Jalier_MoveState.h"
 #include "Jalier_MoveState.h"
@@ -30,8 +29,9 @@
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
 #define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
-#define GUARD_ROT_ANGLE D3DXToRadian(45)
+#define GUARD_ROT_ANGLE D3DXToRadian(60)
 #define TURN_SPEED (10.0f)
+
 //=============================================================================
 //静的メンバ変数宣言
 //=============================================================================
@@ -139,7 +139,6 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetSize(JAILER_SIZE);
 
 	m_TurnSpeed = TURN_SPEED;
-	//CCharacterCollisionBox::Create(GetPos(), GetRot(), this);
 	return S_OK;
 }
 
@@ -175,6 +174,7 @@ void CJailer::Update(void)
 	CheckMapCollision();
 
 	m_pSpot->Update();
+
 	//状態処理の更新
 	if (m_pJailerState != nullptr)
 	{
@@ -201,7 +201,6 @@ void CJailer::Draw(void)
 //回転関数
 //=============================================================================
 void CJailer::Rotation(void)
-
 {
 	//向きを取得
 	D3DXVECTOR3 rot = GetRot();
@@ -325,6 +324,7 @@ void CJailer::RetrunRoute(void)
 		{
 			//ステートを移動に変更
 			ChangeState(CMoveState::GetInstance());
+
 			ChangePosDest();
 			return;
 		}
@@ -407,6 +407,10 @@ void CJailer::GuardSurrounding(void)
 //攻撃処理
 //=============================================================================
 void CJailer::Attack(void)
+{
+}
+
+void CJailer::Damage(void)
 {
 }
 

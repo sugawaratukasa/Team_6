@@ -19,6 +19,7 @@ CJailerSpot::CJailerSpot()
 	m_nRetrunIndex = ZERO_INT;
 	m_nIndex = ZERO_INT;
 }
+
 //=============================================================================
 //デストラクタ
 //=============================================================================
@@ -82,8 +83,10 @@ void CJailerSpot::InitializePatrolSpot(void)
 		PATROL_SPOT patrolSpot;
 
 		//スポットの番号を保存
-		patrolSpot.node.nNumber = *itrJaier;
+		patrolSpot.node.nNumber = itrJaier->nNumber;
 
+		patrolSpot.bGuard = itrJaier->bGuard;
+		
 		//部屋タイプの取得
 		patrolSpot.eRoom = GetRoomType(m_eArea, patrolSpot.node.nNumber);
 
@@ -131,7 +134,7 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 	//看守の位置に一番近いスポットを検索
 	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
 
-	////看守の位置に一番近い巡回スポットを検索
+	//看守の位置に一番近い巡回スポットを検索
 	NODE nearPatrol = SearchNearPatrolSpot(jailerPos);
 
 	//ルートを検索する
@@ -154,10 +157,10 @@ CJailerSpot::NODE CJailerSpot::SearchNearPatrolSpot(D3DXVECTOR3 jailerPos)
 	for (int nCntNum = ZERO_INT; nCntNum < nSize; nCntNum++)
 	{
 		//部屋が到達可能かどうか知らべる
-		bool bIsOpenRoom = GetIsOpenRoom(m_eArea, m_vPatrolSpot.at(nCntNum).eRoom);
+		bool bIsRoomOpen = GetIsOpenRoom(m_eArea, m_vPatrolSpot.at(nCntNum).eRoom);
 
 		//到達が不可能
-		if (bIsOpenRoom == false)
+		if (bIsRoomOpen == false)
 		{
 			continue;
 		}
@@ -202,7 +205,7 @@ D3DXVECTOR3 CJailerSpot::ChangePatrolSpot(void)
 	
 	bool bIsOpenRoom = false;
 
-	//未開放の部屋だった場合さらに1つ進める
+	//未開放の部屋だった場合、解放済みの部屋になるまで繰り返す
 	while (bIsOpenRoom == false)
 	{
 		//インデックスを1つ進める

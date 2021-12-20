@@ -57,6 +57,7 @@ public:
 	void ChasePlayer(void);							//プレイヤーを追跡
 	void GuardSurrounding(void);					//周囲警戒状態
 	void Attack(void);								//攻撃状態
+	void Damage(void);
 
 	int AddTime(int add);			//秒数加算
 	void ChangePosDest(void);		//目的地の設定
