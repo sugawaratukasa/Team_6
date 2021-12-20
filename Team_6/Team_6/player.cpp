@@ -232,7 +232,7 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 		}
 		break;
 		// PC室の鍵
-	case ITEM_KEY_PC_ROOM:
+	case ITEM_KEY_CONTROL_ROOM:
 		if (m_abGetItem[ItemGetList] == true)
 		{
 			// PC室効果のポインタを生成する
@@ -377,10 +377,10 @@ void CPlayer::ItemGetGuideUICreate(ITEM_GET_LIST Type)
 			m_bUICreate[Type] = true;
 			break;
 			// PC室の鍵
-		case ITEM_KEY_PC_ROOM:
-			if (m_pItemGetUI[ITEM_KEY_PC_ROOM] == nullptr)
+		case ITEM_KEY_CONTROL_ROOM:
+			if (m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] == nullptr)
 			{
-				m_pItemGetUI[ITEM_KEY_PC_ROOM] = CItemGetUIPCRoomKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
+				m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] = CItemGetUIPCRoomKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
 			}
 			// UI生成状態をtrueにする
 			m_bUICreate[Type] = true;
@@ -444,11 +444,11 @@ void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
 		m_bUICreate[Type] = false;
 		break;
 		// PC室の鍵
-	case ITEM_KEY_PC_ROOM:
-		if (m_pItemGetUI[ITEM_KEY_PC_ROOM] != nullptr)
+	case ITEM_KEY_CONTROL_ROOM:
+		if (m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] != nullptr)
 		{
-			m_pItemGetUI[ITEM_KEY_PC_ROOM]->Uninit();
-			m_pItemGetUI[ITEM_KEY_PC_ROOM] = nullptr;
+			m_pItemGetUI[ITEM_KEY_CONTROL_ROOM]->Uninit();
+			m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] = nullptr;
 		}
 		// UI生成状態をfalseにする
 		m_bUICreate[Type] = false;
@@ -672,7 +672,10 @@ void CPlayer::DoorOpen(void)
 
 						// ドアに対応したアイテムを所持している場合
 						if (m_abGetItem[ITEM_KEY_PRISON] == true && nDoorType == CDoor_Collision::TYPE_PRISON ||
-							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM)
+							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
+							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
+							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
+							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH)
 						{
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))

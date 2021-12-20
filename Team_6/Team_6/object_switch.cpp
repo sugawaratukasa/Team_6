@@ -7,10 +7,9 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(150.0f,450.0f,50.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,450.0f,150.0f))	// サイズ
-#define ROT_180			(D3DXToRadian(179.0f))				// 向き
-#define ROT_270			(D3DXToRadian(269.0f))				// 向き
+#define COLLISION_POS1	(D3DXVECTOR3(pos.x,0.0f,pos.z - 270))		// サイズ
+#define COLLISION_POS2	(D3DXVECTOR3(pos.x,0.0f,pos.z + 270))		// サイズ
+#define ROT_180			(D3DXToRadian(179.0f))						// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
@@ -72,9 +71,18 @@ CSwitch * CSwitch::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPrison_Cell_Door *p
 //=============================================================================
 HRESULT CSwitch::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// 判定生成
-	CSwitch_Collision::Create(pos, rot, this);
-
+	// 向きが180°以下のの場合
+	if (rot.y <= ROT_180)
+	{
+		// 判定生成
+		CSwitch_Collision::Create(COLLISION_POS1, rot, this);
+	}
+	// 向きが180°以上の場合
+	if (rot.y >= ROT_180)
+	{
+		// 判定生成
+		CSwitch_Collision::Create(COLLISION_POS2, rot, this);
+	}
 	// 初期化処理
 	CObject::Init(pos, rot);
 

@@ -44,6 +44,7 @@
 #include "pause_button_manager.h"
 #include "player1_ui.h"
 #include "lever.h"
+#include "particle_emitter.h"
 
 //=======================================================================================
 // マクロ定義
@@ -118,7 +119,7 @@ HRESULT CGame::Init(void)
 	CreateGround();
 	//
 	// 監視カメラの生成
-	//CreateSecCam();
+	CreateSecCam();
 
 	// マップ生成	
 	CMap::Create();
@@ -133,6 +134,7 @@ HRESULT CGame::Init(void)
 	CJailer::Create(ZeroVector3, ZeroVector3);
 	CJailer::Create(ZeroVector3, ZeroVector3);*/
 
+	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 	return S_OK;
 }
 //=======================================================================================
@@ -232,6 +234,7 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
+		CStorageKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
 }
 

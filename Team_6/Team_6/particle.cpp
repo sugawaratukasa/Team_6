@@ -14,14 +14,15 @@
 //******************************************************************************
 // マクロ定義
 //******************************************************************************
-#define RANDOM_POS_MUT	(10)							// 10倍
-#define MUT				(2)								// ２倍
-#define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))	// 向き
-#define MIN_COL			(0.0f)							// 色の最小値
-#define MIN_LIFE		(0)								// ライフの最小値
-#define MIN_SCALE		(0.0f)							// 拡大率の最小値
-#define DEVIDE_SIZE		(10)							// サイズ除算
-#define ROT_RANDOM		(360)							// 向きのランダム値
+#define RANDOM_POS_MUT	(10)															// 10倍
+#define MUT				(2)																// ２倍
+#define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))									// 向き
+#define MIN_COL			(0.0f)															// 色の最小値
+#define MIN_LIFE		(0)																// ライフの最小値
+#define MIN_SCALE		(0.0f)															// 拡大率の最小値
+#define DEVIDE_SIZE		(10)															// サイズ除算
+#define ROT_RANDOM		(360)															// 向きのランダム値
+#define POS				(D3DXVECTOR3(pos.x, pos.y + m_ParticleInfo.size.x / 2,pos.z))	// 位置
 //******************************************************************************
 // コンストラクタ
 //******************************************************************************
@@ -71,11 +72,11 @@ HRESULT CParticle::Init(D3DXVECTOR3 pos, CParticle_Manager::TYPE Type)
 	// 情報取得
 	m_ParticleInfo = pParticle_Manager->GetInfo(Type);
 
-	// 初期化
- 	CBillboard::Init(pos, m_ParticleInfo.size);
-
 	// サイズ設定
 	SetSize(m_ParticleInfo.size);
+
+	// 初期化
+	CBillboard::Init(POS, m_ParticleInfo.size);
 
 	// サイズ設定
 	SetRot(ROT);
@@ -199,6 +200,13 @@ HRESULT CParticle::Init(D3DXVECTOR3 pos, CParticle_Manager::TYPE Type)
 		m_ParticleInfo.Angle.y = m_ParticleInfo.fAngle;
 		m_ParticleInfo.Angle.z = m_ParticleInfo.fAngle;
 	}
+
+	// 加算合成を使用する場合
+	if (m_ParticleInfo.bAlpha_Blend == true)
+	{
+		// 加算合成設定
+		SetBlend(true);
+	}
 	return S_OK;
 }
 
@@ -302,25 +310,6 @@ void CParticle::Update(void)
 //******************************************************************************
 void CParticle::Draw(void)
 {
-	// 加算合成を行わない場合
-	if (m_ParticleInfo.bAlpha_Blend == false)
-	{
-		// 描画
-		CBillboard::Draw();
-	}
-	// 加算合成を行う場合
-	if (m_ParticleInfo.bAlpha_Blend == true)
-	{
-		// レンダラー取得
-		LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-		// 加算合成の設定
-		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-		// 描画
-		CBillboard::Draw();
-
-		// 元に戻す
-		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	}
+	// 描画
+	CBillboard::Draw();
 }

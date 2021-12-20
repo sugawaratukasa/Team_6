@@ -35,7 +35,6 @@ public:
 		PRIORITY_MODEL,			// モデル
 		PRIORITY_CHARACTER,		// キャラクター
 		PRIORITY_EFFECT,		// エフェクト
-		PRIORITY_SHADOW,		// 影
 		PRIORITY_3D_UI,			// UI
 		PRIORITY_SCREENFRAME,	// スクリーンフレーム
 		PRIORITY_UI,			// UI

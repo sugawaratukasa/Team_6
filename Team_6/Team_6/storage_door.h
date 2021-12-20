@@ -1,26 +1,26 @@
-#ifndef _DOOR_PC_ROOM_H_
-#define _DOOR_PC_ROOM_H_
+#ifndef _STORAGE_DOOR_
+#define _STORAGE_DOOR_
 //=============================================================================
-// PC室の扉 [door_pc_room.h]
-// Author : Nikaido Taichi
+// 倉庫の扉 [storage_door.h]
+// Author : Sugawara Tsukasa
 //=============================================================================
 
 //=============================================================================
 // インクルード
-// Author : Nikaido Taichi
+// Author : Sugawara Tsukasa
 //=============================================================================
 #include "object_door.h"
 
 //=============================================================================
-// オブジェクトクラス
-// Author : Nikaido Taichi
+// 倉庫の扉クラス
+// Author : Sugawara Tsukasa
 //=============================================================================
-class CPCRoomDoor : public CDoor
+class CStorage_Door : public CDoor
 {
 public:
-	CPCRoomDoor(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
-	~CPCRoomDoor();													// デストラクタ
-	static CPCRoomDoor *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
+	CStorage_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	~CStorage_Door();													// デストラクタ
+	static CStorage_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
 	void Uninit(void);												// 終了処理
 	void Update(void);												// 更新処理

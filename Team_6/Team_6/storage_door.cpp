@@ -1,5 +1,5 @@
 //=============================================================================
-// 看守の扉 [guards_door.cpp]
+// 倉庫の扉 [storage_door.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -7,62 +7,62 @@
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "guards_door.h"
+#include "storage_door.h"
 #include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
-#include "guards_door_collision.h"
+#include "storage_door_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(330.0f,550.0f,50.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(50.0f,550.0f,330.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::CGuards_Door(PRIORITY Priority)
+CStorage_Door::CStorage_Door(PRIORITY Priority)
 {
 }
 //=============================================================================
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door::~CGuards_Door()
+CStorage_Door::~CStorage_Door()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGuards_Door * CGuards_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CStorage_Door * CStorage_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// CGuards_Doorのポインタ
-	CGuards_Door *pPrison_Door = nullptr;
+	// CStorage_Doorのポインタ
+	CStorage_Door *pStorage_Doorr = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pStorage_Doorr == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CGuards_Door;
+		pStorage_Doorr = new CStorage_Door;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pStorage_Doorr != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pStorage_Doorr->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pStorage_Doorr;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CGuards_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CStorage_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// ドアの初期化処理関数呼び出し
 	CDoor::Init(pos, rot);
@@ -91,14 +91,14 @@ HRESULT CGuards_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	}
 
 	// 判定用のオブジェクト生成
-	CGuards_Door_Collision::Create(pos, rot, this);
+	CStorage_Door_Collision::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Uninit(void)
+void CStorage_Door::Uninit(void)
 {
 	// ドアの終了処理関数呼び出し
 	CDoor::Uninit();
@@ -107,7 +107,7 @@ void CGuards_Door::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Update(void)
+void CStorage_Door::Update(void)
 {
 	// ドアの更新処理関数呼び出し
 	CDoor::Update();
@@ -116,7 +116,7 @@ void CGuards_Door::Update(void)
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGuards_Door::Draw(void)
+void CStorage_Door::Draw(void)
 {
 	// ドアの描画処理関数呼び出し
 	CDoor::Draw();

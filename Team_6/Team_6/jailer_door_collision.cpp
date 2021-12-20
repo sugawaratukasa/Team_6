@@ -1,119 +1,105 @@
 //=============================================================================
-// 牢屋の扉 [object_prison_door_right.cpp]
+// 看守室ドアの判定 [jailer_door_collision.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "prison_cell_door.h"
-#include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
+#include "jailer_door_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,450.0f,120.0f))	// サイズ
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::CPrison_Cell_Door(PRIORITY Priority)
+CJailer_Door_Collision::CJailer_Door_Collision(PRIORITY Priority) : CDoor_Collision(Priority)
 {
 }
 //=============================================================================
-// デストラクタ
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::~CPrison_Cell_Door()
+CJailer_Door_Collision::~CJailer_Door_Collision()
 {
 }
 //=============================================================================
-// 生成処理関数
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CJailer_Door_Collision * CJailer_Door_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
 {
-	// CPrison_Cell_Doorのポインタ
-	CPrison_Cell_Door *pPrison_Door = nullptr;
+	// CJailer_Door_Collisionのポインタ
+	CJailer_Door_Collision *pPrison_Door_Collision = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pPrison_Door_Collision == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CPrison_Cell_Door;
+		pPrison_Door_Collision = new CJailer_Door_Collision;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pPrison_Door_Collision != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pPrison_Door_Collision->Init(pos, rot);
+
+			// ポインタを代入
+			pPrison_Door_Collision->SetpDoor(pDoor);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pPrison_Door_Collision;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Cell_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CJailer_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// ドアの初期化処理関数呼び出し
-	CDoor::Init(pos, rot);
+	// 初期化処理
+	CDoor_Collision::Init(pos, rot);
 
-	// サイズ
+	// タイプ設定
+	SetType(TYPE_JAILER_ROOM);
+
+	// サイズ設定
 	SetSize(COLLISION_SIZE);
-
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Uninit(void)
+void CJailer_Door_Collision::Uninit(void)
 {
-	// ドアの終了処理関数呼び出し
-	CDoor::Uninit();
+	// 終了処理
+	CDoor_Collision::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Update(void)
+void CJailer_Door_Collision::Update(void)
 {
-	// ドアの更新処理関数呼び出し
-	CDoor::Update();
+	// 更新処理
+	CDoor_Collision::Update();
+
+	// CDoorのポインタ取得
+	CDoor *pDoor = GetpDoor();
+
+	// ロック状態設定
+	SetLock(pDoor->GetLock());
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Draw(void)
+void CJailer_Door_Collision::Draw(void)
 {
-	// ドアの描画処理関数呼び出し
-	CDoor::Draw();
 }

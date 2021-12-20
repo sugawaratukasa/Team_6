@@ -59,6 +59,7 @@ public:
 		TEXTURE_NUM_Y,						// Y
 		TEXTURE_NUM_RANKING_BG,			// ランキング背景
 		TEXTURE_NUM_RANKING_NUMBER,		// ランキングナンバー
+		TEXTURE_NUM_BLACK_FILL,				// 黒いテクスチャ
 		TEXTURE_NUM_MAX
 	};
 

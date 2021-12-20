@@ -12,14 +12,18 @@
 #include "object_door.h"
 #include "object_wall.h"
 #include "floor.h"
-
 #include "goal_area.h"
 #include "prison_cell_door.h"
 #include "object_prison_door_left.h"
 #include "object_prison_door_right.h"
 #include "object_prison_wall.h"
 #include "object_switch.h"
-#include "guards_door.h"
+#include "jailer_door.h"
+#include "object_keepout_wall.h"
+#include "object_iron_window_wall.h"
+#include "black_fill_polygon.h"
+#include "control_room_door.h"
+#include "storage_door.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -271,6 +275,10 @@ void CMap::CreateFloor(void)
 		case FLOOR_TYPE_NORMAL:
 			CFloor::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
 			break;
+			// 床
+		case FLOOR_TYPE_BLACK_FILL:
+			CBlack_Fill_Polygon::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
+			break;
 			// 例外
 		default:
 			break;
@@ -292,12 +300,6 @@ void CMap::CreateModel(void)
 		// 条件分岐文
 		switch (m_aModelInfo.at(nCnt).nModelNum)
 		{
-
-		case MODEL_TYPE_PRISON_CELL_DOOR1:
-			// 独房のドア1
-			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
-			break;
-
 			// ドアの壁
 		case MODEL_TYPE_DOOR_WALL:
 			CDoor_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
@@ -332,18 +334,43 @@ void CMap::CreateModel(void)
 			CSwitch::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, m_pPrison_Cell_Door1);
 			break;
 
-			// 独房のドア
+			// 独房ドア1
+		case MODEL_TYPE_PRISON_CELL_DOOR1:
+			// ドア
+			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 独房のドア2
 		case MODEL_TYPE_PRISON_CELL_DOOR2:
 			// ドア
 			m_pPrison_Cell_Door2 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 
-			// 看守の扉
-		case MODEL_TYPE_GUARDS_DOOR:
-			// ドア
-			CGuards_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			// 開かないドアの壁
+		case MODEL_TYPE_KEEPOUT_WALL:
+			CKeepOut_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 
+			// 鉄窓の壁
+		case MODEL_TYPE_IRON_WINDOW_WALL:
+			CIronWindow_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 看守の扉
+		case MODEL_TYPE_JAILER_DOOR:
+			// ドア
+			CJailer_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 制御室の扉
+		case MODEL_TYPE_CONTROL_ROOM_DOOR:
+			// ドア
+			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+		case MODEL_TYPE_STORAGE_DOOR:
+			// ドア
+			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
 			// 例外
 		default:
 			break;

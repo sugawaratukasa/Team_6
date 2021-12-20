@@ -52,6 +52,8 @@ CXfile::CXfile()
 		{"data/Model/Map/04_Camera.x"},						// 監視カメラ
 		{ "data/Model/Map/08_Lever_Handle.x" },				// レバーハンドル
 		{ "data/Model/Map/09_Lever_Body.x" },				// レバーボディー
+		{ "data/Model/Map/010_keepOut_Wall.x" },			// 開かないドアの壁
+		{ "data/Model/Map/011_IronWindow_Wall.x" },			// 鉄窓の壁
 	};
 
 	// 階層構造モデル
