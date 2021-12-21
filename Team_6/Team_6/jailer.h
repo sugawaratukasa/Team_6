@@ -36,13 +36,21 @@ public:
 		JAILER_MOTION_MAX,
 	};
 	
+	enum AROUND_CONFIRMATION
+	{
+		AROUND_CONFIRMATION_NONE = 0,
+		AROUND_CONFIRMATION_LEFT,
+		AROUND_CONFIRMATION_RIGHT,
+		AROUND_CONFIRMATION_MAX
+	};
+
 	//=========================================================================
 	//メンバ関数宣言
 	//=========================================================================
-	CJailer();	//コンストラクタ
+	CJailer(int nJailerNumber);	//コンストラクタ
 	~CJailer();	//デストラクタ
 
-	static CJailer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot);	//クリエイト処理
+	static CJailer *Create(const int nJailerNumber);	//クリエイト処理
 
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	//初期化処理
 	void Uninit(void);								//終了処理
@@ -65,20 +73,20 @@ public:
 	bool IsHitPlayer(void);			//プレイヤーとの衝突判定
 	void CheckMapCollision(void);	// マップとの当たり判定
 	
+	void TurnAround(void);
 	//publicセッター
 	void SetRetrunData(void);	//ルート復帰の情報設定
 	void SetGuardBaseDir(void);//警戒時の基準の方向の設定
 	void SetTime(int time) { m_nSwitchingTime = time; }	//タイマーセット
-	
+
 	//publicゲッター
 	int GetTime(void) { return m_nSwitchingTime; }					//タイマーゲット
 	float GetDestLength(void)const { return m_fDestLength; }	//目的地の距離の長さの取得
-
+	AROUND_CONFIRMATION GetAround(void) { return m_eAroud; }
 private:
 	//=========================================================================
 	//メンバ変数宣言
 	//=========================================================================
-	static int m_nJailerTotal;		//看守の総数
 	CJailerView *m_pView;			//看守の視線クラスのポインタ変数
 	CJailerState *m_pJailerState;	//状態のポインタ
 	CJailerSpot *m_pSpot;			//スポットのポインタ
@@ -88,8 +96,9 @@ private:
 	D3DXVECTOR3 m_distance;			//目的地までの距離
 	D3DXVECTOR3 m_GuardBaseDir;		//警戒時の基準の方向
 	int m_nSwitchingTime;			//状態の切り替えタイマー
-	int m_nNumber;					//自分の番号	
+	const int m_nNumber;			//自分の番号	
 	float m_fDestLength;			//目的地と自分の距離の長さ
 	float m_TurnSpeed;				//振り向き速度
+	AROUND_CONFIRMATION m_eAroud;	//周囲警戒の状態
 };
 #endif // !_JAILER_H_

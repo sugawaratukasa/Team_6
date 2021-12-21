@@ -69,7 +69,7 @@ void CJailer_LostTarget::Release(void)
 void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 {
 	//タイマーのセット
-	pJailer->SetTime(ZERO_INT);
+	pJailer->SetTime(1);
 	pJailer->SetSpeed(ZERO_FLOAT);
 	pJailer->SetMove(ZeroVector3);
 	pJailer->SetGuardBaseDir();
@@ -93,7 +93,7 @@ void CJailer_LostTarget::Update(CJailer * pJailer, CJailerView * pJailerView)
 	else
 	{
 		//未発見状態が一定時間続いたら
-		if (pJailer->AddTime(ADD_TIME) >= CAUTION_TIME)
+		if (pJailer->GetAround() == CJailer::AROUND_CONFIRMATION_NONE)
 		{
 			//巡回状態へ
 			pJailer->ChangeState(CReturnRouteState::GetInstance());

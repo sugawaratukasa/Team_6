@@ -130,13 +130,7 @@ HRESULT CGame::Init(void)
 
 	CMapSpot::Init();
 
-	//ä≈éÁÇÃê∂ê¨
-	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3);
-	CJailer::Create(ZeroVector3, ZeroVector3); 
+	CreateJailer();
 
 	return S_OK;
 }
@@ -317,4 +311,16 @@ void CGame::CreateSecCam(void)
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
+}
+
+//=======================================================================================
+// ä≈éÁÇÃê∂ê¨
+//=======================================================================================
+void CGame::CreateJailer(void)
+{
+	for (int nCntJailer = ZERO_INT; nCntJailer < 6; nCntJailer++)
+	{
+		//ä≈éÁÇÃê∂ê¨
+		CJailer::Create(nCntJailer);
+	}
 }

@@ -29,7 +29,7 @@ bool CMapSpot::m_abIsOpenRoom[CMapSpot::MAP_AREA_MAX][CMapSpot::ROOM_TYPE_MAX] =
 CMapSpot::CMapSpot()
 {
 	m_vOpenList.clear();
-	m_CloseList.clear();
+	m_lCloseList.clear();
 }
 
 //=============================================================================
@@ -210,6 +210,7 @@ void CMapSpot::Init(void)
 	{
 		for (int nCntRoom = 0; nCntRoom < ROOM_TYPE_MAX; nCntRoom++)
 		{
+			//通路のみ通過可能にする
 			if (nCntRoom == ROOM_TYPE_AISLE)
 			{
 				m_abIsOpenRoom[nCntArea][nCntRoom] = true;
@@ -229,7 +230,7 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 {
 	NODE returnInfo;	//返すスポット情報
 
-	float fKeepRange = ZERO_FLOAT;
+	float fKeepRange = INFINITY_COST;
 
 	int nSize = m_vaSpot[eArea].size();
 
@@ -248,23 +249,14 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 		D3DXVECTOR3 Distance = m_vaSpot[eArea].at(nCntSpot).node.pos - pos;
 
 		//長さを求める
-		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
+		float fRange = CalculationDistanceLength(m_vaSpot[eArea].at(nCntSpot).node.pos, pos);
 
-		//初めの計算の時はそのまま記録
-		if (nCntSpot == ZERO_INT)
+		//現在の距離がすでに保存している距離より短いなら
+		if (fRange < fKeepRange)
 		{
+			//データを更新
 			fKeepRange = fRange;
 			returnInfo = m_vaSpot[eArea].at(nCntSpot).node;
-		}
-		else
-		{
-			//現在の距離がすでに保存している距離より短いなら
-			if (fRange < fKeepRange)
-			{
-				//データを更新
-				fKeepRange = fRange;
-				returnInfo = m_vaSpot[eArea].at(nCntSpot).node;
-			}
 		}
 	}
 
@@ -280,8 +272,8 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 	vector<NEXT> Next = GetNextList(eArea, nSearchNumber);
 
 	NEXT keepNext;
-
-	int nCntKeep = ZERO_INT;	//キープの変更した回数
+	
+	keepNext.fLength = INFINITY_COST;
 
 	for (int nCntNext = ZERO_INT; nCntNext < (int)Next.size(); nCntNext++)
 	{
@@ -292,25 +284,16 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 			continue;
 		}
 
-		//最初のものは強制的にキープする
-		if (nCntKeep == ZERO_INT)
+		//今回の長さとキープの長さを比較し、今回のものが短ければ更新
+		if (Next.at(nCntNext).fLength < keepNext.fLength)
 		{
 			keepNext = Next.at(nCntNext);
 		}
-		else
-		{
-			//今回の長さとキープの長さを比較し、今回の奴が短ければ更新
-			if (Next.at(nCntNext).fLength < keepNext.fLength)
-			{
-				keepNext = Next.at(nCntNext);
-			}
-		}
-		//キープカウンタを進める
-		nCntKeep++;
 	}
 
 	return keepNext;
 }
+
 
 //=============================================================================
 //経路探索
@@ -318,7 +301,7 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE startNode, const NODE goalNode)
 {
 	m_vOpenList.clear();
-	m_CloseList.clear();
+	m_lCloseList.clear();
 
 	vector<A_SPOT> vAStar;
 
@@ -347,7 +330,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 	StratCost.fStratToNow = ZERO_FLOAT;
 
 	//スタートからゴールまでのコスト(h*(S))を求める(G - S)
-	StratCost.fHeuristic = CalculationDistance(startNode.pos, goalNode.pos);
+	StratCost.fHeuristic = CalculationDistanceLength(startNode.pos, goalNode.pos);
 
 	//スタートの推定コスト(f*(S))を決める(f*(S) = g*(S) + h*(S))
 	StratCost.fTotal = StratCost.fStratToNow + StratCost.fHeuristic;
@@ -371,7 +354,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 		if (nParent == goalNode.nNumber)
 		{
 			//Closeリストへ追加
-			m_CloseList.push_back(vAStar.at(nParent));
+			m_lCloseList.push_back(vAStar.at(nParent));
 			break;
 		}
 		//ゴールノードでないならCloseへ入れる
@@ -381,7 +364,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			vAStar.at(nParent).state = A_STAR_STATE_CLOSE;
 
 			//Closeリストへ追加
-			m_CloseList.push_back(vAStar.at(nParent));
+			m_lCloseList.push_back(vAStar.at(nParent));
 		}
 		
 		//親(n)が持つ子ノード(m)を取得
@@ -406,9 +389,8 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			//=======================================
 			//f'(m) = g*(n) + h*(m) + A_STAR_COST(n,m)を行う
 			//=======================================
-
 			//子ノードのゴールまでの長さを計算（ヒューリスティックコスト）
-			vAStar.at(nChildNumber).cost.fHeuristic = CalculationDistance(
+			vAStar.at(nChildNumber).cost.fHeuristic = CalculationDistanceLength(
 				vAStar.at(nChildNumber).spot.node.pos, 
 				goalNode.pos);
 
@@ -468,8 +450,8 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 		}
 	}
 
-	auto itr = m_CloseList.begin();
-	auto itrEnd = m_CloseList.end();
+	auto itr = m_lCloseList.begin();
+	auto itrEnd = m_lCloseList.end();
 
 	vector<NODE> Node;
 
@@ -484,7 +466,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 //=============================================================================
 //距離の計算
 //=============================================================================
-float CMapSpot::CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint)
+float CMapSpot::CalculationDistanceLength(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint)
 {
 	D3DXVECTOR3 distanec = EndPoint - StartPoint;
 
@@ -501,11 +483,11 @@ int CMapSpot::CountOpenList(vector<A_SPOT>& rvSpot)
 	//オープンリストをリセット
 	m_vOpenList.clear();
 
-	int nTarget = 0;
+	int nTarget = ZERO_INT;
 
 	int nSize = rvSpot.size();
 
-	for (int nCntSpot = 0; nCntSpot < nSize; nCntSpot++)
+	for (int nCntSpot = ZERO_INT; nCntSpot < nSize; nCntSpot++)
 	{
 		//Open状態のものをカウントする
 		if (rvSpot.at(nCntSpot).state == A_STAR_STATE_OPEN)
@@ -529,17 +511,12 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 	int nKeepNum = -1;
 	float fKeepTotal = INFINITY_COST;
 
-	//=======================================
-	//nCntOpenをnとし、f*(n) = g*(n) + h*(n)を行う
-	//f*(n)が最小のものを返す
-	//=======================================
-	for (int nCntOpen = 0; nCntOpen < nSize; nCntOpen++)
+	for (int nCntOpen = ZERO_INT; nCntOpen < nSize; nCntOpen++)
 	{
 		//自分の番号を取得
 		int nNumber = m_vOpenList.at(nCntOpen).spot.node.nNumber;
 		int nParent = m_vOpenList.at(nCntOpen).nParentNumber;
 		 
-
 		if (m_vOpenList.at(nCntOpen).cost.fTotal < fKeepTotal)
 		{
 			//コストと番号を変更
@@ -547,6 +524,7 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 			nKeepNum = nNumber;
 		}
 	}
+
 	return nKeepNum;
 }
 
@@ -555,14 +533,14 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 //=============================================================================
 void CMapSpot::DeleteCloseList(const int nNum)
 {
-	auto itrBgin = m_CloseList.begin();
-	auto itrEnd = m_CloseList.end();
+	auto itrBgin = m_lCloseList.begin();
+	auto itrEnd = m_lCloseList.end();
 
 	for (itrBgin; itrBgin != itrEnd; ++itrBgin)
 	{
 		if (itrBgin->nParentNumber == nNum)
 		{
-			m_CloseList.erase(itrBgin);
+			m_lCloseList.erase(itrBgin);
 
 			break;
 		}

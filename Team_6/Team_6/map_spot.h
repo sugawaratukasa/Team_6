@@ -26,8 +26,8 @@ public:
 	//=========================================================================
 	enum MAP_AREA
 	{
-		MAP_AREA_LEFT = 0,
-		MAP_AREA_RIGHT,
+		MAP_AREA_LEFT = 0,	//左側
+		MAP_AREA_RIGHT,		//右側
 		MAP_AREA_MAX,
 	};
 
@@ -85,6 +85,7 @@ public:
 		int nNumber;
 		bool bGuard;
 	};
+
 	//=========================================================================
 	//巡回データの構造体
 	//=========================================================================
@@ -126,6 +127,7 @@ public:
 protected:
 	NODE SearchNearNode(const MAP_AREA eArea,const D3DXVECTOR3 pos);	//最も近いスポットの検索
 	NEXT SearchNearNext(const MAP_AREA eArea, const int nSearchNumber, const int nExclusionNumber);
+
 	vector<NODE> PathSearch(const MAP_AREA eArea, const NODE startNode, const NODE goalNode);	//経路探索
 
 	//protectedゲッター
@@ -136,8 +138,9 @@ protected:
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
 	ROOM_TYPE GetRoomType(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).eRoom; }
 	bool GetGuard(const int nJailer, const int nSpotNumber) { return m_aPatrolData[nJailer].vnNumber.at(nSpotNumber).bGuard; }
+
 private:
-	float CalculationDistance(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//距離の計算
+	float CalculationDistanceLength(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//2点間ベクトルの長さの計算
 	int CountOpenList(vector<A_SPOT>& rvSpot);												//オープンリストの計算
 	int SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);	//トータルの最小のものを探す
 	void DeleteCloseList(const int nNum);													//クローズリストから削除
@@ -152,6 +155,6 @@ private:
 	static PATROL_DATA m_aPatrolData[JAILER_NUM];	//看守のスポットデータ
 	static bool m_abIsOpenRoom[MAP_AREA_MAX][ROOM_TYPE_MAX];
 	vector<A_SPOT>  m_vOpenList;	//オープンリスト
-	list<A_SPOT> m_CloseList;		//クローズリスト
+	list<A_SPOT> m_lCloseList;		//クローズリスト
 };
 #endif // !_SPOT_H_
