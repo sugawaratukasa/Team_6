@@ -12,7 +12,7 @@
 #define LOG_SIZE D3DXVECTOR3(250.0f, 25.0f, 250.0f)
 #define LOG_LIFE_LENGTH 60 * 4
 #define LOG_LINE_SPACE 10.0f
-#define LOG_MAX_HEIGHT 327.5f
+#define LOG_MAX_HEIGHT 250.0f
 
 //=============================================================================
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
