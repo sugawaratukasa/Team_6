@@ -33,13 +33,13 @@
 #include "ui_player2_item.h"
 #include "door_collision.h"
 #include "item_guid_prison_key.h"
-
+#include "item_control_room_key.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define PLAYER_SPEED			(50.0f)									// プレイヤーの移動量
+#define PLAYER_SPEED			(25.0f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲
@@ -69,7 +69,7 @@ CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 	memset(m_abGetItem, false, sizeof(m_abGetItem));		// アイテムを取得してるか
 	memset(m_bItempCreate, false, sizeof(m_bItempCreate));	// アイテムポインタ生成したか
 	memset(m_bUICreate, false, sizeof(m_bUICreate));		// UI生成状態
-	memset(m_bItemCollision, false, sizeof(m_bItemCollision));
+	m_bGuidCreate = false;
 	m_Type = PLAYER_NONE;
 	for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
 	{
@@ -108,8 +108,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
-
-	CCharacterCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 
@@ -237,6 +235,15 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 			m_nItemCount++;
 		}
 		break;
+	case ITEM_KEY_CONTROL_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// PC室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CControlRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
 		// 警棒
 	case ITEM_BATON:
 		if (m_abGetItem[ItemGetList] == true)
@@ -324,7 +331,7 @@ void CPlayer::ItemDelete(int nPlayer)
 			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
 			// 選択しているアイテムの取得状態をfalseにする
 			SetSubbGetItem(nItemType, false);
-			pSound->Play(CSound::SOUND_SE_ITEM_RELEASE);
+			pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
 			// アイテムを生成する
 			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
 			// アイテム効果初期化処理関数呼び出し
@@ -496,7 +503,7 @@ void CPlayer::DoorOpen(void)
 
 	// サイズ取得
 	D3DXVECTOR3 size = GetSize();
-
+	CSound * pSound = GET_SOUND_PTR;
 	// nullcheck
 	if (pScene == nullptr)
 	{
@@ -537,6 +544,15 @@ void CPlayer::DoorOpen(void)
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))
 							{
+								// 牢屋のドアの場合
+								if (nDoorType == CDoor_Collision::TYPE_PRISON)
+								{
+									pSound->CSound::Play(CSound::SOUND_SE_OPEN_PRISON);
+								}
+								else
+								{
+									pSound->CSound::Play(CSound::SOUND_SE_OPEN_DOOR);
+								}
 								// 扉を開く
 								((CDoor_Collision*)pScene)->Open();
 							}

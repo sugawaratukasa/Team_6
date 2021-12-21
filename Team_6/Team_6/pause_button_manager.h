@@ -21,6 +21,7 @@
 //*****************************************************************************
 class CButton;
 class CPauseBG;
+class CPauseLogoTexture;
 
 //*****************************************************************************
 // クラス定義
@@ -39,15 +40,16 @@ private:
 	{
 		BUTTON_NONE = -1,
 		BUTTON_QUIT_GAME,
-		BUTTON_BACK_TO_TITLE,
 		BUTTON_GUID,
+		BUTTON_BACK_TO_TITLE,
 		BUTTON_MAX
 	}BUTTON;
 	void PlayerItemGet(void);
 	void Select(void);
 	void InitCreateAll(void);
-	CButton * m_apButton[BUTTON_MAX];	//ボタンのポインタ
-	CPauseBG *m_pPauseBG;				//ポーズのポインタ
-	int m_nButton;						//ボタン
+	CButton * m_apButton[BUTTON_MAX];	// ボタンのポインタ
+	CPauseBG *m_pPauseBG;				// ポーズのポインタ
+	CPauseLogoTexture *m_pPauseLogo;			// ポーズロゴのポインタ
+	int m_nButton;						// ボタン
 };
 #endif

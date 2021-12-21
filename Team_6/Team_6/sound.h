@@ -19,15 +19,19 @@ class CSound
 public:
 	enum SOUND_LABEL
 	{
-		SOUND_BGM_TITLE = 0,		// タイトル
-		SOUND_BGM_GAME,				// ゲーム
-		SOUND_BGM_RANKING,			// ランキング
-		SOUND_SE_BUTTON_SELECT,		// ボタン選択音
-		SOUND_SE_BUTTON_PUSH,       // ボタン決定音
-		SOUND_SE_BUTTON_CANCEL,		// ボタンキャンセル音
-		SOUND_SE_OPEN_DOOR,
-		SOUND_SE_ITEM_GET,
-		SOUND_SE_ITEM_RELEASE,
+		SOUND_BGM_TITLE = 0,	// タイトル
+		SOUND_BGM_GAME,			// ゲーム
+		SOUND_BGM_RESULT,		// リザルト
+		SOUND_SE_OPEN_MAP,		// マップを開く音
+		SOUND_SE_GET_ITEM,		// アイテムを取得する音
+		SOUND_SE_RELEASE_ITEM,	// アイテムを捨てる音
+		SOUND_SE_LOCK_DOOR,		// 鍵のかかったドア
+		SOUND_SE_OPEN_DOOR,		// 扉を開ける音
+		SOUND_SE_CLOSE_DOOR,	// 扉を閉める音
+		SOUND_SE_OPEN_PRISON,	// 牢屋を開ける音
+		SOUND_SE_BUTTON_PUSH,	// ボタンを押す音
+		SOUND_SE_BUTTON_CANCEL,	// ボタンキャンセル音
+		SOUND_SE_BUTTON_SELECT,	// ボタン選択
 		SOUND_LABEL_MAX
 	};
 
@@ -56,13 +60,12 @@ private:
 
 	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
-	IXAudio2 *m_pXAudio2 = NULL;																	// XAudio2オブジェクトへのインターフェイス
-	IXAudio2MasteringVoice *m_pMasteringVoice = NULL;												// マスターボイス
-	IXAudio2SourceVoice *m_apSourceVoice[SOUND_LABEL_MAX] = {};										// ソースボイス
-	BYTE *m_apDataAudio[SOUND_LABEL_MAX] = {};														// オーディオデータ
-	DWORD m_aSizeAudio[SOUND_LABEL_MAX] = {};														// オーディオデータサイズ
-
-																									// 各音素材のパラメータ
+	IXAudio2 *m_pXAudio2;																			// XAudio2オブジェクトへのインターフェイス
+	IXAudio2MasteringVoice *m_pMasteringVoice;														// マスターボイス
+	IXAudio2SourceVoice *m_apSourceVoice[SOUND_LABEL_MAX];											// ソースボイス
+	BYTE *m_apDataAudio[SOUND_LABEL_MAX];															// オーディオデータ
+	DWORD m_aSizeAudio[SOUND_LABEL_MAX];															// オーディオデータサイズ
+	// 各音素材のパラメータ
 	static PARAM m_aParam[SOUND_LABEL_MAX];
 };
 #endif

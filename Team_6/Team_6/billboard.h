@@ -29,7 +29,7 @@ public:
 	void InitAnimation(D3DXVECTOR2 TexInfo, int nLoop);			// アニメーション情報初期化
 	void UpdateAnimation(void);									// アニメーションの更新
 
-																// Set関数
+	// Set関数
 	void SetMove(D3DXVECTOR3 move);								// 移動量設定
 	void SetSizeBase(D3DXVECTOR3 sizeBase);						// サイズのベース
 	void SetAlphaNum(int nAlphaNum);							// アルファテストの値

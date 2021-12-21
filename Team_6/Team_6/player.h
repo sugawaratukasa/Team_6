@@ -23,7 +23,6 @@
 #define ANGLE_180                (D3DXToRadian(180.0f))                  // 角度180
 #define ANGLE_270                (D3DXToRadian(270.0f))                  // 角度270
 #define PLAYER_ROT_SPEED        (1.0f)                                   // キャラクターの回転する速度
-#define PLAYER_SPEED            (50.0f)                                  // プレイヤーの移動量
 #define INCAPACITATED_TIME		(1200)									 // 行動不能時間
 #define MAX_PLAYER (2)													 // プレイヤーの最大数
 #define MAX_ITEM (3)													 // プレイヤーが取得できるアイテムの最大数
@@ -58,6 +57,7 @@ public:
 		ITEM_KEY_STORAGE,			// 倉庫の鍵
 		ITEM_KEY_JAILER_ROOM,		// 看守室の鍵
 		ITEM_KEY_PC_ROOM,			// PC室の鍵
+		ITEM_KEY_CONTROL_ROOM,		// 制御室の鍵
 		ITEM_BATON,					// 警棒
 		ITEM_MAP,					// マップ
 		ITEM_MAX
@@ -82,16 +82,17 @@ public:
 	virtual void KeyboardMove(float fSpeed, float fAngle) = 0;		// キーボード移動処理
 	virtual void PadMove(float fSpeed, float fAngle) = 0;			// ジョイパッド移動処理
 	virtual void PrisonWarp(void) = 0;								// 独房ワープ処理
+	virtual void SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type) = 0;							// アイテム説明テクスチャ生成処理
 	void DoorOpen(void);											// 扉を開く処理
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
-	void SetAddbGetItem(int nItem, bool bGet);			// アイテムの取得状況を設定
-	void SetSubbGetItem(int nItem, bool bGet);			// アイテムの取得状況を設定
-	void SetUI(CPlayerItemUI * pUI) { m_pUI = pUI; }		// UI設定
-	void SetbGoal(bool bGoal) { m_bGoal = bGoal; }		// ゴール状態設定
+	void SetAddbGetItem(int nItem, bool bGet);											// アイテムの取得状況を設定
+	void SetSubbGetItem(int nItem, bool bGet);											// アイテムの取得状況を設定
+	void SetUI(CPlayerItemUI * pUI) { m_pUI = pUI; }									// UI設定
+	void SetbGoal(bool bGoal) { m_bGoal = bGoal; }										// ゴール状態設定
 	void SetbIncapacitated(bool bIncapacitated) { m_bIncapacitated = bIncapacitated; }	// 行動不能状態設定
-	void SetbItemCollision(bool bCollision, ITEM_GET_LIST Type) { m_bItemCollision[Type] = bCollision; }
+	void SetbItemGuidCreate(bool bGuid) { m_bGuidCreate = bGuid; }						// アイテム説明テクスチャの生成状態
 	//=============================================================================
 	//　Get関数
 	//=============================================================================
@@ -99,20 +100,21 @@ public:
 	bool GetbItem(int nItem) { return m_abGetItem[nItem]; }		// アイテムの取得状況取得関数
 	bool GetbGoal(void) { return m_bGoal; }						// ゴール状態所得関数
 	bool GetbIncapacitated(void) { return m_bIncapacitated; }	// 行動不能状態取得関数
+	bool GetbGuidCreate(void) { return m_bGuidCreate; }			// アイテム説明テクスチャの生成状態取得関数
 	TYPE GetType(void) { return m_Type; }
 private:
-	int m_nItemCount;					// アイテムの所持数
-	int m_nItemSortCount;				// アイテムソート用カウント
-	int m_nIncapacitatedTimeCount;		// 行動不能時間カウント
-	bool m_bGoal;						// ゴール状態
-	bool m_bIncapacitated;				// 行動不能状態
-	bool m_abGetItem[ITEM_MAX];			// アイテムを取得してるか
-	bool m_bItempCreate[ITEM_MAX];		// アイテムポインタ生成したか
-	bool m_bUICreate[ITEM_MAX];					// UI生成状態
-	bool m_bItemCollision[ITEM_MAX];
+	int m_nItemCount;						// アイテムの所持数
+	int m_nItemSortCount;					// アイテムソート用カウント
+	int m_nIncapacitatedTimeCount;			// 行動不能時間カウント
+	bool m_bGoal;							// ゴール状態
+	bool m_bIncapacitated;					// 行動不能状態
+	bool m_abGetItem[ITEM_MAX];				// アイテムを取得してるか
+	bool m_bItempCreate[ITEM_MAX];			// アイテムポインタ生成したか
+	bool m_bUICreate[ITEM_MAX];				// UI生成状態
+	bool m_bGuidCreate;
 	TYPE m_Type;
-	CItemGetUI * m_pItemGetUI[ITEM_MAX];			// UIのポインタ
+	CItemGetUI * m_pItemGetUI[ITEM_MAX];	// UIのポインタ
 	CPlayerItemUI * m_pUI;					// UIポインタ
-	CItem * m_pItem[3];					// アイテムポインタ
+	CItem * m_pItem[3];						// アイテムポインタ
 };
 #endif

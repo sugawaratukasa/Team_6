@@ -10,6 +10,8 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "item_object_prison_key.h"
+#include "particle_manager.h"
+#include "particle_emitter.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,6 +25,7 @@
 //=============================================================================
 CPrisonKeyObject::CPrisonKeyObject(PRIORITY Priority)
 {
+	m_pParticleEmitter = nullptr;
 }
 
 //=============================================================================
@@ -69,7 +72,10 @@ HRESULT CPrisonKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetType(ITEM_OBJECT_KEY_PRISON);
 	// サイズ設定
 	SetSize(SIZE);
-
+	if (m_pParticleEmitter == nullptr)
+	{
+		m_pParticleEmitter = CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);
+	}
 	// 初期化処理
 	CItemObject::Init(pos, ZeroVector3);
 	return S_OK;
@@ -81,6 +87,10 @@ HRESULT CPrisonKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 void CPrisonKeyObject::Uninit(void)
 {
+	if (m_pParticleEmitter != nullptr)
+	{
+		m_pParticleEmitter->Uninit();
+	}
 	// 終了処理
 	CItemObject::Uninit();
 }

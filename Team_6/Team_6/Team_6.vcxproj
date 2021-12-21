@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="baton_guid_texture.cpp" />
     <ClCompile Include="baton_texture.cpp" />
     <ClCompile Include="bg_pause.cpp" />
     <ClCompile Include="bg_title.cpp" />
@@ -157,13 +158,16 @@
     <ClCompile Include="button_quit_game.cpp" />
     <ClCompile Include="button_ranking.cpp" />
     <ClCompile Include="button_start.cpp" />
+    <ClCompile Include="control_room_key_guid_texture.cpp" />
+    <ClCompile Include="control_room_key_texture.cpp" />
     <ClCompile Include="door_collision.cpp" />
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
-    <ClCompile Include="item_guid_prison_key.cpp" />
+    <ClCompile Include="item_control_room_key.cpp" />
     <ClCompile Include="item_jailer_room_key.cpp" />
     <ClCompile Include="item_map.cpp" />
+    <ClCompile Include="item_object_control_room_key.cpp" />
     <ClCompile Include="item_pc_room_key.cpp" />
     <ClCompile Include="item_prison_key.cpp" />
     <ClCompile Include="item_storage_key.cpp" />
@@ -186,6 +190,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="jailer.cpp" />
+    <ClCompile Include="jailer_key_guid_texture.cpp" />
     <ClCompile Include="jailer_key_texture.cpp" />
     <ClCompile Include="jailer_LostTargetState.cpp" />
     <ClCompile Include="jailer_spot.cpp" />
@@ -204,9 +209,12 @@
     <ClCompile Include="lever.cpp" />
     <ClCompile Include="lever_body.cpp" />
     <ClCompile Include="lever_handle.cpp" />
+    <ClCompile Include="map_guid_texture.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particle_emitter.cpp" />
     <ClCompile Include="particle_manager.cpp" />
+    <ClCompile Include="pause_logo_texture.cpp" />
+    <ClCompile Include="pc_room_key_guid_texture.cpp" />
     <ClCompile Include="pc_room_key_texture.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
@@ -236,6 +244,11 @@
     <ClCompile Include="object_wall.cpp" />
     <ClCompile Include="pause_button_manager.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="prison_key_guid_texture.cpp" />
+    <ClCompile Include="storage_key_guid_texture.cpp" />
+    <ClCompile Include="ui_item_guid.cpp" />
+    <ClCompile Include="ui_item_guid_1p.cpp" />
+    <ClCompile Include="ui_item_guid_2p.cpp" />
     <ClCompile Include="ui_player1_item.cpp" />
     <ClCompile Include="ui_player2_item.cpp" />
     <ClCompile Include="player_1.cpp" />
@@ -271,6 +284,7 @@
     <ClCompile Include="xfile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="baton_guid_texture.h" />
     <ClInclude Include="baton_texture.h" />
     <ClInclude Include="bg_pause.h" />
     <ClInclude Include="bg_title.h" />
@@ -289,6 +303,8 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="character_collision_box.h" />
     <ClInclude Include="collision.h" />
+    <ClInclude Include="control_room_key_guid_texture.h" />
+    <ClInclude Include="control_room_key_texture.h" />
     <ClInclude Include="debug_proc.h" />
     <ClInclude Include="door_collision.h" />
     <ClInclude Include="door_pc_room.h" />
@@ -302,14 +318,16 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="item_baton.h" />
-    <ClInclude Include="item_guid_prison_key.h" />
+    <ClInclude Include="item_control_room_key.h" />
     <ClInclude Include="item_jailer_room_key.h" />
     <ClInclude Include="item_map.h" />
+    <ClInclude Include="item_object_control_room_Key.h" />
     <ClInclude Include="item_pc_room_key.h" />
     <ClInclude Include="item_prison_key.h" />
     <ClInclude Include="item_storage_key.h" />
     <ClInclude Include="jailer.h" />
     <ClInclude Include="jailer_AttackState.h" />
+    <ClInclude Include="jailer_key_guid_texture.h" />
     <ClInclude Include="jailer_key_texture.h" />
     <ClInclude Include="jailer_LostTargetState.h" />
     <ClInclude Include="jailer_spot.h" />
@@ -330,8 +348,11 @@
     <ClInclude Include="lever.h" />
     <ClInclude Include="lever_body.h" />
     <ClInclude Include="lever_handle.h" />
+    <ClInclude Include="map_guid_texture.h" />
     <ClInclude Include="particle_emitter.h" />
     <ClInclude Include="particle_manager.h" />
+    <ClInclude Include="pause_logo_texture.h" />
+    <ClInclude Include="pc_room_key_guid_texture.h" />
     <ClInclude Include="pc_room_key_texture.h" />
     <ClInclude Include="library.h" />
     <ClInclude Include="light.h" />
@@ -360,6 +381,11 @@
     <ClInclude Include="object_wall.h" />
     <ClInclude Include="pause_button_manager.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="prison_key_guid_texture.h" />
+    <ClInclude Include="storage_key_guid_texture.h" />
+    <ClInclude Include="ui_item_guid.h" />
+    <ClInclude Include="ui_item_guid_1p.h" />
+    <ClInclude Include="ui_item_guid_2p.h" />
     <ClInclude Include="ui_player1_item.h" />
     <ClInclude Include="ui_player2_item.h" />
     <ClInclude Include="player_1.h" />

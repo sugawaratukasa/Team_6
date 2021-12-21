@@ -14,6 +14,8 @@
 #include "game.h"
 #include "player.h"
 #include "item_object_pc_room_key.h"
+#include "particle_manager.h"
+#include "particle_emitter.h"
 
 //=============================================================================
 // マクロ定義
@@ -27,7 +29,9 @@
 //=============================================================================
 CPCRoomKeyObject::CPCRoomKeyObject(PRIORITY Priority) : CItemObject(Priority)
 {
+	m_pParticleEmitter = nullptr;
 }
+
 //=============================================================================
 // デストラクタ
 // Author : Nikaido Taichi
@@ -72,6 +76,10 @@ HRESULT CPCRoomKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetSize(SIZE);
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_PC_ROOM);
+	if (m_pParticleEmitter == nullptr)
+	{
+		m_pParticleEmitter = CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);
+	}
 	// 初期化処理
 	CItemObject::Init(pos, ZeroVector3);
 
@@ -83,6 +91,10 @@ HRESULT CPCRoomKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 void CPCRoomKeyObject::Uninit(void)
 {
+	if (m_pParticleEmitter != nullptr)
+	{
+		m_pParticleEmitter->Uninit();
+	}
 	// 終了処理
 	CItemObject::Uninit();
 }

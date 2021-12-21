@@ -15,15 +15,19 @@
 //====================================================
 CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 {
-	{ "data/Sound/Title_BGM.wav", SOUND_LOOP_ON },			// タイトルBGM
-	{ "data/Sound/Game_BGM.wav", SOUND_LOOP_ON },			// ゲームBGM
-	{ "data/Sound/Ranking_BGM.wav", SOUND_LOOP_ON },		// ランキングBGM
-	{ "data/Sound/Button_Select.wav", SOUND_LOOP_OFF },		// ボタン選択音
-	{ "data/Sound/Button_Push.wav", SOUND_LOOP_OFF },		// ボタン決定音
-	{ "data/Sound/Button_Cancel.wav", SOUND_LOOP_OFF },		// ボタンキャンセル音
-	{ "data/Sound/open_door.wav",SOUND_LOOP_OFF },			// ドアを開ける音
-	{ "data/Sound/item_get.wav", SOUND_LOOP_OFF },
-	{ "data/Sound/item_release.wav",SOUND_LOOP_OFF },
+	{"data/Sound/title.wav",SOUND_LOOP_ON},// タイトルBGM
+	{"data/Sound/game.wav",SOUND_LOOP_ON},// ゲームBGM
+	{"data/Sound/result.wav",SOUND_LOOP_ON},// リザルトGM
+	{"data/Sound/map_open.wav",SOUND_LOOP_OFF},// マップ開く音
+	{"data/Sound/item_get.wav",SOUND_LOOP_OFF},// アイテムを取得する音
+	{"data/Sound/item_release.wav",SOUND_LOOP_OFF},// アイテムを捨てる音
+	{"data/Sound/keyLocked.wav",SOUND_LOOP_OFF},// 鍵のかかったドア
+	{"data/Sound/dooropen.wav",SOUND_LOOP_OFF},// ドアを開ける音
+	{"data/Sound/doorclose.wav",SOUND_LOOP_OFF},// 扉を閉める音
+	{"data/Sound/open_prison.wav",SOUND_LOOP_OFF},// 牢屋を開ける音
+	{"data/Sound/button_push.wav",SOUND_LOOP_OFF},// ボタンを押す音
+	{"data/Sound/button_cancel.wav",SOUND_LOOP_OFF},// ボタンキャンセル音
+	{"data/Sound/button_select.wav",SOUND_LOOP_OFF},// ボタン選択
 };
 
 //================================================
@@ -186,7 +190,6 @@ HRESULT CSound::Init(void)
 
 		// オーディオバッファの登録
 		m_apSourceVoice[nCntSound]->SetVolume(0.2f);
-		//m_apSourceVoice[nCntSound]->SetVolume(0.01f);
 
 		// ファイルをクローズ
 		CloseHandle(hFile);

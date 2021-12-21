@@ -27,6 +27,10 @@ CBatonTexture::~CBatonTexture()
 {
 }
 
+//=============================================================================
+// ¶¬ˆ—ŠÖ”
+// Author : Nikaido Taichi
+//=============================================================================
 CBatonTexture * CBatonTexture::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	// CBatonTexture‚Ìƒ|ƒCƒ“ƒ^

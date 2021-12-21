@@ -108,31 +108,25 @@ void CItemObject::Collision(void)
 		// !nullcheck
 		if (apPlayer[nCount] != nullptr)
 		{
-			//もしプレイヤーのアイテムの取得数が最大値以下の場合
-			if (apPlayer[nCount]->GetItemCount() < MAX_ITEM)
+			// プレイヤーの位置を取得する
+			PlayerPosition[nCount] = apPlayer[nCount]->GetPos();
+			// プレイヤーのサイズを取得する
+			PlayerSize[nCount] = apPlayer[nCount]->GetSize();
+			// アイテムとプレイヤーの矩形型の当たり判定
+			if (CCollision::CollisionRectangleAndRectangle(m_Position, PlayerPosition[nCount], COLLISION_SIZE, PlayerSize[nCount]) == true)
 			{
-				// プレイヤーの位置を取得する
-				PlayerPosition[nCount] = apPlayer[nCount]->GetPos();
-				// プレイヤーのサイズを取得する
-				PlayerSize[nCount] = apPlayer[nCount]->GetSize();
-				// アイテムとプレイヤーの矩形型の当たり判定
-				if (CCollision::CollisionRectangleAndRectangle(m_Position, PlayerPosition[nCount], COLLISION_SIZE, PlayerSize[nCount]) == true)
+				if (nCount == CPlayer::PLAYER_1 && pKeyboard->GetTrigger(DIK_U) || nCount == CPlayer::PLAYER_2 && pKeyboard->GetTrigger(DIK_H))
 				{
-					apPlayer[nCount]->SetbItemCollision(true, CPlayer::ITEM_GET_LIST(this->GetType()));
-					if (nCount == 0 && pKeyboard->GetTrigger(DIK_G) || nCount == 1 && pKeyboard->GetTrigger(DIK_H) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X, nCount))
+					if (apPlayer[nCount]->GetItemCount() < MAX_ITEM && apPlayer[nCount]->GetbGuidCreate() == false)
 					{
-						pSound->CSound::Play(CSound::SOUND_SE_ITEM_GET);
 						// プレイヤーにアイテムを設定する
 						apPlayer[nCount]->SetAddbGetItem(this->GetType(), true);
-						apPlayer[nCount]->SetbItemCollision(false, CPlayer::ITEM_GET_LIST(this->GetType()));
+						apPlayer[nCount]->SetbGuidCreate(this->GetType());
+						pSound->CSound::Play(CSound::SOUND_SE_GET_ITEM);
 						// 終了処理関数呼び出し
 						Uninit();
 						return;
 					}
-				}
-				else
-				{
-					apPlayer[nCount]->SetbItemCollision(false, CPlayer::ITEM_GET_LIST(this->GetType()));
 				}
 			}
 		}

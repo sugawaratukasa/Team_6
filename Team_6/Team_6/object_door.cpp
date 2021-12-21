@@ -19,6 +19,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "object_door.h"
+#include "sound.h"
 
 //=============================================================================
 // コンストラクタ
@@ -128,7 +129,7 @@ void CDoor::Update(void)
 		if (m_nCloseCnt >= CLOSE_COUNT)
 		{
 			// 扉を閉じる処理
-			Close();
+			this->Close();
 		}
 	}
 }
@@ -191,7 +192,7 @@ void CDoor::Close(void)
 
 	// 位置取得
 	D3DXVECTOR3 pos = GetPos();
-
+	CSound * pSound = GET_SOUND_PTR;
 	// 90以上の場合
 	if (rot.y >= ROT_90)
 	{
@@ -205,7 +206,7 @@ void CDoor::Close(void)
 		{
 			// ロック状態に
 			m_bLock = true;
-
+			pSound->CSound::Play(CSound::SOUND_SE_CLOSE_DOOR);
 			// 0に
 			m_nCloseCnt = ZERO_INT;
 		}
@@ -220,6 +221,7 @@ void CDoor::Close(void)
 		}
 		else
 		{
+			pSound->CSound::Play(CSound::SOUND_SE_CLOSE_DOOR);
 			// 0に
 			m_nCloseCnt = ZERO_INT;
 

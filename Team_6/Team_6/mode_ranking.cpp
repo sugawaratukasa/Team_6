@@ -48,7 +48,7 @@ HRESULT CMode_Ranking::Init(void)
 	// ƒ‰ƒ“ƒLƒ“ƒO¶¬ˆ—
 	RankingCreate();
 	CSound * pSound = GET_SOUND_PTR;
-	pSound->CSound::Play(CSound::SOUND_BGM_RANKING);
+	pSound->CSound::Play(CSound::SOUND_BGM_RESULT);
 	return S_OK;
 }
 
