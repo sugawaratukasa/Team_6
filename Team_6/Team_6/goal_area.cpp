@@ -61,8 +61,7 @@ HRESULT CGoalArea::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// ƒ‚ƒfƒ‹‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
 	CModel::Init(pos, rot);
-	SetSize(D3DXVECTOR3(1800.0f, 1000.0f, 500.0f));
-	CModelCollisionBox::Create(pos, rot, this);
+	SetSize(D3DXVECTOR3(1200.0f, 1000.0f, 500.0f));
 	return S_OK;
 }
 
@@ -140,7 +139,7 @@ void CGoalArea::Goal(void)
 		{
 			// ‘JˆÚ
 			CFade *pFade = CManager::GetFade();
-			pFade->SetFade(CManager::MODE_TYPE_RESULT);
+			pFade->SetFade(CManager::MODE_TYPE_RANKING);
 			// ƒS[ƒ‹ó‘Ô‚ğtrue‚É‚·‚é
 			m_bGoal = true;
 		}

@@ -1,12 +1,12 @@
-//=============================================================================
+ï»¿//=============================================================================
 //
-// ƒJƒƒ‰‚Ìˆ— [camera.cpp]
+// ã‚«ãƒ¡ãƒ©ã®å‡¦ç† [camera.cpp]
 // Author : Sugawara Tsukasa
 //
 //=============================================================================
 
 //=============================================================================
-// ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //=============================================================================
 #include "camera_game.h"
 #include "manager.h"
@@ -19,34 +19,34 @@
 #include "motion.h"
 
 //=============================================================================
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //=============================================================================
-#define DISTANCE					(2200.0f)						// ‹“_`’‹“_‚Ì‹——£
-#define DISTANCE_FAR_UP				(35.0f)							// ƒJƒƒ‰‚ğˆø‚­’l
-#define FAR_DISTANCE				(3000.0f)						// ‰“‚ß‚ÌƒJƒƒ‰
-#define PLAYER_HEIGHT				(600.0f)						// ’‹“_‚Ì‚‚³
-#define CAMERA_MIN_FƒÓ				(D3DXToRadian(10.0f))			// ƒJƒƒ‰‚ÌÅ¬Šp
-#define CAMERA_MAX_FƒÓ				(D3DXToRadian(170.0f))			// ƒJƒƒ‰‚ÌÅ‘åŠp
-#define CAMERA_MIN_HIGHT			(2.0f)							// ƒJƒƒ‰‚ÌÅ’á‚“x
-#define STICK_SENSITIVITY			(100.0f)						// ƒXƒeƒBƒbƒNŠ´“x
-#define STICK_INPUT_CONVERSION		(D3DXToRadian(2.0f))			// ƒXƒeƒBƒbƒN“ü—Í•Ï‰»—Ê
-#define HEIGHT_DIVIDE				(1.5f)							// ‚‚³€
+#define DISTANCE					(2200.0f)						// è¦–ç‚¹ï½æ³¨è¦–ç‚¹ã®è·é›¢
+#define DISTANCE_FAR_UP				(35.0f)							// ã‚«ãƒ¡ãƒ©ã‚’å¼•ãå€¤
+#define FAR_DISTANCE				(3000.0f)						// é ã‚ã®ã‚«ãƒ¡ãƒ©
+#define PLAYER_HEIGHT				(600.0f)						// æ³¨è¦–ç‚¹ã®é«˜ã•
+#define CAMERA_MIN_FÏ†				(D3DXToRadian(10.0f))			// ã‚«ãƒ¡ãƒ©ã®æœ€å°è§’
+#define CAMERA_MAX_FÏ†				(D3DXToRadian(170.0f))			// ã‚«ãƒ¡ãƒ©ã®æœ€å¤§è§’
+#define CAMERA_MIN_HIGHT			(2.0f)							// ã‚«ãƒ¡ãƒ©ã®æœ€ä½é«˜åº¦
+#define STICK_SENSITIVITY			(100.0f)						// ã‚¹ãƒ†ã‚£ãƒƒã‚¯æ„Ÿåº¦
+#define STICK_INPUT_CONVERSION		(D3DXToRadian(2.0f))			// ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›å¤‰åŒ–é‡
+#define HEIGHT_DIVIDE				(1.5f)							// é«˜ã•Ã·
 
 //=============================================================================
-// Ã“Iƒƒ“ƒo•Ï”éŒ¾
+// é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°å®£è¨€
 //=============================================================================
 float CCameraGame::m_fSecCamAngle = 0.0f;
 D3DXVECTOR3 CCameraGame::m_fSecCamPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 //=============================================================================
-// ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 //=============================================================================
 CCameraGame * CCameraGame::Create(CCamera::SCREEN_ID id)
 {
-	// ƒƒ‚ƒŠŠm•Û
+	// ãƒ¡ãƒ¢ãƒªç¢ºä¿
 	CCameraGame *pCamera = new CCameraGame;
 
-	// ‰Šú‰»ˆ—
+	// åˆæœŸåŒ–å‡¦ç†
 	pCamera->Init();
 
 	pCamera->SetCameraID(id);
@@ -56,7 +56,7 @@ CCameraGame * CCameraGame::Create(CCamera::SCREEN_ID id)
 }
 
 //=============================================================================
-// ƒJƒƒ‰IDİ’è
+// ã‚«ãƒ¡ãƒ©IDè¨­å®š
 //=============================================================================
 void CCameraGame::SetCameraID(CCamera::SCREEN_ID id)
 {
@@ -64,25 +64,25 @@ void CCameraGame::SetCameraID(CCamera::SCREEN_ID id)
 }
 
 //=============================================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CCameraGame::CCameraGame()
 {
 }
 
 //=============================================================================
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CCameraGame::~CCameraGame()
 {
 }
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT CCameraGame::Init(void)
 {
-	// ‰Šú‰»ˆ—
+	// åˆæœŸåŒ–å‡¦ç†
 	CCamera::Init();
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
@@ -91,28 +91,26 @@ HRESULT CCameraGame::Init(void)
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void CCameraGame::Update(void)
 {
-	//ƒL[ƒ{[ƒhƒNƒ‰ƒXî•ñ‚Ìæ“¾
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚¯ãƒ©ã‚¹æƒ…å ±ã®å–å¾—
 	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
-	// ƒWƒ‡ƒCƒpƒbƒh‚Ìæ“¾
+	// ã‚¸ãƒ§ã‚¤ãƒ‘ãƒƒãƒ‰ã®å–å¾—
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
-
-	CCameraSecurity *pSecCam;
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
-	// ŠÄ‹ƒJƒƒ‰‚ğg‚Á‚Ä‚¢‚é‚È‚ç
+	// ç›£è¦–ã‚«ãƒ¡ãƒ©ã‚’ä½¿ã£ã¦ã„ã‚‹ãªã‚‰
 	if (bUse)
 	{
-		// À•W•âŠÔ‚µ‚È‚¢
+		// åº§æ¨™è£œé–“ã—ãªã„
 		SetIsInterpolation(false);
 
 		if (m_id == SCREEN_LEFT)
 		{
-			// “ü—Í‚É‚æ‚Á‚ÄƒJƒƒ‰‚ğ‡‘—‚èE‹t‘—‚è
+			// å…¥åŠ›ã«ã‚ˆã£ã¦ã‚«ãƒ¡ãƒ©ã‚’é †é€ã‚Šãƒ»é€†é€ã‚Š
 			if (pKeyInput->GetTrigger(DIK_1))
 			{
 				m_pSecCam = m_pSecCam->GetPrev();
@@ -126,9 +124,9 @@ void CCameraGame::Update(void)
 			m_fSecCamPos = m_pSecCam->GetPos();
 		}
 
-		// •`‰æ”ÍˆÍ‚ğ’Êíó‘Ô‚É
+		// æç”»ç¯„å›²ã‚’é€šå¸¸çŠ¶æ…‹ã«
 		SetScreenID(CCamera::SCREEN_NONE);
-		// ’‹“_‚ğ•ÏX
+		// æ³¨è¦–ç‚¹ã‚’å¤‰æ›´
 		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		SetCameraPos(m_fSecCamPos);
 		SetVartical(D3DXToRadian(110));
@@ -139,7 +137,7 @@ void CCameraGame::Update(void)
 		SetIsInterpolation(true);
 		SetScreenID(m_id);
 		SetHorizontal(D3DXToRadian(0.0f));
-		SetVartical(CAMERA_DEFAULT_FƒÆ);
+		SetVartical(CAMERA_DEFAULT_FÎ¸);
 	}
 
 	CCamera::Update();
@@ -147,92 +145,92 @@ void CCameraGame::Update(void)
 }
 
 //=============================================================================
-// ’Êíó‘Ô‚ÌXVˆ—
+// é€šå¸¸çŠ¶æ…‹ã®æ›´æ–°å‡¦ç†
 //=============================================================================
 void CCameraGame::NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot)
 {
-	//ƒL[ƒ{[ƒhƒNƒ‰ƒXî•ñ‚Ìæ“¾
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚¯ãƒ©ã‚¹æƒ…å ±ã®å–å¾—
 	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
 
-	// ƒWƒ‡ƒCƒpƒbƒh‚Ìæ“¾
+	// ã‚¸ãƒ§ã‚¤ãƒ‘ãƒƒãƒ‰ã®å–å¾—
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
-	// Šp“x‚Ìæ“¾
-	float fAngle3 = atan2f((float)js.lX, -(float)js.lY);	// ƒRƒ“ƒgƒ[ƒ‰‚ÌŠp“x
-	float fAngle2 = atan2f(-(float)js.lX, (float)js.lY);	// ƒRƒ“ƒgƒ[ƒ‰‚ÌŠp“x
+	// è§’åº¦ã®å–å¾—
+	float fAngle3 = atan2f((float)js.lX, -(float)js.lY);	// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®è§’åº¦
+	float fAngle2 = atan2f(-(float)js.lX, (float)js.lY);	// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®è§’åº¦
 
-															// ƒJƒƒ‰À•W
+															// ã‚«ãƒ¡ãƒ©åº§æ¨™
 	D3DXVECTOR3 VDest = ZeroVector3;
 
-	// ‘O‰ñ‚ÌŒü‚«æ“¾
+	// å‰å›ã®å‘ãå–å¾—
 	D3DXVECTOR3 posRDest = GetposRDest();
 
-	// ‹——£æ“¾
+	// è·é›¢å–å¾—
 	float fDistance = GetDistance();
 
-	// ¶‰Eù‰ñŠp“xæ“¾
+	// å·¦å³æ—‹å›è§’åº¦å–å¾—
 	float fHorizontal = GetHorizontal();
 
-	// ã‰ºù‰ñŠp“xæ“¾
+	// ä¸Šä¸‹æ—‹å›è§’åº¦å–å¾—
 	float fVartical = GetVartical();
 
-	//‹“_iƒJƒƒ‰À•Wj‚Ì¶ù‰ñ
+	//è¦–ç‚¹ï¼ˆã‚«ãƒ¡ãƒ©åº§æ¨™ï¼‰ã®å·¦æ—‹å›
 	if (pKeyInput->GetPress(DIK_LEFT) || js.lZ > STICK_SENSITIVITY)
 	{
-		// ‰ÁZ
+		// åŠ ç®—
 		fHorizontal += STICK_INPUT_CONVERSION;
 	}
-	//‹“_iƒJƒƒ‰À•Wj‚Ì‰Eù‰ñ
+	//è¦–ç‚¹ï¼ˆã‚«ãƒ¡ãƒ©åº§æ¨™ï¼‰ã®å³æ—‹å›
 	if (pKeyInput->GetPress(DIK_RIGHT) || js.lZ < -STICK_SENSITIVITY)
 	{
-		// Œ¸Z
+		// æ¸›ç®—
 		fHorizontal -= STICK_INPUT_CONVERSION;
 	}
-	//‹“_iƒJƒƒ‰À•Wj‚Ìãù‰ñ
-	if (pKeyInput->GetPress(DIK_UP) || js.lRz > STICK_SENSITIVITY && fVartical >= CAMERA_MIN_FƒÓ)
+	//è¦–ç‚¹ï¼ˆã‚«ãƒ¡ãƒ©åº§æ¨™ï¼‰ã®ä¸Šæ—‹å›
+	if (pKeyInput->GetPress(DIK_UP) || js.lRz > STICK_SENSITIVITY && fVartical >= CAMERA_MIN_FÏ†)
 	{
-		// Œ¸Z
+		// æ¸›ç®—
 		fVartical -= STICK_INPUT_CONVERSION;
 	}
-	//‹“_iƒJƒƒ‰À•Wj‚Ì‰ºù‰ñ
-	if (pKeyInput->GetPress(DIK_DOWN) || js.lRz < -STICK_SENSITIVITY && fVartical <= CAMERA_MAX_FƒÓ)
+	//è¦–ç‚¹ï¼ˆã‚«ãƒ¡ãƒ©åº§æ¨™ï¼‰ã®ä¸‹æ—‹å›
+	if (pKeyInput->GetPress(DIK_DOWN) || js.lRz < -STICK_SENSITIVITY && fVartical <= CAMERA_MAX_FÏ†)
 	{
-		// ‰ÁZ
+		// åŠ ç®—
 		fVartical += STICK_INPUT_CONVERSION;
 	}
 
-	// ƒJƒƒ‰‚ÌˆÊ’uİ’è
-	VDest.x = PlayerPos.x + fDistance * sinf(fVartical) * sinf(fHorizontal);	// ƒJƒƒ‰ˆÊ’uXİ’è
-	VDest.y = PlayerPos.y + PLAYER_HEIGHT + fDistance * cosf(fVartical);		// ƒJƒƒ‰ˆÊ’uYİ’è
-	VDest.z = PlayerPos.z + fDistance * sinf(fVartical) * cosf(fHorizontal);	// ƒJƒƒ‰ˆÊ’uZİ’è
+	// ã‚«ãƒ¡ãƒ©ã®ä½ç½®è¨­å®š
+	VDest.x = PlayerPos.x + fDistance * sinf(fVartical) * sinf(fHorizontal);	// ã‚«ãƒ¡ãƒ©ä½ç½®Xè¨­å®š
+	VDest.y = PlayerPos.y + PLAYER_HEIGHT + fDistance * cosf(fVartical);		// ã‚«ãƒ¡ãƒ©ä½ç½®Yè¨­å®š
+	VDest.z = PlayerPos.z + fDistance * sinf(fVartical) * cosf(fHorizontal);	// ã‚«ãƒ¡ãƒ©ä½ç½®Zè¨­å®š
 
-	posRDest = D3DXVECTOR3(PlayerPos.x, PlayerPos.y + PLAYER_HEIGHT, PlayerPos.z);	//’‹“_İ’è
+	posRDest = D3DXVECTOR3(PlayerPos.x, PlayerPos.y + PLAYER_HEIGHT, PlayerPos.z);	//æ³¨è¦–ç‚¹è¨­å®š
 
-																					//ƒJƒƒ‰POSY‚Ì‰ºŒÀ
+																					//ã‚«ãƒ¡ãƒ©POSYã®ä¸‹é™
 	if (VDest.y <= CAMERA_MIN_HIGHT)
 	{
-		VDest.y = CAMERA_MIN_HIGHT;	//ŒÀŠE’l‚É–ß‚·
+		VDest.y = CAMERA_MIN_HIGHT;	//é™ç•Œå€¤ã«æˆ»ã™
 	}
 
-	//İ’è’l‚Ì”½‰f
+	//è¨­å®šå€¤ã®åæ˜ 
 	GetposV() += (VDest - GetposV())*0.1f;
 	GetposR() += (posRDest - GetposR())*0.9f;
 
-	// ù‰ñŠp“xİ’è
+	// æ—‹å›è§’åº¦è¨­å®š
 	SetHorizontal(fHorizontal);
 	SetVartical(fVartical);
 }
 
 //=============================================================================
-// ƒJƒƒ‰‚ÌˆÊ’uC³
+// ã‚«ãƒ¡ãƒ©ã®ä½ç½®ä¿®æ­£
 //=============================================================================
 void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
 {
-	// ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿
 	CPlayer *pPlayer;
 	CModeBase *pMode = CManager::GetModePtr();
 
-	// ˆÊ’uC³
+	// ä½ç½®ä¿®æ­£
 	pPlayer = ((CGame*)pMode)->GetPlayer(id);
 	SetTargetPos(pPlayer->GetPos());
 	CCamera::Update();
@@ -240,7 +238,7 @@ void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
 }
 
 //=============================================================================
-// ŠÄ‹ƒJƒƒ‰‚Ì¶¬
+// ç›£è¦–ã‚«ãƒ¡ãƒ©ã®ç”Ÿæˆ
 //=============================================================================
 void CCameraGame::CreateSecCam(D3DXVECTOR3 pos, float fDir)
 {

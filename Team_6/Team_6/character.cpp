@@ -26,7 +26,7 @@
 #define GROUND_RIMIT			(0.0f)						// 地面の制限
 #define PARENT_NUM				(0)							// 親のナンバー
 #define RATE_MOVE_BASE			(0.0f)						// 慣性基盤
-#define RATE_MOVE				(0.4f)									// 慣性
+#define RATE_MOVE				(0.4f)						// 慣性
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -46,7 +46,6 @@ CCharacter::CCharacter(PRIORITY Priority) : CScene(Priority)
 	m_apModelAnime.clear();
 	m_bLanding = false;
 	m_State = STATE_NORMAL;
-	m_bUseShadow = false;
 	m_RayData = { ZERO_FLOAT,ZERO_FLOAT,ZERO_INT };
 }
 
@@ -256,7 +255,7 @@ void CCharacter::Gravity(void)
 //=============================================================================
 void CCharacter::Landing(float fHeight)
 {
-	m_move.y = 0.0f;
+	m_move.y = ZeroVector3.y;
 	m_pos.y = fHeight;
 
 	// 着地の状態

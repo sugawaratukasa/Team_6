@@ -47,6 +47,8 @@ public:
 	//=============================================================================
 	DOOR_LIST GetType(void) { return m_Type; }
 	bool GetLock(void) { return m_bLock; }
+	D3DXVECTOR3 GetInitPos(void) { return m_InitPos; }	// 初期位置取得
+	int &GetCloseCnt(void) { return m_nCloseCnt; }		// 閉じるカウント取得
 private:
 
 	DOOR_LIST m_Type;		// ドアの種類

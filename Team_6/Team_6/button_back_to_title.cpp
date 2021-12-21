@@ -70,7 +70,7 @@ HRESULT CBackToTitleButton::Init(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 	CButton::Init(Position, Size);
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_BUTTON_EXIT));
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_BUTTON_BACK_TO_TITLE));
 	return S_OK;
 }
 

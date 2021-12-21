@@ -27,6 +27,7 @@ CModelAnime::CModelAnime()
 	m_pParent = nullptr;
 	ZeroMemory(m_OldMtxWorld, sizeof(m_OldMtxWorld));
 	ZeroMemory(m_mtxWorld, sizeof(m_mtxWorld));
+
 }
 
 //=============================================================================
@@ -34,6 +35,7 @@ CModelAnime::CModelAnime()
 //=============================================================================
 CModelAnime::~CModelAnime()
 {
+
 }
 
 //=============================================================================
@@ -75,7 +77,6 @@ HRESULT CModelAnime::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CXfile::MODEL model)
 
 	// モデル情報設定
 	SetModel(model);
-
 	return S_OK;
 }
 
@@ -163,9 +164,11 @@ void CModelAnime::Draw(D3DXVECTOR3 rot)
 
 	//保持していたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+
 }
 
 //=============================================================================
+
 //階層モデルクラスの親情報の設定処理
 //=============================================================================
 void CModelAnime::SetParent(CModelAnime * pParent)

@@ -30,6 +30,7 @@ public:
 	{
 		PRIORITY_0 = 0,
 		PRIORITY_1,
+
 		PRIORITY_MAP,			// マップ
 		PRIORITY_OBJ_COLLISION,	// オブジェクトの判定用
 		PRIORITY_MODEL,			// モデル
@@ -40,6 +41,7 @@ public:
 		PRIORITY_UI,			// UI
 		PRIORITY_BUTTON,		// ボタン
 		PRIORITY_FADE,			// FADE
+		PRIORITY_TEXTURE,
 		PRIORITY_MAX			// 優先順位の最大数
 	};
 

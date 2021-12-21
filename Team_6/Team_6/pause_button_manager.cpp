@@ -19,6 +19,7 @@
 #include "button_guid.h"
 #include "bg_pause.h"
 #include "fade.h"
+#include "pause_logo_texture.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -39,6 +40,7 @@ CPauseButtonManager::CPauseButtonManager()
 {
 	memset(m_apButton, NULL, sizeof(m_apButton));	//ボタンのポインタ
 	m_pPauseBG = nullptr;
+	m_pPauseLogo = nullptr;
 	m_nButton = BUTTON_NONE;						//ボタン
 }
 
@@ -99,7 +101,14 @@ void CPauseButtonManager::Uninit(void)
 		//各ボタンの終了処理関数呼び出し
 		m_apButton[nCount]->Uninit();
 	}
-	m_pPauseBG->Uninit();
+	if (m_pPauseLogo != nullptr)
+	{
+		m_pPauseLogo->Uninit();
+	}
+	if (m_pPauseBG != nullptr)
+	{
+		m_pPauseBG->Uninit();
+	}
 }
 
 //=============================================================================
@@ -127,7 +136,7 @@ void CPauseButtonManager::PlayerItemGet(void)
 	if (pKeyboard->GetTrigger(DIK_UP) && mode == CFade::FADE_MODE_NONE)
 	{
 		//現在のボタンを減算する
-		m_nButton--;
+		m_nButton++;
 		//ボタンの選択時音再生処理関数呼び出し
 		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
@@ -135,7 +144,7 @@ void CPauseButtonManager::PlayerItemGet(void)
 	if (pKeyboard->GetTrigger(DIK_DOWN) && mode == CFade::FADE_MODE_NONE)
 	{
 		//現在のボタンを減算する
-		m_nButton++;
+		m_nButton--;
 		//ボタンの選択時音再生処理関数呼び出し
 		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
@@ -152,20 +161,20 @@ void CPauseButtonManager::PlayerItemGet(void)
 //=============================================================================
 void CPauseButtonManager::Select(void)
 {
-	//もし現在のボタンがスタートボタンより下だったら
+	//もし現在のボタンがゲームに戻るボタンより下だったら
 	if (m_nButton < BUTTON_QUIT_GAME)
 	{
-		//現在のボタンを終了ボタンにする
-		m_nButton = BUTTON_GUID;
+		//現在のボタンをタイトルに戻るボタンにする
+		m_nButton = BUTTON_BACK_TO_TITLE;
 	}
 	//もし現在のボタンが終了ボタンを越えたら
-	if (m_nButton > BUTTON_GUID)
+	if (m_nButton > BUTTON_BACK_TO_TITLE)
 	{
-		//現在のボタンをスタートボタンにする
+		//現在のボタンをゲームに戻るボタンにする
 		m_nButton = BUTTON_QUIT_GAME;
 	}
 	//ボタンの最大数分回す
-	for (int nCount = 0; nCount < BUTTON_MAX; nCount++)
+	for (int nCount = BUTTON_QUIT_GAME; nCount < BUTTON_MAX; nCount++)
 	{
 		//ボタンの選択されてない時の色変更処理関数呼び出し
 		m_apButton[nCount]->ChangeTranslucent(false);
@@ -189,4 +198,8 @@ void CPauseButtonManager::InitCreateAll(void)
 	m_apButton[BUTTON_BACK_TO_TITLE] = CBackToTitleButton::Create(RANKING_BUTTON_POSITION, SIZE);
 	//操作説明ボタン
 	m_apButton[BUTTON_GUID] = CGuidButton::Create(EXIT_BUTTON_POSITION, SIZE);
+	if (m_pPauseLogo == nullptr)
+	{
+		m_pPauseLogo = CPauseLogoTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 5, 0.0f), D3DXVECTOR3(400.0f, 100.0f, 0.0f));
+	}
 }

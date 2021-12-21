@@ -30,20 +30,19 @@
 #include "item_pc_room_key.h"
 #include "item_prison_key.h"
 #include "item_storage_key.h"
-#include "player_ui.h"
-#include "item_get_ui_prison_key.h"
-#include "item_get_ui_baton.h"
-#include "item_get_ui_jailer_key.h"
-#include "item_get_ui_map.h"
-#include "item_get_ui_pc_room_key.h"
-#include "item_get_ui_storage_key.h"
+
+#include "ui_player2_item.h"
+#include "door_collision.h"
+#include "item_guid_prison_key.h"
+#include "item_control_room_key.h"
 #include "door_collision.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define PLAYER_SPEED			(50.0f)									// プレイヤーの移動量
+
+#define PLAYER_SPEED			(25.0f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲
@@ -72,13 +71,17 @@ CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 	m_bIncapacitated = false;								// 行動不能状態
 	memset(m_abGetItem, false, sizeof(m_abGetItem));		// アイテムを取得してるか
 	memset(m_bItempCreate, false, sizeof(m_bItempCreate));	// アイテムポインタ生成したか
-	memset(m_bUICreate, false, sizeof(m_bUICreate));	// UI生成状態
-	for (int nCount = 0; nCount < ITEM_MAX; nCount++)
+
+	memset(m_bUICreate, false, sizeof(m_bUICreate));		// UI生成状態
+	m_bGuidCreate = false;
+	m_Type = PLAYER_NONE;
+	for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
 	{
 		m_pItemGetUI[nCount] = nullptr;
 	}
 	m_pUI = nullptr;										// UIポインタ
-	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+
+	for (int nCount = ZERO_INT; nCount < MAX_ITEM; nCount++)
 	{
 		m_pItem[nCount] = nullptr;							// アイテムポインタ
 	}
@@ -111,7 +114,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
 
-	CCharacterCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 
@@ -153,6 +155,8 @@ void CPlayer::Update(void)
 		{
 			// 行動不能を解除する
 			m_bIncapacitated = false;
+			// 行動不能時間カウントを初期化する
+			m_nIncapacitatedTimeCount = ZERO_INT;
 		}
 	}
 	// マップとの当たり判定
@@ -168,7 +172,8 @@ void CPlayer::Update(void)
 		m_pUI->Update();
 	}
 	// 最大アイテム所持数分回す
-	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+
+	for (int nCount = ZERO_INT; nCount < MAX_ITEM; nCount++)
 	{
 		// アイテムポインタのnullptrチェック
 		if (m_pItem[nCount] != nullptr)
@@ -176,10 +181,7 @@ void CPlayer::Update(void)
 			// アイテムの更新処理関数呼び出し
 			m_pItem[nCount]->Update();
 		}
-		if (m_pItemGetUI[nCount] != nullptr)
-		{
-			m_pItemGetUI[nCount]->SetPosition(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z));
-		}
+
 	}
 }
 
@@ -233,11 +235,19 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 		break;
 		// PC室の鍵
 
-	case ITEM_KEY_CONTROL_ROOM:
 		if (m_abGetItem[ItemGetList] == true)
 		{
 			// PC室効果のポインタを生成する
 			m_pItem[m_nItemCount] = CPCRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_KEY_CONTROL_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// PC室効果のポインタを生成する
+			m_pItem[m_nItemCount] = CControlRoomKey::Create();
 			// アイテムカウントを加算する
 			m_nItemCount++;
 		}
@@ -273,7 +283,8 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 //=============================================================================
 void CPlayer::ItemEffectUninit(void)
 {
-	for (int nCount = 0; nCount < MAX_ITEM; nCount++)
+
+	for (int nCount = ZERO_INT; nCount < MAX_ITEM; nCount++)
 	{
 		// アイテムポインタのnullptrチェック
 		if (m_pItem[nCount] != nullptr)
@@ -298,42 +309,51 @@ void CPlayer::ItemDelete(int nPlayer)
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 	// パッド取得
 	CInputJoypad * pJoypad = CManager::GetJoypad();
+	CSound * pSound = GET_SOUND_PTR;
 	// 1Pのアイテム選択入力処理
-	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 0))
+
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, nPlayer))
 	{
-		if (nPlayer == 0 && m_nItemSortCount > 0)
+
+		if (nPlayer == PLAYER_1 && m_nItemSortCount > 0)
 		{
 			// アイテムソート用カウントを減算する
 			m_nItemSortCount--;
 		}
 	}
 	// 1Pのアイテム選択入力処理
-	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 0))
+
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, nPlayer))
 	{
-		if (nPlayer == 0 && m_nItemSortCount < 2)
+
+		if (nPlayer == PLAYER_1 && m_nItemSortCount < 2)
 		{
 			// アイテムソート用カウントを加算する
 			m_nItemSortCount++;
 		}
 	}
 	// 1P&2Pのアイテム削除入力処理
-	if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_P) || nPlayer == 1 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,nPlayer))
+
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,nPlayer))
 	{
 		// アイテムポインタのnullptrチェック
 		if (m_pItem[m_nItemSortCount] != nullptr)
 		{
-			// UIを消す
+
+			// UIを消す	
 			m_pUI->Uninit();
 			// 選択しているアイテムの種類を取得する
 			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
 			// 選択しているアイテムの取得状態をfalseにする
 			SetSubbGetItem(nItemType, false);
+			pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
 			// アイテムを生成する
 			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
 			// アイテム効果初期化処理関数呼び出し
 			ItemEffectUninit();
 			// アイテムの最大数分回す
-			for (int nCount = 0; nCount < ITEM_MAX; nCount++)
+
+			for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
 			{
 				// アイテム効果生成処理関数呼び出し
 				ItemEffectCreate(nCount);
@@ -342,163 +362,6 @@ void CPlayer::ItemDelete(int nPlayer)
 	}
 }
 
-void CPlayer::ItemGetGuideUICreate(ITEM_GET_LIST Type)
-{
-	D3DXVECTOR3 Position = GetPos();
-	// UI生成状態がfalseの場合
-	if (m_bUICreate[Type] == false)
-	{
-		switch (Type)
-		{
-			// 牢屋の鍵
-		case ITEM_KEY_PRISON:
-			if (m_pItemGetUI[ITEM_KEY_PRISON] == nullptr)
-			{
-				m_pItemGetUI[ITEM_KEY_PRISON] = CItemGetUIPrisonKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-			// 倉庫の鍵
-		case ITEM_KEY_STORAGE:
-			if (m_pItemGetUI[ITEM_KEY_STORAGE] == nullptr)
-			{
-				m_pItemGetUI[ITEM_KEY_STORAGE] = CItemGetUIStorageKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-			// 看守の鍵
-		case ITEM_KEY_JAILER_ROOM:
-			if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] == nullptr)
-			{
-				m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = CItemGetUIJailerKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-			// PC室の鍵
-
-		case ITEM_KEY_CONTROL_ROOM:
-			if (m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] == nullptr)
-			{
-
-				m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] = CItemGetUIPCRoomKey::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-			// 警棒
-		case ITEM_BATON:
-			if (m_pItemGetUI[ITEM_BATON] == nullptr)
-			{
-				m_pItemGetUI[ITEM_BATON] = CItemGetUIBaton::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-			// マップ
-		case ITEM_MAP:
-			if (m_pItemGetUI[ITEM_MAP] == nullptr)
-			{
-				m_pItemGetUI[ITEM_MAP] = CItemGetUIMap::Create(D3DXVECTOR3(Position.x, Position.y + 300.0f, Position.z), D3DXVECTOR3(150.0f, 150.0f, 1.0f));
-			}
-			// UI生成状態をtrueにする
-			m_bUICreate[Type] = true;
-			break;
-		default:
-			break;
-		}
-	}
-}
-
-void CPlayer::ItemGetGuideUIDelete(ITEM_GET_LIST Type)
-{
-	switch (Type)
-	{
-		// 牢屋の鍵
-	case ITEM_KEY_PRISON:
-		if (m_pItemGetUI[ITEM_KEY_PRISON] != nullptr)
-		{
-			m_pItemGetUI[ITEM_KEY_PRISON]->Uninit();
-			m_pItemGetUI[ITEM_KEY_PRISON] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-
-
-		break;
-		// 倉庫の鍵
-	case ITEM_KEY_STORAGE:
-		if (m_pItemGetUI[ITEM_KEY_STORAGE] != nullptr)
-		{
-			m_pItemGetUI[ITEM_KEY_STORAGE]->Uninit();
-			m_pItemGetUI[ITEM_KEY_STORAGE] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-
-
-		break;
-		// 看守の鍵
-	case ITEM_KEY_JAILER_ROOM:
-		if (m_pItemGetUI[ITEM_KEY_JAILER_ROOM] != nullptr)
-		{
-			m_pItemGetUI[ITEM_KEY_JAILER_ROOM]->Uninit();
-			m_pItemGetUI[ITEM_KEY_JAILER_ROOM] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-
-
-		break;
-		// PC室の鍵
-
-
-	case ITEM_KEY_CONTROL_ROOM:
-		if (m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] != nullptr)
-		{
-
-
-			m_pItemGetUI[ITEM_KEY_CONTROL_ROOM]->Uninit();
-			m_pItemGetUI[ITEM_KEY_CONTROL_ROOM] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-		break;
-		// 警棒
-	case ITEM_BATON:
-		if (m_pItemGetUI[ITEM_BATON] != nullptr)
-		{
-			m_pItemGetUI[ITEM_BATON]->Uninit();
-			m_pItemGetUI[ITEM_BATON] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-
-
-		break;
-		// マップ
-	case ITEM_MAP:
-		if (m_pItemGetUI[ITEM_MAP] != nullptr)
-		{
-			m_pItemGetUI[ITEM_MAP]->Uninit();
-			m_pItemGetUI[ITEM_MAP] = nullptr;
-			// UI生成状態をfalseにする
-			m_bUICreate[Type] = false;
-		}
-
-
-		break;
-	default:
-		break;
-	}
-}
 
 //=============================================================================
 // 取得アイテム加算処理関数
@@ -539,7 +402,6 @@ void CPlayer::MapCollision(void)
 
 	// 位置取得
 	D3DXVECTOR3 posOld = GetOldPos();
-
 	// サイズ取得
 	D3DXVECTOR3 size = GetSize();
 
@@ -643,6 +505,7 @@ void CPlayer::MapCollision(void)
 			}
 		}
 	}
+
 }
 //=============================================================================
 // 扉を開く処理
@@ -658,7 +521,7 @@ void CPlayer::DoorOpen(void)
 
 	// サイズ取得
 	D3DXVECTOR3 size = GetSize();
-
+	CSound * pSound = GET_SOUND_PTR;
 	// nullcheck
 	if (pScene == nullptr)
 	{
@@ -694,15 +557,20 @@ void CPlayer::DoorOpen(void)
 
 						// ドアに対応したアイテムを所持している場合
 						if (m_abGetItem[ITEM_KEY_PRISON] == true && nDoorType == CDoor_Collision::TYPE_PRISON ||
-
-							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
-							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
-							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
-							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH)
+							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM)
 						{
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))
 							{
+								// 牢屋のドアの場合
+								if (nDoorType == CDoor_Collision::TYPE_PRISON)
+								{
+									pSound->CSound::Play(CSound::SOUND_SE_OPEN_PRISON);
+								}
+								else
+								{
+									pSound->CSound::Play(CSound::SOUND_SE_OPEN_DOOR);
+								}
 								// 扉を開く
 								((CDoor_Collision*)pScene)->Open();
 							}

@@ -7,6 +7,7 @@
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
+
 #define COLLISION_SIZE	(D3DXVECTOR3(120.0f,330.0f,25.0f))	// サイズ
 #define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,120.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
@@ -19,6 +20,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "object_door.h"
+#include "sound.h"
 
 //=============================================================================
 // コンストラクタ
@@ -120,15 +122,17 @@ void CDoor::Update(void)
 		if (m_nCloseCnt <= CLOSE_COUNT)
 		{
 			// ドアを開く処理
+
 			this->Open();
 		}
 
-		//// CLOSE_COUNTより大きくなった場合
-		//if (m_nCloseCnt >= CLOSE_COUNT)
-		//{
-		//	// 扉を閉じる処理
-		//	Close();
-		//}
+
+		// CLOSE_COUNTより大きくなった場合
+		if (m_nCloseCnt >= CLOSE_COUNT)
+		{
+			// 扉を閉じる処理
+			this->Close();
+		}
 	}
 }
 //=============================================================================
@@ -190,7 +194,7 @@ void CDoor::Close(void)
 
 	// 位置取得
 	D3DXVECTOR3 pos = GetPos();
-
+	CSound * pSound = GET_SOUND_PTR;
 	// 90以上の場合
 	if (rot.y >= ROT_90)
 	{
@@ -204,7 +208,7 @@ void CDoor::Close(void)
 		{
 			// ロック状態に
 			m_bLock = true;
-
+			pSound->CSound::Play(CSound::SOUND_SE_CLOSE_DOOR);
 			// 0に
 			m_nCloseCnt = ZERO_INT;
 		}
@@ -219,6 +223,7 @@ void CDoor::Close(void)
 		}
 		else
 		{
+			pSound->CSound::Play(CSound::SOUND_SE_CLOSE_DOOR);
 			// 0に
 			m_nCloseCnt = ZERO_INT;
 

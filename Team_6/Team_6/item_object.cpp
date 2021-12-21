@@ -18,6 +18,10 @@
 #include "model_collision_box.h"
 #include "keyboard.h"
 #include "joypad.h"
+#include "scene.h"
+#include "manager.h"
+#include "resource_manager.h"
+#include "sound.h"
 
 //=============================================================================
 // マクロ定義
@@ -28,9 +32,12 @@
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CItemObject::CItemObject(PRIORITY Priority) : CModel(Priority)
+CItemObject::CItemObject(PRIORITY Priority) : CScene(Priority)
 {
-	m_Type = ITEM_OBJECT_NONE;							// タイプ
+	m_Position = ZeroVector3;		// 位置
+	m_Size = ZeroVector3;			// サイズ
+	m_Rotation = ZeroVector3;		// 向き
+	m_Type = ITEM_OBJECT_NONE;		// タイプ
 }
 //=============================================================================
 // デストラクタ
@@ -46,9 +53,8 @@ CItemObject::~CItemObject()
 //=============================================================================
 HRESULT CItemObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// 初期化処理
-	CModel::Init(pos, rot);
-	CModelCollisionBox::Create(pos, rot, this);
+	m_Position = pos;
+	m_Rotation = rot;
 	return S_OK;
 }
 //=============================================================================
@@ -57,17 +63,15 @@ HRESULT CItemObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 void CItemObject::Uninit(void)
 {
-	// 終了処理
-	CModel::Uninit();
+	Release();
 }
+
 //=============================================================================
 // 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
 void CItemObject::Update(void)
 {
-	// 更新処理
-	CModel::Update();
 	// 衝突処理関数呼び出し
 	Collision();
 }
@@ -77,8 +81,6 @@ void CItemObject::Update(void)
 //=============================================================================
 void CItemObject::Draw(void)
 {
-	// 描画処理
-	CModel::Draw();
 }
 
 //=============================================================================
@@ -91,12 +93,13 @@ void CItemObject::Collision(void)
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 	// パッド取得
 	CInputJoypad * pJoypad = CManager::GetJoypad();
-	// 位置を取得する
-	D3DXVECTOR3 Position = GetPos();
-	// サイズを取得する
-	D3DXVECTOR3 Size = GetSize();
+	// プレイヤーの位置
+	D3DXVECTOR3 PlayerPosition[MAX_PLAYER];
+	// プレイヤーのサイズ
+	D3DXVECTOR3 PlayerSize[MAX_PLAYER];
 	// プレイヤーのポインタ
 	CPlayer * apPlayer[MAX_PLAYER];
+	CSound * pSound = GET_SOUND_PTR;
 	// プレイヤーの最大数分回す
 	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
 	{
@@ -105,33 +108,25 @@ void CItemObject::Collision(void)
 		// !nullcheck
 		if (apPlayer[nCount] != nullptr)
 		{
-			//もしプレイヤーのアイテムの取得数が最大値以下の場合
-			if (apPlayer[nCount]->GetItemCount() < MAX_ITEM)
+			// プレイヤーの位置を取得する
+			PlayerPosition[nCount] = apPlayer[nCount]->GetPos();
+			// プレイヤーのサイズを取得する
+			PlayerSize[nCount] = apPlayer[nCount]->GetSize();
+			// アイテムとプレイヤーの矩形型の当たり判定
+			if (CCollision::CollisionRectangleAndRectangle(m_Position, PlayerPosition[nCount], COLLISION_SIZE, PlayerSize[nCount]) == true)
 			{
-				// プレイヤーの位置を取得する
-				D3DXVECTOR3 PlayerPosition = apPlayer[nCount]->GetPos();
-				// プレイヤーのサイズを取得する
-				D3DXVECTOR3 PlayerSize = apPlayer[nCount]->GetSize();
-				// アイテムとプレイヤーの矩形型の当たり判定
-				if (CCollision::CollisionRectangleAndRectangle(Position, PlayerPosition, Size, PlayerSize) == true)
+				if (nCount == CPlayer::PLAYER_1 && pKeyboard->GetTrigger(DIK_U) || nCount == CPlayer::PLAYER_2 && pKeyboard->GetTrigger(DIK_H))
 				{
-					// プレイヤーのアイテム取得操作UI生成処理関数呼び出し
-					apPlayer[nCount]->ItemGetGuideUICreate(CPlayer::ITEM_GET_LIST(this->GetType()));
-					if (nCount == 0 && pKeyboard->GetTrigger(DIK_G) || nCount == 1 && pKeyboard->GetTrigger(DIK_H) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X, nCount))
+					if (apPlayer[nCount]->GetItemCount() < MAX_ITEM && apPlayer[nCount]->GetbGuidCreate() == false)
 					{
 						// プレイヤーにアイテムを設定する
 						apPlayer[nCount]->SetAddbGetItem(this->GetType(), true);
-						// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
-						apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
+						apPlayer[nCount]->SetbGuidCreate(this->GetType());
+						pSound->CSound::Play(CSound::SOUND_SE_GET_ITEM);
 						// 終了処理関数呼び出し
 						Uninit();
 						return;
 					}
-				}
-				else
-				{
-					// プレイヤーのアイテム取得操作UI破棄処理関数呼び出し
-					apPlayer[nCount]->ItemGetGuideUIDelete(CPlayer::ITEM_GET_LIST(this->GetType()));
 				}
 			}
 		}

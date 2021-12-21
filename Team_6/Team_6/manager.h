@@ -50,6 +50,7 @@ public:
 	{
 		MODE_TYPE_NONE = 0,
 		MODE_TYPE_TITLE,			// タイトルモード
+
 		MODE_TYPE_TUTORIAL,			// チュートリアル
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト
@@ -71,6 +72,7 @@ public:
 
 																	// Get関数
 
+
 	static MODE_TYPE GetMode(void);																// モードの情報
 	static CRenderer *GetRenderer(void) { return m_pRenderer.get(); }							// レンダラー情報
 	static CInputKeyboard *GetKeyboard(void) { return m_pInput.get(); }							// キーボード情報
@@ -86,6 +88,7 @@ public:
 	static CModeBase *GetModePtr(void);							// ゲームの情報
 
 private:
+
 
 	static unique_ptr<CRenderer> m_pRenderer;					// レンダラークラスのポインタ
 	static unique_ptr<CInputKeyboard> m_pInput;					// インプットクラスのポインタ

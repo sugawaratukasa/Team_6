@@ -43,7 +43,7 @@ public:
 	void SetRotAnime(const D3DXVECTOR3 rotAnime);
 	void SetModel(CXfile::MODEL model);										// モデル情報の設定
 
-																			// Get情報
+	// Get情報
 	D3DXVECTOR3 GetPos(void)const;											// 座標情報
 	D3DXVECTOR3 GetPosAnime(void)const;										// アニメーション座標情報
 	D3DXVECTOR3 GetRot(void)const;											// 角度の情報

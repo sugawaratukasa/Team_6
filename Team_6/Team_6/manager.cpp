@@ -26,6 +26,7 @@
 #include "result.h"
 #include "xfile.h"
 #include "polygon.h"
+
 #include "debug_proc.h"
 #include "Movie.h"
 #include "mode_ranking.h"
@@ -322,14 +323,14 @@ void CManager::SetMode(MODE_TYPE mode)
 		// タイトル生成
 		m_pModeBase.reset(new CTitle);
 		break;
-		// 動画再生
 
-		break;
+
 		// チュートリアル
 	case MODE_TYPE_TUTORIAL:
 		// チュートリアル生成
 		m_pModeBase.reset(new CTutorial);
 		break;
+
 		// ゲーム
 	case MODE_TYPE_GAME:
 		// ゲーム生成

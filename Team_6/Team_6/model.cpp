@@ -14,6 +14,7 @@
 #include "player.h"
 #include "game.h"
 #include "xfile.h"
+
 #include "collision.h"
 
 //=============================================================================
@@ -36,6 +37,7 @@ CModel::CModel(PRIORITY Priority) : CScene(Priority)
 	m_nLife = 0;
 	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_fAlphaNum = 0.0f;
+
 	m_State = STATE_NORMAL;
 	m_RayData = { ZERO_FLOAT,ZERO_FLOAT,ZERO_INT };
 	m_bDraw = true;
@@ -98,6 +100,7 @@ void CModel::Uninit(void)
 {
 	//オブジェクトの破棄
 	Release();
+
 }
 
 //=============================================================================
@@ -124,6 +127,7 @@ void CModel::Draw(void)
 
 		D3DXMATRIX mtxRot, mtxTrans, mtxScale;
 		D3DMATERIAL9 matDef;					//現在のマテリアル保持用
+
 
 		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
@@ -180,15 +184,13 @@ void CModel::Draw(void)
 		//保持していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 
-		//pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
 	}
 }
 
 //=============================================================================
+
 // モデル情報の設定
 //=============================================================================
-
 void CModel::BindModel(CXfile::MODEL model)
 {
 	m_Model.pMesh = model.pMesh;
@@ -198,56 +200,6 @@ void CModel::BindModel(CXfile::MODEL model)
 }
 //=============================================================================
 
-// レイの当たり判定
-// Author : SugawaraTsukasa
-//=============================================================================
-bool CModel::RayCollision(void)
-{
-	//// CSceneのポインタ
-	//CScene *pScene = nullptr;
-
-	//// bool
-	bool bRayHit = false;
-
-	//// nullcheck
-	//if (pScene == nullptr)
-	//{
-	//	// 先頭のポインタ取得
-	//	pScene = GetTop(PRIORITY_MAP);
-
-	//	// !nullcheck
-	//	if (pScene != nullptr)
-	//	{
-	//		// Charcterとの当たり判定
-	//		while (pScene != nullptr) // nullptrになるまで回す
-	//		{
-	//			// 現在のポインタ
-	//			CScene *pSceneCur = pScene->GetNext();
-
-	//			// レイの数が0より多い場合
-	//			if (m_RayData.nNum > ZERO_INT)
-	//			{
-	//				// レイの情報
-	//				CCollision::RAY_INFO Ray_Info = CCollision::RayCollision(m_pos, ((CMap*)pScene), m_RayData.fAngle, m_RayData.fRange, m_RayData.nNum);
-
-	//				// trueの場合
-	//				if (Ray_Info.bHit == true)
-	//				{
-	//					// 移動を0に
-	//					SetMove(ZeroVector3);
-
-	//					bRayHit = true;
-	//				}
-	//			}
-	//			// 次のポインタ取得
-	//			pScene = pSceneCur;
-	//		}
-	//	}
-	//}
-	return bRayHit;
-}
-
-//=============================================================================
 // 透明度の減算
 //=============================================================================
 void CModel::SubAlpha(float fAlpha)

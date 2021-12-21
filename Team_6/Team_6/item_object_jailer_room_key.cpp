@@ -10,6 +10,8 @@
 #include "item_object_jailer_room_key.h"
 #include "manager.h"
 #include "resource_manager.h"
+#include "particle_manager.h"
+#include "particle_emitter.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,6 +25,7 @@
 //=============================================================================
 CJailerKeyObject::CJailerKeyObject(PRIORITY Priority)
 {
+	m_pParticleEmitter = nullptr;
 }
 
 //=============================================================================
@@ -65,23 +68,14 @@ CJailerKeyObject * CJailerKeyObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CJailerKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
-
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_KEY_OBJECT);
-
-		// モデルの情報を渡す
-		BindModel(model);
-	}
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_JAILER_ROOM);
 	// サイズ設定
 	SetSize(SIZE);
-
+	if (m_pParticleEmitter == nullptr)
+	{
+		m_pParticleEmitter = CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);
+	}
 	// 初期化処理
 	CItemObject::Init(pos, ZeroVector3);
 	return S_OK;
@@ -93,6 +87,10 @@ HRESULT CJailerKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 void CJailerKeyObject::Uninit(void)
 {
+	if (m_pParticleEmitter != nullptr)
+	{
+		m_pParticleEmitter->Uninit();
+	}
 	// 終了処理
 	CItemObject::Uninit();
 }

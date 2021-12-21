@@ -82,7 +82,7 @@ HRESULT CMap::Init(void)
 {
 	// ì«Ç›çûÇ›
 	Load();
-	CGoalArea::Create(D3DXVECTOR3(2200.0f, 0.0f, -15800.0f), ZeroVector3);
+	CGoalArea::Create(D3DXVECTOR3(1170.0f, 0.0f, 148.0f), ZeroVector3);
 	return S_OK;
 }
 //========================================================================

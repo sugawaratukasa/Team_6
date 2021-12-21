@@ -159,7 +159,7 @@ void CScene2D::Draw(void)
 	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	// フォグを有効化
-	pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+	//pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
 	// テクスチャの設定
 	pD3DDevice->SetTexture(0, nullptr);

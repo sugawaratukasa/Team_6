@@ -100,6 +100,7 @@ void CJailerView::Uninit(void)
 //=============================================================================
 void CJailerView::Update(void)
 {
+	m_bIsActive = true;
 	//CFan3Dの更新
 	CFan3D::Update();
 
@@ -280,14 +281,14 @@ void CJailerView::DetectionPlayer(void)
 		}
 	}
 
-	//プレイヤーとの間に壁が存在するなら
-	if (MapCollision(vecViewData.at(0).playerPos))
-	{
-		//プレイヤーは未発見
-		m_bIsDetection = false;
+	////プレイヤーとの間に壁が存在するなら
+	//if (MapCollision(vecViewData.at(0).playerPos))
+	//{
+	//	//プレイヤーは未発見
+	//	m_bIsDetection = false;
 
-		return;
-	}
+	//	return;
+	//}
 
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;

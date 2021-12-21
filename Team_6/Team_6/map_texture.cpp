@@ -4,6 +4,7 @@
 #include "texture.h"
 #include "scene_2d.h"
 #include "map_texture.h"
+#include "sound.h"
 
 //=============================================================================
 // コンストラクタ
@@ -54,6 +55,8 @@ HRESULT CMapTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
 	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_MAP));
+	CSound * pSound = GET_SOUND_PTR;
+	pSound->CSound::Play(CSound::SOUND_SE_OPEN_MAP);
 	return S_OK;
 }
 
