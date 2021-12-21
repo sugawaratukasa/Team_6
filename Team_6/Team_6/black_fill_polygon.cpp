@@ -1,119 +1,108 @@
 //=============================================================================
-// 牢屋の扉 [object_prison_door_right.cpp]
+// 床 [enemy_attack_point_polygon.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "prison_cell_door.h"
-#include "object.h"
 #include "manager.h"
+#include "renderer.h"
+#include "texture.h"
 #include "resource_manager.h"
+#include "collision.h"
+#include "player.h"
+#include "game.h"
+#include "black_fill_polygon.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define COL (D3DCOLOR_RGBA(255, 255, 255, 255))	// 色
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::CPrison_Cell_Door(PRIORITY Priority)
+CBlack_Fill_Polygon::CBlack_Fill_Polygon(PRIORITY Priority) : CScene3D(Priority)
 {
 }
 //=============================================================================
-// デストラクタ
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::~CPrison_Cell_Door()
+CBlack_Fill_Polygon::~CBlack_Fill_Polygon()
 {
 }
 //=============================================================================
-// 生成処理関数
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CBlack_Fill_Polygon * CBlack_Fill_Polygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// CPrison_Cell_Doorのポインタ
-	CPrison_Cell_Door *pPrison_Door = nullptr;
+	// CBlack_Fill_Polygonのポインタ
+	CBlack_Fill_Polygon *pBlack_Fill_Polygon = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pBlack_Fill_Polygon == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CPrison_Cell_Door;
+		pBlack_Fill_Polygon = new CBlack_Fill_Polygon;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pBlack_Fill_Polygon != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pBlack_Fill_Polygon->Init(pos, size);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pBlack_Fill_Polygon;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Cell_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CBlack_Fill_Polygon::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// ドアの初期化処理関数呼び出し
-	CDoor::Init(pos, rot);
+	// 初期化処理
+	CScene3D::Init(pos, size);
 
-	// サイズ
-	SetSize(COLLISION_SIZE);
+	// テクスチャの設定
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_BLACK_FILL));
 
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+	// 向き設定
+	SetRot(ZeroVector3);
 
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_DOOR);
+	// 色設定
+	SetColor(COL);
 
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Uninit(void)
+void CBlack_Fill_Polygon::Uninit(void)
 {
-	// ドアの終了処理関数呼び出し
-	CDoor::Uninit();
+	// 終了処理
+	CScene3D::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Update(void)
+void CBlack_Fill_Polygon::Update(void)
 {
-	// ドアの更新処理関数呼び出し
-	CDoor::Update();
+	// 更新処理
+	CScene3D::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Draw(void)
+void CBlack_Fill_Polygon::Draw(void)
 {
-	// ドアの描画処理関数呼び出し
-	CDoor::Draw();
+	// 描画処理
+	CScene3D::Draw();
 }

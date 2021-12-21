@@ -15,7 +15,7 @@
 class CParticle : public CBillboard
 {
 public:
-	CParticle(PRIORITY Priority = PRIORITY_FADE);
+	CParticle(PRIORITY Priority = PRIORITY_EFFECT);
 	virtual ~CParticle();
 	static CParticle *Create(D3DXVECTOR3 pos, CParticle_Manager::TYPE Type);
 	virtual HRESULT Init(D3DXVECTOR3 pos, CParticle_Manager::TYPE Type);

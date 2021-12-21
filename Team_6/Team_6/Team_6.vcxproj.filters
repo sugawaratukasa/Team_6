@@ -58,9 +58,7 @@
     <Filter Include="06_Model\07_Effect">
       <UniqueIdentifier>{32fbbd02-d62b-4ef4-9c83-c246010a30d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Character\Jjailer">
-      <UniqueIdentifier>{f9cc20fe-7f25-43ed-acf5-0ddb24be7a91}</UniqueIdentifier>
-    </Filter>
+
     <Filter Include="09_Object">
       <UniqueIdentifier>{1c371c8f-2faa-4dc5-8d8e-145204c091a6}</UniqueIdentifier>
     </Filter>
@@ -108,6 +106,9 @@
     </Filter>
     <Filter Include="07_Effect\particle">
       <UniqueIdentifier>{56f984be-38bd-4d19-ba99-8842925043a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Character\Jailer">
+      <UniqueIdentifier>{f9cc20fe-7f25-43ed-acf5-0ddb24be7a91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -205,7 +206,6 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
 
-
     <ClCompile Include="camera.cpp">
       <Filter>00_Important\Camera</Filter>
     </ClCompile>
@@ -246,19 +246,24 @@
       <Filter>04_Scene</Filter>
     </ClCompile>
     <ClCompile Include="jailer.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="jailer_AttackState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="jalier_ChaseState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="jalier_MoveState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="jailer_LostTargetState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="model_collision_box.cpp">
       <Filter>06_Model</Filter>
@@ -301,6 +306,7 @@
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
 
+
     <ClCompile Include="door_pc_room.cpp">
       <Filter>09_Object\Door</Filter>
     </ClCompile>
@@ -325,12 +331,7 @@
     <ClCompile Include="object_switch.cpp">
       <Filter>09_Object</Filter>
     </ClCompile>
-    <ClCompile Include="object_switch_collision.cpp">
-      <Filter>09_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="guards_door.cpp">
-      <Filter>09_Object\Door</Filter>
-    </ClCompile>
+
     <ClCompile Include="ranking_bg.cpp">
       <Filter>08_UI\Ranking</Filter>
     </ClCompile>
@@ -450,7 +451,8 @@
       <Filter>13_UI</Filter>
     </ClCompile>
     <ClCompile Include="jailer_view.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
     <ClCompile Include="jailer_spot.cpp">
       <Filter>12_Spot</Filter>
@@ -459,7 +461,8 @@
       <Filter>12_Spot</Filter>
     </ClCompile>
     <ClCompile Include="jailer_return_routeState.cpp">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClCompile>
 
     <ClCompile Include="door_collision.cpp">
@@ -468,9 +471,7 @@
     <ClCompile Include="prison_door_collision.cpp">
       <Filter>09_Object\Door\door_collision</Filter>
     </ClCompile>
-    <ClCompile Include="guards_door_collision.cpp">
-      <Filter>09_Object\Door\door_collision</Filter>
-    </ClCompile>
+
     <ClCompile Include="item_object.cpp">
       <Filter>08_Item</Filter>
     </ClCompile>
@@ -519,6 +520,7 @@
     <ClCompile Include="object_wall.cpp">
       <Filter>09_Object\Wall</Filter>
     </ClCompile>
+
     <ClCompile Include="spot_polygon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -527,6 +529,39 @@
     </ClCompile>
     <ClCompile Include="textlog.cpp">
       <Filter>08_2dPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="black_fill_polygon.cpp">
+      <Filter>04_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="object_keepout_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="object_iron_window_wall.cpp">
+      <Filter>09_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="object_switch_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="jailer_door.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="control_room_door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="door_wall_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="control_room_door.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="storage_door.cpp">
+      <Filter>09_Object\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="storage_door_collision.cpp">
+      <Filter>09_Object\Door\door_collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -664,22 +699,28 @@
       <Filter>04_Scene</Filter>
     </ClInclude>
     <ClInclude Include="jailer.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_AttackState.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_State.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jalier_ChaseState.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="Jalier_MoveState.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_LostTargetState.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="model_collision_box.h">
       <Filter>06_Model</Filter>
@@ -723,6 +764,7 @@
       <Filter>08_UI\Ranking</Filter>
     </ClInclude>
 
+
     <ClInclude Include="door_pc_room.h">
       <Filter>09_Object\Door</Filter>
     </ClInclude>
@@ -747,12 +789,7 @@
     <ClInclude Include="object_switch.h">
       <Filter>09_Object</Filter>
     </ClInclude>
-    <ClInclude Include="object_switch_collision.h">
-      <Filter>09_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="guards_door.h">
-      <Filter>09_Object\Door</Filter>
-    </ClInclude>
+
     <ClInclude Include="ranking_bg.h">
       <Filter>08_UI\Ranking</Filter>
     </ClInclude>
@@ -878,7 +915,8 @@
       <Filter>03_Mode\Movie</Filter>
     </ClInclude>
     <ClInclude Include="jailer_view.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_spot.h">
       <Filter>12_Spot</Filter>
@@ -887,7 +925,8 @@
       <Filter>12_Spot</Filter>
     </ClInclude>
     <ClInclude Include="jailer_return_routeState.h">
-      <Filter>05_Character\Jjailer</Filter>
+
+      <Filter>05_Character\Jailer</Filter>
     </ClInclude>
 
 
@@ -897,9 +936,7 @@
     <ClInclude Include="prison_door_collision.h">
       <Filter>09_Object\Door\door_collision</Filter>
     </ClInclude>
-    <ClInclude Include="guards_door_collision.h">
-      <Filter>09_Object\Door\door_collision</Filter>
-    </ClInclude>
+
     <ClInclude Include="item_object.h">
       <Filter>08_Item</Filter>
     </ClInclude>
@@ -948,6 +985,7 @@
     <ClInclude Include="object_wall.h">
       <Filter>09_Object\Wall</Filter>
     </ClInclude>
+
     <ClInclude Include="spot_polygon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -956,6 +994,39 @@
     </ClInclude>
     <ClInclude Include="textlog.h">
       <Filter>08_2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="black_fill_polygon.h">
+      <Filter>04_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="object_keepout_wall.h">
+      <Filter>09_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="object_iron_window_wall.h">
+      <Filter>09_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="object_switch_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_door.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="control_room_door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="door_wall_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="control_room_door.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="storage_door.h">
+      <Filter>09_Object\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="storage_door_collision.h">
+      <Filter>09_Object\Door\door_collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

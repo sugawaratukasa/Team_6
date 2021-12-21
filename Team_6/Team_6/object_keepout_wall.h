@@ -1,7 +1,7 @@
-#ifndef _GUARDS_DOOR_
-#define _GUARDS_DOOR_
+#ifndef _OBJECT_KEEPOUT_WALL_H_
+#define _OBJECT_KEEPOUT_WALL_H_
 //=============================================================================
-// 看守の扉 [guards_door.h]
+//	開かないドア [object_keepout_wall.h]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -9,18 +9,18 @@
 // インクルード
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "object_door.h"
+#include "object.h"
 
 //=============================================================================
-// 看守の扉クラス
+// 壁クラス
 // Author : Sugawara Tsukasa
 //=============================================================================
-class CGuards_Door : public CDoor
+class CKeepOut_Wall : public CObject
 {
 public:
-	CGuards_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
-	~CGuards_Door();													// デストラクタ
-	static CGuards_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
+	CKeepOut_Wall(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
+	~CKeepOut_Wall();												// デストラクタ
+	static CKeepOut_Wall*Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
 	void Uninit(void);												// 終了処理
 	void Update(void);												// 更新処理

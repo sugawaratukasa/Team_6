@@ -7,8 +7,8 @@
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(200.0f,500.f,25.0f))	// 当たり判定サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,500.0f,200.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,330.0f,25.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,120.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 #define ADD_POS			(10.0f)								// 位置加算
 #define CLOSE_COUNT		(600)								// 扉を閉じるカウント
@@ -80,7 +80,6 @@ HRESULT CDoor::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// モデル情報取得
 	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
 
-
 	// サイズ設定
 	SetSize(COLLISION_SIZE);
 
@@ -124,12 +123,12 @@ void CDoor::Update(void)
 			this->Open();
 		}
 
-		// CLOSE_COUNTより大きくなった場合
-		if (m_nCloseCnt >= CLOSE_COUNT)
-		{
-			// 扉を閉じる処理
-			Close();
-		}
+		//// CLOSE_COUNTより大きくなった場合
+		//if (m_nCloseCnt >= CLOSE_COUNT)
+		//{
+		//	// 扉を閉じる処理
+		//	Close();
+		//}
 	}
 }
 //=============================================================================

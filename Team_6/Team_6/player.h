@@ -57,7 +57,7 @@ public:
 		ITEM_KEY_PRISON,			// 牢獄の鍵
 		ITEM_KEY_STORAGE,			// 倉庫の鍵
 		ITEM_KEY_JAILER_ROOM,		// 看守室の鍵
-		ITEM_KEY_PC_ROOM,			// PC室の鍵
+		ITEM_KEY_CONTROL_ROOM,		// 制御室の鍵
 		ITEM_BATON,					// 警棒
 		ITEM_MAP,					// マップ
 		ITEM_MAX

@@ -14,6 +14,8 @@
 #include "game.h"
 #include "player.h"
 #include "item_object_pc_room_key.h"
+#include "particle_emitter.h"
+#include "particle_manager.h"
 
 //=============================================================================
 // マクロ定義
@@ -85,6 +87,7 @@ HRESULT CPCRoomKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetSize(SIZE);
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_PC_ROOM);
+	CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);
 	// 初期化処理
 	CItemObject::Init(pos, ZeroVector3);
 

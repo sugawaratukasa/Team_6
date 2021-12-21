@@ -44,6 +44,7 @@
 #include "pause_button_manager.h"
 #include "player1_ui.h"
 #include "lever.h"
+#include "particle_emitter.h"
 #include "map_spot.h"
 #include "fog.h"
 
@@ -54,7 +55,7 @@
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
 
 #define PLAYER1_POS (D3DXVECTOR3(5768.0f,0.0f,-14056.0f))
-#define PLAYER2_POS (D3DXVECTOR3(-1350.0f,0.0f,-250.0f))
+#define PLAYER2_POS (D3DXVECTOR3(-850.0f,0.0f,-250.0f))
 #define MAP_POS1 (D3DXVECTOR3(5768.0f,0.0f,-12888.0f))
 #define MAP_POS2 (D3DXVECTOR3(-1312.0f,0.0f,-5348.0f))
 #define PRISON_KEY_POS1 (D3DXVECTOR3(2460.0f,0.0f,-9729.0f))
@@ -120,6 +121,7 @@ HRESULT CGame::Init(void)
 	CreateGround();
 	//
 	// 監視カメラの生成
+
 	CreateSecCam();
 
 	// マップ生成	
@@ -130,6 +132,7 @@ HRESULT CGame::Init(void)
 	CTimer::Create();
 
 
+	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 	CMapSpot::Init();
 
 	CreateJailer();

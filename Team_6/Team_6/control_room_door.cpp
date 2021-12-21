@@ -1,5 +1,5 @@
 //=============================================================================
-// 牢屋の扉 [object_prison_door_right.cpp]
+// 制御室の扉 [control_room_door.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -7,10 +7,11 @@
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-#include "prison_cell_door.h"
+#include "control_room_door.h"
 #include "object.h"
 #include "manager.h"
 #include "resource_manager.h"
+#include "control_room_door_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -22,46 +23,46 @@
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::CPrison_Cell_Door(PRIORITY Priority)
+CControl_Room_Door::CControl_Room_Door(PRIORITY Priority)
 {
 }
 //=============================================================================
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door::~CPrison_Cell_Door()
+CControl_Room_Door::~CControl_Room_Door()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CControl_Room_Door * CControl_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// CPrison_Cell_Doorのポインタ
-	CPrison_Cell_Door *pPrison_Door = nullptr;
+	// CControl_Room_Doorのポインタ
+	CControl_Room_Door *pControl_Room_Door = nullptr;
 
 	// nullcheck
-	if (pPrison_Door == nullptr)
+	if (pControl_Room_Door == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door = new CPrison_Cell_Door;
+		pControl_Room_Door = new CControl_Room_Door;
 
 		// !nullcheck
-		if (pPrison_Door != nullptr)
+		if (pControl_Room_Door != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door->Init(pos, rot);
+			pControl_Room_Door->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door;
+	return pControl_Room_Door;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Cell_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CControl_Room_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// ドアの初期化処理関数呼び出し
 	CDoor::Init(pos, rot);
@@ -88,13 +89,16 @@ HRESULT CPrison_Cell_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// サイズ
 		SetSize(COLLISION_SIZE2);
 	}
+
+	// 判定用のオブジェクト生成
+	CControl_Room_Door_Collision::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Uninit(void)
+void CControl_Room_Door::Uninit(void)
 {
 	// ドアの終了処理関数呼び出し
 	CDoor::Uninit();
@@ -103,7 +107,7 @@ void CPrison_Cell_Door::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Update(void)
+void CControl_Room_Door::Update(void)
 {
 	// ドアの更新処理関数呼び出し
 	CDoor::Update();
@@ -112,7 +116,7 @@ void CPrison_Cell_Door::Update(void)
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Cell_Door::Draw(void)
+void CControl_Room_Door::Draw(void)
 {
 	// ドアの描画処理関数呼び出し
 	CDoor::Draw();
