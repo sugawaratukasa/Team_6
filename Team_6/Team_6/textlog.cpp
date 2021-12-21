@@ -9,9 +9,9 @@
 //マクロ定義
 //=============================================================================
 #define LOG_POS D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT, 0.0f)
-#define LOG_SIZE D3DXVECTOR3(250.0f, 50.0f, 250.0f)
+#define LOG_SIZE D3DXVECTOR3(250.0f, 25.0f, 250.0f)
 #define LOG_LIFE_LENGTH 60 * 4
-#define LOG_LINE_SPACE 20.0f
+#define LOG_LINE_SPACE 10.0f
 #define LOG_MAX_HEIGHT 327.5f
 
 //=============================================================================
@@ -36,7 +36,7 @@ CTextLog::~CTextLog()
 //=============================================================================
 // インスタンス生成処理
 //=============================================================================
-void CTextLog::Create(LOG_TYPE type)
+void CTextLog::Create(CTexture::TEXTURE_TYPE type)
 {
 	int nNum = 0;
 	for (int nCount = 0; nCount < MAX_LOG; nCount++)
@@ -68,7 +68,7 @@ void CTextLog::Create(LOG_TYPE type)
 							D3DXVECTOR3 logPos = m_pTextLog[nCount]->GetPos();
 							m_pTextLog[nCount]->m_nIndex++;
 							m_pTextLog[nCount]->m_destPos.y = logPos.y - LOG_LINE_SPACE - LOG_SIZE.y;
-							m_pTextLog[nCount]->m_move.y = (m_pTextLog[nCount]->m_destPos.y - logPos.y) / 30.0f;
+							m_pTextLog[nCount]->m_move.y = (m_pTextLog[nCount]->m_destPos.y - logPos.y) / 20.0f;
 						}
 					}
 				}

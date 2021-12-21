@@ -40,6 +40,5 @@ private:
 
 	CTitleButtonManager *m_pTitleButtonManager;	// タイトルボタンマネージャーのポインタ
 	int		m_nCountToMovie;		// 動画再生までの待機時間
-	bool	m_bCount;				// カウントするかどうか
 };
 #endif

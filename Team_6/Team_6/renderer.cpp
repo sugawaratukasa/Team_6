@@ -21,6 +21,7 @@
 #include "camera_game.h"
 #include "fog.h"
 #include "textlog.h"
+#include "texture.h"
 
 //=============================================================================
 // マクロ定義
@@ -37,6 +38,7 @@ CRenderer::CRenderer()
 {
 	m_pD3D = nullptr;			// Direct3Dオブジェクト
 	m_fillMode = D3DFILL_SOLID;
+	m_bIsUseMovie = false;
 }
 
 //=============================================================================
@@ -220,7 +222,7 @@ void CRenderer::Update(void)
 	}
 	if (pKeyboard->GetTrigger(DIK_6))
 	{
-		CTextLog::Create(CTextLog::LOG_NONE);
+		CTextLog::Create(CTexture::TEXTURE_NUM_TEXTLOG_TEST);
 	}
 	// 全ての更新
 	CScene::UpdateAll();
@@ -235,7 +237,7 @@ void CRenderer::Draw(void)
 	float fStart = 500.0f;
 	float fEnd = 1000.0f;
 
-	if (CManager::GetMode() == CManager::MODE_TYPE_MOVIE)
+	if (m_bIsUseMovie)
 	{
 
 	}

@@ -11,6 +11,7 @@
 // インクルード
 //=============================================================================
 #include "scene_2d.h"
+#include "texture.h"
 
 //=============================================================================
 // マクロ定義
@@ -30,13 +31,7 @@ public:
 	CTextLog(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
 	~CTextLog();	// デストラクタ
 
-	typedef enum
-	{
-		LOG_NONE = 28,
-
-	}LOG_TYPE;
-
-	static void Create(LOG_TYPE type);
+	static void Create(CTexture::TEXTURE_TYPE type);
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);		// 初期化処理
 	void Uninit(void);												// 終了処理
 	void Update(void);												// プレイヤーの制御
@@ -46,7 +41,7 @@ private:
 	static CTextLog *m_pTextLog[MAX_LOG];
 	int m_nIndex;
 	int m_nNum;
-	LOG_TYPE m_type;
+	CTexture::TEXTURE_TYPE m_type;
 	int m_nLife;
 	bool m_bMove;
 	D3DXVECTOR3 m_move;
