@@ -160,6 +160,7 @@
     <ClCompile Include="button_ranking.cpp" />
     <ClCompile Include="button_start.cpp" />
     <ClCompile Include="door_collision.cpp" />
+    <ClCompile Include="fog.cpp" />
     <ClCompile Include="goal_area.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_baton.cpp" />
@@ -264,11 +265,13 @@
     <ClCompile Include="scene_base.cpp" />
     <ClCompile Include="Screenframe.cpp" />
     <ClCompile Include="select_item_flame.cpp" />
+
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="spot_polygon.cpp" />
     <ClCompile Include="storage_key_texture.cpp" />
     <ClCompile Include="map_spot.cpp" />
+    <ClCompile Include="textlog.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="Guage.cpp" />
     <ClCompile Include="time.cpp" />
@@ -305,6 +308,7 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
+    <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="goal_area.h" />
     <ClInclude Include="guards_door.h" />
@@ -381,11 +385,14 @@
     <ClInclude Include="player_2.h" />
     <ClInclude Include="player_ui.h" />
     <ClInclude Include="polygon.h" />
+
     <ClInclude Include="guards_door_collision.h" />
     <ClInclude Include="prison_door_collision.h" />
     <ClInclude Include="prison_key_texture.h" />
     <ClInclude Include="prison_cell_door.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="prison_key_texture.h" />
+    <ClInclude Include="prison_cell_door.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
@@ -397,10 +404,12 @@
     <ClInclude Include="scene_base.h" />
     <ClInclude Include="Screenframe.h" />
     <ClInclude Include="select_item_flame.h" />
+
     <ClInclude Include="sound.h" />
     <ClInclude Include="spot_polygon.h" />
     <ClInclude Include="storage_key_texture.h" />
     <ClInclude Include="map_spot.h" />
+    <ClInclude Include="textlog.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Guage.h" />
     <ClInclude Include="time.h" />

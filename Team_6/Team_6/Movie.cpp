@@ -13,18 +13,23 @@
 #include "keyboard.h"
 #include "joypad.h"
 #include "fade.h"
+#include "manager.h"
+#include "renderer.h"
 
 //=============================================================================
 // マクロ定義
 //=============================================================================
 #define KEYBORAD_MAX		(256)
-#define MOVIE_PATH		L"./data/Movie/Test.avi"
+#define MOVIE_PATH		L"./data/Movie/op_movie_1.avi"
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CMovie::CMovie()
 {
+	m_wcFileName = MOVIE_PATH;
+	m_bIsloop = false;
+	m_nNextMode = (int)CManager::MODE_TYPE_TITLE;
 }
 
 //=============================================================================
@@ -32,8 +37,6 @@ CMovie::CMovie()
 //=============================================================================
 CMovie::~CMovie()
 {
-	// 終了処理
-	Uninit();
 }
 
 //=============================================================================
@@ -72,9 +75,8 @@ HRESULT CMovie::Init(void)
 	pVMRWndControl->SetVideoClippingWindow(m_hWnd);
 
 	// ソースフィルタの作成と登録
-	WCHAR wFileName[] = MOVIE_PATH;
 	IBaseFilter *pSource = NULL;
-	m_pGraph->AddSourceFilter(wFileName, wFileName, &pSource);
+	m_pGraph->AddSourceFilter(m_wcFileName, m_wcFileName, &pSource);
 
 	// ICaptureGraphBuilder2インターフェイスの取得
 	m_pCGB2 = NULL;
@@ -132,9 +134,6 @@ HRESULT CMovie::Init(void)
 	// 再生終了取得用変数の生成
 	m_pGraph->QueryInterface(IID_IMediaEventEx, (void**)&m_pMedEventEx);
 
-	// 動画を再生
-	Play();
-
 	return S_OK;
 }
 
@@ -143,38 +142,52 @@ HRESULT CMovie::Init(void)
 //=============================================================================
 void CMovie::Update(void)
 {
-	CInputKeyboard* pKey = CManager::GetKeyboard();
-	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
-	long lEventCode;
-	LONG_PTR lpEvParam1,lpEvparam2;
+	if (CManager::GetRenderer()->GetIsUseMovie())
+	{
+		CInputKeyboard* pKey = CManager::GetKeyboard();
+		CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
+		long lEventCode;
+		LONG_PTR lpEvParam1, lpEvparam2;
 
-	// どこのキーでも反応する様に
-	for (int nCnt = ZERO_INT; nCnt <= KEYBORAD_MAX; nCnt++)
-	{
-		// キーが押されたかつモード遷移中でない場合
-		if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+		// どこのキーでも反応する様に
+		for (int nCnt = ZERO_INT; nCnt <= KEYBORAD_MAX; nCnt++)
 		{
-			// 画面遷移
-			ModeTransition();
+			// キーが押されたかつモード遷移中でない場合
+			if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+			{
+				// 画面遷移
+				OnEndMovie();
+			}
 		}
-	}
-	// コントローラのボタンを押した場合
-	for (int nCnt = ZERO_INT; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
-	{
-		// キーが押されたかつモード遷移中でない場合
-		if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
+		// コントローラのボタンを押した場合
+		for (int nCnt = ZERO_INT; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
 		{
-			// 画面遷移
-			ModeTransition();
+			// キーが押されたかつモード遷移中でない場合
+			if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
+			{
+				// 画面遷移
+				OnEndMovie();
+			}
 		}
-	}
 
-	// 動画再生が終了したらタイトルに戻る
-	m_pMedEventEx->GetEvent(&lEventCode, &lpEvParam1, &lpEvparam2, 0);
-	if (lEventCode == EC_COMPLETE)
-	{
-		m_pMedEventEx->FreeEventParams(lEventCode, lpEvParam1, lpEvparam2);
-		ModeTransition();
+		// 動画再生が終了したらタイトルに戻る
+		m_pMedEventEx->GetEvent(&lEventCode, &lpEvParam1, &lpEvparam2, 0);
+		if (lEventCode == EC_COMPLETE)
+		{
+			m_pMedEventEx->FreeEventParams(lEventCode, lpEvParam1, lpEvparam2);
+			if (m_bIsloop)
+			{
+				Stop();
+				Uninit();
+				Init();
+				Play();
+			}
+			else
+			{
+				// 画面遷移
+				OnEndMovie();
+			}
+		}
 	}
 }
 
@@ -188,13 +201,22 @@ void CMovie::Draw(void)
 //=============================================================================
 // 画面遷移処理
 //=============================================================================
-void CMovie::ModeTransition(void)
+void CMovie::OnEndMovie(void)
 {
 	// 再生を停止
 	Stop();
-	// 遷移
-	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_TITLE);
+	Uninit();
+	CManager::GetRenderer()->SetIsUseMovie(false);
+}
+
+//=============================================================================
+// 再生する動画を変更する
+//=============================================================================
+void CMovie::ChangeMovie(WCHAR* path, bool bLoop)
+{
+	m_wcFileName = path;
+	m_bIsloop = bLoop;
+	Init();
 }
 
 //=============================================================================
@@ -233,9 +255,6 @@ void CMovie::Stop(void)
 //=============================================================================
 void CMovie::Uninit(void)
 {
-	// 動画停止
-	Stop();
-
 	// メモリの解放
 	m_pControl->Release();
 	m_pVMR9->Release();

@@ -28,6 +28,7 @@ CJailerView::CJailerView()
 	//各メンバ変数のクリア
 	m_bIsDetection = false;
 	m_detectedPos = ZeroVector3;
+	m_bIsActive = true;
 }
 
 //=============================================================================
@@ -79,6 +80,9 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//長さの設定
 	SetLength(DEFAULT_VIEW_LENGTH);
 
+	// 当たり判定を有効化
+	m_bIsActive = true;
+
 	return S_OK;
 }
 
@@ -99,8 +103,12 @@ void CJailerView::Update(void)
 	//CFan3Dの更新
 	CFan3D::Update();
 
-	//プレイヤーの検出処理
-	DetectionPlayer();
+	// 当たり判定が有効なら
+	if (m_bIsActive)
+	{
+		//プレイヤーの検出処理
+		DetectionPlayer();
+	}
 
 	//色の変更処理
 	ChangeColor();
@@ -319,6 +327,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			CObject *pObject = (CObject*)pScene;
 
 			OBB_DATA obb;	//OBB情報の変数
+
 
 			//OBBの作成
 			if (FAILED(CreateOBBData(

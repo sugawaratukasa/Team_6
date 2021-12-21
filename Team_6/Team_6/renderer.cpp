@@ -18,6 +18,17 @@
 #include "polygon.h"
 #include "debug_proc.h"
 #include "camera_game.h"
+#include "fog.h"
+#include "textlog.h"
+#include "texture.h"
+
+//=============================================================================
+// マクロ定義
+//=============================================================================
+#define FOG_START_PLAYER 1600.0f
+#define FOG_START_SECCAM 1900.0f
+#define FOG_END_PLAYER 2300.0f
+#define FOG_END_SECCAM 2500.0f
 
 //=============================================================================
 // レンダリングクラスのコンストラクタ
@@ -26,6 +37,7 @@ CRenderer::CRenderer()
 {
 	m_pD3D = nullptr;			// Direct3Dオブジェクト
 	m_fillMode = D3DFILL_SOLID;
+	m_bIsUseMovie = false;
 }
 
 //=============================================================================
@@ -143,6 +155,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 
 	m_bUseSecCam = false;
 
+	InitFog();
+
 	return S_OK;
 }
 
@@ -197,6 +211,18 @@ void CRenderer::Update(void)
 		SwitchCam();
 	}
 
+	if (pKeyboard->GetTrigger(DIK_4))
+	{
+		SetFogState(FOG_END);
+	}
+	if (pKeyboard->GetTrigger(DIK_5))
+	{
+		SetFogState(FOG_WARNING);
+	}
+	if (pKeyboard->GetTrigger(DIK_6))
+	{
+		CTextLog::Create(CTexture::TEXTURE_NUM_TEXTLOG_TEST);
+	}
 	// 全ての更新
 	CScene::UpdateAll();
 }
@@ -207,9 +233,11 @@ void CRenderer::Update(void)
 void CRenderer::Draw(void)
 {
 
-	if (CManager::GetMode() == CManager::MODE_TYPE_MOVIE)
-	{
+	float fStart = 500.0f;
+	float fEnd = 1000.0f;
 
+	if (m_bIsUseMovie)
+	{
 
 	}
 	else
@@ -242,6 +270,8 @@ void CRenderer::Draw(void)
 				// 監視カメラを見ているなら
 				if (m_bUseSecCam)
 				{
+					InitSecCamFog();
+
 					// ビューポート設定
 					SetUpViewPort(CCamera::SCREEN_NONE);
 					//オブジェクトクラスの全描画処理呼び出し
@@ -259,6 +289,8 @@ void CRenderer::Draw(void)
 					// ビューポートの数だけ描画する
 					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 					{
+						InitPlayerFog();
+
 						// ビューポート設定
 						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
 
@@ -291,8 +323,9 @@ void CRenderer::Draw(void)
 						}
 					}
 				}
-			}
 
+				UpdateFog();
+			}
 			else
 			{
 				// ビューポート設定

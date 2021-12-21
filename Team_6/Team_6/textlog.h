@@ -1,44 +1,50 @@
-#ifndef _TITLE_H_
-#define _TITLE_H_
+#ifndef _TEXTLOG_H_
+#define _TEXTLOG_H_
 //=============================================================================
 //
-// タイトルクラス [title.h]
-// Author : Sugawara Tsukasa
+// テキストログヘッダー [textlog.h]
+// Author : Himiya Sho
 //
 //=============================================================================
 
 //=============================================================================
-//インクルードファイル
+// インクルード
 //=============================================================================
-#include "mode_base.h"
-#include "manager.h"
+#include "scene_2d.h"
+#include "texture.h"
 
 //=============================================================================
 // マクロ定義
 //=============================================================================
+#define MAX_LOG 8
 
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CTitleButtonManager;
 
 //=============================================================================
-// クラス定義
+// プレイヤークラス
 //=============================================================================
-class CTitle : public CModeBase
+class CTextLog : public CScene2D
 {
 public:
-	CTitle();					// コンストラクタ
-	~CTitle();					// デストラクタ
-	HRESULT Init(void);			// 初期化処理
-	void Uninit(void);			// 終了処理
-	void Update(void);			// 更新処理
-	void Draw(void);			// 描画処理
-private:
-	void CreateAll(void);		// 生成処理関数
-	void ModeTransition(CManager::MODE_TYPE mode);	// 遷移
+	CTextLog(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
+	~CTextLog();	// デストラクタ
 
-	CTitleButtonManager *m_pTitleButtonManager;	// タイトルボタンマネージャーのポインタ
-	int		m_nCountToMovie;		// 動画再生までの待機時間
+	static void Create(CTexture::TEXTURE_TYPE type);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);		// 初期化処理
+	void Uninit(void);												// 終了処理
+	void Update(void);												// プレイヤーの制御
+	void Draw(void);												// 描画処理
+	void SetIndex(int nIndex) { m_nIndex = nIndex; }
+private:
+	static CTextLog *m_pTextLog[MAX_LOG];
+	int m_nIndex;
+	int m_nNum;
+	CTexture::TEXTURE_TYPE m_type;
+	int m_nLife;
+	bool m_bMove;
+	D3DXVECTOR3 m_move;
+	D3DXVECTOR3 m_destPos;
 };
 #endif

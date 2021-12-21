@@ -45,6 +45,7 @@
 #include "player1_ui.h"
 #include "lever.h"
 #include "map_spot.h"
+#include "fog.h"
 
 //=======================================================================================
 // マクロ定義
@@ -119,7 +120,7 @@ HRESULT CGame::Init(void)
 	CreateGround();
 	//
 	// 監視カメラの生成
-	//CreateSecCam();
+	CreateSecCam();
 
 	// マップ生成	
 	CMap::Create();
@@ -127,6 +128,7 @@ HRESULT CGame::Init(void)
 	// UIの生成
 	CScreenFrame::Create();
 	CTimer::Create();
+
 
 	CMapSpot::Init();
 
@@ -189,7 +191,6 @@ void CGame::Update(void)
 {
 	for (int nCount = 0; nCount < ID_PLAYER_MAX; nCount++)
 	{
-
 		if (m_pCamera[nCount] != nullptr)
 		{
 			//カメラクラスの更新処理

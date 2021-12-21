@@ -84,7 +84,6 @@ HRESULT CCameraGame::Init(void)
 {
 	// 初期化処理
 	CCamera::Init();
-	SetDistance(DISTANCE*1.5f);
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
 
@@ -162,7 +161,7 @@ void CCameraGame::NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot)
 	float fAngle3 = atan2f((float)js.lX, -(float)js.lY);	// コントローラの角度
 	float fAngle2 = atan2f(-(float)js.lX, (float)js.lY);	// コントローラの角度
 
-	// カメラ座標
+															// カメラ座標
 	D3DXVECTOR3 VDest = ZeroVector3;
 
 	// 前回の向き取得
@@ -209,7 +208,7 @@ void CCameraGame::NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot)
 
 	posRDest = D3DXVECTOR3(PlayerPos.x, PlayerPos.y + PLAYER_HEIGHT, PlayerPos.z);	//注視点設定
 
-	//カメラPOSYの下限
+																					//カメラPOSYの下限
 	if (VDest.y <= CAMERA_MIN_HIGHT)
 	{
 		VDest.y = CAMERA_MIN_HIGHT;	//限界値に戻す

@@ -16,6 +16,7 @@
 #include "bg_title.h"
 #include "title_button_manager.h"
 #include "fade.h"
+#include "Movie.h"
 //=============================================================================
 // マクロ定義
 //=============================================================================
@@ -48,7 +49,6 @@ HRESULT CTitle::Init(void)
 	CreateAll();
 	// カウンタ初期化
 	m_nCountToMovie = 0;
-	m_bCount = true;
 
 	return S_OK;
 }
@@ -73,23 +73,27 @@ void CTitle::Uninit(void)
 //=============================================================================
 void CTitle::Update(void)
 {
-	if (m_pTitleButtonManager != nullptr)
-	{
-		// タイトルボタンマネージャーの更新処理関数呼び出し
-		m_pTitleButtonManager->Update();
-	}
-
-
+	CRenderer *pRenderer = CManager::GetRenderer();
 	// 動画開始までのカウンターを加算
-	if (m_bCount)
+	if (!pRenderer->GetIsUseMovie())
 	{
+		if (m_pTitleButtonManager != nullptr)
+		{
+			// タイトルボタンマネージャーの更新処理関数呼び出し
+			m_pTitleButtonManager->Update();
+		}
+
 		m_nCountToMovie++;
 	}
-	if (m_nCountToMovie >= TRANSITION_WAIT_LENGTH)
+	if (m_nCountToMovie >= TRANSITION_WAIT_LENGTH && 
+		!pRenderer->GetIsUseMovie())
 	{
 		m_nCountToMovie = 0;
 		// 画面遷移
-		ModeTransition(CManager::MODE_TYPE_MOVIE);
+		pRenderer->SetIsUseMovie(true);
+		CManager::GetMovie()->ChangeMovie(L"./data/Movie/Test.avi",true);
+		CManager::GetMovie()->Init();
+		CManager::GetMovie()->Play();
 	}
 }
 
@@ -122,6 +126,5 @@ void CTitle::ModeTransition(CManager::MODE_TYPE mode)
 	// 遷移
 	CFade *pFade = CManager::GetFade();
 	pFade->SetFade(mode);
-	m_bCount = false;
 	m_nCountToMovie = 0;
 }

@@ -34,9 +34,11 @@ public:
 	void ReSetStateStencil(void);				// ステンシル情報リセット
 	void SetUpViewPort(CCamera::SCREEN_ID id);
 	void SetIsUseSecCam(bool bUse) { m_bUseSecCam = bUse; }
+	void SetIsUseMovie(bool bUse) { m_bIsUseMovie = bUse; }
 
 	LPDIRECT3DDEVICE9 GetDevice(void);			// デバイス情報
 	bool GetIsUseSecCam(void) { return m_bUseSecCam; }
+	bool GetIsUseMovie(void) { return m_bIsUseMovie; }
 
 private:
 	LPDIRECT3DDEVICE9 m_pD3DDevice;				// Deviceオブジェクト(描画に必要)
@@ -44,6 +46,7 @@ private:
 	LPDIRECT3D9 m_pD3DInterface;				// DirectXインターフェース
 	D3DFILLMODE m_fillMode;						// ワイヤーフレーム
 	bool		m_bUseSecCam;
+	bool		m_bIsUseMovie;
 };
 
 #endif

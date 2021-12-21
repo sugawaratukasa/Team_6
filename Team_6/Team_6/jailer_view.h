@@ -74,6 +74,8 @@ public:
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
 	void CautionJailer(const bool bIsCaution);					//警戒時の長さ変更
 
+	void SetIsActive(bool bActive) { m_bIsActive = bActive; }
+
 private:
 	void DetectionPlayer(void);										//プレイヤーの検出
 	bool MapCollision(const D3DXVECTOR3 playerPos);					//マップとの判定
@@ -85,6 +87,7 @@ private:
 	//メンバ変数宣言
 	//=========================================================================
 	bool m_bIsDetection;		//検出したかどうか
+	bool m_bIsActive;			// 当たり判定が有効かどうか
 	D3DXVECTOR3 m_detectedPos;	//検出した位置
 };
 #endif // !_JAILER_H_

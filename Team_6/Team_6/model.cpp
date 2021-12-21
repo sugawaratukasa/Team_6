@@ -181,12 +181,14 @@ void CModel::Draw(void)
 		pDevice->SetMaterial(&matDef);
 
 		//pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 	}
 }
 
 //=============================================================================
 // ÉÇÉfÉãèÓïÒÇÃê›íË
 //=============================================================================
+
 void CModel::BindModel(CXfile::MODEL model)
 {
 	m_Model.pMesh = model.pMesh;
@@ -195,6 +197,7 @@ void CModel::BindModel(CXfile::MODEL model)
 	m_Model.apTexture = model.apTexture;
 }
 //=============================================================================
+
 // ÉåÉCÇÃìñÇΩÇËîªíË
 // Author : SugawaraTsukasa
 //=============================================================================

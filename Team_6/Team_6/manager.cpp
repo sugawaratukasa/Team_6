@@ -43,6 +43,7 @@ unique_ptr<CScene> CManager::m_pScene = nullptr;
 unique_ptr<CResourceManager> CManager::m_pResourceManager = nullptr;
 unique_ptr<CModeBase> CManager::m_pModeBase = nullptr;
 unique_ptr<CDebugProc> CManager::m_pDebugProc = nullptr;
+unique_ptr<CMovie> CManager::m_pMovie = nullptr;
 unique_ptr<CParticle_Manager> CManager::m_pParticle_Manager = nullptr;
 //=============================================================================
 // コンストラクタ
@@ -70,6 +71,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	m_pFade.reset(new CFade);
 	m_pResourceManager.reset(CResourceManager::GetInstance());
 	m_pDebugProc.reset(new CDebugProc);
+	m_pMovie.reset(new CMovie);
 	m_pParticle_Manager.reset(new CParticle_Manager);
 
 	//メモリが確保できたら
@@ -118,6 +120,13 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	{
 		// 初期化処理
 		m_pParticle_Manager->Init();
+	}
+
+	// !nullcheck
+	if (m_pMovie != nullptr)
+	{
+		// 初期化処理
+		m_pMovie->Init();
 	}
 
 	//全テクスチャの読み込み
@@ -240,6 +249,12 @@ void CManager::Update(void)
 	{
 		m_pModeBase->Update();
 	}
+
+	// モードの更新処理
+	if (m_pMovie != nullptr)
+	{
+		m_pMovie->Update();
+	}
 }
 
 //=============================================================================
@@ -308,9 +323,7 @@ void CManager::SetMode(MODE_TYPE mode)
 		m_pModeBase.reset(new CTitle);
 		break;
 		// 動画再生
-	case MODE_TYPE_MOVIE:
-		// タイトル生成
-		m_pModeBase.reset(new CMovie);
+
 		break;
 		// チュートリアル
 	case MODE_TYPE_TUTORIAL:
