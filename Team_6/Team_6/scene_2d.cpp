@@ -271,7 +271,7 @@ void CScene2D::SetVertex(void)
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// í∏ì_ç¿ïWÇÃê›íË
-	pVtx[0].pos = D3DXVECTOR3(pos.x - size.x / 2, pos.y - size.y / 2, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(pos	.x - size.x / 2, pos.y - size.y / 2, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(pos.x + size.x / 2, pos.y - size.y / 2, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(pos.x - size.x / 2, pos.y + size.y / 2, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(pos.x + size.x / 2, pos.y + size.y / 2, 0.0f);
