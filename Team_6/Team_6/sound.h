@@ -51,11 +51,11 @@ private:
 
 	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD *pChunkSize, DWORD *pChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
-	IXAudio2 *m_pXAudio2 = NULL;																	// XAudio2オブジェクトへのインターフェイス
-	IXAudio2MasteringVoice *m_pMasteringVoice = NULL;												// マスターボイス
-	IXAudio2SourceVoice *m_apSourceVoice[SOUND_LABEL_MAX] = {};										// ソースボイス
-	BYTE *m_apDataAudio[SOUND_LABEL_MAX] = {};														// オーディオデータ
-	DWORD m_aSizeAudio[SOUND_LABEL_MAX] = {};														// オーディオデータサイズ
+	IXAudio2 *m_pXAudio2;																	// XAudio2オブジェクトへのインターフェイス
+	IXAudio2MasteringVoice *m_pMasteringVoice;												// マスターボイス
+	IXAudio2SourceVoice *m_apSourceVoice[SOUND_LABEL_MAX];										// ソースボイス
+	BYTE *m_apDataAudio[SOUND_LABEL_MAX];														// オーディオデータ
+	DWORD m_aSizeAudio[SOUND_LABEL_MAX];														// オーディオデータサイズ
 
 																									// 各音素材のパラメータ
 	static PARAM m_aParam[SOUND_LABEL_MAX];
