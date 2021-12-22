@@ -1,15 +1,21 @@
+//=============================================================================
+//
+// ゲームオーバー背景 [bg_gameover.h]
+// Author : 二階堂汰一
+//
+//=============================================================================
 #include "main.h"
 #include "manager.h"
 #include "resource_manager.h"
 #include "texture.h"
 #include "scene_2d.h"
-#include "prison_key_texture.h"
+#include "bg_gameover.h"
 
 //=============================================================================
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture::CPrisonKeyTexture(PRIORITY Priority) : CScene2D(Priority)
+CGameOverBG::CGameOverBG(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 
@@ -17,7 +23,7 @@ CPrisonKeyTexture::CPrisonKeyTexture(PRIORITY Priority) : CScene2D(Priority)
 // デストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture::~CPrisonKeyTexture()
+CGameOverBG::~CGameOverBG()
 {
 }
 
@@ -25,39 +31,39 @@ CPrisonKeyTexture::~CPrisonKeyTexture()
 // 生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture * CPrisonKeyTexture::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CGameOverBG * CGameOverBG::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// CPrisonKeyTextureのポインタ
-	CPrisonKeyTexture *pPrisonKey = nullptr;
+	// CGameOverBGのポインタ
+	CGameOverBG *pGameOverBG = nullptr;
 
 	// nullcheck
-	if (pPrisonKey == nullptr)
+	if (pGameOverBG == nullptr)
 	{
 		// メモリ確保
-		pPrisonKey = new CPrisonKeyTexture;
+		pGameOverBG = new CGameOverBG;
 
 		// !nullcheck
-		if (pPrisonKey != nullptr)
+		if (pGameOverBG != nullptr)
 		{
 			// 初期化処理
-			pPrisonKey->Init(pos, size);
+			pGameOverBG->Init(pos, size);
 		}
 	}
 	// ポインタを返す
-	return pPrisonKey;
+	return pGameOverBG;
 }
 
 //=============================================================================
 // 初期化処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-HRESULT CPrisonKeyTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+HRESULT CGameOverBG::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	// シーン2Dの初期化処理関数呼び出し
 	CScene2D::Init(pos, size);
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_PRISON_KEY));
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_GAMEOVER));
 	return S_OK;
 }
 
@@ -65,7 +71,7 @@ HRESULT CPrisonKeyTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 // 終了処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Uninit(void)
+void CGameOverBG::Uninit(void)
 {
 	// シーン2Dの終了処理関数呼び出し
 	CScene2D::Uninit();
@@ -75,7 +81,7 @@ void CPrisonKeyTexture::Uninit(void)
 // 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Update(void)
+void CGameOverBG::Update(void)
 {
 	// シーン2Dの更新処理関数呼び出し
 	CScene2D::Update();
@@ -85,7 +91,7 @@ void CPrisonKeyTexture::Update(void)
 // 描画処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Draw(void)
+void CGameOverBG::Draw(void)
 {
 	// シーン2Dの描画処理関数呼び出し
 	CScene2D::Draw();

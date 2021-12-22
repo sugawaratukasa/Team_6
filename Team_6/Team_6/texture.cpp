@@ -89,16 +89,23 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/ui_number.png" },
 		{ "data/Texture/jailer_key_guid.png" },
 		{ "data/Texture/pc_room_key_guid.png" },
-		{ "data/Texture/prison_key_guid.png" },
+
+		{ "data/Texture/electrical_key_guid.png" },
 		{ "data/Texture/storage_key_guid.png" },
 		{ "data/Texture/baton_guid_texture.png" },
 		{ "data/Texture/map_guid_texture.png" },
 		{ "data/Texture/pause_logo.png" },
-		{ "data/Texture/control_room_key.png" },
-		{ "data/Texture/control_room_key_guid.png" },
+
 		{ "data/Texture/black.png" },
 		{ "data/Texture/log_01_player1.png" },
 		{ "data/Texture/log_01_player2.png" },
+		{ "data/Texture/control_key.png" },
+		{ "data/Texture/control_key_guid.png" },
+		{ "data/Texture/electrical_key.png" },
+		{ "data/Texture/map1.png" },
+		{ "data/Texture/map2.png" },
+		{ "data/Texture/guid_bg.png" },
+		{ "data/Texture/gameover.png" }
 		};
 
 	// 分割テクスチャ

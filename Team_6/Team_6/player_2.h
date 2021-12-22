@@ -17,6 +17,7 @@
 //=============================================================================
 class CPlayer2ItemUI;
 class CScene2D;
+class CGuidBG;
 
 //=============================================================================
 // プレイヤークラス
@@ -39,5 +40,6 @@ private:
 	void UpdateRot(void);											// 向き更新処理
 	D3DXVECTOR3 m_rotDest;
 	CScene2D * m_pItemGuidTexture;
+	CGuidBG * m_pGuidBG;
 };
 #endif

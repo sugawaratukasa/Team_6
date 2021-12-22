@@ -9,7 +9,6 @@
 #include "mode_base.h"
 #include "player.h"
 #include "keyboard.h"
-#include "debug_proc.h"
 #include "game.h"
 #include "object.h"
 #include "collision.h"
@@ -144,17 +143,6 @@ void CJailerView::Update(void)
 
 	//長さの設定
 	SetLength(fLength);
-
-	CDebugProc::Print("=====================JailerView=====================\n");
-
-	if (m_bIsDetection)
-	{
-		CDebugProc::Print("プレイヤーを発見\n");
-	}
-	else
-	{
-		CDebugProc::Print("プレイヤー未発見\n");
-	}
 #endif
 }
 
@@ -190,8 +178,6 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 //=============================================================================
 void CJailerView::DetectionPlayer(void)
 {
-
-	CDebugProc::Print("プレイヤー検出処理を実行中\n");
 	ViewData view;
 	vector<ViewData> vecViewData;
 
@@ -263,7 +249,7 @@ void CJailerView::DetectionPlayer(void)
 	{
 		//該当なしのためフラグをfalse
 		m_bIsDetection = false;
-		CDebugProc::Print("範囲内にプレイヤーは存在しない\n");
+	
 		//処理終了
 		return;
 	}
@@ -280,17 +266,17 @@ void CJailerView::DetectionPlayer(void)
 			nNumber = vecViewData.at(1).nNumber;
 		}
 	}
-	CDebugProc::Print("範囲内にプレイヤーは存在する\n");
+
 
 	//プレイヤーとの間に壁が存在するなら
 	if (MapCollision(vecViewData.at(0).playerPos))
 	{
 		//プレイヤーは未発見
 		m_bIsDetection = false;
-		CDebugProc::Print("プレイヤーとの間に壁がある\n");
+	
 		return;
 	}
-	CDebugProc::Print("プレイヤーとの間に壁がない\n");
+
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
 

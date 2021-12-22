@@ -1,5 +1,5 @@
-#ifndef _JAILER_ROOM_KEY_TEXTURE_H_
-#define _JAILER_ROOM_KEY_TEXTURE_H_
+#ifndef _CONTROL_ROOM_KEY_TEXTURE_H_
+#define _CONTROL_ROOM_KEY_TEXTURE_H_
 //=============================================================================
 //
 // 制御室鍵アイコンのテクスチャヘッダー [control_key_texture.h]

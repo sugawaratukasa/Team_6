@@ -28,6 +28,9 @@ CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 	{"data/Sound/button_push.wav",SOUND_LOOP_OFF},// ボタンを押す音
 	{"data/Sound/button_cancel.wav",SOUND_LOOP_OFF},// ボタンキャンセル音
 	{"data/Sound/button_select.wav",SOUND_LOOP_OFF},// ボタン選択
+	{ "data/Sound/switch.wav",SOUND_LOOP_OFF },// スイッチを押す音
+	{ "data/Sound/lever.wav",SOUND_LOOP_OFF },// レバーを下げる音
+	{ "data/Sound/Found.wav",SOUND_LOOP_OFF },// 看守に見つかったときの音
 };
 
 //================================================

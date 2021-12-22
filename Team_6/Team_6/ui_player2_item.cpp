@@ -22,8 +22,9 @@
 #include "joypad.h"
 #include "jailer_key_texture.h"
 #include "pc_room_key_texture.h"
-#include "prison_key_texture.h"
+#include "electrical_key_texture.h"
 #include "storage_key_texture.h"
+#include "control_room_key_texture.h"
 
 //=============================================================================
 // マクロ定義
@@ -97,12 +98,12 @@ HRESULT CPlayer2ItemUI::Init(void)
 void CPlayer2ItemUI::Uninit(void)
 {
 	//------------------------
-	//　牢屋のカギ
+	//　電源室のカギ
 	//------------------------
-	if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] != nullptr)
+	if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] != nullptr)
 	{
-		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON]->Uninit();
-		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] = nullptr;
+		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM]->Uninit();
+		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] = nullptr;
 	}
 	//------------------------
 	//　倉庫のカギ
@@ -127,6 +128,15 @@ void CPlayer2ItemUI::Uninit(void)
 	{
 		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM]->Uninit();
 		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = nullptr;
+		m_nItemTextureCount--;
+	}
+	//------------------------
+	//　制御室のカギ
+	//------------------------
+	if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] != nullptr)
+	{
+		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM]->Uninit();
+		m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] = nullptr;
 		m_nItemTextureCount--;
 	}
 	//------------------------
@@ -210,12 +220,12 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	CGame * pGame = ((CGame*)CManager::GetModePtr());
 	// プレイヤーの取得
 	CPlayer * pPlayer2 = pGame->GetPlayer(1);
-	// 牢屋の鍵
-	if (pPlayer2->GetbItem(CItemObject::ITEM_OBJECT_KEY_PRISON) == true)
+	// 電源室の鍵
+	if (pPlayer2->GetbItem(CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM) == true)
 	{
-		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] == nullptr)
+		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PRISON] = CPrisonKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] = CElectricalKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -246,6 +256,16 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] == nullptr)
 		{
 			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = CPCRoomKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			// アイテムテクスチャのカウントを加算する
+			m_nItemTextureCount++;
+		}
+	}
+	// 制御室の鍵
+	if (pPlayer2->GetbItem(CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM) == true)
+	{
+		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] == nullptr)
+		{
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] = CControlKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}

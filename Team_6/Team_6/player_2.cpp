@@ -19,17 +19,21 @@
 #include "sound.h"
 #include "jailer_key_guid_texture.h"
 #include "pc_room_key_guid_texture.h"
-#include "prison_key_guid_texture.h"
+
+#include "electrical_room_key_guid_texture.h"
 #include "storage_key_guid_texture.h"
 #include "baton_guid_texture.h"
 #include "map_guid_texture.h"
+#include "control_room_key_guid_texture.h"
+#include "guid_bg.h"
 #include "camera_game.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define PRISON_POSITION (D3DXVECTOR3(-1370.0f, 0.0f, -6800.0f))	//独房の位置
+
+#define PRISON_POSITION (D3DXVECTOR3(-538.0f, 0.0f, -7089.0f))	//独房の位置
 
 //=============================================================================
 // コンストラクタ
@@ -39,6 +43,7 @@ CPlayer2::CPlayer2(PRIORITY Priority)
 {
 	m_rotDest = ZeroVector3;
 	m_pItemGuidTexture = nullptr;
+	m_pGuidBG = nullptr;
 }
 
 //=============================================================================
@@ -124,6 +129,7 @@ void CPlayer2::Update(void)
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
+
 	float fAngle = ((CGame*)CManager::GetModePtr())->GetCamera(1)->GetHorizontal();
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
@@ -182,24 +188,33 @@ void CPlayer2::PrisonWarp(void)
 //=============================================================================
 void CPlayer2::SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type)
 {
-	if (m_pItemGuidTexture == nullptr)
+
+	if (m_pItemGuidTexture == nullptr && m_pGuidBG == nullptr)
 	{
+		m_pGuidBG = CGuidBG::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 		switch (Type)
 		{
+		case CItemObject::ITEM_OBJECT_KEY_STORAGE:
+			m_pItemGuidTexture = CStorageKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
 		case CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM:
 			m_pItemGuidTexture = CJailerKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 			SetbItemGuidCreate(true);
 			break;
+
+		case CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM:
+			m_pItemGuidTexture = CControlRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
+
+		case CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM:
+			m_pItemGuidTexture = CElectricalRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
+
 		case CItemObject::ITEM_OBJECT_KEY_PC_ROOM:
 			m_pItemGuidTexture = CPCRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
-			SetbItemGuidCreate(true);
-			break;
-		case CItemObject::ITEM_OBJECT_KEY_PRISON:
-			m_pItemGuidTexture = CPrisonKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
-			SetbItemGuidCreate(true);
-			break;
-		case CItemObject::ITEM_OBJECT_KEY_STORAGE:
-			m_pItemGuidTexture = CStorageKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 			SetbItemGuidCreate(true);
 			break;
 		case CItemObject::ITEM_OBJECT_BATON:
@@ -315,10 +330,20 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 	}
 	else
 	{
-		if (pKeyboard->GetTrigger(DIK_RETURN))
+
+		if (pKeyboard->GetTrigger(DIK_NUMPADENTER))
 		{
-			m_pItemGuidTexture->Uninit();
-			m_pItemGuidTexture = nullptr;
+
+			if (m_pItemGuidTexture != nullptr)
+			{
+				m_pItemGuidTexture->Uninit();
+				m_pItemGuidTexture = nullptr;
+			}
+			if (m_pGuidBG != nullptr)
+			{
+				m_pGuidBG->Uninit();
+				m_pGuidBG = nullptr;
+			}
 			SetbItemGuidCreate(false);
 		}
 	}

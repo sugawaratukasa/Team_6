@@ -1,8 +1,8 @@
-#ifndef _PRISON_KEY_TEXTURE_H_
-#define _PRISON_KEY_TEXTURE_H_
+#ifndef _ITEM_ELECTRICAL_ROOM_KEY_H_
+#define _ITEM_ELECTRICAL_ROOM_KEY_H_
 //=============================================================================
 //
-// 牢屋鍵アイコンのテクスチャヘッダー [prison_key_texture.h]
+// 電気室の鍵効果 [item_electrical_room_key.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,7 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "scene_2d.h"
+#include "item.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,16 +23,16 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKeyTexture : public CScene2D
+class CElectricalRoomKey : public CItem
 {
 public:
-	CPrisonKeyTexture(PRIORITY Priority = PRIORITY_UI);						// コンストラクタ
-	~CPrisonKeyTexture();													// デストラクタ
-	static CPrisonKeyTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);						// 初期化処理
-	void Uninit(void);														// 終了処理
-	void Update(void);														// プレイヤーの制御
-	void Draw(void);														// 描画処理
+	CElectricalRoomKey();
+	~CElectricalRoomKey();
+	static CElectricalRoomKey * Create(void);
+	HRESULT Init(void);
+	void Uninit(void);
+	void Update(void);
+	void ItemCreate(int nPlayer);
 private:
 };
 #endif

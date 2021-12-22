@@ -8,7 +8,6 @@
 #include "manager.h"
 #include "renderer.h"
 #include "keyboard.h"
-#include "debug_proc.h"
 
 //=============================================================================
 //ƒ}ƒNƒ’è‹`

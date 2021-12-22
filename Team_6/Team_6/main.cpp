@@ -77,7 +77,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		NULL,
 		hInstance,
 		NULL);
-
 	CManager *pManager = nullptr;	//マネージャークラスのポインタ
 
 									//マネージャークラスのインスタンス生成

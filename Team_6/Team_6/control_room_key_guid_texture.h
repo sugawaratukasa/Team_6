@@ -26,7 +26,7 @@
 class CControlRoomKeyGuidTexture : public CScene2D
 {
 public:
-	CControlRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
+	CControlRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_TEXTURE);					// コンストラクタ
 	~CControlRoomKeyGuidTexture();													// デストラクタ
 	static CControlRoomKeyGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);								// 初期化処理

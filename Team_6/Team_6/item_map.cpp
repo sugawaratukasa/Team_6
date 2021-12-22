@@ -9,7 +9,8 @@
 //=============================================================================
 #include "main.h"
 #include "item_map.h"
-#include "map_texture.h"
+#include "map1_texture.h"
+#include "map2_texture.h"
 #include "player_1.h"
 #include "player_2.h"
 #include "manager.h"
@@ -27,10 +28,8 @@
 CItemMap::CItemMap()
 {
 	memset(m_abCreateMap,false,sizeof(m_abCreateMap));	// マップテクスチャ生成状態
-	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
-	{
-		m_apMapTexture[nCount] = nullptr;				// マップテクスチャのポインタ
-	}
+	m_pMap1Texture = nullptr;				// マップ1テクスチャのポインタ
+	m_pMap2Texture = nullptr;				// マップ2テクスチャのポインタ
 }
 
 //=============================================================================
@@ -84,17 +83,16 @@ HRESULT CItemMap::Init(void)
 //=============================================================================
 void CItemMap::Uninit(void)
 {
-	// プレイヤーの最大数分回す
-	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
+	if (m_pMap1Texture != nullptr)
 	{
-		// マップテクスチャポインタのnullptrチェック
-		if (m_apMapTexture[nCount] != nullptr)
-		{
-			// マップテクスチャの終了処理関数呼び出し
-			m_apMapTexture[nCount]->Uninit();
-		}
+		m_pMap1Texture->Uninit();
+		m_pMap1Texture = nullptr;
 	}
-
+	if (m_pMap2Texture != nullptr)
+	{
+		m_pMap2Texture->Uninit();
+		m_pMap2Texture = nullptr;
+	}
 }
 
 //=============================================================================
@@ -145,16 +143,16 @@ void CItemMap::MapCreate(int nPlayer, bool bItem)
 	CInputJoypad * pJoypad = CManager::GetJoypad();
 	if (bItem == true)
 	{
-		if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_B) || nPlayer == 1 && pKeyboard->GetTrigger(DIK_N))
+		if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_B))
 		{
 			// マップテクスチャを生成してない場合
 			if (m_abCreateMap[nPlayer] == false)
 			{
 				// マップテクスチャポインタのnullptrチェック
-				if (m_apMapTexture[nPlayer] == nullptr)
+				if (m_pMap1Texture == nullptr)
 				{
 					// マップテクスチャを生成する
-					m_apMapTexture[nPlayer] = CMapTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4 + SCREEN_WIDTH / 2 * nPlayer, SCREEN_HEIGHT / 2 + 50.0f , 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2 - 75.0f, SCREEN_HEIGHT - 150.0f, 0.0f));
+					m_pMap1Texture = CMap1Texture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4 + SCREEN_WIDTH / 2 * nPlayer, SCREEN_HEIGHT / 2 + 50.0f , 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2 - 75.0f, SCREEN_HEIGHT - 150.0f, 0.0f));
 					// マップテクスチャ生成状態をtrueにする
 					m_abCreateMap[nPlayer] = true;
 				}
@@ -162,12 +160,44 @@ void CItemMap::MapCreate(int nPlayer, bool bItem)
 			// マップテクスチャを生成している場合
 			else
 			{
-				// マップテクスチャの終了処理関数呼び出し
-				m_apMapTexture[nPlayer]->Uninit();
-				// マップテクスチャのポインタを初期化にする
-				m_apMapTexture[nPlayer] = nullptr;
-				// マップテクスチャ生成状態をfalseにする
-				m_abCreateMap[nPlayer] = false;
+				if (m_pMap1Texture != nullptr)
+				{
+					// マップテクスチャの終了処理関数呼び出し
+					m_pMap1Texture->Uninit();
+					// マップテクスチャのポインタを初期化にする
+					m_pMap1Texture = nullptr;
+					// マップテクスチャ生成状態をfalseにする
+					m_abCreateMap[nPlayer] = false;
+				}
+			}
+		}
+		if (nPlayer == 1 && pKeyboard->GetTrigger(DIK_N))
+		{
+			// マップテクスチャを生成してない場合
+			if (m_abCreateMap[nPlayer] == false)
+			{
+				// マップテクスチャポインタのnullptrチェック
+				if (m_pMap2Texture == nullptr)
+				{
+					// マップテクスチャを生成する
+					m_pMap2Texture = CMap2Texture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4 + SCREEN_WIDTH / 2 * nPlayer, SCREEN_HEIGHT / 2 + 50.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2 - 75.0f, SCREEN_HEIGHT - 150.0f, 0.0f));
+					// マップテクスチャ生成状態をtrueにする
+					m_abCreateMap[nPlayer] = true;
+				}
+			}
+			// マップテクスチャを生成している場合
+			else
+			{
+				// マップテクスチャポインタのnullptrチェック
+				if (m_pMap2Texture != nullptr)
+				{
+					// マップテクスチャの終了処理関数呼び出し
+					m_pMap2Texture->Uninit();
+					// マップテクスチャのポインタを初期化にする
+					m_pMap2Texture = nullptr;
+					// マップテクスチャ生成状態をfalseにする
+					m_abCreateMap[nPlayer] = false;
+				}
 			}
 		}
 	}

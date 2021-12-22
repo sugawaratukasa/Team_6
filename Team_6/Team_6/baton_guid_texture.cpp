@@ -16,7 +16,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBatonGuidTexture::CBatonGuidTexture(PRIORITY Priority)
+CBatonGuidTexture::CBatonGuidTexture(PRIORITY Priority):CScene2D(Priority)
 {
 }
 
