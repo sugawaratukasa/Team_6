@@ -100,7 +100,7 @@ void CTitle::Update(void)
 	{
 		m_nCountToMovie = 0;
 		// ‰æ–Ê‘JˆÚ
-
+		
 		pRenderer->SetIsUseMovie(true);
 		CManager::GetMovie()->ChangeMovie(L"./data/Movie/Test.avi",true);
 		CManager::GetMovie()->Init();

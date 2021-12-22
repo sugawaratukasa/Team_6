@@ -1,15 +1,14 @@
 //=======================================================================================
 //
-// ã‚²ãƒ¼ãƒ å‡¦ç† [game.cpp]
+// ƒQ[ƒ€ˆ— [game.cpp]
 // Author : Sugawara Tsukasa
 //
 //=======================================================================================
 
 //=======================================================================================
-// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
+// ƒCƒ“ƒNƒ‹[ƒh
 //=======================================================================================
 #include "game.h"
-
 #include "camera.h"
 #include "light.h"
 #include "model.h"
@@ -43,19 +42,16 @@
 #include "object_prison_door_right.h"
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
-
-
 #include "lever.h"
 #include "particle_emitter.h"
 #include "map_spot.h"
 #include "fog.h"
 
 //=======================================================================================
-// ãƒã‚¯ãƒ­å®šç¾©
+// ƒ}ƒNƒ’è‹`
 //=======================================================================================
-#define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// åºŠã®ã‚µã‚¤ã‚º
+#define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// °‚ÌƒTƒCƒY
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
-
 #define PLAYER1_POS (D3DXVECTOR3(3801.0f,0.0f,-9234.0f))
 #define PLAYER2_POS (D3DXVECTOR3(-821.0f,0.0f,-8215.0f))
 #define MAP_POS1 (D3DXVECTOR3(5768.0f,0.0f,-12888.0f))
@@ -71,8 +67,9 @@
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
 #define POS	(D3DXVECTOR3(0.0f,50.0f,0.0f))
+
 //=======================================================================================
-// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //=======================================================================================
 CGame::CGame()
 {
@@ -84,27 +81,27 @@ CGame::CGame()
 }
 
 //=======================================================================================
-// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒfƒXƒgƒ‰ƒNƒ^
 //=======================================================================================
 CGame::~CGame()
 {
-	// çµ‚äº†å‡¦ç†
+	// I—¹ˆ—
 	Uninit();
 }
 
 //=======================================================================================
-// åˆæœŸåŒ–å‡¦ç†
+// ‰Šú‰»ˆ—
 //=======================================================================================
 HRESULT CGame::Init(void)
 {
-	// ã‚«ãƒ¡ãƒ©ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒªã‚¨ã‚¤ãƒˆ
+	// ƒJƒƒ‰ƒNƒ‰ƒX‚ÌƒNƒŠƒGƒCƒg
 	m_pCamera[ID_PLAYER_01] = CCameraGame::Create(CCamera::SCREEN_LEFT);
 	m_pCamera[ID_PLAYER_02] = CCameraGame::Create(CCamera::SCREEN_RIGHT);
 
-	//ãƒ©ã‚¤ãƒˆã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
+	//ƒ‰ƒCƒgƒNƒ‰ƒX‚Ì¶¬
 	m_pLight = new CLight;
 
-	// ãƒ©ã‚¤ãƒˆã®åˆæœŸåŒ–å‡¦ç†
+	// ƒ‰ƒCƒg‚Ì‰Šú‰»ˆ—
 	if (m_pLight != nullptr)
 	{
 		if (FAILED(m_pLight->Init()))
@@ -113,18 +110,17 @@ HRESULT CGame::Init(void)
 		}
 	}
 
-	// ç›£è¦–ã‚«ãƒ¡ãƒ©ã®ç”Ÿæˆ
+	// ŠÄ‹ƒJƒƒ‰‚Ì¶¬
 	CreateSecCam();
 
-	// ãƒãƒƒãƒ—ç”Ÿæˆ	
+	// ƒ}ƒbƒv¶¬	
 	CMap::Create();
 
-	// UIã®ç”Ÿæˆ
+	// UI‚Ì¶¬
 	CScreenFrame::Create();
 	CTimer::Create();
 
-
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç”Ÿæˆ
+	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	CreatePlayer();
 
 	CSound * pSound = GET_SOUND_PTR;
@@ -135,13 +131,13 @@ HRESULT CGame::Init(void)
 
 	CreateJailer();
 
-
-	// ã‚¢ã‚¤ãƒ†ãƒ ã®ç”Ÿæˆ
+	// ƒAƒCƒeƒ€‚Ì¶¬
 	CreateItem();
 	return S_OK;
 }
+
 //=======================================================================================
-// çµ‚äº†å‡¦ç†
+// I—¹ˆ—
 //=======================================================================================
 void CGame::Uninit(void)
 {
@@ -149,18 +145,18 @@ void CGame::Uninit(void)
 	{
 		if (m_pCamera[nCount] != nullptr)
 		{
-			//ã‚«ãƒ¡ãƒ©ã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†å‘¼ã³å‡ºã™
+			//ƒJƒƒ‰ƒNƒ‰ƒX‚ÌI—¹ˆ—ŒÄ‚Ño‚·
 			m_pCamera[nCount]->Uninit();
 
-			//ãƒ¡ãƒ¢ãƒªã®ç ´æ£„
+			//ƒƒ‚ƒŠ‚Ì”jŠü
 			delete m_pCamera[nCount];
 
-			//ãƒ¡ãƒ¢ãƒªã®ã‚¯ãƒªã‚¢
+			//ƒƒ‚ƒŠ‚ÌƒNƒŠƒA
 			m_pCamera[nCount] = nullptr;
 		}
 	}
 
-	// ãƒ©ã‚¤ãƒˆã®çµ‚äº†å‡¦ç†
+	// ƒ‰ƒCƒg‚ÌI—¹ˆ—
 	if (m_pLight != nullptr)
 	{
 		m_pLight->Uninit();
@@ -168,21 +164,20 @@ void CGame::Uninit(void)
 		m_pLight = nullptr;
 	}
 
-
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æœ€å¤§æ•°åˆ†å›ã™
+	// ƒvƒŒƒCƒ„[‚ÌÅ‘å”•ª‰ñ‚·
 	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
 	{
-		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒã‚¤ãƒ³ã‚¿ã®nullptrãƒã‚§ãƒƒã‚¯
+		// ƒvƒŒƒCƒ„[ƒ|ƒCƒ“ƒ^‚Ìnullptrƒ`ƒFƒbƒN
 		if (m_apPlayer[nCount] != NULL)
 		{
-			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çµ‚äº†å‡¦ç†é–¢æ•°å‘¼ã³å‡ºã—
+			// ƒvƒŒƒCƒ„[‚ÌI—¹ˆ—ŠÖ”ŒÄ‚Ño‚µ
 			m_apPlayer[nCount]->Uninit();
-			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹
+			// ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^‚ğ‰Šú‰»‚·‚é
 			m_apPlayer[nCount] = nullptr;
 		}
 	}
 
-	// ãƒ‡ãƒãƒƒã‚°æƒ…å ±è¡¨ç¤ºç”¨ãƒ•ã‚©ãƒ³ãƒˆã®ç ´æ£„
+	// ƒfƒoƒbƒOî•ñ•\¦—pƒtƒHƒ“ƒg‚Ì”jŠü
 	if (m_pFont != nullptr)
 	{
 		m_pFont->Release();
@@ -191,7 +186,7 @@ void CGame::Uninit(void)
 }
 
 //=======================================================================================
-// æ›´æ–°å‡¦ç†
+// XVˆ—
 //=======================================================================================
 void CGame::Update(void)
 {
@@ -199,36 +194,33 @@ void CGame::Update(void)
 	{
 		if (m_pCamera[nCount] != nullptr)
 		{
-			//ã‚«ãƒ¡ãƒ©ã‚¯ãƒ©ã‚¹ã®æ›´æ–°å‡¦ç†
+			//ƒJƒƒ‰ƒNƒ‰ƒX‚ÌXVˆ—
 			m_pCamera[nCount]->Update();
 		}
 	}
-	// ãƒãƒ¼ã‚ºå…¥åŠ›å‡¦ç†
+	// ƒ|[ƒY“ü—Íˆ—
 	PauseInput();
-
 }
 
 //=======================================================================================
-// æç”»å‡¦ç†
+// •`‰æˆ—
 //=======================================================================================
 void CGame::Draw(void)
 {
 }
 
 //=======================================================================================
-
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç”Ÿæˆ
+// ƒvƒŒƒCƒ„[‚Ì¶¬
 //=======================================================================================
 void CGame::CreatePlayer(void)
 {
-
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼1ã®ç”Ÿæˆ
+	// ƒvƒŒƒCƒ„[1‚Ì¶¬
 	if (m_apPlayer[0] == nullptr)
 	{
 		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
 	}
 
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼2ã®ç”Ÿæˆ
+	// ƒvƒŒƒCƒ„[2‚Ì¶¬
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
@@ -236,7 +228,7 @@ void CGame::CreatePlayer(void)
 }
 
 //=======================================================================================
-// ã‚¢ã‚¤ãƒ†ãƒ ã®ç”Ÿæˆ
+// ƒAƒCƒeƒ€‚Ì¶¬
 //=======================================================================================
 void CGame::CreateItem(void)
 {
@@ -246,7 +238,6 @@ void CGame::CreateItem(void)
 	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS1, ZeroVector3);
 	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS1, ZeroVector3);
 	CBatonObject::Create(BATON_POS1, ZeroVector3);
-
 
 	CMapObject::Create(MAP_POS2, ZeroVector3);
 	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
@@ -258,66 +249,63 @@ void CGame::CreateItem(void)
 }
 
 //=======================================================================================
-
-// ç›£è¦–ã‚«ãƒ¡ãƒ©ã®ç”Ÿæˆ
+// ŠÄ‹ƒJƒƒ‰‚Ì¶¬
 //=======================================================================================
 void CGame::CreateSecCam(void)
 {
-
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
+	//m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
+	/*m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);*/
 }
 
 //=======================================================================================
-
-// ãƒãƒ¼ã‚ºå…¥åŠ›å‡¦ç†
+// ƒ|[ƒY“ü—Íˆ—
 //=======================================================================================
 void CGame::PauseInput(void)
 {
-	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å–å¾—
+	// ƒL[ƒ{[ƒhæ“¾
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-	// ãƒãƒ¼ã‚ºãƒœã‚¿ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ãƒã‚¤ãƒ³ã‚¿ã®nullptrãƒã‚§ãƒƒã‚¯
+	// ƒ|[ƒYƒ{ƒ^ƒ“ƒ}ƒl[ƒWƒƒ[ƒ|ƒCƒ“ƒ^‚Ìnullptrƒ`ƒFƒbƒN
 	if (m_pPauseButtonManager == nullptr)
 	{
-		// ã‚‚ã—ESCAPEã‚­ãƒ¼æŠ¼ã—ãŸã‚‰
+		// ‚à‚µESCAPEƒL[‰Ÿ‚µ‚½‚ç
 		if (pKeyboard->GetTrigger(DIK_ESCAPE))
 		{
-			// ãƒãƒ¼ã‚ºãƒœã‚¿ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
+			// ƒ|[ƒYƒ{ƒ^ƒ“ƒ}ƒl[ƒWƒƒ[‚ğ¶¬‚·‚é
 			m_pPauseButtonManager = CPauseButtonManager::Create();
 		}
 	}
 	else
 	{
-		// ãƒãƒ¼ã‚ºãƒœã‚¿ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®æ›´æ–°å‡¦ç†é–¢æ•°
+		// ƒ|[ƒYƒ{ƒ^ƒ“ƒ}ƒl[ƒWƒƒ[‚ÌXVˆ—ŠÖ”
 		m_pPauseButtonManager->Update();
-		// ã‚‚ã—ESCAPEã‚­ãƒ¼æŠ¼ã—ãŸã‚‰
+		// ‚à‚µESCAPEƒL[‰Ÿ‚µ‚½‚ç
 		if (pKeyboard->GetTrigger(DIK_ESCAPE))
 		{
-			// ãƒãƒ¼ã‚ºçŠ¶æ…‹ã‚’è§£é™¤ã™ã‚‹
+			// ƒ|[ƒYó‘Ô‚ğ‰ğœ‚·‚é
 			CScene::SetPause(false);
 		}
-		// ã‚‚ã—ãƒãƒ¼ã‚ºçŠ¶æ…‹ãŒè§£é™¤ã•ã‚ŒãŸã‚‰
+		// ‚à‚µƒ|[ƒYó‘Ô‚ª‰ğœ‚³‚ê‚½‚ç
 		if (CScene::GetPause() == false)
 		{
-			// ãƒãƒ¼ã‚ºãƒœã‚¿ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®çµ‚äº†å‡¦ç†é–¢æ•°
+			// ƒ|[ƒYƒ{ƒ^ƒ“ƒ}ƒl[ƒWƒƒ[‚ÌI—¹ˆ—ŠÖ”
 			m_pPauseButtonManager->Uninit();
-			// ãƒãƒ¼ã‚ºãƒœã‚¿ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹
+			// ƒ|[ƒYƒ{ƒ^ƒ“ƒ}ƒl[ƒWƒƒ[‚Ìƒ|ƒCƒ“ƒ^‚ğ‰Šú‰»‚·‚é
 			m_pPauseButtonManager = nullptr;
 		}
 	}
 }
 
 //=======================================================================================
-// çœ‹å®ˆã®ç”Ÿæˆ
+// ŠÅç‚Ì¶¬
 //=======================================================================================
 void CGame::CreateJailer(void)
 {
-	for (int nCntJailer = ZERO_INT; nCntJailer < 6; nCntJailer++)
+	for (int nCntJailer = ZERO_INT; nCntJailer < 1; nCntJailer++)
 	{
-		//çœ‹å®ˆã®ç”Ÿæˆ
+		//ŠÅç‚Ì¶¬
 		CJailer::Create(nCntJailer);
 	}
 }

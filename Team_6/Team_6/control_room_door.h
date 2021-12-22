@@ -18,7 +18,7 @@
 class CControl_Room_Door : public CDoor
 {
 public:
-	CControl_Room_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CControl_Room_Door(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
 	~CControl_Room_Door();													// デストラクタ
 	static CControl_Room_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理

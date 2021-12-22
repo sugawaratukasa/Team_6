@@ -134,7 +134,7 @@ void CCameraSecurity::Update(void)
 	m_pView->SetRotation(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	m_pCamModel->SetRot(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	// ŠÄŽ‹ƒJƒƒ‰‚Ì“–‚½‚è”»’è‚ðXV
-	m_pView->SetIsActive(m_bIsActive);
+	//m_pView->SetIsActive(m_bIsActive);
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 

@@ -27,8 +27,8 @@ CJailerView::CJailerView()
 {
 	//各メンバ変数のクリア
 	m_bIsDetection = false;
-	m_detectedPos = ZeroVector3;
 	m_bIsActive = true;
+	m_detectedPos = ZeroVector3;
 }
 
 //=============================================================================
@@ -74,14 +74,14 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//発見フラグをオフ
 	m_bIsDetection = false;
 
+	//当たり判定を有効化
+	m_bIsActive = true;
+
 	//検出位置を初期化
 	m_detectedPos = ZeroVector3;
 
 	//長さの設定
 	SetLength(DEFAULT_VIEW_LENGTH);
-
-	// 当たり判定を有効化
-	m_bIsActive = true;
 
 	return S_OK;
 }
@@ -100,12 +100,10 @@ void CJailerView::Uninit(void)
 //=============================================================================
 void CJailerView::Update(void)
 {
-	m_bIsActive = true;
 	//CFan3Dの更新
 	CFan3D::Update();
 
-	// 当たり判定が有効なら
-	if (m_bIsActive)
+	if (m_bIsActive == true)
 	{
 		//プレイヤーの検出処理
 		DetectionPlayer();
@@ -192,6 +190,8 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 //=============================================================================
 void CJailerView::DetectionPlayer(void)
 {
+
+	CDebugProc::Print("プレイヤー検出処理を実行中\n");
 	ViewData view;
 	vector<ViewData> vecViewData;
 
@@ -263,7 +263,7 @@ void CJailerView::DetectionPlayer(void)
 	{
 		//該当なしのためフラグをfalse
 		m_bIsDetection = false;
-
+		CDebugProc::Print("範囲内にプレイヤーは存在しない\n");
 		//処理終了
 		return;
 	}
@@ -280,16 +280,17 @@ void CJailerView::DetectionPlayer(void)
 			nNumber = vecViewData.at(1).nNumber;
 		}
 	}
+	CDebugProc::Print("範囲内にプレイヤーは存在する\n");
 
-	////プレイヤーとの間に壁が存在するなら
-	//if (MapCollision(vecViewData.at(0).playerPos))
-	//{
-	//	//プレイヤーは未発見
-	//	m_bIsDetection = false;
-
-	//	return;
-	//}
-
+	//プレイヤーとの間に壁が存在するなら
+	if (MapCollision(vecViewData.at(0).playerPos))
+	{
+		//プレイヤーは未発見
+		m_bIsDetection = false;
+		CDebugProc::Print("プレイヤーとの間に壁がある\n");
+		return;
+	}
+	CDebugProc::Print("プレイヤーとの間に壁がない\n");
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
 
@@ -308,10 +309,10 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 	D3DXVECTOR3 origin = GetPos();		//線分の原点
 	D3DXVECTOR3 endPoint = playerPos;	//線分の終点
 
-	//マップの先頭情報を取得
+										//マップの先頭情報を取得
 	pScene = GetTop(CScene::PRIORITY_MAP);
 
-	//オブジェクトが存在しない場合は終了
+	//オブジェクトが存在しな場合は終了
 	if (pScene == nullptr)
 	{
 		return false;
@@ -329,8 +330,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 
 			OBB_DATA obb;	//OBB情報の変数
 
-
-			//OBBの作成
+							//OBBの作成
 			if (FAILED(CreateOBBData(
 				&obb,
 				pObject->GetPos(),
@@ -347,16 +347,16 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			D3DXVECTOR3 midPoint = (origin + endPoint) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
 			D3DXVECTOR3 dir = endPoint - midPoint;					//中点から線分の終点への方向ベクトル
 
-			//中点の位置を修正
+																	//中点の位置を修正
 			midPoint = midPoint - obb.Center;
 
-			//中点の各軸をOBBの各軸の向きで修正
+			//中点をOBBの各軸の向きで修正
 			midPoint = D3DXVECTOR3(
 				D3DXVec3Dot(&obb.Dir[0], &midPoint),
 				D3DXVec3Dot(&obb.Dir[1], &midPoint),
 				D3DXVec3Dot(&obb.Dir[2], &midPoint));
 
-			//向きの各軸をOBBの各軸の向きで修正
+			//向きをOBBの各軸の向きで修正
 			dir = D3DXVECTOR3(
 				D3DXVec3Dot(&obb.Dir[0], &dir),
 				D3DXVec3Dot(&obb.Dir[1], &dir),

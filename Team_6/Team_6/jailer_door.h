@@ -18,7 +18,7 @@
 class CJailer_Door : public CDoor
 {
 public:
-	CJailer_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CJailer_Door(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
 	~CJailer_Door();													// デストラクタ
 	static CJailer_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理

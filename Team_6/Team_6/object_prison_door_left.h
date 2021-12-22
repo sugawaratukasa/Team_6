@@ -18,7 +18,7 @@
 class CPrison_Door_Left : public CDoor
 {
 public:
-	CPrison_Door_Left(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CPrison_Door_Left(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
 	~CPrison_Door_Left();													// デストラクタ
 	static CPrison_Door_Left *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
