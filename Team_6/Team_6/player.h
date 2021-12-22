@@ -56,10 +56,11 @@ public:
 	enum ITEM_GET_LIST
 	{
 		ITEM_NONE = -1,
-		ITEM_KEY_PRISON,			// 牢獄の鍵
+		ITEM_KEY_ELECTRICAL_ROOM,	// 電気室の鍵
 		ITEM_KEY_STORAGE,			// 倉庫の鍵
 		ITEM_KEY_JAILER_ROOM,		// 看守室の鍵
 		ITEM_KEY_CONTROL_ROOM,		// 制御室の鍵
+		ITEM_KEY_CAMERA_ROOM,		// 制御室の鍵
 		ITEM_BATON,					// 警棒
 		ITEM_MAP,					// マップ
 		ITEM_MAX

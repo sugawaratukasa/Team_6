@@ -25,6 +25,18 @@
 #include "control_room_door.h"
 #include "storage_door.h"
 #include "object_duct_wall.h"
+#include "electrical_room_door.h"
+#include "camera_room_door.h"
+#include "object_wood_box.h"
+#include "object_wood_chair.h"
+#include "object_wood_desk.h"
+#include "object_metal_chair.h"
+#include "object_metal_desk.h"
+#include "object_generator.h"
+#include "object_table.h"
+#include "object_window_wall.h"
+#include "goal_door.h"
+#include "lever.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -379,6 +391,85 @@ void CMap::CreateModel(void)
 			// ドア
 			CDuct_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
+			// 電気室のドア
+		case MODEL_TYPE_ELECTRICAL_DOOR:
+			// ドア
+			CEletrical_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// カメラ室のドア
+		case MODEL_TYPE_CAMERA_DOOR:
+			// ドア
+			CCamera_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 窓付き壁
+		case MODEL_TYPE_WINDOW_WALL:
+			// 窓付き壁
+			CWindow_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木の椅子
+		case MODEL_TYPE_WOOD_CHAIR:
+			// 木の椅子
+			CWood_Chair::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木の机
+		case MODEL_TYPE_WOOD_DESK:
+			// 木の机
+			CWood_Desk::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 金属の椅子
+		case MODEL_TYPE_METAL_CHAIR:
+			// 金属の椅子
+			CMetal_Chair::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 金属の机
+		case MODEL_TYPE_METAL_DESK:
+			// 金属の机
+			CMetal_Desk::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// テーブル
+		case MODEL_TYPE_TABLE:
+			// テーブル
+			CTable::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木箱
+		case MODEL_TYPE_WOOD_BOX:
+			// 木箱
+			CWood_Box::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 発電機
+		case MODEL_TYPE_GENERATOR:
+			// 発電機
+			CGenerator::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// レバー
+		case MODEL_TYPE_LEVER_1:
+			// レバー
+			//CTable::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// レバー
+		case MODEL_TYPE_LEVER_2:
+			// レバー
+			//CWood_Box::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// ゴールドア
+		case MODEL_TYPE_GOAL_DOOR:
+			// ゴールドア
+			CGoal_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
 			// 例外
 		default:
 			break;

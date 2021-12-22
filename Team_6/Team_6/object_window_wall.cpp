@@ -1,98 +1,126 @@
 //=============================================================================
-// 牢屋の判定 [prison_door_collision.cpp]
+// 窓付き壁 [object_window_wall.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
+
+//=============================================================================
+// マクロ定義
+// Author : Sugawara Tsukasa
+//=============================================================================
+#define COLLISION_SIZE	(D3DXVECTOR3(180.0f,500.0f,30.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(30.0f,500.0f,180.0f))	// サイズ
+#define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
+#include "object_window_wall.h"
 #include "resource_manager.h"
-#include "prison_door_collision.h"
-//=============================================================================
-// マクロ定義
-// Author : Sugawara Tsukasa
-//=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,450.0f,120.0f))	// サイズ
+
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::CPrison_Door_Collision(PRIORITY Priority) : CDoor_Collision(Priority)
+CWindow_Wall::CWindow_Wall(PRIORITY Priority) : CObject(Priority)
+{
+}
+
+//=============================================================================
+// デストラクタ
+// Author : Sugawara Tsukasa
+//=============================================================================
+CWindow_Wall::~CWindow_Wall()
 {
 }
 //=============================================================================
-// インクルードファイル
+// 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::~CPrison_Door_Collision()
+CWindow_Wall * CWindow_Wall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-}
-//=============================================================================
-// インクルードファイル
-// Author : Sugawara Tsukasa
-//=============================================================================
-CPrison_Door_Collision * CPrison_Door_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
-{
-	// CPrison_Door_Collisionのポインタ
-	CPrison_Door_Collision *pPrison_Door_Collision = nullptr;
+	// CWindow_Wallのポインタ
+	CWindow_Wall *pWindow_Wall = nullptr;
 
 	// nullcheck
-	if (pPrison_Door_Collision == nullptr)
+	if (pWindow_Wall == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door_Collision = new CPrison_Door_Collision;
+		pWindow_Wall = new CWindow_Wall;
 
 		// !nullcheck
-		if (pPrison_Door_Collision != nullptr)
+		if (pWindow_Wall != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door_Collision->Init(pos, rot);
-
-			// ポインタを代入
-			pPrison_Door_Collision->SetpDoor(pDoor);
+			pWindow_Wall->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door_Collision;
+	return pWindow_Wall;
 }
+
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CWindow_Wall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// 初期化処理
-	CDoor_Collision::Init(pos, rot);
-	
-	// タイプ設定
-	SetType(TYPE_ELECTRICAL_ROOM);
-
+	// サイズ
 	SetSize(COLLISION_SIZE);
+
+	// 初期化処理
+	CObject::Init(pos, rot);
+
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+
+	// !nullcheck
+	if (pXfile != nullptr)
+	{
+		// モデル情報取得
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_WINDOW_WALL);
+
+		// モデルの情報を渡す
+		BindModel(model);
+	}
+
+	// 90以上の場合
+	if (rot.y >= ROT_90)
+	{
+		// サイズ
+		SetSize(COLLISION_SIZE2);
+	}
+
+	// 種類設定
+	SetType(TYPE_WALL);
+
 	return S_OK;
 }
+
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Uninit(void)
+void CWindow_Wall::Uninit(void)
 {
 	// 終了処理
-	CDoor_Collision::Uninit();
+	CObject::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Update(void)
+void CWindow_Wall::Update(void)
 {
 	// 更新処理
-	CDoor_Collision::Update();
+	CObject::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Draw(void)
+void CWindow_Wall::Draw(void)
 {
+	// 描画処理
+	CObject::Draw();
 }

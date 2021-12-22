@@ -16,6 +16,9 @@
     <Filter Include="ソース ファイル\duct">
       <UniqueIdentifier>{b2a895af-4ff7-4732-8362-6f94b76b80b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\new map obj">
+      <UniqueIdentifier>{5e87ba44-c5d9-40d8-8f41-6db04b6bb345}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baton_guid_texture.cpp">
@@ -461,6 +464,45 @@
     </ClCompile>
     <ClCompile Include="duct_collision.cpp">
       <Filter>ソース ファイル\duct</Filter>
+    </ClCompile>
+    <ClCompile Include="electrical_room_door.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="electrical_room_door_collision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_room_door.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_room_door_collision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wood_chair.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wood_desk.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_metal_chair.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_metal_desk.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wood_box.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_table.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_generator.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="object_window_wall.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="goal_door.cpp">
+      <Filter>ソース ファイル\new map obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -910,6 +952,45 @@
     </ClInclude>
     <ClInclude Include="duct_collision.h">
       <Filter>ソース ファイル\duct</Filter>
+    </ClInclude>
+    <ClInclude Include="electrical_room_door.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="electrical_room_door_collision.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_room_door.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_room_door_collision.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wood_chair.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wood_desk.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_metal_chair.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_metal_desk.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wood_box.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_table.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_generator.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="object_window_wall.h">
+      <Filter>ソース ファイル\new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="goal_door.h">
+      <Filter>ソース ファイル\new map obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

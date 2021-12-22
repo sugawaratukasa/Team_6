@@ -37,7 +37,7 @@ CPrisonKey * CPrisonKey::Create(void)
 
 HRESULT CPrisonKey::Init(void)
 {
-	SetPlayerItemGetList(CPlayer::ITEM_KEY_PRISON);
+	SetPlayerItemGetList(CPlayer::ITEM_KEY_ELECTRICAL_ROOM);
 	return S_OK;
 }
 

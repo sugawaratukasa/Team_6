@@ -38,7 +38,7 @@ CPCRoomKey * CPCRoomKey::Create(void)
 
 HRESULT CPCRoomKey::Init(void)
 {
-	SetPlayerItemGetList(CPlayer::ITEM_KEY_CONTROL_ROOM);
+	SetPlayerItemGetList(CPlayer::ITEM_KEY_CAMERA_ROOM);
 	return S_OK;
 }
 

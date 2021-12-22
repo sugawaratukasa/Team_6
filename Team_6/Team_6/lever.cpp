@@ -72,7 +72,7 @@ HRESULT CLever::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	LeverCrate(pos, rot);
 
 	// É^ÉCÉvê›íË
-	SetType(TYPE_PRISON);
+	SetType(TYPE_ELECTRICAL_ROOM);
 
 	//SetSize(COLLISION_SIZE);
 	return S_OK;

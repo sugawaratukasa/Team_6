@@ -1,98 +1,127 @@
 //=============================================================================
-// 牢屋の判定 [prison_door_collision.cpp]
+// 金属の椅子クラス [object_metal_chair.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
+
+//=============================================================================
+// マクロ定義
+// Author : Sugawara Tsukasa
+//=============================================================================
+
+#define COLLISION_SIZE	(D3DXVECTOR3(70.0f,130.0f,70.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(70.0f,130.0f,70.0f))	// サイズ
+#define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
+#include "object_metal_chair.h"
 #include "resource_manager.h"
-#include "prison_door_collision.h"
-//=============================================================================
-// マクロ定義
-// Author : Sugawara Tsukasa
-//=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,450.0f,120.0f))	// サイズ
+
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::CPrison_Door_Collision(PRIORITY Priority) : CDoor_Collision(Priority)
+CMetal_Chair::CMetal_Chair(PRIORITY Priority) : CObject(Priority)
+{
+}
+
+//=============================================================================
+// デストラクタ
+// Author : Sugawara Tsukasa
+//=============================================================================
+CMetal_Chair::~CMetal_Chair()
 {
 }
 //=============================================================================
-// インクルードファイル
+// 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::~CPrison_Door_Collision()
+CMetal_Chair * CMetal_Chair::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-}
-//=============================================================================
-// インクルードファイル
-// Author : Sugawara Tsukasa
-//=============================================================================
-CPrison_Door_Collision * CPrison_Door_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
-{
-	// CPrison_Door_Collisionのポインタ
-	CPrison_Door_Collision *pPrison_Door_Collision = nullptr;
+	// CWood_Chairのポインタ
+	CMetal_Chair *pWood_Chair = nullptr;
 
 	// nullcheck
-	if (pPrison_Door_Collision == nullptr)
+	if (pWood_Chair == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door_Collision = new CPrison_Door_Collision;
+		pWood_Chair = new CMetal_Chair;
 
 		// !nullcheck
-		if (pPrison_Door_Collision != nullptr)
+		if (pWood_Chair != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door_Collision->Init(pos, rot);
-
-			// ポインタを代入
-			pPrison_Door_Collision->SetpDoor(pDoor);
+			pWood_Chair->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door_Collision;
+	return pWood_Chair;
 }
+
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CMetal_Chair::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// 初期化処理
-	CDoor_Collision::Init(pos, rot);
-	
-	// タイプ設定
-	SetType(TYPE_ELECTRICAL_ROOM);
-
+	// サイズ
 	SetSize(COLLISION_SIZE);
+
+	// 初期化処理
+	CObject::Init(pos, rot);
+
+	// モデル情報取得
+	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+
+	// !nullcheck
+	if (pXfile != nullptr)
+	{
+		// モデル情報取得
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_METAL_CHAIR);
+
+		// モデルの情報を渡す
+		BindModel(model);
+	}
+
+	// 90以上の場合
+	if (rot.y >= ROT_90)
+	{
+		// サイズ
+		SetSize(COLLISION_SIZE2);
+	}
+
+	// 種類設定
+	SetType(TYPE_WALL);
+
 	return S_OK;
 }
+
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Uninit(void)
+void CMetal_Chair::Uninit(void)
 {
 	// 終了処理
-	CDoor_Collision::Uninit();
+	CObject::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Update(void)
+void CMetal_Chair::Update(void)
 {
 	// 更新処理
-	CDoor_Collision::Update();
+	CObject::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Draw(void)
+void CMetal_Chair::Draw(void)
 {
+	// 描画処理
+	CObject::Draw();
 }

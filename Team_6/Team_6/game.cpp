@@ -49,7 +49,15 @@
 #include "particle_emitter.h"
 #include "map_spot.h"
 #include "fog.h"
-
+#include "object_wood_box.h"
+#include "object_wood_chair.h"
+#include "object_wood_desk.h"
+#include "object_metal_chair.h"
+#include "object_metal_desk.h"
+#include "object_generator.h"
+#include "object_table.h"
+#include "object_window_wall.h"
+#include "goal_door.h"
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
@@ -138,6 +146,8 @@ HRESULT CGame::Init(void)
 
 	// アイテムの生成
 	CreateItem();
+
+	CGoal_Door::Create(PLAYER2_POS, ZeroVector3);
 	return S_OK;
 }
 //=======================================================================================
@@ -232,7 +242,6 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
-		CPrisonKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
 }
 

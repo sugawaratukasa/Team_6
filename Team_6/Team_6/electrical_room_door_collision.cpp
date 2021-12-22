@@ -1,5 +1,5 @@
 //=============================================================================
-// 牢屋の判定 [prison_door_collision.cpp]
+// 看守室ドアの判定 [guards_door_collision.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 //=============================================================================
@@ -8,7 +8,7 @@
 //=============================================================================
 #include "manager.h"
 #include "resource_manager.h"
-#include "prison_door_collision.h"
+#include "electrical_room_door_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -18,56 +18,57 @@
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::CPrison_Door_Collision(PRIORITY Priority) : CDoor_Collision(Priority)
+CElectrical_Room_Door_Collision::CElectrical_Room_Door_Collision(PRIORITY Priority) : CDoor_Collision(Priority)
 {
 }
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision::~CPrison_Door_Collision()
+CElectrical_Room_Door_Collision::~CElectrical_Room_Door_Collision()
 {
 }
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Door_Collision * CPrison_Door_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
+CElectrical_Room_Door_Collision * CElectrical_Room_Door_Collision::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CDoor *pDoor)
 {
-	// CPrison_Door_Collisionのポインタ
-	CPrison_Door_Collision *pPrison_Door_Collision = nullptr;
+	// CElectrical_Room_Door_Collisionのポインタ
+	CElectrical_Room_Door_Collision *pElectrical_Room_Door_Collision = nullptr;
 
 	// nullcheck
-	if (pPrison_Door_Collision == nullptr)
+	if (pElectrical_Room_Door_Collision == nullptr)
 	{
 		// メモリ確保
-		pPrison_Door_Collision = new CPrison_Door_Collision;
+		pElectrical_Room_Door_Collision = new CElectrical_Room_Door_Collision;
 
 		// !nullcheck
-		if (pPrison_Door_Collision != nullptr)
+		if (pElectrical_Room_Door_Collision != nullptr)
 		{
 			// 初期化処理
-			pPrison_Door_Collision->Init(pos, rot);
+			pElectrical_Room_Door_Collision->Init(pos, rot);
 
 			// ポインタを代入
-			pPrison_Door_Collision->SetpDoor(pDoor);
+			pElectrical_Room_Door_Collision->SetpDoor(pDoor);
 		}
 	}
 	// ポインタを返す
-	return pPrison_Door_Collision;
+	return pElectrical_Room_Door_Collision;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CPrison_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CElectrical_Room_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
 	CDoor_Collision::Init(pos, rot);
-	
+
 	// タイプ設定
 	SetType(TYPE_ELECTRICAL_ROOM);
 
+	// サイズ設定
 	SetSize(COLLISION_SIZE);
 	return S_OK;
 }
@@ -75,7 +76,7 @@ HRESULT CPrison_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Uninit(void)
+void CElectrical_Room_Door_Collision::Uninit(void)
 {
 	// 終了処理
 	CDoor_Collision::Uninit();
@@ -84,15 +85,21 @@ void CPrison_Door_Collision::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Update(void)
+void CElectrical_Room_Door_Collision::Update(void)
 {
 	// 更新処理
 	CDoor_Collision::Update();
+
+	// CDoorのポインタ取得
+	CDoor *pDoor = GetpDoor();
+
+	// ロック状態設定
+	SetLock(pDoor->GetLock());
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CPrison_Door_Collision::Draw(void)
+void CElectrical_Room_Door_Collision::Draw(void)
 {
 }

@@ -208,7 +208,7 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 	switch (ItemGetList)
 	{
 		// 牢獄の鍵
-	case ITEM_KEY_PRISON:
+	case ITEM_KEY_ELECTRICAL_ROOM:
 		if (m_abGetItem[ItemGetList] == true)
 		{
 			// 牢屋の鍵のポインタを生成する
@@ -560,17 +560,18 @@ void CPlayer::DoorOpen(void)
 						int nDoorType = ((CDoor_Collision*)pScene)->GetType();
 
 						// ドアに対応したアイテムを所持している場合
-						if (m_abGetItem[ITEM_KEY_PRISON] == true && nDoorType == CDoor_Collision::TYPE_PRISON ||
+						if (m_abGetItem[ITEM_KEY_ELECTRICAL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM ||
 							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
+							m_abGetItem[ITEM_KEY_CAMERA_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
 							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH)
 						{
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))
 							{
 								// 牢屋のドアの場合
-								if (nDoorType == CDoor_Collision::TYPE_PRISON)
+								if (nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM)
 								{
 									pSound->CSound::Play(CSound::SOUND_SE_OPEN_PRISON);
 								}
@@ -642,7 +643,7 @@ void CPlayer::Item_DuctPass(void)
 						int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
 
 						// もし鍵の場合
-						if (nItemType >= ITEM_KEY_PRISON && nItemType <= ITEM_KEY_CONTROL_ROOM)
+						if (nItemType >= ITEM_KEY_ELECTRICAL_ROOM && nItemType <= ITEM_KEY_CAMERA_ROOM)
 						{
 							// UIを消す	
 							m_pUI->Uninit();

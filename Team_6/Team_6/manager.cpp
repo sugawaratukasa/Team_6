@@ -146,8 +146,8 @@ void CManager::Uninit(void)
 	if (m_pParticle_Manager != nullptr)
 	{
 		// パーティクルマネージャー終了
-		m_pDebugProc.reset();
-		m_pDebugProc = nullptr;
+		m_pParticle_Manager.reset();
+		m_pParticle_Manager = nullptr;
 	}
 	// !nullcheck
 	if (m_pDebugProc != nullptr)
