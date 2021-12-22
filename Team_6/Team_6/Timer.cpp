@@ -62,6 +62,9 @@ void CTimer::Update(void)
 		nTimeMinit = 0;
 	}
 	m_pNumber->SetNumber(nTimeMinit);
+
+	// ƒ^ƒCƒ€İ’è
+	m_pGuage->SetCurrentTime();
 }
 
 //=============================================================================

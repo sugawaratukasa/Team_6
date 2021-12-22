@@ -138,13 +138,14 @@ HRESULT CGame::Init(void)
 	CSound * pSound = GET_SOUND_PTR;
 	pSound->StopAll();
 	pSound->CSound::Play(CSound::SOUND_BGM_GAME);
-	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
+
 	
 	//スポットの初期化
 	CMapSpot::Init();
 
 	//看守の生成
 	CreateJailer();
+
 
 	if (m_pItemSpawn == nullptr)
 	{

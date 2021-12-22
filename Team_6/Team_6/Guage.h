@@ -41,6 +41,8 @@ public:
 	void SetIsStencil(bool bIsStencil) { m_bIsStencil = bIsStencil; }
 	void SetAngle(float fAngle) { m_fAngle = fAngle; }
 	int GetTime(void);
+	void WriteText(void);
+	void SetCurrentTime(void);
 private:
 	static LPDIRECT3DTEXTURE9		m_apTexture[TIMER_TEX_NUM];
 	D3DXMATRIX			    m_mtxWorld;		// ワールドマトリックス
@@ -55,7 +57,9 @@ private:
 	float					m_fRatio;       // タイマーの割合
 	int						m_nTime;
 	int						m_nRemainTime;  // 残り時間
-	int						m_nElapsedTime;	// 経過時間
+	int						m_nCurrentTime;	// 経過時間
+	int						m_nTimeCnt;		// 時間カウント
+	int						m_nCurrentTime2;// 下二桁
 	bool					m_bIsStencil;	// ステンシル描画中かどうか
 	bool					m_bTimer;		// タイマー用
 };

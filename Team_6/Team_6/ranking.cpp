@@ -64,11 +64,14 @@ CRanking * CRanking::Create(void)
 //========================================================================
 HRESULT CRanking::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {	
+	// 読み込み
+	ReadPlayerFile();
+
 	// ファイル読み込み
 	ReadFile();
 
 	// ランキング設定
-	SetRanking(1000);
+	SetRanking(m_nPlayerTime);
 
 	// タイム生成
 	CreateTime();
@@ -118,7 +121,7 @@ void CRanking::ReadPlayerFile(void)
 {
 	FILE * pFile;
 	// ファイルの読み込み
-	pFile = fopen("player.txt", "r");
+	pFile = fopen("Player_Time.txt", "r");
 
 	// ファイルが空じゃないか
 	if (pFile != NULL)

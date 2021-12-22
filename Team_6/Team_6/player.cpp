@@ -38,6 +38,7 @@
 #include "item_control_room_key.h"
 #include "door_collision.h"
 #include "duct_collision.h"
+#include "textlog.h"
 
 //=============================================================================
 // マクロ定義
@@ -250,7 +251,7 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 			m_nItemCount++;
 		}
 		break;
-	case ITEM_KEY_CAMERA_ROOM:
+	case ITEM_KEY_PC_ROOM:
 		// PC室の鍵
 		if (m_abGetItem[ItemGetList] == true)
 		{
@@ -341,7 +342,7 @@ void CPlayer::ItemDelete(int nPlayer)
 		}
 	}
 	// 1P&2Pのアイテム削除入力処理
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,nPlayer))
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
 	{
 		// アイテムポインタのnullptrチェック
 		if (m_pItem[m_nItemSortCount] != nullptr)
@@ -565,8 +566,8 @@ void CPlayer::DoorOpen(void)
 							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
-							m_abGetItem[ITEM_KEY_CAMERA_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
-							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH || 
+							m_abGetItem[ITEM_KEY_PC_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
+							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH ||
 							nDoorType == CDoor_Collision::TYPE_LEVER)
 						{
 							// Fが押された場合
@@ -638,46 +639,48 @@ void CPlayer::Item_DuctPass(void)
 				{
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-
-					// Fが押された場合
-					if (pKeyboard->GetTrigger(DIK_F))
+					if (m_pItem[m_nItemSortCount] != nullptr)
 					{
-						// 選択しているアイテムの種類を取得する
-						int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
-
-						// もし鍵の場合
-						if (nItemType >= ITEM_KEY_ELECTRICAL_ROOM && nItemType <= ITEM_KEY_CAMERA_ROOM)
+						// Fが押された場合
+						if (pKeyboard->GetTrigger(DIK_F))
 						{
-							// UIを消す	
-							m_pUI->Uninit();
+							// 選択しているアイテムの種類を取得する
+							int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
 
-							// 選択しているアイテムの取得状態をfalseにする
-							SetSubbGetItem(nItemType, false);
-
-							// 種類取得
-							int nDuctType = ((CDuct_Collision*)pScene)->GetType();
-
-							// ダクトタイプがLEFTの場合
-							if (nDuctType == CDuct_Collision::TYPE_LEFT)
+							// もし鍵の場合
+							if (nItemType >= ITEM_KEY_STORAGE && nItemType <= ITEM_KEY_PC_ROOM)
 							{
-								// アイテムを生成する
-								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_RIGHT);
-							}
-							// ダクトタイプがRIGHTの場合
-							if (nDuctType == CDuct_Collision::TYPE_RIGHT)
-							{
-								// アイテムを生成する
-								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_LEFT);
-							}
+								// UIを消す	
+								m_pUI->Uninit();
 
-							// アイテム効果初期化処理関数呼び出し
-							ItemEffectUninit();
+								// 選択しているアイテムの取得状態をfalseにする
+								SetSubbGetItem(nItemType, false);
 
-							// アイテムの最大数分回す
-							for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
-							{
-								// アイテム効果生成処理関数呼び出し
-								ItemEffectCreate(nCount);
+								// 種類取得
+								int nDuctType = ((CDuct_Collision*)pScene)->GetType();
+
+								// ダクトタイプがLEFTの場合
+								if (nDuctType == CDuct_Collision::TYPE_LEFT)
+								{
+									// アイテムを生成する
+									m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_RIGHT);
+								}
+								// ダクトタイプがRIGHTの場合
+								if (nDuctType == CDuct_Collision::TYPE_RIGHT)
+								{
+									// アイテムを生成する
+									m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_LEFT);
+								}
+
+								// アイテム効果初期化処理関数呼び出し
+								ItemEffectUninit();
+
+								// アイテムの最大数分回す
+								for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+								{
+									// アイテム効果生成処理関数呼び出し
+									ItemEffectCreate(nCount);
+								}
 							}
 						}
 					}

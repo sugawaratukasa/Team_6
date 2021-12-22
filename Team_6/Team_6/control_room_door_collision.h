@@ -31,6 +31,7 @@ public:
 	void Uninit(void);																		// 終了処理
 	void Update(void);																		// 更新処理
 	void Draw(void);																		// 描画処理
+	void Open(void);																		// 開く処理
 private:
 };
 #endif
