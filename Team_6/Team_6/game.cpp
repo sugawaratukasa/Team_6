@@ -303,7 +303,7 @@ void CGame::PauseInput(void)
 //=======================================================================================
 void CGame::CreateJailer(void)
 {
-	for (int nCntJailer = ZERO_INT; nCntJailer < 1; nCntJailer++)
+	for (int nCntJailer = ZERO_INT; nCntJailer < 6; nCntJailer++)
 	{
 		//ŠÅŽç‚Ì¶¬
 		CJailer::Create(nCntJailer);

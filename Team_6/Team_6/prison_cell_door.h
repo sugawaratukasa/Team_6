@@ -18,7 +18,7 @@
 class CPrison_Cell_Door : public CDoor
 {
 public:
-	CPrison_Cell_Door(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
+	CPrison_Cell_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
 	~CPrison_Cell_Door();													// デストラクタ
 	static CPrison_Cell_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理

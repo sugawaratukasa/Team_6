@@ -112,9 +112,6 @@ void CJailerSpot::Update(void)
 {
 #ifdef _DEBUG
 
-	CDebugProc::Print("前回のインデックス:%d\n", m_nOldIndex);
-	CDebugProc::Print("今回のインデックス:%d\n", m_nIndex);
-
 	if (m_pPolygon.at(m_nIndex))
 	{
 		m_pPolygon.at(m_nIndex)->SetFlashing();

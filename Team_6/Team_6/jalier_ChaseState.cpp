@@ -48,7 +48,7 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 		{
 			//•Ê‚Ìó‘Ô‚ÖˆÚs
 			//Œx‰úó‘Ô‚Ö
-			//pJailer->ChangeState(CJailer_LostTarget::GetInstance());
+			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
 		}
 	}
 	else

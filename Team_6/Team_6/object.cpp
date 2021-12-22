@@ -25,6 +25,7 @@
 CObject::CObject(PRIORITY Priority) : CModel(Priority)
 {
 	m_Type = TYPE_NONE;
+	m_pObb = nullptr;
 }
 //=============================================================================
 // インクルードファイル
@@ -66,6 +67,7 @@ HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
 	CModel::Init(pos, rot);
+
 	return S_OK;
 }
 //=============================================================================
@@ -74,6 +76,12 @@ HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 void CObject::Uninit(void)
 {
+	if (m_pObb != nullptr)
+	{
+		//OBBの終了
+		m_pObb->Uninit();
+	}
+	
 	// 終了処理
 	CModel::Uninit();
 }

@@ -13,6 +13,7 @@
 #include "game.h"
 #include "object.h"
 #include "collision.h"
+#include "obb.h"
 
 //=============================================================================
 //マクロ定義
@@ -27,7 +28,6 @@ CJailerView::CJailerView()
 {
 	//各メンバ変数のクリア
 	m_bIsDetection = false;
-	m_bIsActive = true;
 	m_detectedPos = ZeroVector3;
 }
 
@@ -74,9 +74,6 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//発見フラグをオフ
 	m_bIsDetection = false;
 
-	//当たり判定を有効化
-	m_bIsActive = true;
-
 	//検出位置を初期化
 	m_detectedPos = ZeroVector3;
 
@@ -103,11 +100,8 @@ void CJailerView::Update(void)
 	//CFan3Dの更新
 	CFan3D::Update();
 
-	if (m_bIsActive == true)
-	{
-		//プレイヤーの検出処理
-		DetectionPlayer();
-	}
+	//プレイヤーの検出処理
+	DetectionPlayer();
 
 	//色の変更処理
 	ChangeColor();
@@ -144,17 +138,6 @@ void CJailerView::Update(void)
 
 	//長さの設定
 	SetLength(fLength);
-
-	CDebugProc::Print("=====================JailerView=====================\n");
-
-	if (m_bIsDetection)
-	{
-		CDebugProc::Print("プレイヤーを発見\n");
-	}
-	else
-	{
-		CDebugProc::Print("プレイヤー未発見\n");
-	}
 #endif
 }
 
@@ -190,8 +173,6 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 //=============================================================================
 void CJailerView::DetectionPlayer(void)
 {
-
-	CDebugProc::Print("プレイヤー検出処理を実行中\n");
 	ViewData view;
 	vector<ViewData> vecViewData;
 
@@ -199,6 +180,13 @@ void CJailerView::DetectionPlayer(void)
 	{
 		////プレイヤー情報の取得
 		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
+
+		//プレイヤーが行動不可能なら
+		if (pPlayer->GetbIncapacitated() == true)
+		{
+			//先頭に戻る
+			continue;
+		}
 
 		//プレイヤーの位置の取得
 		view.playerPos = pPlayer->GetPos();
@@ -263,7 +251,7 @@ void CJailerView::DetectionPlayer(void)
 	{
 		//該当なしのためフラグをfalse
 		m_bIsDetection = false;
-		CDebugProc::Print("範囲内にプレイヤーは存在しない\n");
+
 		//処理終了
 		return;
 	}
@@ -280,17 +268,16 @@ void CJailerView::DetectionPlayer(void)
 			nNumber = vecViewData.at(1).nNumber;
 		}
 	}
-	CDebugProc::Print("範囲内にプレイヤーは存在する\n");
 
 	//プレイヤーとの間に壁が存在するなら
 	if (MapCollision(vecViewData.at(0).playerPos))
 	{
 		//プレイヤーは未発見
 		m_bIsDetection = false;
-		CDebugProc::Print("プレイヤーとの間に壁がある\n");
+
 		return;
 	}
-	CDebugProc::Print("プレイヤーとの間に壁がない\n");
+
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
 
@@ -303,16 +290,20 @@ void CJailerView::DetectionPlayer(void)
 //=============================================================================
 bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 {
+	if (CManager::GetKeyboard()->GetTrigger(DIK_O))
+	{
+		int nCnt = 0;
+	}
 	CScene *pScene = nullptr;
 	CScene *pNext = nullptr;
 
 	D3DXVECTOR3 origin = GetPos();		//線分の原点
 	D3DXVECTOR3 endPoint = playerPos;	//線分の終点
 
-										//マップの先頭情報を取得
+	//マップの先頭情報を取得
 	pScene = GetTop(CScene::PRIORITY_MAP);
 
-	//オブジェクトが存在しな場合は終了
+	//オブジェクトが存在しない場合は終了
 	if (pScene == nullptr)
 	{
 		return false;
@@ -328,44 +319,52 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//オブジェクトクラスへキャスト
 			CObject *pObject = (CObject*)pScene;
 
-			OBB_DATA obb;	//OBB情報の変数
+			CObb *pObb = nullptr;
 
-							//OBBの作成
-			if (FAILED(CreateOBBData(
-				&obb,
-				pObject->GetPos(),
-				pObject->GetRot(),
-				pObject->GetMesh())))
+			//OBBのポインタを取得
+			pObb = pObject->GetObbPtr();
+
+			//OBBが存在しない
+			if (pObb == nullptr)
 			{
-				//OBBが作成できなかった場合
 				//次情報へ切り替え
 				pScene = pNext;
 
 				continue;
 			}
 
+			D3DXVECTOR3 center = pObb->GetCenterPos();	//中心位置の取得
+			D3DXVECTOR3 size = pObb->GetSize();			//サイズの取得
+			D3DXVECTOR3 aDir[CoordinateAxesNum];		//各軸の向き
+
+			for (int nCntNum = ZERO_INT; nCntNum < CoordinateAxesNum; nCntNum++)
+			{
+				//各軸の向きの取得
+				aDir[nCntNum] = pObb->GetDir(nCntNum);
+			}
+
 			D3DXVECTOR3 midPoint = (origin + endPoint) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
 			D3DXVECTOR3 dir = endPoint - midPoint;					//中点から線分の終点への方向ベクトル
 
-																	//中点の位置を修正
-			midPoint = midPoint - obb.Center;
+			//中点の位置を修正
+			midPoint = midPoint - center;
 
-			//中点をOBBの各軸の向きで修正
+			//中点の各軸をOBBの各軸の向きで修正
 			midPoint = D3DXVECTOR3(
-				D3DXVec3Dot(&obb.Dir[0], &midPoint),
-				D3DXVec3Dot(&obb.Dir[1], &midPoint),
-				D3DXVec3Dot(&obb.Dir[2], &midPoint));
+				D3DXVec3Dot(&aDir[0], &midPoint),
+				D3DXVec3Dot(&aDir[1], &midPoint),
+				D3DXVec3Dot(&aDir[2], &midPoint));
 
-			//向きをOBBの各軸の向きで修正
+			//向きの各軸をOBBの各軸の向きで修正
 			dir = D3DXVECTOR3(
-				D3DXVec3Dot(&obb.Dir[0], &dir),
-				D3DXVec3Dot(&obb.Dir[1], &dir),
-				D3DXVec3Dot(&obb.Dir[2], &dir));
+				D3DXVec3Dot(&aDir[0], &dir),
+				D3DXVec3Dot(&aDir[1], &dir),
+				D3DXVec3Dot(&aDir[2], &dir));
 
 			//向きのX座標を絶対値にする
 			float fDirAbsoluteX = fabsf(dir.x);
 
-			if (fabsf(midPoint.x) > obb.size.x + fDirAbsoluteX)
+			if (fabsf(midPoint.x) > size.x + fDirAbsoluteX)
 			{
 				//次情報へ切り替え
 				pScene = pNext;
@@ -376,7 +375,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//向きのY座標を絶対値にする
 			float fDirAbsoluteY = fabsf(dir.y);
 
-			if (fabsf(midPoint.y) > obb.size.y + fDirAbsoluteY)
+			if (fabsf(midPoint.y) > size.y + fDirAbsoluteY)
 			{
 				//次情報へ切り替え
 				pScene = pNext;
@@ -387,7 +386,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//向きのZ座標を絶対値にする
 			float fDirAbsoluteZ = fabsf(dir.z);
 
-			if (fabsf(midPoint.z) > obb.size.z + fDirAbsoluteZ)
+			if (fabsf(midPoint.z) > size.z + fDirAbsoluteZ)
 			{
 				//次情報へ切り替え
 				pScene = pNext;
@@ -400,7 +399,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			fDirAbsoluteZ += FLT_EPSILON;
 
 			if (fabsf(midPoint.y * dir.z - midPoint.z * dir.y) >
-				obb.size.y * fDirAbsoluteZ + obb.size.z * fDirAbsoluteY)
+				size.y * fDirAbsoluteZ + size.z * fDirAbsoluteY)
 			{
 				//次情報へ切り替え
 				pScene = pNext;
@@ -408,15 +407,16 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 				continue;
 			}
 			if (fabsf(midPoint.z * dir.x - midPoint.x * dir.z) >
-				obb.size.x * fDirAbsoluteZ + obb.size.z * fDirAbsoluteX)
+				size.x * fDirAbsoluteZ + size.z * fDirAbsoluteX)
 			{
 
 				//次情報へ切り替え
 				pScene = pNext;
 				continue;
 			}
+
 			if (fabsf(midPoint.x * dir.y - midPoint.y * dir.x) >
-				obb.size.x * fDirAbsoluteY + obb.size.y * fDirAbsoluteX)
+				size.x * fDirAbsoluteY + size.y * fDirAbsoluteX)
 			{
 				//次情報へ切り替え
 				pScene = pNext;
@@ -449,61 +449,4 @@ void CJailerView::ChangeColor(void)
 	{
 		SetColor(D3DCOLOR_RGBA(0, 0, 255, 255));
 	}
-}
-
-//=============================================================================
-//判定用のOBBデータの作成
-//=============================================================================
-HRESULT CJailerView::CreateOBBData(CJailerView::OBB_DATA *pOBB, const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const LPD3DXMESH pMesh)
-{
-	D3DXMATRIX mtxRot;	//回転マトリックス
-
-	D3DXVECTOR3 max = D3DXVECTOR3(-1000000.0f, -1000000.0f, -1000000.0f);
-	D3DXVECTOR3 min = D3DXVECTOR3(1000000.0f, 1000000.0f, 1000000.0f);
-
-	if (pMesh)
-	{
-		MESH_VERTEX *pMeshVer = nullptr;
-
-		//メッシュの頂点バッファのロック
-		pMesh->LockVertexBuffer(0, (void**)&pMeshVer);
-
-		//メッシュの数を取得
-		DWORD wdMeshNum = pMesh->GetNumVertices();
-
-		for (int nCntMesh = 0; nCntMesh < (int)wdMeshNum; nCntMesh++)
-		{
-			D3DXVECTOR3 pos = pMeshVer[nCntMesh].pos;
-
-			if (pos.x < min.x)min.x = pos.x;
-			if (pos.x > max.x)max.x = pos.x;
-			if (pos.y < min.y)min.y = pos.y;
-			if (pos.y > max.y)max.y = pos.y;
-			if (pos.z < min.z)min.z = pos.z;
-			if (pos.z > max.z)max.z = pos.z;
-		}
-
-		//メッシュの頂点バッファのアンロック
-		pMesh->UnlockVertexBuffer();
-
-		//中心位置の取得
-		pOBB->Center = (min + max) / DIVIDE_2 + pos;
-
-		//向きから回転ベクトルを作成
-		D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-
-		//各面の方向を回転ベクトルから取得
-		pOBB->Dir[0] = D3DXVECTOR3(mtxRot._11, mtxRot._12, mtxRot._13);
-		pOBB->Dir[1] = D3DXVECTOR3(mtxRot._21, mtxRot._22, mtxRot._23);
-		pOBB->Dir[2] = D3DXVECTOR3(mtxRot._31, mtxRot._32, mtxRot._33);
-
-		//長さの取得(長さは半分の絶対値とする)
-		pOBB->size.x = fabsf(max.x - min.x) / DIVIDE_2;
-		pOBB->size.y = fabsf(max.y - min.y) / DIVIDE_2;
-		pOBB->size.z = fabsf(max.z - min.z) / DIVIDE_2;
-
-		return S_OK;
-	}
-
-	return E_FAIL;
 }
