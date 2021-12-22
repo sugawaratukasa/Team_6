@@ -59,3 +59,11 @@ void CPCRoomKey::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CPCRoomKeyObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CPCRoomKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CPCRoomKeyObject::Create(pos, ZeroVector3);
+}

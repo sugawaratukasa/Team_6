@@ -58,3 +58,11 @@ void CControlRoomKey::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CControlRoomKeyObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CControlRoomKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CControlRoomKeyObject::Create(pos, ZeroVector3);
+}

@@ -58,3 +58,11 @@ void CJailerRoomKey::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CJailerKeyObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CJailerRoomKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CJailerKeyObject::Create(pos, ZeroVector3);
+}

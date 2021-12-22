@@ -133,7 +133,7 @@ HRESULT CGame::Init(void)
 	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 	CMapSpot::Init();
 
-	CreateJailer();
+	//CreateJailer();
 
 
 	// アイテムの生成
@@ -232,6 +232,7 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
+		CPrisonKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
 }
 

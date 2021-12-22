@@ -24,6 +24,7 @@
 #include "black_fill_polygon.h"
 #include "control_room_door.h"
 #include "storage_door.h"
+#include "object_duct_wall.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -367,9 +368,16 @@ void CMap::CreateModel(void)
 			// ドア
 			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
 		case MODEL_TYPE_STORAGE_DOOR:
 			// ドア
 			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// ダクト
+		case MODEL_TYPE_DUCT:
+			// ドア
+			CDuct_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 			// 例外
 		default:

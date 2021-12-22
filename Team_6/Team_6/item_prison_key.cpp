@@ -58,3 +58,11 @@ void CPrisonKey::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CPrisonKeyObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CPrisonKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CPrisonKeyObject::Create(pos, ZeroVector3);
+}

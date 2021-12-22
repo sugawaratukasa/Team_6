@@ -175,6 +175,7 @@
     <ClCompile Include="debug_proc.cpp" />
     <ClCompile Include="door_collision.cpp" />
     <ClCompile Include="door_wall_collision.cpp" />
+    <ClCompile Include="duct_collision.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="fan3d.cpp" />
     <ClCompile Include="floor.cpp" />
@@ -239,6 +240,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_door.cpp" />
     <ClCompile Include="object_door_wall.cpp" />
+    <ClCompile Include="object_duct_wall.cpp" />
     <ClCompile Include="object_iron_window_wall.cpp" />
     <ClCompile Include="object_keepout_wall.cpp" />
     <ClCompile Include="object_prison_door_left.cpp" />
@@ -323,6 +325,7 @@
     <ClInclude Include="debug_proc.h" />
     <ClInclude Include="door_collision.h" />
     <ClInclude Include="door_wall_collision.h" />
+    <ClInclude Include="duct_collision.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
@@ -388,6 +391,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="object_door.h" />
     <ClInclude Include="object_door_wall.h" />
+    <ClInclude Include="object_duct_wall.h" />
     <ClInclude Include="object_iron_window_wall.h" />
     <ClInclude Include="object_keepout_wall.h" />
     <ClInclude Include="object_prison_door_left.h" />

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\duct">
+      <UniqueIdentifier>{b2a895af-4ff7-4732-8362-6f94b76b80b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baton_guid_texture.cpp">
@@ -452,6 +455,12 @@
     </ClCompile>
     <ClCompile Include="xfile.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="object_duct_wall.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="duct_collision.cpp">
+      <Filter>ソース ファイル\duct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -895,6 +904,12 @@
     </ClInclude>
     <ClInclude Include="xfile.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="object_duct_wall.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="duct_collision.h">
+      <Filter>ソース ファイル\duct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

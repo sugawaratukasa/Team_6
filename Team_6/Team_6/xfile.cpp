@@ -55,6 +55,7 @@ CXfile::CXfile()
 		{ "data/Model/Map/09_Lever_Body.x" },				// レバーボディー
 		{ "data/Model/Map/010_keepOut_Wall.x" },			// 開かないドアの壁
 		{ "data/Model/Map/011_IronWindow_Wall.x" },			// 鉄窓の壁
+		{ "data/Model/Map/012_DuctWall.x" },			// ダクト付きの壁
 	};
 
 	// 階層構造モデル

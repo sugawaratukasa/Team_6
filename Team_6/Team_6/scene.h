@@ -30,9 +30,9 @@ public:
 	{
 		PRIORITY_0 = 0,
 		PRIORITY_1,
-
 		PRIORITY_MAP,			// マップ
 		PRIORITY_OBJ_COLLISION,	// オブジェクトの判定用
+		PRIORITY_DUCT,			// ダクトの判定用
 		PRIORITY_MODEL,			// モデル
 		PRIORITY_CHARACTER,		// キャラクター
 		PRIORITY_EFFECT,		// エフェクト

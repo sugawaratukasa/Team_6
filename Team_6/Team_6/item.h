@@ -33,6 +33,7 @@ public:
 	virtual void Uninit(void) = 0;
 	virtual void Update(void) = 0;
 	virtual void ItemCreate(int nPlayer) = 0;
+	virtual void DuctPass(D3DXVECTOR3 pos) = 0;
 	void SetPlayerItemGetList(CPlayer::ITEM_GET_LIST PlayerItemGetList){ m_ItemType  = PlayerItemGetList;}
 	CPlayer::ITEM_GET_LIST GetItemType(void) { return m_ItemType; }
 private:

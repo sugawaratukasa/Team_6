@@ -36,6 +36,7 @@
 #include "item_guid_prison_key.h"
 #include "item_control_room_key.h"
 #include "door_collision.h"
+#include "duct_collision.h"
 
 //=============================================================================
 // マクロ定義
@@ -57,7 +58,8 @@
 #define ANGLE_270				(D3DXToRadian(270.0f))					// 角度270
 #define PARENT_NUM				(0)										// 親のナンバ
 #define MOVE_MIN				(0.0f)									// 移動量の最小
-
+#define DUCT_POS_LEFT			(D3DXVECTOR3(DuctPos.x + 100.0f,DuctPos.y,DuctPos.z))	// 左ダクト位置
+#define DUCT_POS_RIGHT			(D3DXVECTOR3(DuctPos.x - 100.0f,DuctPos.y,DuctPos.z))	// 右ダクト位置
 //=============================================================================
 // コンストラクタ
 // Author : Nikaido Taichi
@@ -165,6 +167,8 @@ void CPlayer::Update(void)
 	// 扉を開く処理
 	DoorOpen();
 
+	// アイテムダクト受け渡し処理
+	Item_DuctPass();
 	// UIポインタのnullptrチェック
 	if (m_pUI != nullptr)
 	{
@@ -557,7 +561,10 @@ void CPlayer::DoorOpen(void)
 
 						// ドアに対応したアイテムを所持している場合
 						if (m_abGetItem[ITEM_KEY_PRISON] == true && nDoorType == CDoor_Collision::TYPE_PRISON ||
-							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM)
+							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
+							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
+							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
+							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH)
 						{
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))
@@ -573,6 +580,100 @@ void CPlayer::DoorOpen(void)
 								}
 								// 扉を開く
 								((CDoor_Collision*)pScene)->Open();
+							}
+						}
+					}
+				}
+				// 次のポインタ取得
+				pScene = pSceneCur;
+			}
+		}
+	}
+}
+//=============================================================================
+// ダクトの処理
+// Author : SugawaraTsukasa
+//=============================================================================
+void CPlayer::Item_DuctPass(void)
+{
+	// CSceneのポインタ
+	CScene *pScene = nullptr;
+
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// サウンドのポインタ
+	CSound * pSound = GET_SOUND_PTR;
+
+	// nullcheck
+	if (pScene == nullptr)
+	{
+		// 先頭のポインタ取得
+		pScene = GetTop(CScene::PRIORITY_DUCT);
+
+		// !nullcheck
+		if (pScene != nullptr)
+		{
+			// 判定用オブジェ取得
+			while (pScene != nullptr) // nullptrになるまで回す
+			{
+				// 現在のポインタ
+				CScene *pSceneCur = pScene->GetNext();
+
+				// 位置取得
+				D3DXVECTOR3 DuctPos = ((CDuct_Collision*)pScene)->GetPos();
+
+				// サイズ取得
+				D3DXVECTOR3 DuctSize = ((CDuct_Collision*)pScene)->GetSize();
+
+				// 立方体の判定
+				if (CCollision::CollisionRectangleAndRectangle(pos, DuctPos, size, DuctSize) == true)
+				{
+					// キーボード取得
+					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+
+					// Fが押された場合
+					if (pKeyboard->GetTrigger(DIK_F))
+					{
+						// 選択しているアイテムの種類を取得する
+						int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+
+						// もし鍵の場合
+						if (nItemType >= ITEM_KEY_PRISON && nItemType <= ITEM_KEY_CONTROL_ROOM)
+						{
+							// UIを消す	
+							m_pUI->Uninit();
+
+							// 選択しているアイテムの取得状態をfalseにする
+							SetSubbGetItem(nItemType, false);
+
+							// 種類取得
+							int nDuctType = ((CDuct_Collision*)pScene)->GetType();
+
+							// ダクトタイプがLEFTの場合
+							if (nDuctType == CDuct_Collision::TYPE_LEFT)
+							{
+								// アイテムを生成する
+								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_RIGHT);
+							}
+							// ダクトタイプがRIGHTの場合
+							if (nDuctType == CDuct_Collision::TYPE_RIGHT)
+							{
+								// アイテムを生成する
+								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_LEFT);
+							}
+
+							// アイテム効果初期化処理関数呼び出し
+							ItemEffectUninit();
+
+							// アイテムの最大数分回す
+							for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+							{
+								// アイテム効果生成処理関数呼び出し
+								ItemEffectCreate(nCount);
 							}
 						}
 					}

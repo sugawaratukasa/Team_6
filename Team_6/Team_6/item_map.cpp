@@ -188,3 +188,12 @@ void CItemMap::ItemCreate(int nPlayer)
 	// マップアイテムを生成する
 	CMapObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CItemMap::DuctPass(D3DXVECTOR3 pos)
+{
+	// マップアイテムを生成する
+	CMapObject::Create(pos, ZeroVector3);
+}

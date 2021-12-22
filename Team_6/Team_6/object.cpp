@@ -66,6 +66,9 @@ HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// 初期化処理
 	CModel::Init(pos, rot);
+
+	// 判定のサイズ確認用
+	CModelCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
