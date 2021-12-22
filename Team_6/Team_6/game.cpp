@@ -78,7 +78,8 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-#define POS	(D3DXVECTOR3(0.0f,50.0f,0.0f))
+#define POS	(D3DXVECTOR3(PLAYER2_POS.x,PLAYER2_POS.y + 100.0f,PLAYER2_POS.z))
+#define ROT	(D3DXVECTOR3(0.0f,D3DXToRadian(180.0f),0.0f))
 //=======================================================================================
 // コンストラクタ
 //=======================================================================================
@@ -124,9 +125,6 @@ HRESULT CGame::Init(void)
 	// 監視カメラの生成
 	CreateSecCam();
 
-	// マップ生成	
-	CMap::Create();
-
 	// UIの生成
 	CScreenFrame::Create();
 	CTimer::Create();
@@ -147,7 +145,9 @@ HRESULT CGame::Init(void)
 	// アイテムの生成
 	CreateItem();
 
-	CGoal_Door::Create(PLAYER2_POS, ZeroVector3);
+	// マップ生成	
+	CMap::Create();
+
 	return S_OK;
 }
 //=======================================================================================
@@ -236,12 +236,16 @@ void CGame::CreatePlayer(void)
 	if (m_apPlayer[0] == nullptr)
 	{
 		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
+
+		CPrisonKeyObject::Create(PLAYER1_POS, ZeroVector3);
 	}
 
 	// プレイヤー2の生成
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
+
+		CPrisonKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
 }
 

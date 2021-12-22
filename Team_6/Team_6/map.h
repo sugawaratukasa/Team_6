@@ -7,6 +7,7 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 #include "main.h"
+#include "lever.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -16,6 +17,7 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 class CPrison_Cell_Door;
+class CLever;
 //========================================================================
 // マップクラス
 // Author : Sugawara Tsukasa
@@ -95,4 +97,6 @@ private:
 	vector <MODEL_LOAD_IFNO> m_aModelInfo;			// モデル読み込み情報
 	CPrison_Cell_Door *m_pPrison_Cell_Door1;		// 独房のドア1
 	CPrison_Cell_Door *m_pPrison_Cell_Door2;		// 独房のドア2
+	CLever *m_pLever1;								// レバー1
+	CLever *m_pLever2;								// レバー2
 };

@@ -33,6 +33,7 @@ public:
 		TYPE_SWITCH,
 		TYPE_STORAGE,
 		TYPE_CAMERA_ROOM,
+		TYPE_LEVER,
 		TYPE_MAX
 	};
 	CDoor_Collision(PRIORITY Priority = PRIORITY_OBJ_COLLISION);					// コンストラクタ

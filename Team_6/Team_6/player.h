@@ -106,6 +106,7 @@ public:
 	bool GetbItem(int nItem) { return m_abGetItem[nItem]; }		// アイテムの取得状況取得関数
 	bool GetbGoal(void) { return m_bGoal; }						// ゴール状態所得関数
 	bool GetbIncapacitated(void) { return m_bIncapacitated; }	// 行動不能状態取得関数
+	int &GetIncapacitatedTimeCount(void) { return m_nIncapacitatedTimeCount; }    // 行動不能カウント取得
 	bool GetbGuidCreate(void) { return m_bGuidCreate; }			// アイテム説明テクスチャの生成状態取得関数
 	TYPE GetType(void) { return m_Type; }
 private:

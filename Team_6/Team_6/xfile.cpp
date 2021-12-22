@@ -50,8 +50,6 @@ CXfile::CXfile()
 		{ "data/Model/Map/06_PrisonDoor_LeftPoint.x" },		// 牢屋のドア
 		{ "data/Model/Map/07_Switch.x" },					// スイッチ
 		{"data/Model/Map/04_Camera.x"},						// 監視カメラ
-		{ "data/Model/Map/08_Lever_Handle.x" },				// レバーハンドル
-		{ "data/Model/Map/09_Lever_Body.x" },				// レバーボディー
 		{ "data/Model/Map/010_keepOut_Wall.x" },			// 開かないドアの壁
 		{ "data/Model/Map/011_IronWindow_Wall.x" },			// 鉄窓の壁
 		{ "data/Model/Map/012_DuctWall.x" },				// ダクト
@@ -64,6 +62,8 @@ CXfile::CXfile()
 		{ "data/Model/Map/019_Generator.x" },				// 発電機
 		{ "data/Model/Map/020_WindowWall.x" },				// 窓付き壁
 		{ "data/Model/Map/021_Goal_Door.x" },				// ゴールのドア
+		{ "data/Model/Map/022_LeverSwitch_body_ob.x" },		// レバー土台
+		{ "data/Model/Map/023_LeverSwitch_Lever_ob.x" },	// レバー
 	};
 
 	// 階層構造モデル

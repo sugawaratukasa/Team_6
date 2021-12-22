@@ -565,7 +565,8 @@ void CPlayer::DoorOpen(void)
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
 							m_abGetItem[ITEM_KEY_CAMERA_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
-							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH)
+							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH || 
+							nDoorType == CDoor_Collision::TYPE_LEVER)
 						{
 							// F‚ª‰Ÿ‚³‚ê‚½ê‡
 							if (pKeyboard->GetTrigger(DIK_F))

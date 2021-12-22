@@ -95,7 +95,7 @@ HRESULT CGauge::Init(void)
 	m_fRatio = 0.0f;
 	m_nRemainTime = TIMER_MINIT;
 	m_bTimer = false;
-
+	m_nElapsedTime = ZERO_INT;
 	return S_OK;
 }
 
@@ -238,12 +238,12 @@ void CGauge::Uninit(void)
 //=============================================================================
 void CGauge::CalcTime(void)
 {
-	int nElapsedTime = time(NULL) - m_nTime;
+	m_nElapsedTime = time(NULL) - m_nTime;
 
 	// äÑçáÇãÅÇﬂÇƒUIÇâÒì]
-	if (nElapsedTime % 60 == 0)
+	if (m_nElapsedTime % 60 == 0)
 	{
-		m_fRatio = (float)nElapsedTime / (float)(TIMER_LENGTH);
+		m_fRatio = (float)m_nElapsedTime / (float)(TIMER_LENGTH);
 	}
 	m_fAngle = D3DXToRadian(TIMER_ANGLE * m_fRatio);
 

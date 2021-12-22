@@ -140,4 +140,7 @@ void CSwitch::Push(void)
 {
 	// ”à‚ðŠJ‚­
 	m_pPrison_Cell_Door->SetLock(false);
+
+	// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½ê‡‚Ìˆ—
+	m_pPrison_Cell_Door->Push();
 }
