@@ -8,7 +8,7 @@
 // Author : Sugawara Tsukasa
 //=============================================================================
 
-#define COLLISION_SIZE	(D3DXVECTOR3(100.0f,170.0f,100.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(100.0f,370.0f,100.0f))	// サイズ
 #define COLLISION_SIZE2	(D3DXVECTOR3(100.0f,170.0f,100.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================

@@ -540,6 +540,9 @@
     <ClCompile Include="obb.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="mode_ranking_board.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h">
@@ -1024,6 +1027,9 @@
     <ClInclude Include="object_duct_wall.h" />
     <ClInclude Include="obb.h">
       <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="mode_ranking_board.h">
+      <Filter>Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

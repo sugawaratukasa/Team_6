@@ -53,7 +53,8 @@ public:
 		MODE_TYPE_TUTORIAL,			// チュートリアル
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト
-		MODE_TYPE_RANKING,			// ランキング
+		MODE_TYPE_RANKING_RESULT,	// ランキング
+		MODE_TYPE_RANKING_BOARD,	// ランキング
 		MODE_TYPE_GAMEOVER,
 		MODE_TYPE_MAX,
 	};
@@ -67,12 +68,10 @@ public:
 	void Draw(void);												// 描画処理
 	void LoadAll(void);												// 全てのロード処理
 
-																	// Set関数
+	// Set関数
 	static void SetMode(MODE_TYPE mode);							// モードの設定
 
-																	// Get関数
-
-
+	// Get関数
 	static MODE_TYPE GetMode(void);																// モードの情報
 	static CRenderer *GetRenderer(void) { return m_pRenderer.get(); }							// レンダラー情報
 	static CInputKeyboard *GetKeyboard(void) { return m_pInput.get(); }							// キーボード情報
