@@ -13,1124 +13,1017 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-
-    <Filter Include="ソース ファイル\Button">
-      <UniqueIdentifier>{965825f6-482d-4e7f-902b-c2ea09271325}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Camera">
-      <UniqueIdentifier>{fc51c043-d48b-42d2-8fb2-399998af230e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Texture">
-      <UniqueIdentifier>{337cb9fc-2349-46a3-862f-2803d0ed80d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object">
-      <UniqueIdentifier>{dd7031d7-a357-45dd-b571-85ef06b31a1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Jailer">
-      <UniqueIdentifier>{56d73ac2-9445-409b-af3c-7a73af3f5af3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Input">
-      <UniqueIdentifier>{49799a89-d21a-449a-bbdd-742a91d7fd85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\UI">
-      <UniqueIdentifier>{8432217b-0f1d-4426-b6d0-390f8c38325b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Resource">
-      <UniqueIdentifier>{47b4383a-ea03-4681-9266-cfca2e477b20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Collision">
-      <UniqueIdentifier>{edfa4238-7ce6-4e02-88d6-6b7818a4346b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Item">
-      <UniqueIdentifier>{54e63165-30fa-4dce-8cf6-04f64dbcf211}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Base">
+    <Filter Include="Base">
       <UniqueIdentifier>{416b920e-77e5-4716-9feb-c0acc6c3a3ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Player">
-      <UniqueIdentifier>{967c21a8-cc8e-425b-a2cf-cc4b85918e87}</UniqueIdentifier>
+    <Filter Include="Button">
+      <UniqueIdentifier>{965825f6-482d-4e7f-902b-c2ea09271325}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Mode">
-      <UniqueIdentifier>{cd492a13-eb34-4fc2-ae27-3404dbba2580}</UniqueIdentifier>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{fc51c043-d48b-42d2-8fb2-399998af230e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\duct">
+    <Filter Include="Collision">
+      <UniqueIdentifier>{edfa4238-7ce6-4e02-88d6-6b7818a4346b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="duct">
       <UniqueIdentifier>{b2a895af-4ff7-4732-8362-6f94b76b80b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\new map obj">
+    <Filter Include="Input">
+      <UniqueIdentifier>{49799a89-d21a-449a-bbdd-742a91d7fd85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{54e63165-30fa-4dce-8cf6-04f64dbcf211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jailer">
+      <UniqueIdentifier>{56d73ac2-9445-409b-af3c-7a73af3f5af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mode">
+      <UniqueIdentifier>{cd492a13-eb34-4fc2-ae27-3404dbba2580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="new map obj">
       <UniqueIdentifier>{5e87ba44-c5d9-40d8-8f41-6db04b6bb345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{dd7031d7-a357-45dd-b571-85ef06b31a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{967c21a8-cc8e-425b-a2cf-cc4b85918e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{47b4383a-ea03-4681-9266-cfca2e477b20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{337cb9fc-2349-46a3-862f-2803d0ed80d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8432217b-0f1d-4426-b6d0-390f8c38325b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-
-    <ClCompile Include="fog.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-
-    <ClCompile Include="map.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-
     <ClCompile Include="button.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_back_to_title.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_exit.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_guid.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_quit_game.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_ranking.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="button_start.cpp">
-
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="title_button_manager.cpp">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="pause_button_manager.cpp">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
-
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="camera_game.cpp">
-
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Camera_Security.cpp">
-
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="camera_title.cpp">
-
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
-
     <ClCompile Include="baton_guid_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="baton_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="control_room_key_guid_texture.cpp">
-
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="control_room_key_texture.cpp">
-
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="electrical_room_key_guid_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_baton.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_control_room_key.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_electrical_room_key.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_jailer_room_key.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_map.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_pc_room_key.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="item_object_storage_key.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_AttackState.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_door.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_LostTargetState.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_return_routeState.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_spot.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jailer_view.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jalier_ChaseState.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="jalier_MoveState.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_item_guid.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_item_guid_1p.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_item_guid_2p.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_player_item.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_player1_item.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="ui_player2_item.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
-
     <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
-
     <ClCompile Include="object.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_door.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_door_wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_iron_window_wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_keepout_wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_prison_door_left.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_prison_door_right.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_prison_wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_switch.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_switch_collision.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="object_wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
-
     <ClCompile Include="texture.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
-
     <ClCompile Include="sound.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
-
     <ClCompile Include="xfile.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
-
     <ClCompile Include="tutorial.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
-
     <ClCompile Include="title.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
-
     <ClCompile Include="character_collision_box.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
-
     <ClCompile Include="collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
-
     <ClCompile Include="item_baton.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
-
     <ClCompile Include="item_control_room_key.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
-
     <ClCompile Include="item_jailer_room_key.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
-
     <ClCompile Include="item_map.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
-
     <ClCompile Include="item_pc_room_key.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
-
     <ClCompile Include="item_storage_key.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="ranking.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="manager.cpp">
-
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
-
     <ClCompile Include="map_guid_texture.cpp">
-
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="map_ui_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="map_texture.cpp">
-
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="pause_logo_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="pc_room_key_guid_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="pc_room_key_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="storage_key_guid_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="storage_key_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="control_room_door.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="control_room_door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="door_wall_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="goal_area.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="mode_base.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="mode_ranking.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="prison_door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="storage_door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="guards_door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="joypad.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="keyboard.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="prison_cell_door.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="resource_manager.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="scene.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="scene_2d.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="scene_base.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="scene3d.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="billboard.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="fade.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="library.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="light.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="player_1.cpp">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="player_2.cpp">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="black_fill_polygon.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="character.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="fan3d.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
     <ClCompile Include="floor.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Guage.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="lever.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="lever_body.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="lever_handle.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="polygon.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="renderer.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="ranking_bg.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="result.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="model_collision_box.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="motion.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Movie.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="model_anime.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="model.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="particle.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="particle_emitter.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="particle_manager.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="textlog.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="logo_title.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="Number.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="Screenframe.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="ui_flame_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="select_item_flame.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="spot_polygon.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
     <ClCompile Include="storage_door.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="map_spot.cpp">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClCompile>
     <ClCompile Include="item_electrical_room_key.cpp">
-      <Filter>ソース ファイル\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="item_spawn.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="electrical_key_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="map1_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="map2_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="guid_bg.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="jailer_key_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="jailer_key_guid_texture.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="jailer_door_collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="mode_gameover.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="bg_pause.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="bg_title.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="bg_gameover.cpp">
-      <Filter>ソース ファイル\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="object_duct_wall.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="duct_collision.cpp">
-      <Filter>ソース ファイル\duct</Filter>
-    </ClCompile>
-    <ClCompile Include="electrical_room_door.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="electrical_room_door_collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="camera_room_door.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="camera_room_door_collision.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>duct</Filter>
     </ClCompile>
     <ClCompile Include="object_wood_chair.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_wood_desk.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_metal_chair.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_metal_desk.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_wood_box.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_table.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_generator.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="object_window_wall.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClCompile>
     <ClCompile Include="goal_door.cpp">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_room_door.cpp" />
+    <ClCompile Include="camera_room_door_collision.cpp" />
+    <ClCompile Include="electrical_room_door.cpp" />
+    <ClCompile Include="electrical_room_door_collision.cpp" />
+    <ClCompile Include="fog.cpp" />
+    <ClCompile Include="item_spawn.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="object_duct_wall.cpp" />
+    <ClCompile Include="time.cpp" />
+    <ClCompile Include="obb.cpp">
+      <Filter>Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="map.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="fog.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="button.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_back_to_title.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_exit.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_guid.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_quit_game.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_ranking.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="button_start.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="title_button_manager.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="pause_button_manager.h">
-      <Filter>ソース ファイル\Button</Filter>
+      <Filter>Button</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="camera_game.h">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="Camera_Security.h">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="camera_title.h">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="baton_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="baton_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="control_room_key_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="control_room_key_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="electrical_room_key_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="item_object.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_baton.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_control_room_Key.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_electrical_room_key.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_jailer_room_key.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_map.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_pc_room_key.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="item_object_storage_key.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="jailer.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_AttackState.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_door.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_LostTargetState.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_return_routeState.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_spot.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_State.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jailer_view.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="jalier_ChaseState.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="Jalier_MoveState.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="ui_item_guid.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_item_guid_1p.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_item_guid_2p.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_player_item.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_player1_item.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_player2_item.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_door.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_door_wall.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_iron_window_wall.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_keepout_wall.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_prison_door_left.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_prison_door_right.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_prison_wall.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_switch.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_switch_collision.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="object_wall.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="texture.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="xfile.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="tutorial.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="title.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="character_collision_box.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="item_baton.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="item_control_room_key.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="item_jailer_room_key.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="item_map.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="item_pc_room_key.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="item_storage_key.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="ranking.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="manager.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="map_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="map_ui_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="map_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="pause_logo_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="pc_room_key_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="pc_room_key_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="storage_key_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="storage_key_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="control_room_door.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="control_room_door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="door_wall_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="goal_area.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="mode_base.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="mode_ranking.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="prison_door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="storage_door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="guards_door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="joypad.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="keyboard.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="prison_cell_door.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="resource_manager.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="scene_2d.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="scene_base.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="scene3d.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="billboard.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="library.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="player_1.h">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="player_2.h">
-      <Filter>ソース ファイル\Player</Filter>
+      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="black_fill_polygon.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="fan3d.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="floor.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Guage.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
-      <Filter>ソース ファイル\Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="lever.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="lever_body.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="lever_handle.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="polygon.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="renderer.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="ranking_bg.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="model_collision_box.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="motion.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Movie.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="model_anime.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="model.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="particle.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="particle_emitter.h">
-      <Filter>ソース ファイル\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="particle_manager.h">
-      <Filter>ソース ファイル\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="textlog.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="logo_title.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="Number.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="Screenframe.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="ui_flame_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="select_item_flame.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="spot_polygon.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="storage_door.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="map_spot.h">
-      <Filter>ソース ファイル\Jailer</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="item_electrical_room_key.h">
-      <Filter>ソース ファイル\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="item_spawn.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="electrical_key_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="map1_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="map2_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="guid_bg.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="jailer_key_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="jailer_key_guid_texture.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="jailer_door_collision.h">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="mode_gameover.h">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="bg_pause.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="bg_title.h">
-      <Filter>ソース ファイル\Texture</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="bg_gameover.h">
-      <Filter>ソース ファイル\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="object_duct_wall.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="duct_collision.h">
-      <Filter>ソース ファイル\duct</Filter>
-    </ClInclude>
-    <ClInclude Include="electrical_room_door.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="electrical_room_door_collision.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="camera_room_door.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="camera_room_door_collision.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>duct</Filter>
     </ClInclude>
     <ClInclude Include="object_wood_chair.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_wood_desk.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_metal_chair.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_metal_desk.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_wood_box.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_table.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_generator.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="object_window_wall.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
     </ClInclude>
     <ClInclude Include="goal_door.h">
-      <Filter>ソース ファイル\new map obj</Filter>
+      <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_room_door.h" />
+    <ClInclude Include="camera_room_door_collision.h" />
+    <ClInclude Include="electrical_room_door.h" />
+    <ClInclude Include="electrical_room_door_collision.h" />
+    <ClInclude Include="fog.h" />
+    <ClInclude Include="item_spawn.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="time.h" />
+    <ClInclude Include="object_duct_wall.h" />
+    <ClInclude Include="obb.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@
 //前方宣言
 //=============================================================================
 class CJailerState;
-class CMapSpot;
 class CJailerSpot;
 
 //=============================================================================
@@ -83,6 +82,7 @@ public:
 	int GetTime(void) { return m_nSwitchingTime; }					//タイマーゲット
 	float GetDestLength(void)const { return m_fDestLength; }	//目的地の距離の長さの取得
 	AROUND_CONFIRMATION GetAround(void) { return m_eAroud; }
+
 private:
 	//=========================================================================
 	//メンバ変数宣言

@@ -23,6 +23,7 @@ class CPlayer;
 class CPrison_Cell_Door : public CDoor
 {
 public:
+
 	CPrison_Cell_Door(PRIORITY Priority = PRIORITY_MODEL);									// コンストラクタ
 	~CPrison_Cell_Door();																	// デストラクタ
 	static CPrison_Cell_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer);	// 生成処理

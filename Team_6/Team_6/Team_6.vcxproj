@@ -251,6 +251,7 @@
     <ClCompile Include="motion.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Number.cpp" />
+    <ClCompile Include="obb.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_generator.cpp" />
     <ClCompile Include="object_table.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="motion.h" />
     <ClInclude Include="Movie.h" />
     <ClInclude Include="Number.h" />
+    <ClInclude Include="obb.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object_door.h" />
     <ClInclude Include="object_door_wall.h" />

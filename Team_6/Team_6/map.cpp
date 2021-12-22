@@ -371,12 +371,13 @@ void CMap::CreateModel(void)
 
 			// ŠJ‚©‚È‚¢ƒhƒA‚Ì•Ç
 		case MODEL_TYPE_KEEPOUT_WALL:
-			CKeepOut_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			//CKeepOut_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 
 			// “S‘‹‚Ì•Ç
 		case MODEL_TYPE_IRON_WINDOW_WALL:
-			CIronWindow_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			//CIronWindow_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			//CPrison_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 
 			// ŠÅŽç‚Ì”à

@@ -10,6 +10,7 @@
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "model.h"
+#include "obb.h"
 
 //=============================================================================
 // オブジェクトクラス
@@ -35,8 +36,11 @@ public:
 	virtual void Update(void);									// 更新処理
 	virtual void Draw(void);									// 描画処理
 	void SetType(TYPE type) { m_Type = type; }					// 種類の設定
+	void SetObb(CObb *pObb) { m_pObb = pObb; }
 	TYPE GetType(void) { return m_Type; }						// 種類取得
+	CObb *GetObbPtr(void) { return m_pObb; }
 private:
 	TYPE m_Type;	// 種類
+	CObb *m_pObb;	//OBBクラスポインタ
 };
 #endif
