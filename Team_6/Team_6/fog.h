@@ -12,17 +12,28 @@
 //=========================================================================
 #include "main.h"
 
-typedef enum
+class CFog
 {
-	FOG_NONE = 0,
-	FOG_END,
-	FOG_WARNING,
-}FOG_STATE;
+public:
+	CFog();
+	~CFog();
 
-HRESULT InitFog(void);
-HRESULT InitPlayerFog(void);
-HRESULT InitSecCamFog(void);
-void UpdateFog(void);
-void SetFogState(FOG_STATE state);
+	typedef enum
+	{
+		FOG_NONE = 0,
+		FOG_END,
+		FOG_WARNING,
+	}FOG_STATE;
 
+	HRESULT InitPlayerFog(void);
+	HRESULT InitSecCamFog(void);
+	void UpdateFog(void);
+	void SetFogState(FOG_STATE state);
+private:
+	int m_nFogCount;
+	FOG_STATE m_FogState;
+	D3DXCOLOR m_col;
+	float m_fColRate;
+	bool m_bFadeIn;
+};
 #endif

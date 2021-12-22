@@ -98,6 +98,7 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/control_room_key_guid.png" },
 		{ "data/Texture/black.png" },
 		{ "data/Texture/log_01_player1.png" },
+		{ "data/Texture/log_01_player2.png" },
 		};
 
 	// 分割テクスチャ

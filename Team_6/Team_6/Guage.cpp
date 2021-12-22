@@ -241,10 +241,7 @@ void CGauge::CalcTime(void)
 	int nElapsedTime = time(NULL) - m_nTime;
 
 	// Š„‡‚ð‹‚ß‚ÄUI‚ð‰ñ“]
-	if (nElapsedTime % 60 == 0)
-	{
-		m_fRatio = (float)nElapsedTime / (float)(TIMER_LENGTH);
-	}
+	m_fRatio = (float)nElapsedTime / (float)(TIMER_LENGTH);
 	m_fAngle = D3DXToRadian(TIMER_ANGLE * m_fRatio);
 
 	if (m_fAngle >= D3DXToRadian(360))

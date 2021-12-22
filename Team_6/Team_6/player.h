@@ -70,7 +70,6 @@ public:
 		PLAYER_NONE = -1,
 		PLAYER_1,
 		PLAYER_2,
-		PLAYER_MAX
 	};
 	CPlayer(PRIORITY Priority = PRIORITY_CHARACTER);				// コンストラクタ
 	~CPlayer();														// デストラクタ

@@ -20,6 +20,7 @@
 #define VIEW_POS_Y (70.0f)			//Ž‹ü‚Ì‚‚³
 #define VIEW_POLYGON_NUM (8)		//Ž‹ü‚Ìƒ|ƒŠƒSƒ“”
 #define ADJUST_ANGLE (135.0f)		// ŠÄŽ‹ƒJƒƒ‰‚ÌŽ‹ŠEC³—p
+#define CAM_POS_Y (240.0f)			// ŠÄŽ‹ƒJƒƒ‰‚Ì‚‚³
 
 //=============================================================================
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -187,7 +188,7 @@ CCameraSecurity * CCameraSecurity::Create(D3DXVECTOR3 pos, float fDir)
 	CCameraSecurity *pSecCam;
 	pSecCam = new CCameraSecurity;
 	pSecCam->m_fDir = fDir;
-	pSecCam->Init(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pSecCam->Init(D3DXVECTOR3(pos.x, CAM_POS_Y, pos.y), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return pSecCam;
 }

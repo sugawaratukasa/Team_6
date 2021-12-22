@@ -76,7 +76,7 @@ public:
 	void CreateJailer(void);						// 看守の作成
 
 	// Get関数
-	CCameraGame *GetCamera(CAMERA_ID id) { return m_pCamera[id]; }	// カメラのポインタ情報
+	CCameraGame *GetCamera(int id) { return m_pCamera[id]; }	// カメラのポインタ情報
 	CLight *GetLight(void) { return m_pLight; }			// ライトのポインタ情報
 	CPlayer * GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }
 private:

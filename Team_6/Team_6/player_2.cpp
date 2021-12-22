@@ -23,6 +23,7 @@
 #include "storage_key_guid_texture.h"
 #include "baton_guid_texture.h"
 #include "map_guid_texture.h"
+#include "camera_game.h"
 
 //=============================================================================
 // マクロ定義
@@ -123,7 +124,7 @@ void CPlayer2::Update(void)
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
-	float fAngle = CAM_HORIZONTAL_ANGLE;
+	float fAngle = ((CGame*)CManager::GetModePtr())->GetCamera(1)->GetHorizontal();
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
 	{
