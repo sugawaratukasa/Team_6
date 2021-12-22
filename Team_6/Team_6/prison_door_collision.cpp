@@ -66,7 +66,7 @@ HRESULT CPrison_Door_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CDoor_Collision::Init(pos, rot);
 	
 	// É^ÉCÉvê›íË
-	SetType(TYPE_PRISON);
+	SetType(TYPE_ELECTRICAL_ROOM);
 
 	SetSize(COLLISION_SIZE);
 	return S_OK;

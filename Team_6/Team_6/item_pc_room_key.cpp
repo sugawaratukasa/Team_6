@@ -38,7 +38,8 @@ CPCRoomKey * CPCRoomKey::Create(void)
 
 HRESULT CPCRoomKey::Init(void)
 {
-	SetPlayerItemGetList(CPlayer::ITEM_KEY_PC_ROOM);
+
+	SetPlayerItemGetList(CPlayer::ITEM_KEY_CAMERA_ROOM);
 	return S_OK;
 }
 
@@ -58,4 +59,12 @@ void CPCRoomKey::ItemCreate(int nPlayer)
 	D3DXVECTOR3 PlayerPos;
 	PlayerPos = pPlayer->GetPos();
 	CPCRoomKeyObject::Create(PlayerPos, ZeroVector3);
+}
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CPCRoomKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CPCRoomKeyObject::Create(pos, ZeroVector3);
 }

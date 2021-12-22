@@ -26,6 +26,7 @@
 #include "result.h"
 #include "xfile.h"
 #include "polygon.h"
+
 #include "Movie.h"
 #include "mode_ranking.h"
 #include "map_spot.h"
@@ -42,6 +43,7 @@ unique_ptr<CInputJoypad> CManager::m_pJoypad = nullptr;
 unique_ptr<CScene> CManager::m_pScene = nullptr;
 unique_ptr<CResourceManager> CManager::m_pResourceManager = nullptr;
 unique_ptr<CModeBase> CManager::m_pModeBase = nullptr;
+
 unique_ptr<CMovie> CManager::m_pMovie = nullptr;
 unique_ptr<CParticle_Manager> CManager::m_pParticle_Manager = nullptr;
 //=============================================================================
@@ -69,6 +71,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 	m_pJoypad.reset(new CInputJoypad);
 	m_pFade.reset(new CFade);
 	m_pResourceManager.reset(CResourceManager::GetInstance());
+
 	m_pMovie.reset(new CMovie);
 	m_pParticle_Manager.reset(new CParticle_Manager);
 
@@ -107,6 +110,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 		m_pFade->Init();
 	}
 	// !nullcheck
+
 	if (m_pParticle_Manager != nullptr)
 	{
 		// èâä˙âªèàóù
@@ -139,6 +143,7 @@ void CManager::Uninit(void)
 		m_pParticle_Manager.reset();
 		m_pParticle_Manager = nullptr;
 	}
+
 	// !nullchack
 	if (m_pFade != nullptr)
 	{

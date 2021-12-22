@@ -33,6 +33,7 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void ItemCreate(int nPlayer);
+	void DuctPass(D3DXVECTOR3 pos);
 private:
 };
 #endif

@@ -24,6 +24,21 @@
 #include "black_fill_polygon.h"
 #include "control_room_door.h"
 #include "storage_door.h"
+#include "object_duct_wall.h"
+#include "electrical_room_door.h"
+#include "camera_room_door.h"
+#include "object_wood_box.h"
+#include "object_wood_chair.h"
+#include "object_wood_desk.h"
+#include "object_metal_chair.h"
+#include "object_metal_desk.h"
+#include "object_generator.h"
+#include "object_table.h"
+#include "object_window_wall.h"
+#include "goal_door.h"
+#include "lever.h"
+#include "game.h"
+#include "manager.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -41,6 +56,8 @@ CMap::CMap()
 	m_aModelInfo			= {};
 	m_pPrison_Cell_Door1	= nullptr;
 	m_pPrison_Cell_Door2	= nullptr;
+	m_pLever1				= nullptr;
+	m_pLever2				= nullptr;
 }
 //========================================================================
 // デストラクタ
@@ -294,6 +311,12 @@ void CMap::CreateModel(void)
 	// 要素数分取得
 	int nSize = m_aModelInfo.size();
 
+	// プレイヤーのポインタ取得
+	CPlayer *pPlayer1 = CManager::GetModePtr()->GetPlayer(0);
+
+	// プレイヤーのポインタ取得
+	CPlayer *pPlayer2 = CManager::GetModePtr()->GetPlayer(1);
+
 	// 要素数分繰り返す
 	for (int nCnt = ZERO_INT; nCnt < nSize; nCnt++)
 	{
@@ -337,13 +360,13 @@ void CMap::CreateModel(void)
 			// 独房ドア1
 		case MODEL_TYPE_PRISON_CELL_DOOR1:
 			// ドア
-			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			m_pPrison_Cell_Door1 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, pPlayer1);
 			break;
 
 			// 独房のドア2
 		case MODEL_TYPE_PRISON_CELL_DOOR2:
 			// ドア
-			m_pPrison_Cell_Door2 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			m_pPrison_Cell_Door2 = CPrison_Cell_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, pPlayer2);
 			break;
 
 			// 開かないドアの壁
@@ -367,10 +390,96 @@ void CMap::CreateModel(void)
 			// ドア
 			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
 		case MODEL_TYPE_STORAGE_DOOR:
 			// ドア
 			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
+
+			// ダクト
+		case MODEL_TYPE_DUCT:
+			// ドア
+			CDuct_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 電気室のドア
+		case MODEL_TYPE_ELECTRICAL_DOOR:
+			// ドア
+			CEletrical_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// カメラ室のドア
+		case MODEL_TYPE_CAMERA_DOOR:
+			// ドア
+			CCamera_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 窓付き壁
+		case MODEL_TYPE_WINDOW_WALL:
+			// 窓付き壁
+			CWindow_Wall::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木の椅子
+		case MODEL_TYPE_WOOD_CHAIR:
+			// 木の椅子
+			CWood_Chair::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木の机
+		case MODEL_TYPE_WOOD_DESK:
+			// 木の机
+			CWood_Desk::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 金属の椅子
+		case MODEL_TYPE_METAL_CHAIR:
+			// 金属の椅子
+			CMetal_Chair::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 金属の机
+		case MODEL_TYPE_METAL_DESK:
+			// 金属の机
+			CMetal_Desk::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// テーブル
+		case MODEL_TYPE_TABLE:
+			// テーブル
+			CTable::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 木箱
+		case MODEL_TYPE_WOOD_BOX:
+			// 木箱
+			CWood_Box::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 発電機
+		case MODEL_TYPE_GENERATOR:
+			// 発電機
+			CGenerator::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// レバー
+		case MODEL_TYPE_LEVER_1:
+			// レバー
+			m_pLever1 = CLever::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// レバー
+		case MODEL_TYPE_LEVER_2:
+			// レバー
+			m_pLever2 = CLever::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// ゴールドア
+		case MODEL_TYPE_GOAL_DOOR:
+			// ゴールドア
+			CGoal_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, m_pLever1, m_pLever2);
+			break;
+
 			// 例外
 		default:
 			break;

@@ -37,7 +37,7 @@ CElectricalRoomKey * CElectricalRoomKey::Create(void)
 
 HRESULT CElectricalRoomKey::Init(void)
 {
-	SetPlayerItemGetList(CPlayer::ITEM_KEY_ELECTRICAL);
+	SetPlayerItemGetList(CPlayer::ITEM_KEY_ELECTRICAL_ROOM);
 	return S_OK;
 }
 
@@ -57,4 +57,8 @@ void CElectricalRoomKey::ItemCreate(int nPlayer)
 	D3DXVECTOR3 PlayerPos;
 	PlayerPos = pPlayer->GetPos();
 	CElectricalRoomKeyObject::Create(PlayerPos, ZeroVector3);
+}
+
+void CElectricalRoomKey::DuctPass(D3DXVECTOR3 pos)
+{
 }

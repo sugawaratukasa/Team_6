@@ -144,4 +144,7 @@ void CSwitch::Push(void)
 	pSound->CSound::Play(CSound::SOUND_SE_PUSH_SWITCH);
 	// ”à‚ðŠJ‚­
 	m_pPrison_Cell_Door->SetLock(false);
+
+	// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½ê‡‚Ìˆ—
+	m_pPrison_Cell_Door->Push();
 }

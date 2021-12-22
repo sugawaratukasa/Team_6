@@ -22,7 +22,6 @@
 //=============================================================================
 CLever::CLever(PRIORITY Priority) : CDoor_Collision(Priority)
 {
-	m_pDoor = nullptr;
 }
 //=============================================================================
 // インクルードファイル
@@ -51,9 +50,6 @@ CLever * CLever::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		{
 			// 初期化処理
 			pLever->Init(pos, rot);
-
-			// ポインタを代入
-			//pLever->SetpDoor(pDoor);
 		}
 	}
 	// ポインタを返す
@@ -71,10 +67,11 @@ HRESULT CLever::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// レバー生成処理
 	LeverCrate(pos, rot);
 
-	// タイプ設定
-	SetType(TYPE_PRISON);
+	// サイズ設定
+	SetSize(COLLISION_SIZE);
 
-	//SetSize(COLLISION_SIZE);
+	// タイプ設定
+	SetType(TYPE_LEVER);
 	return S_OK;
 }
 //=============================================================================
@@ -94,6 +91,16 @@ void CLever::Update(void)
 {
 	// 更新処理
 	CDoor_Collision::Update();
+
+	// 下がっている取得
+	bool bDown = m_pLever_Handle->GetbDown();
+
+	// falseの場合
+	if (bDown == false)
+	{
+		// falseに
+		m_bDownLever = false;
+	}
 }
 //=============================================================================
 // 描画処理関数
@@ -115,9 +122,14 @@ void CLever::LeverCrate(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CLever_Body::Create(pos, rot);
 }
 //=============================================================================
-// レバーを下げる処理関数
+// 開く処理処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CLever::DownLever(void)
+void CLever::Open(void)
 {
+	// レバーが下がっている状態に
+	m_bDownLever = true;
+
+	// trueに
+	m_pLever_Handle->SetDown(true);
 }

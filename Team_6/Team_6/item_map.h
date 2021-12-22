@@ -35,6 +35,7 @@ public:
 	void Uninit(void);							// 終了処理
 	void Update(void);							// 更新処理
 	void ItemCreate(int nPlayer);				// アイテム生成処理
+	void DuctPass(D3DXVECTOR3 pos);				// ダクト受け渡し処理
 private:
 	void PlayerItemGet(void);					// プレイヤーアイテム取得状況取得処理
 	void MapCreate(int nPlayer, bool bItem);	// マップテクスチャ生成処理

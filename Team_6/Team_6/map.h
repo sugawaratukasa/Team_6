@@ -7,6 +7,7 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 #include "main.h"
+#include "lever.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -16,6 +17,7 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 class CPrison_Cell_Door;
+class CLever;
 //========================================================================
 // マップクラス
 // Author : Sugawara Tsukasa
@@ -60,20 +62,25 @@ public:
 		MODEL_TYPE_SWITCH_2,
 		MODEL_TYPE_PRISON_CELL_DOOR1,
 		MODEL_TYPE_PRISON_CELL_DOOR2,
-
 		MODEL_TYPE_KEEPOUT_WALL,
 		MODEL_TYPE_IRON_WINDOW_WALL,
 		MODEL_TYPE_JAILER_DOOR,
 		MODEL_TYPE_CONTROL_ROOM_DOOR,
 		MODEL_TYPE_STORAGE_DOOR,
+		MODEL_TYPE_DUCT,
+		MODEL_TYPE_ELECTRICAL_DOOR,
+		MODEL_TYPE_CAMERA_DOOR,
+		MODEL_TYPE_WINDOW_WALL,
+		MODEL_TYPE_WOOD_CHAIR,
+		MODEL_TYPE_WOOD_DESK,
+		MODEL_TYPE_METAL_CHAIR,
+		MODEL_TYPE_METAL_DESK,
+		MODEL_TYPE_TABLE,
+		MODEL_TYPE_WOOD_BOX,
+		MODEL_TYPE_GENERATOR,
 		MODEL_TYPE_LEVER_1,
 		MODEL_TYPE_LEVER_2,
-		MODEL_TYPE_LEVER_3,
-		MODEL_TYPE_LEVER_4,
-		MODEL_TYPE_LEVER__DOOR_1,
-		MODEL_TYPE_LEVER__DOOR_2,
-		MODEL_TYPE_LEVER__DOOR_3,
-		MODEL_TYPE_LEVER__DOOR_4,
+		MODEL_TYPE_GOAL_DOOR,
 		MODEL_TYPE_MAX
 	};
 	CMap();						// コンストラクタ
@@ -90,4 +97,6 @@ private:
 	vector <MODEL_LOAD_IFNO> m_aModelInfo;			// モデル読み込み情報
 	CPrison_Cell_Door *m_pPrison_Cell_Door1;		// 独房のドア1
 	CPrison_Cell_Door *m_pPrison_Cell_Door2;		// 独房のドア2
+	CLever *m_pLever1;								// レバー1
+	CLever *m_pLever2;								// レバー2
 };

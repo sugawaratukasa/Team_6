@@ -48,6 +48,15 @@
 #include "particle_emitter.h"
 #include "map_spot.h"
 #include "fog.h"
+#include "object_wood_box.h"
+#include "object_wood_chair.h"
+#include "object_wood_desk.h"
+#include "object_metal_chair.h"
+#include "object_metal_desk.h"
+#include "object_generator.h"
+#include "object_table.h"
+#include "object_window_wall.h"
+#include "goal_door.h"
 #include "item_spawn.h"
 
 //=======================================================================================
@@ -69,7 +78,8 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-#define POS	(D3DXVECTOR3(0.0f,50.0f,0.0f))
+#define POS	(D3DXVECTOR3(PLAYER2_POS.x,PLAYER2_POS.y + 100.0f,PLAYER2_POS.z))
+#define ROT	(D3DXVECTOR3(0.0f,D3DXToRadian(180.0f),0.0f))
 
 //=======================================================================================
 // コンストラクタ
@@ -80,6 +90,7 @@ CGame::CGame()
 	m_pLight = nullptr;
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
 	m_pPauseButtonManager = nullptr;
+
 
 	m_pItemSpawn = nullptr;
 }
@@ -117,9 +128,6 @@ HRESULT CGame::Init(void)
 	// 監視カメラの生成
 	CreateSecCam();
 
-	// マップ生成	
-	CMap::Create();
-
 	// UIの生成
 	CScreenFrame::Create();
 	CTimer::Create();
@@ -133,7 +141,9 @@ HRESULT CGame::Init(void)
 	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 	CMapSpot::Init();
 
+
 	CreateJailer();
+
 
 
 	if (m_pItemSpawn == nullptr)
@@ -144,6 +154,10 @@ HRESULT CGame::Init(void)
 			m_pItemSpawn->Init();
 		}
 	}
+
+	// マップ生成	
+	CMap::Create();
+
 	return S_OK;
 }
 
@@ -187,6 +201,7 @@ void CGame::Uninit(void)
 			m_apPlayer[nCount] = nullptr;
 		}
 	}
+
 
 }
 
@@ -237,6 +252,7 @@ void CGame::CreatePlayer(void)
 }
 
 //=======================================================================================
+
 // 監視カメラの生成
 //=======================================================================================
 void CGame::CreateSecCam(void)
@@ -297,5 +313,6 @@ void CGame::CreateJailer(void)
 		//看守の生成
 		CJailer::Create(nCntJailer);
 	}
+
 
 }

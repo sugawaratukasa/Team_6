@@ -55,6 +55,7 @@ private:
 	float					m_fRatio;       // タイマーの割合
 	int						m_nTime;
 	int						m_nRemainTime;  // 残り時間
+	int						m_nElapsedTime;	// 経過時間
 	bool					m_bIsStencil;	// ステンシル描画中かどうか
 	bool					m_bTimer;		// タイマー用
 };

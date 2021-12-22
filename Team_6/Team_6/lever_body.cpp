@@ -68,7 +68,7 @@ HRESULT CLever_Body::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	if (pXfile != nullptr)
 	{
 		// ƒ‚ƒfƒ‹î•ñæ“¾
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_LEVER_BODY);
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_LEVER_SWITCH_BODY);
 
 		// ƒ‚ƒfƒ‹‚Ìî•ñ‚ğ“n‚·
 		BindModel(model);
