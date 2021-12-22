@@ -95,7 +95,9 @@ HRESULT CGauge::Init(void)
 	m_fRatio = 0.0f;
 	m_nRemainTime = TIMER_MINIT;
 	m_bTimer = false;
-	m_nElapsedTime = ZERO_INT;
+	m_nCurrentTime = ZERO_INT;
+	m_nCurrentTime2 = ZERO_INT;
+	m_nTimeCnt = ZERO_INT;
 	return S_OK;
 }
 
@@ -226,6 +228,9 @@ void CGauge::Draw(void)
 //=============================================================================
 void CGauge::Uninit(void)
 {
+	// テキストに書き込み
+	WriteText();
+
 	if (m_pVtxBuff != NULL)
 	{
 		m_pVtxBuff->Release();
@@ -238,12 +243,12 @@ void CGauge::Uninit(void)
 //=============================================================================
 void CGauge::CalcTime(void)
 {
-	m_nElapsedTime = time(NULL) - m_nTime;
+	int nElapsedTime = time(NULL) - m_nTime;
 
 	// 割合を求めてUIを回転
-	if (m_nElapsedTime % 60 == 0)
+	if (nElapsedTime % 60 == 0)
 	{
-		m_fRatio = (float)m_nElapsedTime / (float)(TIMER_LENGTH);
+		m_fRatio = (float)nElapsedTime / (float)(TIMER_LENGTH);
 	}
 	m_fAngle = D3DXToRadian(TIMER_ANGLE * m_fRatio);
 
@@ -289,4 +294,54 @@ int CGauge::GetTime(void)
 	}
 
 	return m_nRemainTime;
+}
+//=============================================================================
+// テキスト書き込み
+//=============================================================================
+void CGauge::WriteText(void)
+{
+	// ファイル
+	FILE * pFile;
+
+	// ファイルの書き出し
+	pFile = fopen("Player_Time.txt", "w");
+
+	// ファイルが空じゃないか
+	if (pFile != NULL)
+	{
+		// 秒数加算
+		m_nCurrentTime += m_nCurrentTime2;
+
+		// タイム書き込み
+		fprintf(pFile, "%d\n", m_nCurrentTime);
+
+		// ファイルを閉じる
+		fclose(pFile);
+	}
+}
+//=============================================================================
+// 現在の時間設定
+//=============================================================================
+void CGauge::SetCurrentTime(void)
+{
+	// インクリメント
+	m_nTimeCnt++;
+
+	// もし60
+	if (m_nTimeCnt == 60)
+	{
+		// インクリメント
+		m_nCurrentTime2++;
+
+		// 0に
+		m_nTimeCnt = ZERO_INT;
+	}
+	if (m_nCurrentTime2 == 60)
+	{
+		// 0に
+		m_nCurrentTime2 = ZERO_INT;
+
+		// 100+
+		m_nCurrentTime += 100;
+	}
 }
