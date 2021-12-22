@@ -28,6 +28,7 @@ CJailerView::CJailerView()
 	//各メンバ変数のクリア
 	m_bIsDetection = false;
 	m_detectedPos = ZeroVector3;
+	m_nDetectedNumber = ZERO_INT;
 }
 
 //=============================================================================
@@ -272,7 +273,6 @@ void CJailerView::DetectionPlayer(void)
 	}
 
 
-
 	//プレイヤーとの間に壁が存在するなら
 	if (MapCollision(vecViewData.at(0).playerPos))
 	{
@@ -284,6 +284,7 @@ void CJailerView::DetectionPlayer(void)
 
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
+	m_nDetectedNumber = vecViewData[nNumber].nNumber;
 
 	//発見フラグをtrue
 	m_bIsDetection = true;

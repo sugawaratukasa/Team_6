@@ -49,6 +49,7 @@ public:
 	void ResetDetection(void) { m_bIsDetection = false; }		//検出情報のリセット
 	bool GetIsDetection(void)const { return m_bIsDetection; }	//検出情報の取得
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
+	int GetDetectionNumber(void) { return m_nDetectedNumber; }
 	void CautionJailer(const bool bIsCaution);					//警戒時の長さ変更
 
 private:
@@ -61,5 +62,6 @@ private:
 	//=========================================================================
 	bool m_bIsDetection;		//検出したかどうか
 	D3DXVECTOR3 m_detectedPos;	//検出した位置
+	int m_nDetectedNumber;		//検出したプレイヤー番号
 };
 #endif // !_JAILER_H_

@@ -100,6 +100,10 @@ HRESULT CGoal_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// ÉTÉCÉY
 		SetSize(COLLISION_SIZE2);
 	}
+
+	//OBBÇÃçÏê¨
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	return S_OK;
 }
 //=============================================================================

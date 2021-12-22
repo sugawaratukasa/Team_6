@@ -9,6 +9,10 @@
 #include "jalier_ChaseState.h"
 #include "Jailer_AttackState.h"
 #include "jailer_LostTargetState.h"
+#include "manager.h"
+#include "renderer.h"
+#include "fog.h"
+
 //=============================================================================
 //マクロ定義
 //=============================================================================
@@ -29,6 +33,15 @@ CChaseState * CChaseState::GetInstance()
 void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
 	pJailer->SetTime(0);
+
+	//検出したプレイヤー番号を取得
+	int nPlayerNumber = pJailerView->GetDetectionNumber();
+
+	//フォグのポインタを取得
+	CFog *pFog = CManager::GetRenderer()->GetFog(nPlayerNumber);
+
+	//フォグをワーニングに指定
+	pFog->SetFogState(CFog::FOG_WARNING);
 }
 
 //=============================================================================
@@ -43,9 +56,19 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 	if (pJailerView->GetIsDetection() == true)
 	{
 		pJailer->SetTime(0);
+
 		//当たり判定を行う
 		if (pJailer->IsHitPlayer() == true)
 		{
+			//検出したプレイヤー番号を取得
+			int nPlayerNumber = pJailerView->GetDetectionNumber();
+
+			//フォグのポインタを取得
+			CFog *pFog = CManager::GetRenderer()->GetFog(nPlayerNumber);
+
+			//フォグの終了
+			pFog->SetFogState(CFog::FOG_END);
+
 			//別の状態へ移行
 			//警戒状態へ
 			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
@@ -57,6 +80,15 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 
 		if (pJailer->GetDestLength() <= 10.0f || nTime == 60)
 		{
+			//検出したプレイヤー番号を取得
+			int nPlayerNumber = pJailerView->GetDetectionNumber();
+
+			//フォグのポインタを取得
+			CFog *pFog = CManager::GetRenderer()->GetFog(nPlayerNumber);
+
+			//フォグの終了
+			pFog->SetFogState(CFog::FOG_END);
+
 			//警戒状態へ
 			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
 		}
