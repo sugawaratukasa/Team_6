@@ -32,6 +32,7 @@
 #include "map_spot.h"
 #include "particle_manager.h"
 #include "mode_gameover.h"
+#include "mode_ranking_board.h"
 //=============================================================================
 //静的メンバ変数宣言
 //=============================================================================
@@ -329,9 +330,14 @@ void CManager::SetMode(MODE_TYPE mode)
 		m_pModeBase.reset(new CResult);
 		break;
 		// リザルト
-	case MODE_TYPE_RANKING:
+	case MODE_TYPE_RANKING_RESULT:
 		// ゲーム生成
 		m_pModeBase.reset(new CMode_Ranking);
+		break;
+		// ランキングボード
+	case MODE_TYPE_RANKING_BOARD:
+		// ゲーム生成
+		m_pModeBase.reset(new CMode_Ranking_Board);
 		break;
 	case MODE_TYPE_GAMEOVER:
 		// ゲーム生成

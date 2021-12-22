@@ -8,7 +8,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "mode_ranking.h"
+#include "mode_ranking_board.h"
 #include "manager.h"
 #include "renderer.h"
 #include "input.h"
@@ -28,7 +28,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CMode_Ranking::CMode_Ranking()
+CMode_Ranking_Board::CMode_Ranking_Board()
 {
 	m_pRankig = nullptr;
 }
@@ -36,14 +36,14 @@ CMode_Ranking::CMode_Ranking()
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CMode_Ranking::~CMode_Ranking()
+CMode_Ranking_Board::~CMode_Ranking_Board()
 {
 }
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT CMode_Ranking::Init(void)
+HRESULT CMode_Ranking_Board::Init(void)
 {
 	// ランキング生成処理
 	RankingCreate();
@@ -55,7 +55,7 @@ HRESULT CMode_Ranking::Init(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void CMode_Ranking::Uninit(void)
+void CMode_Ranking_Board::Uninit(void)
 {
 	// 破棄
 	if (m_pRankig != nullptr)
@@ -70,7 +70,7 @@ void CMode_Ranking::Uninit(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void CMode_Ranking::Update(void)
+void CMode_Ranking_Board::Update(void)
 {
 	CInputKeyboard* pKey = CManager::GetKeyboard();
 	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
@@ -100,7 +100,7 @@ void CMode_Ranking::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void CMode_Ranking::Draw(void)
+void CMode_Ranking_Board::Draw(void)
 {
 
 }
@@ -108,18 +108,18 @@ void CMode_Ranking::Draw(void)
 //=============================================================================
 // 2Dオブジェクト生成
 //=============================================================================
-void CMode_Ranking::RankingCreate(void)
+void CMode_Ranking_Board::RankingCreate(void)
 {
 	// ランキングbg生成
 	CRanking_bg::Create(BG_POS);
 
 	// 生成
-	m_pRankig = CRanking::Create(CRanking::TYPE_RANKING_RESULT);
+	m_pRankig = CRanking::Create(CRanking::TYPE_RANKING_BOARD);
 }
 //=============================================================================
 // モード遷移
 //=============================================================================
-void CMode_Ranking::ModeTransition(void)
+void CMode_Ranking_Board::ModeTransition(void)
 {
 	// 遷移
 	CFade *pFade = CManager::GetFade();

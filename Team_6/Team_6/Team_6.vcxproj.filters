@@ -183,9 +183,6 @@
     <ClCompile Include="ui_player2_item.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Mode</Filter>
-    </ClCompile>
     <ClCompile Include="object.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -539,6 +536,12 @@
     <ClCompile Include="time.cpp" />
     <ClCompile Include="obb.cpp">
       <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="mode_ranking_board.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1024,6 +1027,9 @@
     <ClInclude Include="object_duct_wall.h" />
     <ClInclude Include="obb.h">
       <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="mode_ranking_board.h">
+      <Filter>Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

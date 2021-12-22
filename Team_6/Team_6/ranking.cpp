@@ -15,7 +15,7 @@
 //========================================================================
 #define POS	(D3DXVECTOR3(SCREEN_WIDTH / 2 + 160.0f,180.0f + 87* nCnt,0.0f))	// タイム位置
 #define MOVE_RANKING	(1)											// 順位移動
-#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")			// ランキングテキスト									// ランキングテキスト
+#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")			// ランキングテキスト
 //========================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -25,6 +25,7 @@ CRanking::CRanking()
 	memset(m_apTime, NULL, sizeof(m_apTime));
 	memset(m_anTime, ZERO_INT, sizeof(m_anTime));
 	m_nPlayerTime = ZERO_INT;
+	m_Type = TYPE_RANKING_RESULT;
 }
 //========================================================================
 // デストラクタ
@@ -37,7 +38,7 @@ CRanking::~CRanking()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //========================================================================
-CRanking * CRanking::Create(void)
+CRanking * CRanking::Create(TYPE type)
 {
 	// CRankingのポインタ
 	CRanking *pRanking = nullptr;
@@ -51,6 +52,9 @@ CRanking * CRanking::Create(void)
 		// !nullcheck
 		if (pRanking != nullptr)
 		{
+			// タイプ代入
+			pRanking->m_Type = type;
+
 			// 初期化処理
 			pRanking->Init(ZeroVector3, ZeroVector3);
 		}
@@ -64,14 +68,17 @@ CRanking * CRanking::Create(void)
 //========================================================================
 HRESULT CRanking::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {	
-	// 読み込み
-	ReadPlayerFile();
+	// リザルト時にだす場合
+	if (m_Type == TYPE_RANKING_RESULT)
+	{
+		// 読み込み
+		ReadPlayerFile();
 
+		// ランキング設定
+		SetRanking(m_nPlayerTime);
+	}
 	// ファイル読み込み
 	ReadFile();
-
-	// ランキング設定
-	SetRanking(m_nPlayerTime);
 
 	// タイム生成
 	CreateTime();
