@@ -38,6 +38,7 @@
 #include "item_control_room_key.h"
 #include "door_collision.h"
 #include "duct_collision.h"
+#include "textlog.h"
 
 //=============================================================================
 // É}ÉNÉçíËã`
