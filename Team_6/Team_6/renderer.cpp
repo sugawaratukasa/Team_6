@@ -16,7 +16,6 @@
 #include "game.h"
 #include "keyboard.h"
 #include "polygon.h"
-#include "debug_proc.h"
 #include "camera_game.h"
 #include "fog.h"
 #include "textlog.h"
@@ -342,14 +341,6 @@ void CRenderer::Draw(void)
 					pFade->Draw();
 				}
 			}
-
-			// デバッグプロシージャ
-			CDebugProc *pDebugProc = CManager::GetDebugProc();
-			if (pDebugProc != nullptr)
-			{
-				pDebugProc->Draw();
-			}
-
 			// Direct3Dによる描画の終了
 			m_pD3DDevice->EndScene();
 		}

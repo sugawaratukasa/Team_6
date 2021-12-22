@@ -23,7 +23,6 @@
 #include "keyboard.h"
 #include "resource_manager.h"
 #include "library.h"
-#include "debug_proc.h"
 #include "camera_game.h"
 #include "floor.h"
 #include "fade.h"
@@ -35,7 +34,7 @@
 #include "item_object_jailer_room_key.h"
 #include "item_object_map.h"
 #include "item_object_pc_room_key.h"
-#include "item_object_prison_key.h"
+#include "item_object_electrical_room_key.h"
 #include "item_object_storage_key.h"
 #include "map.h"
 #include "object_wall.h"
@@ -49,6 +48,7 @@
 #include "particle_emitter.h"
 #include "map_spot.h"
 #include "fog.h"
+#include "item_spawn.h"
 
 //=======================================================================================
 // マクロ定義
@@ -80,7 +80,7 @@ CGame::CGame()
 	m_pLight = nullptr;
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
 	m_pPauseButtonManager = nullptr;
-	m_pFont = nullptr;
+	m_pItemSpawn = nullptr;
 }
 
 //=======================================================================================
@@ -135,9 +135,14 @@ HRESULT CGame::Init(void)
 
 	CreateJailer();
 
-
-	// アイテムの生成
-	CreateItem();
+	if (m_pItemSpawn == nullptr)
+	{
+		m_pItemSpawn = CItemSpawn::Create();
+		if (m_pItemSpawn != nullptr)
+		{
+			m_pItemSpawn->Init();
+		}
+	}
 	return S_OK;
 }
 //=======================================================================================
@@ -181,13 +186,6 @@ void CGame::Uninit(void)
 			m_apPlayer[nCount] = nullptr;
 		}
 	}
-
-	// デバッグ情報表示用フォントの破棄
-	if (m_pFont != nullptr)
-	{
-		m_pFont->Release();
-		m_pFont = nullptr;
-	}
 }
 
 //=======================================================================================
@@ -205,7 +203,10 @@ void CGame::Update(void)
 	}
 	// ポーズ入力処理
 	PauseInput();
-
+	if (m_pItemSpawn != nullptr)
+	{
+		m_pItemSpawn->Update();
+	}
 }
 
 //=======================================================================================
@@ -233,28 +234,6 @@ void CGame::CreatePlayer(void)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
 	}
-}
-
-//=======================================================================================
-// アイテムの生成
-//=======================================================================================
-void CGame::CreateItem(void)
-{
-	CMapObject::Create(MAP_POS1, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS1, ZeroVector3);
-	CStorageKeyObject::Create(STORAGE_KEY_POS1, ZeroVector3);
-	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS1, ZeroVector3);
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS1, ZeroVector3);
-	CBatonObject::Create(BATON_POS1, ZeroVector3);
-
-
-	CMapObject::Create(MAP_POS2, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
-	CStorageKeyObject::Create(STORAGE_KEY_POS2, ZeroVector3);
-	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS2, ZeroVector3);
-
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS2, ZeroVector3);
-	CBatonObject::Create(BATON_POS2, ZeroVector3);
 }
 
 //=======================================================================================

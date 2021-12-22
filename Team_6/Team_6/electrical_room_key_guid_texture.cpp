@@ -1,71 +1,74 @@
-#include "main.h"
+//=============================================================================
+//
+// 電気室の鍵説明テクスチャ [electrical_key_guid_texture.cpp]
+// Author : 二階堂　汰一
+//
+//=============================================================================
+
+//*****************************************************************************
+// インクルードファイル
+//*****************************************************************************
+#include "electrical_room_key_guid_texture.h"
+#include "texture.h"
 #include "manager.h"
 #include "resource_manager.h"
-#include "texture.h"
-#include "scene_2d.h"
-#include "prison_key_texture.h"
 
 //=============================================================================
 // コンストラクタ
-// Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture::CPrisonKeyTexture(PRIORITY Priority) : CScene2D(Priority)
+CElectricalRoomKeyGuidTexture::CElectricalRoomKeyGuidTexture(PRIORITY Priority)
 {
 }
 
 //=============================================================================
 // デストラクタ
-// Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture::~CPrisonKeyTexture()
+CElectricalRoomKeyGuidTexture::~CElectricalRoomKeyGuidTexture()
 {
 }
 
 //=============================================================================
 // 生成処理関数
-// Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyTexture * CPrisonKeyTexture::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CElectricalRoomKeyGuidTexture * CElectricalRoomKeyGuidTexture::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// CPrisonKeyTextureのポインタ
-	CPrisonKeyTexture *pPrisonKey = nullptr;
+	// CElectricalRoomKeyGuidTextureのポインタ
+	CElectricalRoomKeyGuidTexture *pElectricalRoomKeyGuidTexture = nullptr;
 
 	// nullcheck
-	if (pPrisonKey == nullptr)
+	if (pElectricalRoomKeyGuidTexture == nullptr)
 	{
 		// メモリ確保
-		pPrisonKey = new CPrisonKeyTexture;
+		pElectricalRoomKeyGuidTexture = new CElectricalRoomKeyGuidTexture;
 
 		// !nullcheck
-		if (pPrisonKey != nullptr)
+		if (pElectricalRoomKeyGuidTexture != nullptr)
 		{
 			// 初期化処理
-			pPrisonKey->Init(pos, size);
+			pElectricalRoomKeyGuidTexture->Init(pos, size);
 		}
 	}
 	// ポインタを返す
-	return pPrisonKey;
+	return pElectricalRoomKeyGuidTexture;
 }
 
 //=============================================================================
 // 初期化処理関数
-// Author : Nikaido Taichi
 //=============================================================================
-HRESULT CPrisonKeyTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+HRESULT CElectricalRoomKeyGuidTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	// シーン2Dの初期化処理関数呼び出し
 	CScene2D::Init(pos, size);
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_PRISON_KEY));
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_ELECTRICAL_KEY_GUID));
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理関数
-// Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Uninit(void)
+void CElectricalRoomKeyGuidTexture::Uninit(void)
 {
 	// シーン2Dの終了処理関数呼び出し
 	CScene2D::Uninit();
@@ -73,9 +76,8 @@ void CPrisonKeyTexture::Uninit(void)
 
 //=============================================================================
 // 更新処理関数
-// Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Update(void)
+void CElectricalRoomKeyGuidTexture::Update(void)
 {
 	// シーン2Dの更新処理関数呼び出し
 	CScene2D::Update();
@@ -83,9 +85,8 @@ void CPrisonKeyTexture::Update(void)
 
 //=============================================================================
 // 描画処理関数
-// Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyTexture::Draw(void)
+void CElectricalRoomKeyGuidTexture::Draw(void)
 {
 	// シーン2Dの描画処理関数呼び出し
 	CScene2D::Draw();

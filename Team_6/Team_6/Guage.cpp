@@ -10,6 +10,7 @@
 //*****************************************************************************
 #include "Guage.h"
 #include "Timer.h"
+#include "fade.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -95,7 +96,6 @@ HRESULT CGauge::Init(void)
 	m_fRatio = 0.0f;
 	m_nRemainTime = TIMER_MINIT;
 	m_bTimer = false;
-
 	return S_OK;
 }
 
@@ -265,6 +265,8 @@ void CGauge::CalcTime(void)
 void CGauge::OnTimerOver(void)
 {
 	// ŽžŠÔØ‚ê
+	CFade *pFade = CManager::GetFade();
+	pFade->SetFade(CManager::MODE_TYPE_GAMEOVER);
 }
 
 //=============================================================================

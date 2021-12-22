@@ -256,8 +256,20 @@ void CMovie::Stop(void)
 void CMovie::Uninit(void)
 {
 	// ƒƒ‚ƒŠ‚Ì‰ð•ú
-	m_pControl->Release();
-	m_pVMR9->Release();
-	m_pCGB2->Release();
-	m_pGraph->Release();
+	if (m_pControl != NULL)
+	{
+		m_pControl->Release();
+	}
+	if (m_pVMR9 != NULL)
+	{
+		m_pVMR9->Release();
+	}
+	if (m_pCGB2 != NULL)
+	{
+		m_pCGB2->Release();
+	}
+	if (m_pGraph != NULL)
+	{
+		m_pGraph->Release();
+	}
 }

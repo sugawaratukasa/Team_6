@@ -1,38 +1,33 @@
 //=============================================================================
-// PC室の鍵オブジェクト [item_object.cpp]
-// Author : Nikaido Taichi
+//
+// 説明背景 [guid_bg.cpp]
+// Author : 二階堂　汰一
+//
 //=============================================================================
 
-//=============================================================================
+//*****************************************************************************
 // インクルードファイル
-// Author : Nikaido Taichi
-//=============================================================================
+//*****************************************************************************
+#include "main.h"
 #include "manager.h"
 #include "resource_manager.h"
-#include "item_object_prison_key.h"
-#include "particle_manager.h"
-#include "particle_emitter.h"
-
-//=============================================================================
-// マクロ定義
-// Author : Nikaido Taichi
-//=============================================================================
-#define SIZE (D3DXVECTOR3(100.0f,100.0f,100.0f))
+#include "texture.h"
+#include "scene_2d.h"
+#include "guid_bg.h"
 
 //=============================================================================
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyObject::CPrisonKeyObject(PRIORITY Priority)
+CGuidBG::CGuidBG(PRIORITY Priority) : CScene2D(Priority)
 {
-	m_pParticleEmitter = nullptr;
 }
 
 //=============================================================================
 // デストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyObject::~CPrisonKeyObject()
+CGuidBG::~CGuidBG()
 {
 }
 
@@ -40,44 +35,39 @@ CPrisonKeyObject::~CPrisonKeyObject()
 // 生成処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-CPrisonKeyObject * CPrisonKeyObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CGuidBG * CGuidBG::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// CPrisonKeyObjectのポインタ
-	CPrisonKeyObject *pPrisonKeyObject = nullptr;
+	// CGuidBGのポインタ
+	CGuidBG *pGuidBG = nullptr;
 
 	// nullcheck
-	if (pPrisonKeyObject == nullptr)
+	if (pGuidBG == nullptr)
 	{
 		// メモリ確保
-		pPrisonKeyObject = new CPrisonKeyObject;
+		pGuidBG = new CGuidBG;
 
 		// !nullcheck
-		if (pPrisonKeyObject != nullptr)
+		if (pGuidBG != nullptr)
 		{
 			// 初期化処理
-			pPrisonKeyObject->Init(pos, rot);
+			pGuidBG->Init(pos, size);
 		}
 	}
 	// ポインタを返す
-	return pPrisonKeyObject;
+	return pGuidBG;
 }
 
 //=============================================================================
 // 初期化処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-HRESULT CPrisonKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CGuidBG::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// タイプ設定
-	SetType(ITEM_OBJECT_KEY_PRISON);
-	// サイズ設定
-	SetSize(SIZE);
-	if (m_pParticleEmitter == nullptr)
-	{
-		m_pParticleEmitter = CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);
-	}
-	// 初期化処理
-	CItemObject::Init(pos, ZeroVector3);
+	// シーン2Dの初期化処理関数呼び出し
+	CScene2D::Init(pos, size);
+	// テクスチャの設定
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_GUID_BG));
 	return S_OK;
 }
 
@@ -85,32 +75,28 @@ HRESULT CPrisonKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyObject::Uninit(void)
+void CGuidBG::Uninit(void)
 {
-	if (m_pParticleEmitter != nullptr)
-	{
-		m_pParticleEmitter->Uninit();
-	}
-	// 終了処理
-	CItemObject::Uninit();
+	// シーン2Dの終了処理関数呼び出し
+	CScene2D::Uninit();
 }
 
 //=============================================================================
 // 更新処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyObject::Update(void)
+void CGuidBG::Update(void)
 {
-	// 更新処理
-	CItemObject::Update();
+	// シーン2Dの更新処理関数呼び出し
+	CScene2D::Update();
 }
 
 //=============================================================================
 // 描画処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPrisonKeyObject::Draw(void)
+void CGuidBG::Draw(void)
 {
-	// 描画処理
-	CItemObject::Draw();
+	// シーン2Dの描画処理関数呼び出し
+	CScene2D::Draw();
 }

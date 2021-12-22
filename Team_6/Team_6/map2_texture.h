@@ -1,8 +1,8 @@
-#ifndef _ITEM_PRISON_KEY_H_
-#define _ITEM_PRISON_KEY_H_
+#ifndef _MAP2_TEXTURE_H_
+#define _MAP2_TEXTURE_H_
 //=============================================================================
 //
-// PC室の鍵効果 [item_prison_key.h]
+// マップ2のテクスチャヘッダー [map2_texture.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,7 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "item.h"
+#include "scene_2d.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,16 +23,16 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKey : public CItem
+class CMap2Texture : public CScene2D
 {
 public:
-	CPrisonKey();
-	~CPrisonKey();
-	static CPrisonKey * Create(void);
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void ItemCreate(int nPlayer);
+	CMap2Texture(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
+	~CMap2Texture();													// デストラクタ
+	static CMap2Texture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);				// 初期化処理
+	void Uninit(void);												// 終了処理
+	void Update(void);												// プレイヤーの制御
+	void Draw(void);												// 描画処理
 private:
 };
 #endif

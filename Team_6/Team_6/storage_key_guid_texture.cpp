@@ -17,7 +17,7 @@
 // コンストラクタ
 // Author : Nikaido Taichi
 //=============================================================================
-CStorageKeyGuidTexture::CStorageKeyGuidTexture(PRIORITY Priority)
+CStorageKeyGuidTexture::CStorageKeyGuidTexture(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 

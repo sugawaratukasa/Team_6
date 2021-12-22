@@ -34,7 +34,6 @@ class CScene;
 class CResourceManager;
 class CGame;
 class CModeBase;
-class CDebugProc;
 class CMovie;
 class CParticle_Manager;
 //=============================================================================
@@ -55,6 +54,7 @@ public:
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト
 		MODE_TYPE_RANKING,			// ランキング
+		MODE_TYPE_GAMEOVER,
 		MODE_TYPE_MAX,
 	};
 
@@ -80,7 +80,6 @@ public:
 	static CInputJoypad *GetJoypad(void) { return m_pJoypad.get(); }							// ジョイパッドコントローラの情報
 	static CScene *GetScene(void) { return m_pScene.get(); }									// シーン情報
 	static CResourceManager *GetResourceManager(void) { return m_pResourceManager.get(); }		// リソースマネージャのポインタ
-	static CDebugProc *GetDebugProc(void) { return m_pDebugProc.get(); }
 	static CMovie *GetMovie(void) { return m_pMovie.get(); }
 	static CParticle_Manager *GetParticle_Manager(void) { return m_pParticle_Manager.get(); }	// パーティクルマネージャーのポインタ取得
 
@@ -99,7 +98,6 @@ private:
 	static unique_ptr<CModeBase> m_pModeBase;					// モードのポインタ
 	static unique_ptr<CParticle_Manager> m_pParticle_Manager;	// パーティクルのポインタ
 	static MODE_TYPE m_mode;									// モード
-	static unique_ptr<CDebugProc> m_pDebugProc;					// デバッグプロシージャ
 	static unique_ptr<CMovie> m_pMovie;
 };
 #endif

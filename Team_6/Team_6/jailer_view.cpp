@@ -9,7 +9,6 @@
 #include "mode_base.h"
 #include "player.h"
 #include "keyboard.h"
-#include "debug_proc.h"
 #include "game.h"
 #include "object.h"
 #include "collision.h"
@@ -146,17 +145,6 @@ void CJailerView::Update(void)
 
 	//長さの設定
 	SetLength(fLength);
-
-	CDebugProc::Print("=====================JailerView=====================\n");
-
-	if (m_bIsDetection)
-	{
-		CDebugProc::Print("プレイヤーを発見\n");
-	}
-	else
-	{
-		CDebugProc::Print("プレイヤー未発見\n");
-	}
 #endif
 }
 

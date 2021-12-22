@@ -1,8 +1,8 @@
-#ifndef _PRISON_KEY_GUID_TEXTURE_H_
-#define _PRISON_KEY_GUID_TEXTURE_H_
+#ifndef _ITEM_SPAWN_H_
+#define _ITEM_SPAWN_H_
 //=============================================================================
 //
-// 牢獄の鍵説明 [prison_key_guid_texture.h]
+// アイテム生成処理 [item_spawn.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -10,7 +10,7 @@
 //=============================================================================
 // インクルード
 //=============================================================================
-#include "scene_2d.h"
+#include "main.h"
 
 //=============================================================================
 // マクロ定義
@@ -23,16 +23,31 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKeyGuidTexture : public CScene2D
+class CItemSpawn
 {
 public:
-	CPrisonKeyGuidTexture(PRIORITY Priority = PRIORITY_UI);						// コンストラクタ
-	~CPrisonKeyGuidTexture();													// デストラクタ
-	static CPrisonKeyGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);							// 初期化処理
-	void Uninit(void);															// 終了処理
-	void Update(void);															// プレイヤーの制御
-	void Draw(void);															// 描画処理
+	CItemSpawn();
+	~CItemSpawn();
+	static CItemSpawn * Create(void);
+	HRESULT Init(void);
+	void Update(void);
 private:
+	void PC_Electrical_key_Create(void);
+	void Storage_Control_KeyCreate(void);
+	void JailerKeyCreate(void);
+
+	int m_nPC_Electrical_key_number;
+	bool m_bPCKeyPosition[4];
+	bool m_bPCKeyCreate;
+	bool m_bElectricalKeyPosition[4];
+	bool m_bElectricalKeyCreate;
+
+	int m_nStorage_Control_key_number;
+	bool m_bStoragePosition[4];
+	bool m_bStorageKeyCreate;
+	bool m_bControlKeyPosition[4];
+	bool m_bControlKeyCreate;
+
+	int m_nJailerNumber;
 };
 #endif

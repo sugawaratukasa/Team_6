@@ -8,7 +8,6 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "xfile.h"
-#include "debug_proc.h"
 #include "keyboard.h"
 #include "player.h"
 #include "jailer_State.h"

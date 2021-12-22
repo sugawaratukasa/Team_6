@@ -1,7 +1,7 @@
-#ifndef _ITEM_OBJECT_PC_PRISON_KEY_H_
-#define _ITEM_OBJECT_PC_PRISON_KEY_H_
+#ifndef _ITEM_OBJECT_ELECTRICAL_ROOM_KEY_H_
+#define _ITEM_OBJECT_ELECTRICAL_ROOM_KEY_H_
 //=============================================================================
-// PC室の鍵オブジェクト [item_object_pc_prison_key.h]
+// 電気室の鍵 [item_object_electrical_room_key.h]
 // Author : Nikaido Taichi
 //=============================================================================
 
@@ -18,19 +18,19 @@
 class CParticle_Emitter;
 
 //=============================================================================
-// PC室の鍵オブジェクトクラス
+// マップオブジェクトクラス
 // Author : Nikaido Taichi
 //=============================================================================
-class CPrisonKeyObject : public CItemObject
+class CElectricalRoomKeyObject : public CItemObject
 {
 public:
-	CPrisonKeyObject(PRIORITY Priority = PRIORITY_MODEL);	// コンストラクタ
-	virtual ~CPrisonKeyObject();							// デストラクタ
-	static CPrisonKeyObject * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);			// 初期化処理
-	void Uninit(void);										// 終了処理
-	void Update(void);										// 更新処理
-	void Draw(void);										// 描画処理
+	CElectricalRoomKeyObject(PRIORITY Priority = PRIORITY_MODEL);		// コンストラクタ
+	virtual ~CElectricalRoomKeyObject();								// デストラクタ
+	static CElectricalRoomKeyObject * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);				// 初期化処理
+	void Uninit(void);											// 終了処理
+	void Update(void);											// 更新処理
+	void Draw(void);											// 描画処理
 private:
 	CParticle_Emitter * m_pParticleEmitter;
 };
