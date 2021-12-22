@@ -270,7 +270,11 @@ void CGauge::OnTimerOver(void)
 {
 	// ŽžŠÔØ‚ê
 	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_GAMEOVER);
+	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
+	if (mode == CFade::FADE_MODE_NONE)
+	{
+		pFade->SetFade(CManager::MODE_TYPE_GAMEOVER);
+	}
 }
 
 //=============================================================================
