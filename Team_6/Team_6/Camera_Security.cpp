@@ -20,6 +20,7 @@
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
 #define ADJUST_ANGLE (135.0f)		// 監視カメラの視界修正用
+#define CAM_POS_Y (240.0f)			// 監視カメラの高さ
 
 //=============================================================================
 // 静的メンバ変数宣言
@@ -134,7 +135,7 @@ void CCameraSecurity::Update(void)
 	m_pView->SetRotation(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	m_pCamModel->SetRot(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	// 監視カメラの当たり判定を更新
-	m_pView->SetIsActive(m_bIsActive);
+	//m_pView->SetIsActive(m_bIsActive);
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
@@ -187,7 +188,7 @@ CCameraSecurity * CCameraSecurity::Create(D3DXVECTOR3 pos, float fDir)
 	CCameraSecurity *pSecCam;
 	pSecCam = new CCameraSecurity;
 	pSecCam->m_fDir = fDir;
-	pSecCam->Init(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pSecCam->Init(D3DXVECTOR3(pos.x, CAM_POS_Y, pos.y), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return pSecCam;
 }

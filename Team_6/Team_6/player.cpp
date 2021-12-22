@@ -28,22 +28,25 @@
 #include "item_jailer_room_key.h"
 #include "item_map.h"
 #include "item_pc_room_key.h"
-#include "item_prison_key.h"
+
+#include "item_electrical_room_key.h"
 #include "item_storage_key.h"
 
 #include "ui_player2_item.h"
 #include "door_collision.h"
-#include "item_guid_prison_key.h"
+
 #include "item_control_room_key.h"
 #include "door_collision.h"
 #include "duct_collision.h"
+#include "textlog.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
 
-#define PLAYER_SPEED			(25.0f)									// プレイヤーの移動量
+
+#define PLAYER_SPEED			(12.5f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲
@@ -185,7 +188,6 @@ void CPlayer::Update(void)
 			// アイテムの更新処理関数呼び出し
 			m_pItem[nCount]->Update();
 		}
-
 	}
 }
 
@@ -207,16 +209,6 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 {
 	switch (ItemGetList)
 	{
-		// 牢獄の鍵
-	case ITEM_KEY_ELECTRICAL_ROOM:
-		if (m_abGetItem[ItemGetList] == true)
-		{
-			// 牢屋の鍵のポインタを生成する
-			m_pItem[m_nItemCount] = CPrisonKey::Create();
-			// アイテムカウントを加算する
-			m_nItemCount++;
-		}
-		break;
 		// 倉庫の鍵
 	case ITEM_KEY_STORAGE:
 		if (m_abGetItem[ItemGetList] == true)
@@ -237,21 +229,35 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 			m_nItemCount++;
 		}
 		break;
-		// PC室の鍵
 
-		if (m_abGetItem[ItemGetList] == true)
-		{
-			// PC室効果のポインタを生成する
-			m_pItem[m_nItemCount] = CPCRoomKey::Create();
-			// アイテムカウントを加算する
-			m_nItemCount++;
-		}
-		break;
 	case ITEM_KEY_CONTROL_ROOM:
 		if (m_abGetItem[ItemGetList] == true)
 		{
 			// PC室効果のポインタを生成する
+
 			m_pItem[m_nItemCount] = CControlRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+
+		// 電源室の鍵
+	case ITEM_KEY_ELECTRICAL_ROOM:
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// 牢屋の鍵のポインタを生成する
+			m_pItem[m_nItemCount] = CElectricalRoomKey::Create();
+			// アイテムカウントを加算する
+			m_nItemCount++;
+		}
+		break;
+	case ITEM_KEY_PC_ROOM:
+		// PC室の鍵
+		if (m_abGetItem[ItemGetList] == true)
+		{
+			// PC室効果のポインタを生成する
+
+			m_pItem[m_nItemCount] = CPCRoomKey::Create();
 			// アイテムカウントを加算する
 			m_nItemCount++;
 		}
@@ -287,7 +293,6 @@ void CPlayer::ItemEffectCreate(int ItemGetList)
 //=============================================================================
 void CPlayer::ItemEffectUninit(void)
 {
-
 	for (int nCount = ZERO_INT; nCount < MAX_ITEM; nCount++)
 	{
 		// アイテムポインタのnullptrチェック
@@ -337,13 +342,11 @@ void CPlayer::ItemDelete(int nPlayer)
 		}
 	}
 	// 1P&2Pのアイテム削除入力処理
-
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,nPlayer))
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
 	{
 		// アイテムポインタのnullptrチェック
 		if (m_pItem[m_nItemSortCount] != nullptr)
 		{
-
 			// UIを消す	
 			m_pUI->Uninit();
 			// 選択しているアイテムの種類を取得する
@@ -356,7 +359,6 @@ void CPlayer::ItemDelete(int nPlayer)
 			// アイテム効果初期化処理関数呼び出し
 			ItemEffectUninit();
 			// アイテムの最大数分回す
-
 			for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
 			{
 				// アイテム効果生成処理関数呼び出し
@@ -365,7 +367,6 @@ void CPlayer::ItemDelete(int nPlayer)
 		}
 	}
 }
-
 
 //=============================================================================
 // 取得アイテム加算処理関数
@@ -560,18 +561,20 @@ void CPlayer::DoorOpen(void)
 						int nDoorType = ((CDoor_Collision*)pScene)->GetType();
 
 						// ドアに対応したアイテムを所持している場合
+
 						if (m_abGetItem[ITEM_KEY_ELECTRICAL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM ||
 							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
-							m_abGetItem[ITEM_KEY_CAMERA_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
-							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH || 
+							m_abGetItem[ITEM_KEY_PC_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
+							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH ||
 							nDoorType == CDoor_Collision::TYPE_LEVER)
 						{
 							// Fが押された場合
 							if (pKeyboard->GetTrigger(DIK_F))
 							{
 								// 牢屋のドアの場合
+
 								if (nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM)
 								{
 									pSound->CSound::Play(CSound::SOUND_SE_OPEN_PRISON);
@@ -636,46 +639,48 @@ void CPlayer::Item_DuctPass(void)
 				{
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-
-					// Fが押された場合
-					if (pKeyboard->GetTrigger(DIK_F))
+					if (m_pItem[m_nItemSortCount] != nullptr)
 					{
-						// 選択しているアイテムの種類を取得する
-						int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
-
-						// もし鍵の場合
-						if (nItemType >= ITEM_KEY_ELECTRICAL_ROOM && nItemType <= ITEM_KEY_CAMERA_ROOM)
+						// Fが押された場合
+						if (pKeyboard->GetTrigger(DIK_F))
 						{
-							// UIを消す	
-							m_pUI->Uninit();
+							// 選択しているアイテムの種類を取得する
+							int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
 
-							// 選択しているアイテムの取得状態をfalseにする
-							SetSubbGetItem(nItemType, false);
-
-							// 種類取得
-							int nDuctType = ((CDuct_Collision*)pScene)->GetType();
-
-							// ダクトタイプがLEFTの場合
-							if (nDuctType == CDuct_Collision::TYPE_LEFT)
+							// もし鍵の場合
+							if (nItemType >= ITEM_KEY_STORAGE && nItemType <= ITEM_KEY_PC_ROOM)
 							{
-								// アイテムを生成する
-								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_RIGHT);
-							}
-							// ダクトタイプがRIGHTの場合
-							if (nDuctType == CDuct_Collision::TYPE_RIGHT)
-							{
-								// アイテムを生成する
-								m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_LEFT);
-							}
+								// UIを消す	
+								m_pUI->Uninit();
 
-							// アイテム効果初期化処理関数呼び出し
-							ItemEffectUninit();
+								// 選択しているアイテムの取得状態をfalseにする
+								SetSubbGetItem(nItemType, false);
 
-							// アイテムの最大数分回す
-							for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
-							{
-								// アイテム効果生成処理関数呼び出し
-								ItemEffectCreate(nCount);
+								// 種類取得
+								int nDuctType = ((CDuct_Collision*)pScene)->GetType();
+
+								// ダクトタイプがLEFTの場合
+								if (nDuctType == CDuct_Collision::TYPE_LEFT)
+								{
+									// アイテムを生成する
+									m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_RIGHT);
+								}
+								// ダクトタイプがRIGHTの場合
+								if (nDuctType == CDuct_Collision::TYPE_RIGHT)
+								{
+									// アイテムを生成する
+									m_pItem[m_nItemSortCount]->DuctPass(DUCT_POS_LEFT);
+								}
+
+								// アイテム効果初期化処理関数呼び出し
+								ItemEffectUninit();
+
+								// アイテムの最大数分回す
+								for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+								{
+									// アイテム効果生成処理関数呼び出し
+									ItemEffectCreate(nCount);
+								}
 							}
 						}
 					}

@@ -16,7 +16,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CJailerKeyGuidTexture::CJailerKeyGuidTexture(PRIORITY Priority)
+CJailerKeyGuidTexture::CJailerKeyGuidTexture(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 

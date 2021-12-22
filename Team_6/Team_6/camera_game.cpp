@@ -31,6 +31,7 @@
 #define STICK_SENSITIVITY			(100.0f)						// スティック感度
 #define STICK_INPUT_CONVERSION		(D3DXToRadian(2.0f))			// スティック入力変化量
 #define HEIGHT_DIVIDE				(1.5f)							// 高さ÷
+#define MOVE_FRAME					(30.0f)							// カメラ回転のフレーム数
 
 //=============================================================================
 // 静的メンバ変数宣言
@@ -86,6 +87,11 @@ HRESULT CCameraGame::Init(void)
 	CCamera::Init();
 	m_id = CCamera::SCREEN_NONE;
 	SetTarget(true);
+	m_bIsRotate = false;
+	m_fAngleMove = 0.0f;
+	m_camAngle = ANGLE_FRONT;
+	m_fDestHorizontal = 0.0f;
+	m_fHorizontal = 0.0f;
 
 	return S_OK;
 }
@@ -134,14 +140,106 @@ void CCameraGame::Update(void)
 	}
 	else
 	{
+		CameraRotate();
 		SetIsInterpolation(true);
 		SetScreenID(m_id);
-		SetHorizontal(D3DXToRadian(0.0f));
 		SetVartical(CAMERA_DEFAULT_Fθ);
 	}
 
 	CCamera::Update();
 	CCamera::SetCamera();
+}
+
+//=============================================================================
+// カメラ回転処理
+//=============================================================================
+void CCameraGame::CameraRotate(void)
+{
+	//キーボードクラス情報の取得
+	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
+	// ジョイパッドの取得
+	DIJOYSTATE js = CInputJoypad::GetStick(0);
+
+	m_fHorizontal = GetHorizontal();
+
+	if (m_bIsRotate)
+	{
+		m_fHorizontal += m_fAngleMove;
+
+		if (m_fDestHorizontal + D3DXToRadian(1) > m_fHorizontal &&
+			m_fDestHorizontal - D3DXToRadian(1) < m_fHorizontal)
+		{
+			m_bIsRotate = false;
+		}
+		SetHorizontal(m_fHorizontal);
+	}
+	else if(!CManager::GetRenderer()->GetIsUseSecCam())
+	{
+		if (m_id == SCREEN_LEFT)
+		{
+			if (pKeyInput->GetTrigger(DIK_Q))
+			{
+				m_fDestHorizontal = m_fHorizontal - D3DXToRadian(90);
+				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
+				m_bIsRotate = true;
+				m_camAngle++;
+				if (m_camAngle > ANGLE_LEFT)
+				{
+					m_camAngle = ANGLE_FRONT;
+				}
+			}
+			if (pKeyInput->GetTrigger(DIK_E))
+			{
+				m_fDestHorizontal = m_fHorizontal + D3DXToRadian(90);
+				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
+				m_bIsRotate = true;
+				m_camAngle--;
+				if (m_camAngle < ANGLE_FRONT)
+				{
+					m_camAngle = ANGLE_LEFT;
+				}
+			}
+		}
+		else
+		{
+			if (pKeyInput->GetTrigger(DIK_RSHIFT))
+			{
+				m_fDestHorizontal = m_fHorizontal - D3DXToRadian(90);
+				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
+				m_bIsRotate = true;
+				m_camAngle++;
+				if (m_camAngle > ANGLE_LEFT)
+				{
+					m_camAngle = ANGLE_FRONT;
+				}
+			}
+			if (pKeyInput->GetTrigger(DIK_NUMPAD1))
+			{
+				m_fDestHorizontal = m_fHorizontal + D3DXToRadian(90);
+				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
+				m_bIsRotate = true;
+				m_camAngle--;
+				if (m_camAngle < ANGLE_FRONT)
+				{
+					m_camAngle = ANGLE_LEFT;
+				}
+			}
+		}
+
+		SetHorizontal(m_fHorizontal);
+	}
+}
+
+//=============================================================================
+// 監視カメラとの切り替え処理
+//=============================================================================
+void CCameraGame::SwitchCam(bool bSecCam)
+{
+	if (!bSecCam)
+	{
+		m_fHorizontal =  D3DXToRadian(m_camAngle * 90);
+		SetHorizontal(m_fHorizontal);
+	}
 }
 
 //=============================================================================

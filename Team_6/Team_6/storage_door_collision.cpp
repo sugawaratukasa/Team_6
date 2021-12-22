@@ -9,6 +9,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "storage_door_collision.h"
+#include "textlog.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -102,4 +103,16 @@ void CStorage_Door_Collision::Update(void)
 //=============================================================================
 void CStorage_Door_Collision::Draw(void)
 {
+}
+//=============================================================================
+// 開く処理
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CStorage_Door_Collision::Open(void)
+{
+	// 開く処理
+	CDoor_Collision::Open();
+
+	// テキストログ生成
+	//CTextLog::Create();
 }

@@ -16,7 +16,6 @@
 #include "game.h"
 #include "keyboard.h"
 #include "polygon.h"
-#include "debug_proc.h"
 #include "camera_game.h"
 #include "fog.h"
 #include "textlog.h"
@@ -155,8 +154,11 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 
 	m_bUseSecCam = false;
 
-	InitFog();
-
+	for (int nCount = 0; nCount < FOG_MAX; nCount++)
+	{
+		m_pFog[nCount] = new CFog;
+	}
+	
 	return S_OK;
 }
 
@@ -210,18 +212,30 @@ void CRenderer::Update(void)
 	{
 		SwitchCam();
 	}
-
-	if (pKeyboard->GetTrigger(DIK_4))
-	{
-		SetFogState(FOG_END);
-	}
-	if (pKeyboard->GetTrigger(DIK_5))
-	{
-		SetFogState(FOG_WARNING);
-	}
 	if (pKeyboard->GetTrigger(DIK_6))
 	{
-		CTextLog::Create(CTexture::TEXTURE_NUM_TEXTLOG_TEST);
+		CTextLog::Create(CTexture::TEXTURE_NUM_TEXTLOG01_TEST);
+	}
+	if (pKeyboard->GetTrigger(DIK_7))
+	{
+		CTextLog::Create(CTexture::TEXTURE_NUM_TEXTLOG02_TEST);
+	}
+
+	if (pKeyboard->GetTrigger(DIK_NUMPAD4))
+	{
+		m_pFog[0]->SetFogState(CFog::FOG_END);
+	}
+	if (pKeyboard->GetTrigger(DIK_NUMPAD5))
+	{
+		m_pFog[0]->SetFogState(CFog::FOG_WARNING);
+	}
+	if (pKeyboard->GetTrigger(DIK_NUMPAD7))
+	{
+		m_pFog[1]->SetFogState(CFog::FOG_END);
+	}
+	if (pKeyboard->GetTrigger(DIK_NUMPAD8))
+	{
+		m_pFog[1]->SetFogState(CFog::FOG_WARNING);
 	}
 	// 全ての更新
 	CScene::UpdateAll();
@@ -270,7 +284,7 @@ void CRenderer::Draw(void)
 				// 監視カメラを見ているなら
 				if (m_bUseSecCam)
 				{
-					InitSecCamFog();
+					m_pFog[0]->InitSecCamFog();
 
 					// ビューポート設定
 					SetUpViewPort(CCamera::SCREEN_NONE);
@@ -289,7 +303,7 @@ void CRenderer::Draw(void)
 					// ビューポートの数だけ描画する
 					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 					{
-						InitPlayerFog();
+						m_pFog[nCount]->InitPlayerFog();
 
 						// ビューポート設定
 						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
@@ -321,10 +335,9 @@ void CRenderer::Draw(void)
 							// 描画処理
 							pFade->Draw();
 						}
+						m_pFog[nCount]->UpdateFog();
 					}
 				}
-
-				UpdateFog();
 			}
 			else
 			{
@@ -342,20 +355,24 @@ void CRenderer::Draw(void)
 					pFade->Draw();
 				}
 			}
-
-			// デバッグプロシージャ
-			CDebugProc *pDebugProc = CManager::GetDebugProc();
-			if (pDebugProc != nullptr)
-			{
-				pDebugProc->Draw();
-			}
-
 			// Direct3Dによる描画の終了
 			m_pD3DDevice->EndScene();
 		}
 
 		// バックバッファとフロントバッファの入れ替え
 		m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
+	}
+}
+
+//=============================================================================
+// 監視カメラとの切り替え処理
+//=============================================================================
+void CRenderer::SwitchCam(void)
+{
+	m_bUseSecCam = !m_bUseSecCam;
+	for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
+	{
+		((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->SwitchCam(m_bUseSecCam);
 	}
 }
 

@@ -16,7 +16,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPCRoomKeyGuidTexture::CPCRoomKeyGuidTexture(PRIORITY Priority)
+CPCRoomKeyGuidTexture::CPCRoomKeyGuidTexture(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 

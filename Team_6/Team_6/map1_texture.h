@@ -1,8 +1,8 @@
-#ifndef _ITEM_GUID_PRISON_KEY_H_
-#define _ITEM_GUID_PRISON_KEY_H_
+#ifndef _MAP1_TEXTURE_H_
+#define _MAP1_TEXTURE_H_
 //=============================================================================
 //
-// 牢屋の鍵説明テクスチャ [item_guid_prison_key.h]
+// マップ1のテクスチャヘッダー [map1_texture.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -15,7 +15,6 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-class CPrisonKeyTexture;
 
 //=============================================================================
 // 前方宣言
@@ -24,18 +23,16 @@ class CPrisonKeyTexture;
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKeyGuid : public CScene2D
+class CMap1Texture : public CScene2D
 {
 public:
-	CPrisonKeyGuid(PRIORITY Priority = PRIORITY_UI);						// コンストラクタ
-	~CPrisonKeyGuid();														// デストラクタ
-	static CPrisonKeyGuid * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);		// 生成処理関数
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);						// 初期化処理
-	void Uninit(void);														// 終了処理
-	void Update(void);														// プレイヤーの制御
-	void Draw(void);														// 描画処理
+	CMap1Texture(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
+	~CMap1Texture();													// デストラクタ
+	static CMap1Texture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);				// 初期化処理
+	void Uninit(void);												// 終了処理
+	void Update(void);												// プレイヤーの制御
+	void Draw(void);												// 描画処理
 private:
-	void Input(void);														// 入力処理
-	CPrisonKeyTexture * m_pPrisonKeyTexture;								// 看守室の鍵テクスチャのポインタ
 };
 #endif

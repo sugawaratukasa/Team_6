@@ -23,31 +23,28 @@
 #define FOG_FADE_LENGTH 60.0f
 
 //=======================================================================================
-// グローバル変数宣言
+// コンストラクタ
 //=======================================================================================
-int g_nFogCount;
-FOG_STATE g_FogState;
-D3DXCOLOR g_col;
-float g_fColRate;
-bool g_bFadeIn;
+CFog::CFog()
+{
+	m_nFogCount = 0;
+	m_FogState = FOG_NONE;
+	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	m_fColRate = 0.0f;
+	m_bFadeIn = true;
+}
 
 //=======================================================================================
-// フォグ初期化
+// デストラクタ
 //=======================================================================================
-HRESULT InitFog(void)
+CFog::~CFog()
 {
-	g_nFogCount = 0;
-	g_FogState = FOG_NONE;
-	g_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	g_fColRate = 0.0f;
-	g_bFadeIn = true;
-	return S_OK;
 }
 
 //=======================================================================================
 // プレイヤーフォグ初期化処理
 //=======================================================================================
-HRESULT InitPlayerFog(void)
+HRESULT CFog::InitPlayerFog(void)
 {
 	LPDIRECT3DDEVICE9 pDevice;
 	pDevice = CManager::GetRenderer()->GetDevice();
@@ -56,7 +53,7 @@ HRESULT InitPlayerFog(void)
 	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
 	// フォグカラー設定
-	pDevice->SetRenderState(D3DRS_FOGCOLOR, g_col);
+	pDevice->SetRenderState(D3DRS_FOGCOLOR, m_col);
 	// バーテックスフォグ(線形公式)を使用
 	pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
 	// 範囲ベースのフォグを使用
@@ -74,7 +71,7 @@ HRESULT InitPlayerFog(void)
 //=======================================================================================
 // 監視カメラフォグ初期化処理
 //=======================================================================================
-HRESULT InitSecCamFog(void)
+HRESULT CFog::InitSecCamFog(void)
 {
 	LPDIRECT3DDEVICE9 pDevice;
 	pDevice = CManager::GetRenderer()->GetDevice();
@@ -83,7 +80,7 @@ HRESULT InitSecCamFog(void)
 	pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
 	// フォグカラー設定
-	pDevice->SetRenderState(D3DRS_FOGCOLOR, g_col);
+	pDevice->SetRenderState(D3DRS_FOGCOLOR, m_col);
 	// バーテックスフォグ(線形公式)を使用
 	pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
 	// 範囲ベースのフォグを使用
@@ -101,61 +98,61 @@ HRESULT InitSecCamFog(void)
 //=======================================================================================
 // フォグステート変更関数
 //=======================================================================================
-void SetFogState(FOG_STATE state)
+void CFog::SetFogState(FOG_STATE state)
 {
-	g_FogState = state;
+	m_FogState = state;
 }
 
 //=======================================================================================
 // フォグ更新処理
 //=======================================================================================
-void UpdateFog(void)
+void CFog::UpdateFog(void)
 {
-	switch (g_FogState)
+	switch (m_FogState)
 	{
 	case FOG_NONE:
-		g_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+		m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 		break;
 	case FOG_END:
-		if (g_bFadeIn)
+		if (m_bFadeIn)
 		{
-			g_fColRate += 1.0f / FOG_FADE_LENGTH;
-			if (g_fColRate >= 1.0f)
+			m_fColRate += 1.0f / FOG_FADE_LENGTH;
+			if (m_fColRate >= 1.0f)
 			{
-				g_bFadeIn = false;
+				m_bFadeIn = false;
 			}
 		}
 		else
 		{
-			g_fColRate -= 1.0f / FOG_FADE_LENGTH;
-			if (g_fColRate <= 0.0f)
+			m_fColRate -= 1.0f / FOG_FADE_LENGTH;
+			if (m_fColRate <= 0.0f)
 			{
 				SetFogState(FOG_NONE);
-				g_bFadeIn = true;
+				m_bFadeIn = true;
 			}
 		}
 
-		g_col = D3DXCOLOR(0.0f + g_fColRate, 0.0f, 0.0f, 1.0f);
+		m_col = D3DXCOLOR(0.0f + m_fColRate, 0.0f, 0.0f, 1.0f);
 		break;
 	case FOG_WARNING:
-		if (g_bFadeIn)
+		if (m_bFadeIn)
 		{
-			g_fColRate += 1.0f / FOG_FADE_LENGTH;
-			if (g_fColRate >= 1.0f)
+			m_fColRate += 1.0f / FOG_FADE_LENGTH;
+			if (m_fColRate >= 1.0f)
 			{
-				g_bFadeIn = false;
+				m_bFadeIn = false;
 			}
 		}
 		else
 		{
-			g_fColRate -= 1.0f / FOG_FADE_LENGTH;
-			if (g_fColRate <= 0.0f)
+			m_fColRate -= 1.0f / FOG_FADE_LENGTH;
+			if (m_fColRate <= 0.0f)
 			{
-				g_bFadeIn = true;
+				m_bFadeIn = true;
 			}
 		}
 
-		g_col = D3DXCOLOR(0.0f + g_fColRate, 0.0f, 0.0f, 1.0f);
+		m_col = D3DXCOLOR(0.0f + m_fColRate, 0.0f, 0.0f, 1.0f);
 		break;
 	default:
 		break;

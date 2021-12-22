@@ -1,8 +1,8 @@
-#ifndef _PRISON_KEY_TEXTURE_H_
-#define _PRISON_KEY_TEXTURE_H_
+#ifndef _MAP2_TEXTURE_H_
+#define _MAP2_TEXTURE_H_
 //=============================================================================
 //
-// 牢屋鍵アイコンのテクスチャヘッダー [prison_key_texture.h]
+// マップ2のテクスチャヘッダー [map2_texture.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -23,16 +23,16 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKeyTexture : public CScene2D
+class CMap2Texture : public CScene2D
 {
 public:
-	CPrisonKeyTexture(PRIORITY Priority = PRIORITY_UI);						// コンストラクタ
-	~CPrisonKeyTexture();													// デストラクタ
-	static CPrisonKeyTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);						// 初期化処理
-	void Uninit(void);														// 終了処理
-	void Update(void);														// プレイヤーの制御
-	void Draw(void);														// 描画処理
+	CMap2Texture(PRIORITY Priority = PRIORITY_UI);					// コンストラクタ
+	~CMap2Texture();													// デストラクタ
+	static CMap2Texture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);				// 初期化処理
+	void Uninit(void);												// 終了処理
+	void Update(void);												// プレイヤーの制御
+	void Draw(void);												// 描画処理
 private:
 };
 #endif

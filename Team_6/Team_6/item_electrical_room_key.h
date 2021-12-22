@@ -1,8 +1,8 @@
-#ifndef _ITEM_PRISON_KEY_H_
-#define _ITEM_PRISON_KEY_H_
+#ifndef _ITEM_ELECTRICAL_ROOM_KEY_H_
+#define _ITEM_ELECTRICAL_ROOM_KEY_H_
 //=============================================================================
 //
-// PC室の鍵効果 [item_prison_key.h]
+// 電気室の鍵効果 [item_electrical_room_key.h]
 // Author : Nikaido Taichi
 //
 //=============================================================================
@@ -23,12 +23,12 @@
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
-class CPrisonKey : public CItem
+class CElectricalRoomKey : public CItem
 {
 public:
-	CPrisonKey();
-	~CPrisonKey();
-	static CPrisonKey * Create(void);
+	CElectricalRoomKey();
+	~CElectricalRoomKey();
+	static CElectricalRoomKey * Create(void);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);

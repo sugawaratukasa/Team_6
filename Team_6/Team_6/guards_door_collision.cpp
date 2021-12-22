@@ -103,3 +103,15 @@ void CGuards_Door_Collision::Update(void)
 void CGuards_Door_Collision::Draw(void)
 {
 }
+//=============================================================================
+// 開く処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CGuards_Door_Collision::Open(void)
+{
+	// 開く処理
+	CDoor_Collision::Open();
+
+	// テキストログ生成
+	//CTextLog::Create();
+}

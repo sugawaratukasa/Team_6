@@ -19,7 +19,8 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CMapTexture;
+class CMap1Texture;
+class CMap2Texture;
 
 //=============================================================================
 // プレイヤークラス
@@ -39,6 +40,7 @@ private:
 	void PlayerItemGet(void);					// プレイヤーアイテム取得状況取得処理
 	void MapCreate(int nPlayer, bool bItem);	// マップテクスチャ生成処理
 	bool m_abCreateMap[MAX_PLAYER];				// マップテクスチャ生成状態
-	CMapTexture * m_apMapTexture[MAX_PLAYER];	// マップテクスチャのポインタ
+	CMap1Texture * m_pMap1Texture;				// マップ1テクスチャのポインタ
+	CMap2Texture * m_pMap2Texture;				// マップ2テクスチャのポインタ
 };
 #endif

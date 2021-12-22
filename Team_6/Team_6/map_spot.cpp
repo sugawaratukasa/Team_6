@@ -538,7 +538,7 @@ void CMapSpot::DeleteCloseList(const int nNum)
 
 	for (itrBgin; itrBgin != itrEnd; ++itrBgin)
 	{
-		if (itrBgin->nParentNumber == nNum)
+		if (itrBgin->spot.node.nNumber == nNum)
 		{
 			m_lCloseList.erase(itrBgin);
 

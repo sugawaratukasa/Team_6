@@ -33,6 +33,9 @@ public:
 		SOUND_SE_BUTTON_PUSH,	// ボタンを押す音
 		SOUND_SE_BUTTON_CANCEL,	// ボタンキャンセル音
 		SOUND_SE_BUTTON_SELECT,	// ボタン選択
+		SOUND_SE_PUSH_SWITCH,	// スイッチを押す音
+		SOUND_SE_LEVER,			// レバーを下げる音
+		SOUND_SE_FOUND,			// 看守に発見されたときの音
 		SOUND_LABEL_MAX
 	};
 

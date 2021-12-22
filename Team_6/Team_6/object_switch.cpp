@@ -20,6 +20,8 @@
 #include "object_switch_collision.h"
 #include "input.h"
 #include "keyboard.h"
+#include "sound.h"
+
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -138,6 +140,8 @@ void CSwitch::Draw(void)
 //=============================================================================
 void CSwitch::Push(void)
 {
+	CSound * pSound = GET_SOUND_PTR;
+	pSound->CSound::Play(CSound::SOUND_SE_PUSH_SWITCH);
 	// 扉を開く
 	m_pPrison_Cell_Door->SetLock(false);
 

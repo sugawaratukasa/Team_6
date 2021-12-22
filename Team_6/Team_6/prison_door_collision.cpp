@@ -96,3 +96,15 @@ void CPrison_Door_Collision::Update(void)
 void CPrison_Door_Collision::Draw(void)
 {
 }
+//=============================================================================
+// 開く処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CPrison_Door_Collision::Open(void)
+{
+	// 開く処理
+	CDoor_Collision::Open();
+
+	// テキストログ
+	//CTextLog::Create();
+}

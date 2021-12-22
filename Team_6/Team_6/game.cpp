@@ -9,7 +9,6 @@
 // インクルード
 //=======================================================================================
 #include "game.h"
-
 #include "camera.h"
 #include "light.h"
 #include "model.h"
@@ -23,7 +22,7 @@
 #include "keyboard.h"
 #include "resource_manager.h"
 #include "library.h"
-#include "debug_proc.h"
+
 #include "camera_game.h"
 #include "floor.h"
 #include "fade.h"
@@ -35,7 +34,8 @@
 #include "item_object_jailer_room_key.h"
 #include "item_object_map.h"
 #include "item_object_pc_room_key.h"
-#include "item_object_prison_key.h"
+
+#include "item_object_electrical_room_key.h"
 #include "item_object_storage_key.h"
 #include "map.h"
 #include "object_wall.h"
@@ -43,7 +43,6 @@
 #include "object_prison_door_right.h"
 #include "object_prison_wall.h"
 #include "pause_button_manager.h"
-
 
 #include "lever.h"
 #include "particle_emitter.h"
@@ -58,12 +57,13 @@
 #include "object_table.h"
 #include "object_window_wall.h"
 #include "goal_door.h"
+#include "item_spawn.h"
+
 //=======================================================================================
 // マクロ定義
 //=======================================================================================
 #define FLOOR_SIZE	(D3DXVECTOR3(10000.0f,0.0f,10000.0f))	// 床のサイズ
 #define OBJECT_POS	(D3DXVECTOR3(1000.0f,0.0f,5000.0f))
-
 #define PLAYER1_POS (D3DXVECTOR3(3801.0f,0.0f,-9234.0f))
 #define PLAYER2_POS (D3DXVECTOR3(-821.0f,0.0f,-8215.0f))
 #define MAP_POS1 (D3DXVECTOR3(5768.0f,0.0f,-12888.0f))
@@ -80,6 +80,7 @@
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
 #define POS	(D3DXVECTOR3(PLAYER2_POS.x,PLAYER2_POS.y + 100.0f,PLAYER2_POS.z))
 #define ROT	(D3DXVECTOR3(0.0f,D3DXToRadian(180.0f),0.0f))
+
 //=======================================================================================
 // コンストラクタ
 //=======================================================================================
@@ -89,7 +90,9 @@ CGame::CGame()
 	m_pLight = nullptr;
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
 	m_pPauseButtonManager = nullptr;
-	m_pFont = nullptr;
+
+
+	m_pItemSpawn = nullptr;
 }
 
 //=======================================================================================
@@ -129,27 +132,34 @@ HRESULT CGame::Init(void)
 	CScreenFrame::Create();
 	CTimer::Create();
 
-
 	// プレイヤーの生成
 	CreatePlayer();
 
 	CSound * pSound = GET_SOUND_PTR;
 	pSound->StopAll();
 	pSound->CSound::Play(CSound::SOUND_BGM_GAME);
-	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 	CMapSpot::Init();
 
-	//CreateJailer();
+
+	CreateJailer();
 
 
-	// アイテムの生成
-	CreateItem();
+
+	if (m_pItemSpawn == nullptr)
+	{
+		m_pItemSpawn = CItemSpawn::Create();
+		if (m_pItemSpawn != nullptr)
+		{
+			m_pItemSpawn->Init();
+		}
+	}
 
 	// マップ生成	
 	CMap::Create();
 
 	return S_OK;
 }
+
 //=======================================================================================
 // 終了処理
 //=======================================================================================
@@ -178,7 +188,6 @@ void CGame::Uninit(void)
 		m_pLight = nullptr;
 	}
 
-
 	// プレイヤーの最大数分回す
 	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
 	{
@@ -192,12 +201,7 @@ void CGame::Uninit(void)
 		}
 	}
 
-	// デバッグ情報表示用フォントの破棄
-	if (m_pFont != nullptr)
-	{
-		m_pFont->Release();
-		m_pFont = nullptr;
-	}
+
 }
 
 //=======================================================================================
@@ -215,7 +219,10 @@ void CGame::Update(void)
 	}
 	// ポーズ入力処理
 	PauseInput();
-
+	if (m_pItemSpawn != nullptr)
+	{
+		m_pItemSpawn->Update();
+	}
 }
 
 //=======================================================================================
@@ -226,49 +233,21 @@ void CGame::Draw(void)
 }
 
 //=======================================================================================
-
 // プレイヤーの生成
 //=======================================================================================
 void CGame::CreatePlayer(void)
 {
-
 	// プレイヤー1の生成
 	if (m_apPlayer[0] == nullptr)
 	{
 		m_apPlayer[0] = CPlayer1::Create(PLAYER1_POS, ZeroVector3);
-
-		CPrisonKeyObject::Create(PLAYER1_POS, ZeroVector3);
 	}
 
 	// プレイヤー2の生成
 	if (m_apPlayer[1] == nullptr)
 	{
 		m_apPlayer[1] = CPlayer2::Create(PLAYER2_POS, ZeroVector3);
-
-		CPrisonKeyObject::Create(PLAYER2_POS, ZeroVector3);
 	}
-}
-
-//=======================================================================================
-// アイテムの生成
-//=======================================================================================
-void CGame::CreateItem(void)
-{
-	CMapObject::Create(MAP_POS1, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS1, ZeroVector3);
-	CStorageKeyObject::Create(STORAGE_KEY_POS1, ZeroVector3);
-	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS1, ZeroVector3);
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS1, ZeroVector3);
-	CBatonObject::Create(BATON_POS1, ZeroVector3);
-
-
-	CMapObject::Create(MAP_POS2, ZeroVector3);
-	CPrisonKeyObject::Create(PRISON_KEY_POS2, ZeroVector3);
-	CStorageKeyObject::Create(STORAGE_KEY_POS2, ZeroVector3);
-	CPCRoomKeyObject::Create(PC_ROOM_KEY_POS2, ZeroVector3);
-
-	CJailerKeyObject::Create(JAILER_ROOM_KEY_POS2, ZeroVector3);
-	CBatonObject::Create(BATON_POS2, ZeroVector3);
 }
 
 //=======================================================================================
@@ -278,15 +257,14 @@ void CGame::CreateItem(void)
 void CGame::CreateSecCam(void)
 {
 
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 275.0f, -794.0f), 90.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 275.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 275.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, 1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 275.0f, -1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 0.0f, -794.0f), 90.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 0.0f, 0.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), 0.0f);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 0.0f, -1000.0f), 0.0f);
 }
 
 //=======================================================================================
-
 // ポーズ入力処理
 //=======================================================================================
 void CGame::PauseInput(void)
@@ -334,4 +312,6 @@ void CGame::CreateJailer(void)
 		//看守の生成
 		CJailer::Create(nCntJailer);
 	}
+
+
 }

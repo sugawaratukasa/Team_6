@@ -8,14 +8,12 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "xfile.h"
-#include "debug_proc.h"
 #include "keyboard.h"
 #include "player.h"
 #include "jailer_State.h"
 #include "fan3d.h"
 #include "mode_base.h"
 #include "collision.h"
-
 #include "jailer_spot.h"
 #include "Jalier_MoveState.h"
 #include "Jalier_MoveState.h"
@@ -24,29 +22,23 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-
-#define JAILER_NORMAL_SPEED (10.0f)							//通常時の移動速度
-#define JAILER_CHASE_SPEED (20.0f)							//追跡時の移動速度
-#define JAILER_ROTSTION_RATE (0.1f)							//回転の係数
-#define VIEW_POS_Y (70.0f)									//視線の高さ
-#define VIEW_POLYGON_NUM (8)								//視線のポリゴン数
+#define JAILER_NORMAL_SPEED (5.0f)	//通常時の移動速度
+#define JAILER_CHASE_SPEED (10.0f)	//追跡時の移動速度
+#define JAILER_ROTSTION_RATE (0.3f)	//回転の係数
+#define VIEW_POS_Y (70.0f)			//視線の高さ
+#define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
 #define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define GUARD_ROT_ANGLE D3DXToRadian(60)
 #define TURN_SPEED (10.0f)
 
 //=============================================================================
-
 //コンストラクタ
 //=============================================================================
-
 CJailer::CJailer(int nJailerNumber) :m_nNumber(nJailerNumber)
 {
-
-
 	m_pView = nullptr;				//看守の視線クラスのポインタ変数
 	m_pJailerState = nullptr;		//状態のポインタ
 	m_pSpot = nullptr;
-
 	m_rotDest = ZeroVector3;		//向きの目的地
 	m_posDest = ZeroVector3;		//位置の目的地
 	m_posDestOld = ZeroVector3;		//前回の位置の目的地
@@ -63,25 +55,21 @@ CJailer::CJailer(int nJailerNumber) :m_nNumber(nJailerNumber)
 //=============================================================================
 CJailer::~CJailer()
 {
-
 }
 
 //=============================================================================
 //クリエイト処理
 //=============================================================================
-
 CJailer * CJailer::Create(const int nJailerNumber)
 {
 	CJailer *pJailer = nullptr;
 
 	//インスタンス生成
-
 	pJailer = new CJailer(nJailerNumber);
 
 	if (pJailer != nullptr)
 	{
 		//初期化処理
-
 		pJailer->Init(ZeroVector3, ZeroVector3);
 
 		return pJailer;
@@ -113,16 +101,13 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//速さの設定
 	SetSpeed(0.0f);
 
-
 	//スポットクラスのクリエイト
 	m_pSpot = CJailerSpot::Create(m_nNumber);
 
 	//位置の設定
-
 	SetPos(m_pSpot->GetSpotDest());
 
 	//目的地を設定
-
 	m_posDest = m_pSpot->ChangePatrolRoute();
 
 	//視界のクリエイト
@@ -134,7 +119,6 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//サイズの設定
 	SetSize(JAILER_SIZE);
-
 
 	m_TurnSpeed = TURN_SPEED;
 	return S_OK;
@@ -165,12 +149,11 @@ void CJailer::Update(void)
 
 	//アニメーションの更新
 	ModelAnimeUpdate();
-
+	
 	//回転処理
 	Rotation();
 	
 	CheckMapCollision();
-
 
 	m_pSpot->Update();
 
@@ -200,7 +183,6 @@ void CJailer::Draw(void)
 //回転関数
 //=============================================================================
 void CJailer::Rotation(void)
-
 {
 	//向きを取得
 	D3DXVECTOR3 rot = GetRot();
@@ -215,7 +197,6 @@ void CJailer::Rotation(void)
 	{
 		m_rotDest.y += D3DXToRadian(360.0f);
 	}
-
 	rot += (m_rotDest - rot) * JAILER_ROTSTION_RATE;
 
 	if (rot.y > D3DXToRadian(360.0f))
@@ -243,51 +224,39 @@ void CJailer::ChangeState(CJailerState * jailerstate)
 //=============================================================================
 //移動処理
 //=============================================================================
-
 void CJailer::Patrol(void)
 {
-
 	if (m_eAroud == AROUND_CONFIRMATION_NONE)
 	{
 		D3DXVECTOR3 move = ZeroVector3;
 
-
 		//単位ベクトル
 		D3DXVECTOR3 nor = ZeroVector3;
-
 
 		//現在地と目的地までのベクトルを計算
 		m_distance = m_posDest - GetPos();
 
-
 		//目的地と自分の距離の長さを計算
 		m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
-
 
 		//向きの目的の値の計算
 		ChangeRotDest();
 
-
 		//アイドルモーション再生
 		SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
-
 
 		//速さの設定
 		SetSpeed(JAILER_NORMAL_SPEED);
 
-
 		//移動方向のベクトルの正規化
 		D3DXVec3Normalize(&nor, &m_distance);
-
 
 		//移動量を設定
 		move.x = nor.x * GetSpeed();
 		move.z = nor.z * GetSpeed();
 
-
 		//移動量の設定
 		SetMove(move);
-
 
 		if (m_fDestLength <= 5.0f)
 		{
@@ -302,7 +271,6 @@ void CJailer::Patrol(void)
 	}
 	else
 	{
-
 		TurnAround();
 	}
 }
@@ -317,18 +285,14 @@ void CJailer::RetrunRoute(void)
 	//単位ベクトル
 	D3DXVECTOR3 nor = ZeroVector3;
 
-
 	//現在地と目的地までのベクトルを計算
 	m_distance = m_posDest - GetPos();
-
 
 	//目的地と自分の距離の長さを計算
 	m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
 
-
 	//向きの目的の値の計算
 	ChangeRotDest();
-
 
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
@@ -337,7 +301,6 @@ void CJailer::RetrunRoute(void)
 	SetSpeed(JAILER_NORMAL_SPEED);
 
 	//移動方向のベクトルの正規化
-
 	D3DXVec3Normalize(&nor, &m_distance);
 
 	//移動量を設定
@@ -365,7 +328,6 @@ void CJailer::RetrunRoute(void)
 //=============================================================================
 // 追跡
 //=============================================================================
-
 void CJailer::ChasePlayer()
 {
 	D3DXVECTOR3 move = ZeroVector3;
@@ -379,23 +341,18 @@ void CJailer::ChasePlayer()
 	{
 		//検出した位置の取得
 		detectedPos = m_pView->GetDetectionPos();
-
 		m_pView->CautionJailer(true);
 	}
 
 	//現在位置と検出した位置までのベクトルを計算
-
 	m_distance = (detectedPos - GetPos());
 
 	//目的地と自分の距離を計算
-
 	m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
-
 
 	if (m_fDestLength > 5.0f)
 	{
 		//向きの目的の値の計算
-
 		ChangeRotDest();
 
 		//アイドルモーション再生
@@ -405,13 +362,11 @@ void CJailer::ChasePlayer()
 		SetSpeed(JAILER_CHASE_SPEED);
 
 		//移動方向のベクトルの正規化
-
 		D3DXVec3Normalize(&nor, &m_distance);
 
 		//移動量を設定
 		move.x = nor.x * GetSpeed();
 		move.z = nor.z * GetSpeed();
-
 	}
 
 	//移動量の設定
@@ -421,11 +376,8 @@ void CJailer::ChasePlayer()
 //=============================================================================
 // 警戒状態
 //=============================================================================
-
 void CJailer::GuardSurrounding(void)
 {
-	
-
 	TurnAround();
 }
 
@@ -443,10 +395,8 @@ void CJailer::Damage(void)
 //=============================================================================
 // 秒数加算
 //=============================================================================
-
 int CJailer::AddTime(int add)
 {
-
 	m_nSwitchingTime += add;
 	return m_nSwitchingTime;
 }
@@ -454,32 +404,26 @@ int CJailer::AddTime(int add)
 //=============================================================================
 // 目的地の設定
 //=============================================================================
-
 void CJailer::ChangePosDest(void)
 {
 	//目的地の更新
-
 	m_posDest = m_pSpot->ChangePatrolRoute();
 }
 
 //=============================================================================
 // 向きの目的の値の設定
 //=============================================================================
-
 void CJailer::ChangeRotDest(void)
 {
 	D3DXVECTOR3	nor = ZeroVector3;
 
 	//移動方向のベクトルの正規化
-
 	D3DXVec3Normalize(&nor, &m_distance);
-
 
 	//移動方向に対しての角度を求める
 	float fAngle = atan2f(-nor.x, -nor.z);
 
 	//目的の角度へ設定
-
 	m_rotDest.y = fAngle;
 }
 
@@ -501,9 +445,15 @@ bool CJailer::IsHitPlayer(void)
 
 	for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		bIsHit = false;
 		//プレイヤーのポインタを取得
 		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
+
+		//プレイヤーが行動不可能なら
+		if (pPlayer->GetbIncapacitated() == true)
+		{
+			//先頭に戻る
+			continue;
+		}
 
 		//プレイヤーの位置の取得
 		D3DXVECTOR3 playerPos = pPlayer->GetPos();
@@ -553,14 +503,13 @@ bool CJailer::IsHitPlayer(void)
 		if (bIsHit)
 		{
 			//プレイヤーに対しアクションする
-
 			pPlayer->PrisonWarp();
+			break;
 		}
 	}
 
 	return bIsHit;
 }
-
 
 //=============================================================================
 // マップとの当たり判定
@@ -569,7 +518,6 @@ void CJailer::CheckMapCollision(void)
 {
 	// CSceneのポインタ
 	CScene *pScene = nullptr;
-
 	
 	// 位置取得
 	D3DXVECTOR3 pos = GetPos();
@@ -721,7 +669,6 @@ void CJailer::TurnAround(void)
 //=============================================================================
 void CJailer::SetRetrunData(void)
 {
-
 	m_posDest = m_pSpot->SearchBackToRoute(GetPos());
 }
 
