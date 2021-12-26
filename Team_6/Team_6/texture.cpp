@@ -105,7 +105,9 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map1.png" },
 		{ "data/Texture/map2.png" },
 		{ "data/Texture/guid_bg.png" },
-		{ "data/Texture/gameover.png" }
+		{ "data/Texture/gameover.png" },
+
+		{ "data/Texture/caveatbar.png" }
 		};
 
 	// 分割テクスチャ

@@ -27,6 +27,7 @@
 #include "control_room_key_guid_texture.h"
 #include "guid_bg.h"
 #include "camera_game.h"
+#include "caveatbar.h"
 
 //=============================================================================
 // マクロ定義
@@ -43,6 +44,7 @@ CPlayer1::CPlayer1(PRIORITY Priority)
 	m_rotDest = ZeroVector3;
 	m_pItemGuidTexture = nullptr;
 	m_pGuidBG = nullptr;
+	m_pCaveatBar = nullptr;
 }
 
 //=============================================================================
@@ -98,6 +100,8 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CPlayer::Init(pos, rot);
 	// プレイヤー1のUI生成
 	SetUI(CPlayer1ItemUI::Create());
+
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(100.0f, 100.0f, 0), D3DXVECTOR3(0.0f, 100.0f, 0.0f));
 	return S_OK;
 }
 
@@ -152,6 +156,10 @@ void CPlayer1::Update(void)
 	{
 		// アイテム削除処理関数呼び出し
 		ItemDelete(PLAYER_1);
+	}
+	if (m_pCaveatBar != nullptr)
+	{
+		m_pCaveatBar -> Update();
 	}
 }
 

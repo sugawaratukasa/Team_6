@@ -18,6 +18,7 @@
 class CPlayer1ItemUI;
 class CScene2D;
 class CGuidBG;
+class CCaveatBar;
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
@@ -40,5 +41,6 @@ private:
 	D3DXVECTOR3 m_rotDest;								
 	CScene2D * m_pItemGuidTexture;
 	CGuidBG * m_pGuidBG;
+	CCaveatBar * m_pCaveatBar;
 };
 #endif

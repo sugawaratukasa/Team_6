@@ -541,6 +541,9 @@
       <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="caveatbar.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1030,6 +1033,9 @@
     </ClInclude>
     <ClInclude Include="mode_ranking_board.h">
       <Filter>Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="caveatbar.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
