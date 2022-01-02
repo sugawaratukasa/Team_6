@@ -38,7 +38,7 @@ public:
 	virtual CCamera* GetCamera(void) { return m_pCamera; }				// カメラのポインタ
 	virtual CLight* GetLight(void) { return m_pLight; }					// ライトのポインタ
 	virtual CPlayer* GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }	// プレイヤーのポインタ
-	virtual CJailer* GetJailer(void) { return m_pJailer; }					// ライトのポインタ
+	virtual CJailer* GetJailer(void) { return m_pJailer; }					// 看守のポインタ
 
 private:
 	CCamera *m_pCamera;		// カメラのポインタ
