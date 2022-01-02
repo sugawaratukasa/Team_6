@@ -58,6 +58,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{8432217b-0f1d-4426-b6d0-390f8c38325b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CaveatBer">
+      <UniqueIdentifier>{e7960032-f8b5-4348-862f-2954a4420b01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="button.cpp">
@@ -544,7 +547,7 @@
       <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="caveatbar.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>CaveatBer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1035,7 +1038,7 @@
       <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="caveatbar.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>CaveatBer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

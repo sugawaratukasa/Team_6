@@ -12,6 +12,7 @@
 //==============================================================================
 #include "main.h"
 #include "player.h"
+#include "jailer.h"
 
 //=============================================================================
 // 前方宣言
@@ -19,7 +20,7 @@
 class CLight;
 class CCamera;
 class CPlayer;
-
+class CJailer;
 //==============================================================================
 // クラス定義
 //==============================================================================
@@ -37,10 +38,13 @@ public:
 	virtual CCamera* GetCamera(void) { return m_pCamera; }				// カメラのポインタ
 	virtual CLight* GetLight(void) { return m_pLight; }					// ライトのポインタ
 	virtual CPlayer* GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }	// プレイヤーのポインタ
+	virtual CJailer* GetJailer(void) { return m_pJailer; }					// ライトのポインタ
+
 private:
 	CCamera *m_pCamera;		// カメラのポインタ
 	CLight *m_pLight;		// ライトのポインタ
 	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ
+	CJailer *m_pJailer;		// 看守のポインタ
 };
 
 #endif

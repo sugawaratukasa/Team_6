@@ -88,18 +88,23 @@ void CCaveatBar::Update(void)
 	{
 		////プレイヤー情報の取得
 		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
-		if (m_fUp >= 10.0f)
+		D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
+		float fPlayerVec = ((PlayerPos.x * PlayerPos.x) + (PlayerPos.z * PlayerPos.z));
+		for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 		{
-			m_fUp = 0.0;
-			GetSize().x = 0.0f;
-			SetSize(GetSize());
-		}
-		else if (pKeyboard->GetPress(DIK_NUMPADENTER))
-		{
-			m_fUp += 0.1;
-			//バーのサイズ変更
-			GetSize().x += m_fUp;
-			SetSize(GetSize());
+			if (m_fUp >= 10.0f)
+			{
+				m_fUp = 0.0;
+				GetSize().x = 0.0f;
+				SetSize(GetSize());
+			}
+			else if (pKeyboard->GetPress(DIK_NUMPADENTER))
+			{
+				m_fUp += 0.1;
+				//バーのサイズ変更
+				GetSize().x += m_fUp;
+				SetSize(GetSize());
+			}
 		}
 	}
 
