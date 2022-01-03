@@ -58,6 +58,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{8432217b-0f1d-4426-b6d0-390f8c38325b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Map_Floor">
+      <UniqueIdentifier>{00ffe3c4-3c95-4219-9d89-46c8128c7954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="button.cpp">
@@ -366,17 +369,11 @@
     <ClCompile Include="player_2.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="black_fill_polygon.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="fan3d.cpp">
       <Filter>Jailer</Filter>
-    </ClCompile>
-    <ClCompile Include="floor.cpp">
-      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Guage.cpp">
       <Filter>Texture</Filter>
@@ -540,8 +537,32 @@
     <ClCompile Include="mode_ranking_board.cpp">
       <Filter>Mode</Filter>
     </ClCompile>
+    <ClCompile Include="black_fill_polygon.cpp">
+      <Filter>Object\Map_Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="floor.cpp">
+      <Filter>Object\Map_Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="floor2.cpp">
+      <Filter>Object\Map_Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="floor3.cpp">
+      <Filter>Object\Map_Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="floor4.cpp">
+      <Filter>Object\Map_Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="bookbox.cpp">
+      <Filter>new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="pc_desk.cpp">
+      <Filter>new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="locker.cpp">
+      <Filter>new map obj</Filter>
+    </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -857,17 +878,11 @@
     <ClInclude Include="player_2.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="black_fill_polygon.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="character.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="fan3d.h">
       <Filter>Jailer</Filter>
-    </ClInclude>
-    <ClInclude Include="floor.h">
-      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Guage.h">
       <Filter>Texture</Filter>
@@ -1030,6 +1045,30 @@
     </ClInclude>
     <ClInclude Include="mode_ranking_board.h">
       <Filter>Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="black_fill_polygon.h">
+      <Filter>Object\Map_Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="floor.h">
+      <Filter>Object\Map_Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="floor2.h">
+      <Filter>Object\Map_Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="floor3.h">
+      <Filter>Object\Map_Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="floor4.h">
+      <Filter>Object\Map_Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="bookbox.h">
+      <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="pc_desk.h">
+      <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="locker.h">
+      <Filter>new map obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

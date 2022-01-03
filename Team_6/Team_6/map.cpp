@@ -39,6 +39,12 @@
 #include "lever.h"
 #include "game.h"
 #include "manager.h"
+#include "floor2.h"
+#include "floor3.h"
+#include "floor4.h"
+#include "pc_desk.h"
+#include "locker.h"
+#include "bookbox.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -296,6 +302,15 @@ void CMap::CreateFloor(void)
 		case FLOOR_TYPE_BLACK_FILL:
 			CBlack_Fill_Polygon::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
 			break;
+		case FLOOR_TYPE_2:
+			CFloor2::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
+			break;
+		case FLOOR_TYPE_3:
+			CFloor3::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
+			break;
+		case FLOOR_TYPE_4:
+			CFloor4::Create(m_a3DPolygonInfo.at(nCnt).pos, m_a3DPolygonInfo.at(nCnt).size);
+			break;
 			// 例外
 		default:
 			break;
@@ -478,6 +493,24 @@ void CMap::CreateModel(void)
 		case MODEL_TYPE_GOAL_DOOR:
 			// ゴールドア
 			CGoal_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, m_pLever1, m_pLever2);
+			break;
+
+			// 本棚
+		case MODEL_TYPE_BOOKBOX:
+			// 本棚
+			CBookBox::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// PCの机
+		case MODEL_TYPE_PC_DESK:
+			// PCの机
+			CPC_Desk::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// ロッカー
+		case MODEL_TYPE_LOCKER:
+			// ロッカー
+			CLocker::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
 			break;
 
 			// 例外

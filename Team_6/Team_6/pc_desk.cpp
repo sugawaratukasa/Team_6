@@ -1,5 +1,5 @@
 //=============================================================================
-// 発電機クラス [object_generator.cpp]
+// PCの机 [pc_desk.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
 
@@ -8,22 +8,23 @@
 // Author : Sugawara Tsukasa
 //=============================================================================
 
-#define COLLISION_SIZE	(D3DXVECTOR3(180.0f,400.0f,230.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(230.0f,400.0f,180.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(180.0f,400.0f,90.0f))	// サイズ
+#define COLLISION_SIZE2	(D3DXVECTOR3(90.0f,400.0f,180.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define ROT_180			(D3DXToRadian(179.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
-#include "object_generator.h"
+#include "pc_desk.h"
 #include "resource_manager.h"
 
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGenerator::CGenerator(PRIORITY Priority) : CObject(Priority)
+CPC_Desk::CPC_Desk(PRIORITY Priority) : CObject(Priority)
 {
 }
 
@@ -31,40 +32,40 @@ CGenerator::CGenerator(PRIORITY Priority) : CObject(Priority)
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGenerator::~CGenerator()
+CPC_Desk::~CPC_Desk()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGenerator * CGenerator::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CPC_Desk * CPC_Desk::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// CGeneratorのポインタ
-	CGenerator *pGenerator = nullptr;
+	// CPC_Deskのポインタ
+	CPC_Desk *pPC_Desk = nullptr;
 
 	// nullcheck
-	if (pGenerator == nullptr)
+	if (pPC_Desk == nullptr)
 	{
 		// メモリ確保
-		pGenerator = new CGenerator;
+		pPC_Desk = new CPC_Desk;
 
 		// !nullcheck
-		if (pGenerator != nullptr)
+		if (pPC_Desk != nullptr)
 		{
 			// 初期化処理
-			pGenerator->Init(pos, rot);
+			pPC_Desk->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pGenerator;
+	return pPC_Desk;
 }
 
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CGenerator::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CPC_Desk::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// サイズ
 	SetSize(COLLISION_SIZE);
@@ -79,14 +80,14 @@ HRESULT CGenerator::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	if (pXfile != nullptr)
 	{
 		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_GENERATOR);
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_PC_DESK);
 
 		// モデルの情報を渡す
 		BindModel(model);
 	}
 
 	// 90以上の場合
-	if (rot.y >= ROT_90)
+	if (rot.y >= ROT_90 && rot.y < ROT_180)
 	{
 		// サイズ
 		SetSize(COLLISION_SIZE2);
@@ -102,7 +103,7 @@ HRESULT CGenerator::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Uninit(void)
+void CPC_Desk::Uninit(void)
 {
 	// 終了処理
 	CObject::Uninit();
@@ -111,7 +112,7 @@ void CGenerator::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Update(void)
+void CPC_Desk::Update(void)
 {
 	// 更新処理
 	CObject::Update();
@@ -120,7 +121,7 @@ void CGenerator::Update(void)
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Draw(void)
+void CPC_Desk::Draw(void)
 {
 	// 描画処理
 	CObject::Draw();

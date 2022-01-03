@@ -15,7 +15,9 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(120.0f,450.0f,120.0f))	// サイズ
+#define COLLISION_SIZE	(D3DXVECTOR3(80.0f,450.0f,80.0f))			// サイズ
+#define ROT_180			(D3DXToRadian(179.0f))						// 向き
+#define POS				(D3DXVECTOR3(pos.x,pos.y,pos.z + 100))		// 位置
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -72,6 +74,13 @@ HRESULT CLever::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	// タイプ設定
 	SetType(TYPE_LEVER);
+
+	// 向きが180°以上の場合
+	if (rot.y > ROT_180)
+	{
+		// 位置設定
+		SetPos(POS);
+	}
 	return S_OK;
 }
 //=============================================================================
@@ -125,7 +134,7 @@ void CLever::LeverCrate(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 開く処理処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CLever::Open(void)
+void CLever::Open(int nPlayer)
 {
 	// レバーが下がっている状態に
 	m_bDownLever = true;

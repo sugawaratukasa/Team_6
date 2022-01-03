@@ -64,6 +64,9 @@ CXfile::CXfile()
 		{ "data/Model/Map/021_Goal_Door.x" },				// ゴールのドア
 		{ "data/Model/Map/022_LeverSwitch_body_ob.x" },		// レバー土台
 		{ "data/Model/Map/023_LeverSwitch_Lever_ob.x" },	// レバー
+		{ "data/Model/Map/024_bookbox_ob.x" },				// 本棚
+		{ "data/Model/Map/025_PC_Desk.x" },					// PCの机
+		{ "data/Model/Map/026_Locker_obj.x" },				// ロッカー
 	};
 
 	// 階層構造モデル

@@ -32,7 +32,7 @@ public:
 	void Update(void);														// 更新処理
 	void Draw(void);														// 描画処理
 	void LeverCrate(D3DXVECTOR3 pos, D3DXVECTOR3 rot);						// レバー生成処理
-	void Open(void);														// レバーを下げる処理
+	void Open(int nPlayer);													// レバーを下げる処理
 	bool GetbDownLever(void) { return m_bDownLever; }							// レバーが下げられているか取得
 private:
 	CLever_Handle *m_pLever_Handle;	// CLever_Handleのポインタ

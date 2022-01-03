@@ -31,7 +31,8 @@ public:
 	void Uninit(void);																		// 終了処理
 	void Update(void);																		// 更新処理
 	void Draw(void);																		// 描画処理
-	void Open(void);																		// 開く処理
+	void Open(int nPlayer);																	// 開く処理
+	void NotOpen(int nPlayer);																// 扉が開けない処理
 private:
 };
-#endif#pragma once
+#endif

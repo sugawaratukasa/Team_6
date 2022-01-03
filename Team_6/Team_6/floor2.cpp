@@ -1,127 +1,108 @@
 //=============================================================================
-// 発電機クラス [object_generator.cpp]
+// 床 [floor2.cpp]
 // Author : Sugawara Tsukasa
 //=============================================================================
-
-//=============================================================================
-// マクロ定義
-// Author : Sugawara Tsukasa
-//=============================================================================
-
-#define COLLISION_SIZE	(D3DXVECTOR3(180.0f,400.0f,230.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(230.0f,400.0f,180.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
 #include "manager.h"
-#include "object_generator.h"
+#include "renderer.h"
+#include "texture.h"
 #include "resource_manager.h"
-
+#include "collision.h"
+#include "player.h"
+#include "game.h"
+#include "floor2.h"
+//=============================================================================
+// マクロ定義
+// Author : Sugawara Tsukasa
+//=============================================================================
+#define COL (D3DCOLOR_RGBA(255, 255, 255, 255))	// 色
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGenerator::CGenerator(PRIORITY Priority) : CObject(Priority)
-{
-}
-
-//=============================================================================
-// デストラクタ
-// Author : Sugawara Tsukasa
-//=============================================================================
-CGenerator::~CGenerator()
+CFloor2::CFloor2(PRIORITY Priority) : CScene3D(Priority)
 {
 }
 //=============================================================================
-// 生成処理関数
+// インクルードファイル
 // Author : Sugawara Tsukasa
 //=============================================================================
-CGenerator * CGenerator::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CFloor2::~CFloor2()
 {
-	// CGeneratorのポインタ
-	CGenerator *pGenerator = nullptr;
+}
+//=============================================================================
+// インクルードファイル
+// Author : Sugawara Tsukasa
+//=============================================================================
+CFloor2 * CFloor2::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+{
+	// CFloorのポインタ
+	CFloor2 *pFloor = nullptr;
 
 	// nullcheck
-	if (pGenerator == nullptr)
+	if (pFloor == nullptr)
 	{
 		// メモリ確保
-		pGenerator = new CGenerator;
+		pFloor = new CFloor2;
 
 		// !nullcheck
-		if (pGenerator != nullptr)
+		if (pFloor != nullptr)
 		{
 			// 初期化処理
-			pGenerator->Init(pos, rot);
+			pFloor->Init(pos, size);
 		}
 	}
 	// ポインタを返す
-	return pGenerator;
+	return pFloor;
 }
-
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CGenerator::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CFloor2::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	// サイズ
-	SetSize(COLLISION_SIZE);
-
 	// 初期化処理
-	CObject::Init(pos, rot);
+	CScene3D::Init(pos, size);
 
-	// モデル情報取得
-	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
+	// テクスチャの設定
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_FLOOR_2));
 
-	// !nullcheck
-	if (pXfile != nullptr)
-	{
-		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_GENERATOR);
+	// 向き設定
+	SetRot(ZeroVector3);
 
-		// モデルの情報を渡す
-		BindModel(model);
-	}
-
-	// 90以上の場合
-	if (rot.y >= ROT_90)
-	{
-		// サイズ
-		SetSize(COLLISION_SIZE2);
-	}
-
-	// 種類設定
-	SetType(TYPE_WALL);
+	// 色設定
+	SetColor(COL);
 
 	return S_OK;
 }
-
 //=============================================================================
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Uninit(void)
+void CFloor2::Uninit(void)
 {
 	// 終了処理
-	CObject::Uninit();
+	CScene3D::Uninit();
 }
 //=============================================================================
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Update(void)
+void CFloor2::Update(void)
 {
 	// 更新処理
-	CObject::Update();
+	CScene3D::Update();
 }
 //=============================================================================
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CGenerator::Draw(void)
+void CFloor2::Draw(void)
 {
 	// 描画処理
-	CObject::Draw();
+	CScene3D::Draw();
 }
