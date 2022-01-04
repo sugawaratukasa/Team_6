@@ -144,7 +144,7 @@ HRESULT CGame::Init(void)
 	CMapSpot::Init();
 
 	//ä≈éÁÇÃê∂ê¨
-	CreateJailer();
+	//CreateJailer();
 
 
 	if (m_pItemSpawn == nullptr)
