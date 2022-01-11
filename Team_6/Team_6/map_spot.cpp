@@ -399,15 +399,17 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 
 			//親のスタートから自身までのコストを取得
 			float fPearentStartCost = vAStar.at(nParent).cost.fTotal - vAStar.at(nParent).cost.fHeuristic;
-
+			
+			vAStar.at(nParent).cost.fStratToNow = fPearentStartCost;
+			
 			//このトータルコストを算出
-			float fToarl = fPearentStartCost + vAStar.at(nChildNumber).cost.fHeuristic + fBetweenCost;
+			float fTotal = fPearentStartCost + vAStar.at(nChildNumber).cost.fHeuristic + fBetweenCost;
 			
 			//子ノードがNONEの場合
 			if (vAStar.at(nChildNumber).state == A_STAR_STATE_NONE)
 			{
 				//子の推定トータルコストを設定
-				vAStar.at(nChildNumber).cost.fTotal = fToarl;
+				vAStar.at(nChildNumber).cost.fTotal = fTotal;
 
 				//子の親を設定
 				vAStar.at(nChildNumber).nParentNumber = nParent;
@@ -419,10 +421,10 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			if (vAStar.at(nChildNumber).state == A_STAR_STATE_OPEN)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vAStar.at(nChildNumber).cost.fTotal)
+				if (fTotal < vAStar.at(nChildNumber).cost.fTotal)
 				{
 					//上書きする
-					vAStar.at(nChildNumber).cost.fTotal = fToarl;
+					vAStar.at(nChildNumber).cost.fTotal = fTotal;
 
 					//子の親を設定
 					vAStar.at(nChildNumber).nParentNumber = nParent;
@@ -432,10 +434,10 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			if (vAStar.at(nChildNumber).state == A_STAR_STATE_CLOSE)
 			{
 				//今回計算したコストが子のコストより小さい
-				if (fToarl < vAStar.at(nChildNumber).cost.fTotal)
+				if (fTotal < vAStar.at(nChildNumber).cost.fTotal)
 				{
 					//上書きする
-					vAStar.at(nChildNumber).cost.fTotal = fToarl;
+					vAStar.at(nChildNumber).cost.fTotal = fTotal;
 
 					//子の親を設定
 					vAStar.at(nChildNumber).nParentNumber = nParent;
@@ -452,6 +454,8 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 
 	auto itr = m_lCloseList.begin();
 	auto itrEnd = m_lCloseList.end();
+
+	itrEnd--;
 
 	vector<NODE> Node;
 

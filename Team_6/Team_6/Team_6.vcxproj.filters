@@ -183,9 +183,6 @@
     <ClCompile Include="ui_player2_item.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Mode</Filter>
-    </ClCompile>
     <ClCompile Include="object.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -539,6 +536,9 @@
     <ClCompile Include="time.cpp" />
     <ClCompile Include="obb.cpp">
       <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
