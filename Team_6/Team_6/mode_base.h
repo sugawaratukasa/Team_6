@@ -12,6 +12,7 @@
 //==============================================================================
 #include "main.h"
 #include "player.h"
+#include "jailer.h"
 
 //=============================================================================
 // 前方宣言
@@ -37,10 +38,14 @@ public:
 	virtual CCamera* GetCamera(void) { return m_pCamera; }				// カメラのポインタ
 	virtual CLight* GetLight(void) { return m_pLight; }					// ライトのポインタ
 	virtual CPlayer* GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }	// プレイヤーのポインタ
+	virtual CJailer* GetJailer(const int nJailer) { return m_apJailer[nJailer]; }	// 看守のポインタ
+
 private:
 	CCamera *m_pCamera;		// カメラのポインタ
 	CLight *m_pLight;		// ライトのポインタ
-	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ
+	CPlayer *m_apPlayer[MAX_PLAYER];		// プレイヤーのポインタ	
+	CJailer *m_apJailer[MAX_JAILER];		// 看守のポインタ
+
 };
 
 #endif

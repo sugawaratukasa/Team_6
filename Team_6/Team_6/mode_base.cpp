@@ -18,4 +18,5 @@ CModeBase::CModeBase()
 	m_pCamera = nullptr;
 	m_pLight = nullptr;
 	memset(m_apPlayer, NULL, sizeof(m_apPlayer));
+	memset(m_apJailer, NULL, sizeof(m_apJailer));
 }

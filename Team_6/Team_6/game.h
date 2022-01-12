@@ -12,6 +12,7 @@
 //=======================================================================================
 #include "mode_base.h"
 #include "player.h"
+#include "jailer.h"
 
 //=======================================================================================
 // マクロ定義
@@ -29,7 +30,6 @@ class CPlayer;
 class CPauseButtonManager;
 class CPlayer1ItemUI;
 class CItemSpawn;
-
 //=======================================================================================
 // ゲームクラス
 //=======================================================================================
@@ -79,6 +79,8 @@ public:
 	CCameraGame *GetCamera(int id) { return m_pCamera[id]; }	// カメラのポインタ情報
 	CLight *GetLight(void) { return m_pLight; }			// ライトのポインタ情報
 	CPlayer * GetPlayer(int nPlayer) { return m_apPlayer[nPlayer]; }
+	CJailer* GetJailer(const int nJailer) { return m_apJailer[nJailer]; }	// 看守のポインタ
+
 private:
 	void PauseInput(void);
 	// ポインタ
@@ -87,5 +89,6 @@ private:
 	CPlayer *m_apPlayer[MAX_PLAYER];			// プレイヤーのポインタ
 	CPauseButtonManager *m_pPauseButtonManager;	// ポーズボタンマネージャーのポインタ
 	CItemSpawn * m_pItemSpawn;
+	CJailer *m_apJailer[MAX_JAILER];
 };
 #endif
