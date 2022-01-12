@@ -14,12 +14,12 @@
 //=============================================================================
 #define FVF_VERTEX_FAN_3D (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE)	//3D扇形の頂点フォーマット
 #define VERTEX_MODIFYING_VALUE (2)										//頂点の修正値
-#define DEFAULT_CENTER_ANGLE (45.0f)									//中心角のデフォルト値
+#define DEFAULT_CENTER_ANGLE (120.0f)									//中心角のデフォルト値
 #define MIN_CENTER_ANGLE (30.0f)										//中心角の最小値
-#define MAX_CENTER_ANGLE (120.0f)										//中心角の最小値
+#define MAX_CENTER_ANGLE (180.0f)										//中心角の最小値
 #define DEFAULT_LNGTH (1500.0f)											//長さのデフォルト値
 #define MIN_LNGTH (500.0f)												//長さの最小値
-#define MAX_LNGTH (4000.0f)												//長さの最大値
+#define MAX_LNGTH (5000.0f)												//長さの最大値
 #define ORIGIN_NUMBER (0)												//原点の番号
 
 //=============================================================================

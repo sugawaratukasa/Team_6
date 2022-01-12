@@ -12,8 +12,6 @@
 //=============================================================================
 #include "fan3d.h"
 
-
-
 //=============================================================================
 //看守の視線クラス
 //=============================================================================
@@ -30,7 +28,6 @@ public:
 		float fLength;				//長さ
 		int nNumber;				//番号
 	};
-
 	
 	//=========================================================================
 	//メンバ関数宣言
@@ -45,13 +42,15 @@ public:
 	void Uninit(void);								//終了処理
 	void Update(void);								//更新処理
 	void Draw(void);								//描画処理
-	
+	void CautionJailer(const bool bIsCaution);					//警戒時の長さ変更
 	void ResetDetection(void) { m_bIsDetection = false; }		//検出情報のリセット
+
 	bool GetIsDetection(void)const { return m_bIsDetection; }	//検出情報の取得
 	D3DXVECTOR3 GetDetectionPos(void) { return m_detectedPos; }	//検出した位置の取得
 	int GetDetectionNumber(void) { return m_nDetectedNumber; }
-	void CautionJailer(const bool bIsCaution);					//警戒時の長さ変更
 
+	void SetIsActive(const bool bActive) { m_bIsActive = bActive; }
+	
 private:
 	void DetectionPlayer(void);										//プレイヤーの検出
 	bool MapCollision(const D3DXVECTOR3 playerPos);					//マップとの判定
@@ -61,6 +60,7 @@ private:
 	//メンバ変数宣言
 	//=========================================================================
 	bool m_bIsDetection;		//検出したかどうか
+	bool m_bIsActive;			//有効かどうか
 	D3DXVECTOR3 m_detectedPos;	//検出した位置
 	int m_nDetectedNumber;		//検出したプレイヤー番号
 };

@@ -74,8 +74,8 @@ void CJailerSpot::InitializePatrolSpot(void)
 	m_eArea = patrolData.eArea;
 
 	//イテレーターを取得
-	auto itrJaier = patrolData.vnNumber.begin();
-	auto itrJaierEnd = patrolData.vnNumber.end();
+	auto itrJaier = patrolData.vPoint.begin();
+	auto itrJaierEnd = patrolData.vPoint.end();
 
 	for (itrJaier; itrJaier != itrJaierEnd; ++itrJaier)
 	{
@@ -135,6 +135,8 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 
 	//ルートを検索する
 	m_vRetrunRoute = PathSearch(m_eArea, nearSpot, nearPatrol);
+
+	m_nRetrunIndex = m_vRetrunRoute.size() - 1;
 
 	return m_vRetrunRoute.at(m_nRetrunIndex).pos;
 }
@@ -230,17 +232,17 @@ D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 	int nSpotNum = m_vRetrunRoute.size();
 
 	//インデックスを1つ進める
-	m_nRetrunIndex++;
+	m_nRetrunIndex--;
 
 	//インデックスが要素数より大きくなったときは修正
-	if (m_nRetrunIndex >= nSpotNum)
+	if (m_nRetrunIndex < 0)
 	{
 		int nCntIndex = 0;
 
 		//帰還ルートの最後のスポットの番号が、巡回ルートのどこの番号か探す。
 		for (int nCnt0 = 0; nCnt0 < (int)m_vPatrolRoute.size(); nCnt0++)
 		{
-			if (m_vPatrolRoute.at(nCnt0).node.nNumber == m_vRetrunRoute.at(m_nRetrunIndex - 1).nNumber)
+			if (m_vPatrolRoute.at(nCnt0).node.nNumber == m_vRetrunRoute.at(0).nNumber)
 			{
 				m_nIndex = nCntIndex;
 

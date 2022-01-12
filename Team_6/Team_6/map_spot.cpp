@@ -29,7 +29,6 @@ bool CMapSpot::m_abIsOpenRoom[CMapSpot::MAP_AREA_MAX][CMapSpot::ROOM_TYPE_MAX] =
 CMapSpot::CMapSpot()
 {
 	m_vOpenList.clear();
-	m_lCloseList.clear();
 }
 
 //=============================================================================
@@ -188,7 +187,7 @@ void CMapSpot::LoadSpot(void)
 
 						sscanf(aHead, "%*s %*s %d %d",&point.nNumber,&point.bGuard);
 
-						m_aPatrolData[nJaierNum].vnNumber.push_back(point);
+						m_aPatrolData[nJaierNum].vPoint.push_back(point);
 					}
 				}
 			}
@@ -217,7 +216,7 @@ void CMapSpot::Init(void)
 			}
 			else
 			{
-				m_abIsOpenRoom[nCntArea][nCntRoom] = false;
+				m_abIsOpenRoom[nCntArea][nCntRoom] = true;
 			}
 		}
 	}
@@ -301,7 +300,6 @@ CMapSpot::NEXT CMapSpot::SearchNearNext(const MAP_AREA eArea, const int nSearchN
 vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE startNode, const NODE goalNode)
 {
 	m_vOpenList.clear();
-	m_lCloseList.clear();
 
 	vector<A_SPOT> vAStar;
 
@@ -309,7 +307,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 	defaultCost.fTotal = INFINITY_COST;
 	defaultCost.fStratToNow = INFINITY_COST;
 	defaultCost.fHeuristic = INFINITY_COST;
-	
+
 	for (int nCntSpot = 0; nCntSpot < (int)m_vaSpot[eArea].size(); nCntSpot++)
 	{
 		A_SPOT aSpot;
@@ -334,7 +332,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 
 	//スタートの推定コスト(f*(S))を決める(f*(S) = g*(S) + h*(S))
 	StratCost.fTotal = StratCost.fStratToNow + StratCost.fHeuristic;
-	
+
 	//計算したコストを保存する
 	vAStar.at(startNode.nNumber).cost = StratCost;
 
@@ -348,13 +346,13 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 	while (CountOpenList(vAStar) != 0)
 	{
 		//Open内のノードの中で最もf*(n)が小さいノードnを探す
-		nParent = SearchMinTotal(vAStar, startNode, goalNode);
+		nParent = SearchMinTotalCostNodeNumber(vAStar, startNode, goalNode);
 
 		//ゴールノードと同じなら処理終了(n == G)
 		if (nParent == goalNode.nNumber)
 		{
 			//Closeリストへ追加
-			m_lCloseList.push_back(vAStar.at(nParent));
+			vAStar.at(nParent).state = A_STAR_STATE_CLOSE;
 			break;
 		}
 		//ゴールノードでないならCloseへ入れる
@@ -362,11 +360,8 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 		{
 			//状態をCloseにする
 			vAStar.at(nParent).state = A_STAR_STATE_CLOSE;
-
-			//Closeリストへ追加
-			m_lCloseList.push_back(vAStar.at(nParent));
 		}
-		
+
 		//親(n)が持つ子ノード(m)を取得
 		vector<NEXT> next = GetNextList(eArea, nParent);
 		int nSize = next.size();
@@ -391,7 +386,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 			//=======================================
 			//子ノードのゴールまでの長さを計算（ヒューリスティックコスト）
 			vAStar.at(nChildNumber).cost.fHeuristic = CalculationDistanceLength(
-				vAStar.at(nChildNumber).spot.node.pos, 
+				vAStar.at(nChildNumber).spot.node.pos,
 				goalNode.pos);
 
 			//ノード間のコストを取得
@@ -399,12 +394,13 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 
 			//親のスタートから自身までのコストを取得
 			float fPearentStartCost = vAStar.at(nParent).cost.fTotal - vAStar.at(nParent).cost.fHeuristic;
-			
+
+			//スタートまでのコストを保存
 			vAStar.at(nParent).cost.fStratToNow = fPearentStartCost;
-			
-			//このトータルコストを算出
+
+			//トータルコストを算出
 			float fTotal = fPearentStartCost + vAStar.at(nChildNumber).cost.fHeuristic + fBetweenCost;
-			
+
 			//子ノードがNONEの場合
 			if (vAStar.at(nChildNumber).state == A_STAR_STATE_NONE)
 			{
@@ -444,24 +440,20 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 
 					//Openリストに追加
 					vAStar.at(nChildNumber).state = A_STAR_STATE_OPEN;
-
-					//クローズリストから削除
-					DeleteCloseList(nChildNumber);
 				}
 			}
 		}
 	}
 
-	auto itr = m_lCloseList.begin();
-	auto itrEnd = m_lCloseList.end();
-
-	itrEnd--;
-
 	vector<NODE> Node;
 
-	for (itr; itr != itrEnd; itr++)
+	int nStratNum = goalNode.nNumber;
+
+	while (nStratNum != -1)
 	{
-		Node.push_back(itr->spot.node);
+		Node.push_back(vAStar.at(nStratNum).spot.node);
+
+		nStratNum = vAStar.at(nStratNum).nParentNumber;
 	}
 
 	return Node;
@@ -487,7 +479,7 @@ int CMapSpot::CountOpenList(vector<A_SPOT>& rvSpot)
 	//オープンリストをリセット
 	m_vOpenList.clear();
 
-	int nTarget = ZERO_INT;
+	int nOpenNum = ZERO_INT;	//オープン状態の数
 
 	int nSize = rvSpot.size();
 
@@ -498,16 +490,16 @@ int CMapSpot::CountOpenList(vector<A_SPOT>& rvSpot)
 		{
 			//リストに追加
 			m_vOpenList.push_back(rvSpot.at(nCntSpot));
-			nTarget++;
+			nOpenNum++;
 		}
 	}
-	return nTarget;
+	return nOpenNum;
 }
 
 //=============================================================================
 //最小トータル数のノードの検索
 //=============================================================================
-int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode)
+int CMapSpot::SearchMinTotalCostNodeNumber(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode)
 {
 	//オープンリストのサイズを取得
 	int nSize = m_vOpenList.size();
@@ -520,7 +512,7 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 		//自分の番号を取得
 		int nNumber = m_vOpenList.at(nCntOpen).spot.node.nNumber;
 		int nParent = m_vOpenList.at(nCntOpen).nParentNumber;
-		 
+		
 		if (m_vOpenList.at(nCntOpen).cost.fTotal < fKeepTotal)
 		{
 			//コストと番号を変更
@@ -530,23 +522,4 @@ int CMapSpot::SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const
 	}
 
 	return nKeepNum;
-}
-
-//=============================================================================
-//クローズリストの削除処理
-//=============================================================================
-void CMapSpot::DeleteCloseList(const int nNum)
-{
-	auto itrBgin = m_lCloseList.begin();
-	auto itrEnd = m_lCloseList.end();
-
-	for (itrBgin; itrBgin != itrEnd; ++itrBgin)
-	{
-		if (itrBgin->spot.node.nNumber == nNum)
-		{
-			m_lCloseList.erase(itrBgin);
-
-			break;
-		}
-	}
 }

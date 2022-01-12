@@ -17,7 +17,7 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define DEFAULT_VIEW_LENGTH (600.0f)					//長さのデフォルト値
+#define DEFAULT_VIEW_LENGTH (1000.0f)					//長さのデフォルト値
 #define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 1.5f		//警戒時の長さ
 
 //=============================================================================
@@ -27,6 +27,7 @@ CJailerView::CJailerView()
 {
 	//各メンバ変数のクリア
 	m_bIsDetection = false;
+	m_bIsActive = true;
 	m_detectedPos = ZeroVector3;
 	m_nDetectedNumber = ZERO_INT;
 }
@@ -100,9 +101,11 @@ void CJailerView::Update(void)
 	//CFan3Dの更新
 	CFan3D::Update();
 
-
-	//プレイヤーの検出処理
-	DetectionPlayer();
+	if (m_bIsActive)
+	{
+		//プレイヤーの検出処理
+		DetectionPlayer();
+	}
 
 	//色の変更処理
 	ChangeColor();
