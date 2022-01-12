@@ -38,7 +38,7 @@ CTime::~CTime()
 // 生成処理関数
 // Author : SugawaraTsukasa
 //=============================================================================
-CTime * CTime::Create(D3DXVECTOR3 pos)
+CTime * CTime::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	// CTimeのポインタ
 	CTime *pTime = nullptr;
@@ -53,7 +53,7 @@ CTime * CTime::Create(D3DXVECTOR3 pos)
 		if (pTime != nullptr)
 		{
 			// 初期化
-			pTime->Init(pos, SIZE_VALUE);
+			pTime->Init(pos, size);
 		}
 	}
 	// ポインタを返す

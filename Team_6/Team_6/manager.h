@@ -53,6 +53,7 @@ public:
 		MODE_TYPE_TUTORIAL,			// チュートリアル
 		MODE_TYPE_GAME,				// ゲームモード
 		MODE_TYPE_RESULT,			// リザルト
+		MODE_TYPE_CLEAR_TIME,		// クリアタイム
 		MODE_TYPE_RANKING_RESULT,	// ランキング
 		MODE_TYPE_RANKING_BOARD,	// ランキング
 		MODE_TYPE_GAMEOVER,

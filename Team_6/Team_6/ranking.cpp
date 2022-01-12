@@ -14,8 +14,9 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 #define POS	(D3DXVECTOR3(SCREEN_WIDTH / 2 + 160.0f,180.0f + 87* nCnt,0.0f))	// タイム位置
-#define MOVE_RANKING	(1)											// 順位移動
-#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")			// ランキングテキスト
+#define MOVE_RANKING	(1)													// 順位移動
+#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")					// ランキングテキスト
+#define SIZE_VALUE		(D3DXVECTOR3(50.0f,50.0f,0.0f))						// サイズ量
 //========================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -218,7 +219,7 @@ void CRanking::CreateTime(void)
 	for (int nCnt = ZERO_INT; nCnt < RANK_MAX; nCnt++)
 	{
 		// タイム生成
-		m_apTime[nCnt] = CTime::Create(POS);
+		m_apTime[nCnt] = CTime::Create(POS, SIZE_VALUE);
 
 		// タイム設定
 		m_apTime[nCnt]->SetTime(m_anTime[nCnt]);

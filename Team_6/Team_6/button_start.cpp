@@ -119,5 +119,5 @@ void CStartButton::ModeTransition(void)
 {
 	// ‘JˆÚ
 	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_GAME);
+	pFade->SetFade(CManager::MODE_TYPE_CLEAR_TIME);
 }

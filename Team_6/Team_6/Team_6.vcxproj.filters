@@ -564,6 +564,12 @@
     <ClCompile Include="game.cpp">
       <Filter>Mode</Filter>
     </ClCompile>
+    <ClCompile Include="mode_clear_time.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="clear_time_bg.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h">
@@ -1069,6 +1075,12 @@
     </ClInclude>
     <ClInclude Include="locker.h">
       <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="mode_clear_time.h">
+      <Filter>Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="clear_time_bg.h">
+      <Filter>Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -171,6 +171,8 @@
     <ClCompile Include="camera_title.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_collision_box.cpp" />
+    <ClCompile Include="clear_time_bg.cpp" />
+    <ClCompile Include="mode_clear_time.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="control_room_door.cpp" />
     <ClCompile Include="control_room_door_collision.cpp" />
@@ -346,6 +348,8 @@
     <ClInclude Include="camera_title.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="character_collision_box.h" />
+    <ClInclude Include="clear_time_bg.h" />
+    <ClInclude Include="mode_clear_time.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="control_room_door.h" />
     <ClInclude Include="control_room_door_collision.h" />
