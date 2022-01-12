@@ -146,9 +146,9 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 //=============================================================================
 CJailerSpot::NODE CJailerSpot::SearchNearPatrolNode(D3DXVECTOR3 jailerPos)
 {
-	NODE returnInfo;	//返すスポット情報
+	NODE returnNode;	//返すスポット情報
 
-	float fKeepRange = ZERO_FLOAT;
+	float fKeepRange = INFINITY_COST;
 
 	int nSize = m_vPatrolRoute.size();
 
@@ -169,25 +169,16 @@ CJailerSpot::NODE CJailerSpot::SearchNearPatrolNode(D3DXVECTOR3 jailerPos)
 		//長さを求める
 		float fRange = sqrtf((Distance.x * Distance.x) + (Distance.z * Distance.z));
 
-		//初めの計算の時はそのまま記録
-		if (nCntNum == ZERO_INT)
+		//現在の距離がすでに保存している距離より短いなら
+		if (fRange < fKeepRange)
 		{
+			//データを更新
 			fKeepRange = fRange;
-			returnInfo = m_vPatrolRoute.at(nCntNum).node;
-		}
-		else
-		{
-			//現在の距離がすでに保存している距離より短いなら
-			if (fRange < fKeepRange)
-			{
-				//データを更新
-				fKeepRange = fRange;
-				returnInfo = m_vPatrolRoute.at(nCntNum).node;
-			}
+			returnNode = m_vPatrolRoute.at(nCntNum).node;
 		}
 	}
 	
-	return returnInfo;
+	return returnNode;
 }
 
 //=============================================================================
