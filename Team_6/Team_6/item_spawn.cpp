@@ -32,21 +32,34 @@
 #define PLAYER1_POS (D3DXVECTOR3(3801.0f,0.0f,-9234.0f))
 #define PLAYER2_POS (D3DXVECTOR3(-821.0f,0.0f,-8215.0f))
 
+#define NEW_CAMERA_POS1 (D3DXVECTOR3(3282.0f,0.0f,-2019.0f))
+#define NEW_CAMERA_POS2 (D3DXVECTOR3(605.0f,0.0f,-4000.0f))
+#define NEM_CONTROL_POS1 (D3DXVECTOR3(3513.0f,0.0f,-931.0f))
+#define NEW_CONTROL_POS2 (D3DXVECTOR3(-1606.0f,0.0f,200.3f))
+#define NEW_ELECTRICAL_POS1 (D3DXVECTOR3(1685.0f,0.0f,-3169.9f))
+#define NEW_ELECTRICAL_POS2 (D3DXVECTOR3(-1623.0f,0.0f,-2229.9f))
+#define NEW_PC_POS1 (D3DXVECTOR3(3275.0f,0.0f,206.0f))
+#define NEW_PC_POS2 (D3DXVECTOR3(686.4f,0.0f,-2279.0f))
+
 CItemSpawn::CItemSpawn()
 {
-	m_nPC_Electrical_key_number = 0;
-	memset(m_bPCKeyPosition,false,sizeof(m_bPCKeyPosition));
-	m_bPCKeyCreate = false;
-	memset(m_bElectricalKeyPosition,false,sizeof(m_bElectricalKeyPosition));
-	m_bElectricalKeyCreate = false;
+	//m_nPC_Electrical_key_number = 0;
+	//memset(m_bPCKeyPosition,false,sizeof(m_bPCKeyPosition));
+	//m_bPCKeyCreate = false;
+	//memset(m_bElectricalKeyPosition,false,sizeof(m_bElectricalKeyPosition));
+	//m_bElectricalKeyCreate = false;
 
-	m_nStorage_Control_key_number = 0;
-	memset(m_bStoragePosition,false,sizeof(m_bStoragePosition));
-	m_bStorageKeyCreate = false;
-	memset(m_bControlKeyPosition,false,sizeof(m_bControlKeyPosition));
-	m_bControlKeyCreate = false;
+	//m_nStorage_Control_key_number = 0;
+	//memset(m_bStoragePosition,false,sizeof(m_bStoragePosition));
+	//m_bStorageKeyCreate = false;
+	//memset(m_bControlKeyPosition,false,sizeof(m_bControlKeyPosition));
+	//m_bControlKeyCreate = false;
 
 	m_nJailerNumber = 0;
+	m_nCameraNumber = 0;
+	m_nControlNumber = 0;
+	m_nElectricalNumber = 0;
+	m_nPCNumber = 0;
 }
 
 CItemSpawn::~CItemSpawn()
@@ -76,150 +89,154 @@ HRESULT CItemSpawn::Init(void)
 	CBatonObject::Create(BATON_POSITION1, ZeroVector3);
 	CBatonObject::Create(BATON_POSITION2, ZeroVector3);
 	JailerKeyCreate();
+	CameraKeyCreate();
+	ControlKeyCreate();
+	ElectricalKeyCreate();
+	PCKeyCreate();
 	return S_OK;
 }
 
 void CItemSpawn::Update(void)
 {
-	PC_Electrical_key_Create();
-	Storage_Control_KeyCreate();
+	//PC_Electrical_key_Create();
+	//Storage_Control_KeyCreate();
 }
 
-void CItemSpawn::PC_Electrical_key_Create(void)
-{
-	m_nPC_Electrical_key_number = rand() % 3;
-	switch (m_nPC_Electrical_key_number)
-	{
-	case 0:
-		if (m_bElectricalKeyPosition[0] == false && m_bPCKeyCreate == false)
-		{
-			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION1, ZeroVector3);
-			m_bPCKeyPosition[0] = true;
-			m_bPCKeyCreate = true;
-		}
-		if (m_bPCKeyPosition[0] == false && m_bElectricalKeyCreate == false)
-		{
-			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION1, ZeroVector3);
-			m_bElectricalKeyPosition[0] = true;
-			m_bElectricalKeyCreate = true;
-		}
-		break;
-	case 1:
-		if (m_bElectricalKeyPosition[1] == false && m_bPCKeyCreate == false)
-		{
-			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION2, ZeroVector3);
-			m_bPCKeyPosition[1] = true;
-			m_bPCKeyCreate = true;
-		}
-		if (m_bPCKeyPosition[1] == false && m_bElectricalKeyCreate == false)
-		{
-			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION2, ZeroVector3);
-			m_bElectricalKeyPosition[1] = true;
-			m_bElectricalKeyCreate = true;
-		}
-		break;
-	case 2:
-		if (m_bElectricalKeyPosition[2] == false && m_bPCKeyCreate == false)
-		{
-			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION3, ZeroVector3);
-			m_bPCKeyPosition[2] = true;
-			m_bPCKeyCreate = true;
-		}
-		if (m_bPCKeyPosition[2] == false && m_bElectricalKeyCreate == false)
-		{
-			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION3, ZeroVector3);
-			m_bElectricalKeyPosition[2] = true;
-			m_bElectricalKeyCreate = true;
-		}
-		break;
-	case 3:
-		if (m_bElectricalKeyPosition[3] == false && m_bPCKeyCreate == false)
-		{
-			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION4, ZeroVector3);
-			m_bPCKeyPosition[3] = true;
-			m_bPCKeyCreate = true;
-		}
-		if (m_bPCKeyPosition[3] == false && m_bElectricalKeyCreate == false)
-		{
-			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION4, ZeroVector3);
-			m_bElectricalKeyPosition[3] = true;
-			m_bElectricalKeyCreate = true;
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-void CItemSpawn::Storage_Control_KeyCreate(void)
-{
-	m_nStorage_Control_key_number = rand() % 3;
-	switch (m_nStorage_Control_key_number)
-	{
-	case 0:
-		if (m_bControlKeyPosition[0] == false && m_bStorageKeyCreate == false)
-		{
-			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION1, ZeroVector3);
-			m_bStoragePosition[0] = true;
-			m_bStorageKeyCreate = true;
-		}
-		if (m_bStoragePosition[0] == false && m_bControlKeyCreate == false)
-		{
-			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION1, ZeroVector3);
-			m_bControlKeyPosition[0] = true;
-			m_bControlKeyCreate = true;
-		}
-		break;
-	case 1:
-		if (m_bControlKeyPosition[1] == false && m_bStorageKeyCreate == false)
-		{
-			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION2, ZeroVector3);
-			m_bStoragePosition[1] = true;
-			m_bStorageKeyCreate = true;
-		}
-		if (m_bStoragePosition[1] == false && m_bControlKeyCreate == false)
-		{
-			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION2, ZeroVector3);
-			m_bControlKeyPosition[1] = true;
-			m_bControlKeyCreate = true;
-		}
-		break;
-	case 2:
-		if (m_bControlKeyPosition[2] == false && m_bStorageKeyCreate == false)
-		{
-			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION3, ZeroVector3);
-			m_bStoragePosition[2] = true;
-			m_bStorageKeyCreate = true;
-		}
-		if (m_bStoragePosition[2] == false && m_bControlKeyCreate == false)
-		{
-			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION3, ZeroVector3);
-			m_bControlKeyPosition[2] = true;
-			m_bControlKeyCreate = true;
-		}
-		break;
-	case 3:
-		if (m_bControlKeyPosition[3] == false && m_bStorageKeyCreate == false)
-		{
-			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION4, ZeroVector3);
-			m_bStoragePosition[3] = true;
-			m_bStorageKeyCreate = true;
-		}
-		if (m_bStoragePosition[3] == false && m_bControlKeyCreate == false)
-		{
-			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION4, ZeroVector3);
-			m_bControlKeyPosition[3] = true;
-			m_bControlKeyCreate = true;
-		}
-		break;
-	default:
-		break;
-	}
-}
+//void CItemSpawn::PC_Electrical_key_Create(void)
+//{
+//	m_nPC_Electrical_key_number = rand() % 3;
+//	switch (m_nPC_Electrical_key_number)
+//	{
+//	case 0:
+//		if (m_bElectricalKeyPosition[0] == false && m_bPCKeyCreate == false)
+//		{
+//			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION1, ZeroVector3);
+//			m_bPCKeyPosition[0] = true;
+//			m_bPCKeyCreate = true;
+//		}
+//		if (m_bPCKeyPosition[0] == false && m_bElectricalKeyCreate == false)
+//		{
+//			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION1, ZeroVector3);
+//			m_bElectricalKeyPosition[0] = true;
+//			m_bElectricalKeyCreate = true;
+//		}
+//		break;
+//	case 1:
+//		if (m_bElectricalKeyPosition[1] == false && m_bPCKeyCreate == false)
+//		{
+//			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION2, ZeroVector3);
+//			m_bPCKeyPosition[1] = true;
+//			m_bPCKeyCreate = true;
+//		}
+//		if (m_bPCKeyPosition[1] == false && m_bElectricalKeyCreate == false)
+//		{
+//			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION2, ZeroVector3);
+//			m_bElectricalKeyPosition[1] = true;
+//			m_bElectricalKeyCreate = true;
+//		}
+//		break;
+//	case 2:
+//		if (m_bElectricalKeyPosition[2] == false && m_bPCKeyCreate == false)
+//		{
+//			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION3, ZeroVector3);
+//			m_bPCKeyPosition[2] = true;
+//			m_bPCKeyCreate = true;
+//		}
+//		if (m_bPCKeyPosition[2] == false && m_bElectricalKeyCreate == false)
+//		{
+//			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION3, ZeroVector3);
+//			m_bElectricalKeyPosition[2] = true;
+//			m_bElectricalKeyCreate = true;
+//		}
+//		break;
+//	case 3:
+//		if (m_bElectricalKeyPosition[3] == false && m_bPCKeyCreate == false)
+//		{
+//			CPCRoomKeyObject::Create(PC_ELECTRICAL_POSITION4, ZeroVector3);
+//			m_bPCKeyPosition[3] = true;
+//			m_bPCKeyCreate = true;
+//		}
+//		if (m_bPCKeyPosition[3] == false && m_bElectricalKeyCreate == false)
+//		{
+//			CElectricalRoomKeyObject::Create(PC_ELECTRICAL_POSITION4, ZeroVector3);
+//			m_bElectricalKeyPosition[3] = true;
+//			m_bElectricalKeyCreate = true;
+//		}
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void CItemSpawn::Storage_Control_KeyCreate(void)
+//{
+//	m_nStorage_Control_key_number = rand() % 3;
+//	switch (m_nStorage_Control_key_number)
+//	{
+//	case 0:
+//		if (m_bControlKeyPosition[0] == false && m_bStorageKeyCreate == false)
+//		{
+//			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION1, ZeroVector3);
+//			m_bStoragePosition[0] = true;
+//			m_bStorageKeyCreate = true;
+//		}
+//		if (m_bStoragePosition[0] == false && m_bControlKeyCreate == false)
+//		{
+//			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION1, ZeroVector3);
+//			m_bControlKeyPosition[0] = true;
+//			m_bControlKeyCreate = true;
+//		}
+//		break;
+//	case 1:
+//		if (m_bControlKeyPosition[1] == false && m_bStorageKeyCreate == false)
+//		{
+//			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION2, ZeroVector3);
+//			m_bStoragePosition[1] = true;
+//			m_bStorageKeyCreate = true;
+//		}
+//		if (m_bStoragePosition[1] == false && m_bControlKeyCreate == false)
+//		{
+//			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION2, ZeroVector3);
+//			m_bControlKeyPosition[1] = true;
+//			m_bControlKeyCreate = true;
+//		}
+//		break;
+//	case 2:
+//		if (m_bControlKeyPosition[2] == false && m_bStorageKeyCreate == false)
+//		{
+//			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION3, ZeroVector3);
+//			m_bStoragePosition[2] = true;
+//			m_bStorageKeyCreate = true;
+//		}
+//		if (m_bStoragePosition[2] == false && m_bControlKeyCreate == false)
+//		{
+//			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION3, ZeroVector3);
+//			m_bControlKeyPosition[2] = true;
+//			m_bControlKeyCreate = true;
+//		}
+//		break;
+//	case 3:
+//		if (m_bControlKeyPosition[3] == false && m_bStorageKeyCreate == false)
+//		{
+//			CStorageKeyObject::Create(CONTROL_STORAGE_POSITION4, ZeroVector3);
+//			m_bStoragePosition[3] = true;
+//			m_bStorageKeyCreate = true;
+//		}
+//		if (m_bStoragePosition[3] == false && m_bControlKeyCreate == false)
+//		{
+//			CControlRoomKeyObject::Create(CONTROL_STORAGE_POSITION4, ZeroVector3);
+//			m_bControlKeyPosition[3] = true;
+//			m_bControlKeyCreate = true;
+//		}
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
 void CItemSpawn::JailerKeyCreate(void)
 {
-	m_nJailerNumber = rand() % 3;
+	m_nJailerNumber = rand() % 4;
 	switch (m_nJailerNumber)
 	{
 	case 0:
@@ -233,6 +250,70 @@ void CItemSpawn::JailerKeyCreate(void)
 		break;
 	case 3:
 		CJailerKeyObject::Create(JAILER_KEY_POSITION4, ZeroVector3);
+		break;
+	default:
+		break;
+	}
+}
+
+void CItemSpawn::CameraKeyCreate(void)
+{
+	m_nCameraNumber = rand() % 2;
+	switch (m_nCameraNumber)
+	{
+	case 0:
+		CPCRoomKeyObject::Create(NEW_CAMERA_POS1, ZeroVector3);
+		break;
+	case 1:
+		CPCRoomKeyObject::Create(NEW_CAMERA_POS2, ZeroVector3);
+		break;
+	default:
+		break;
+	}
+}
+
+void CItemSpawn::ControlKeyCreate(void)
+{
+	m_nControlNumber = rand() % 2;
+	switch (m_nControlNumber)
+	{
+	case 0:
+		CControlRoomKeyObject::Create(NEM_CONTROL_POS1, ZeroVector3);
+		break;
+	case 1:
+		CControlRoomKeyObject::Create(NEW_CONTROL_POS2, ZeroVector3);
+		break;
+	default:
+		break;
+	}
+}
+
+void CItemSpawn::ElectricalKeyCreate(void)
+{
+	m_nElectricalNumber = rand() % 2;
+	switch (m_nElectricalNumber)
+	{
+	case 0:
+		CElectricalRoomKeyObject::Create(NEW_ELECTRICAL_POS1, ZeroVector3);
+		break;
+	case 1:
+		CElectricalRoomKeyObject::Create(NEW_ELECTRICAL_POS2, ZeroVector3);
+		break;
+	default:
+		break;
+	}
+}
+
+void CItemSpawn::PCKeyCreate(void)
+{
+	m_nPCNumber = rand() % 2;
+	switch (m_nPCNumber)
+	{
+	case 0:
+		CPCRoomKeyObject::Create(NEW_PC_POS1, ZeroVector3);
+		break;
+	case 1:
+		CPCRoomKeyObject::Create(NEW_PC_POS2, ZeroVector3);
 		break;
 	default:
 		break;
