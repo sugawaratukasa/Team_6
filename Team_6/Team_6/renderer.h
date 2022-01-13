@@ -14,7 +14,7 @@
 #include "camera.h"
 #include "fog.h"
 
-#define FOG_MAX 2
+#define PLAYER_NUM 2
 
 //=============================================================================
 // レンダラークラス
@@ -30,7 +30,7 @@ public:
 	void Update(void);							// 更新処理
 	void Draw(void);							// 描画処理
 
-	void SwitchCam(void); // カメラ切り替え
+	void SwitchCam(int nNumPlayer); // カメラ切り替え
 
 	void SetStateStencil(void);					// ステンシルの設定
 	void SetStencilTest(void);					// ステンシルテスト設定
@@ -42,6 +42,7 @@ public:
 	LPDIRECT3DDEVICE9 GetDevice(void);			// デバイス情報
 	bool GetIsUseSecCam(void) { return m_bUseSecCam; }
 	bool GetIsUseMovie(void) { return m_bIsUseMovie; }
+	bool GetIsUseSecCamPlayer(int nNumPlayer) { return m_bUseSecCamPlayer[nNumPlayer]; }
 	CFog *GetFog(int nPlayerNum) { return m_pFog[nPlayerNum]; }
 
 private:
@@ -51,7 +52,8 @@ private:
 	D3DFILLMODE m_fillMode;						// ワイヤーフレーム
 	bool		m_bUseSecCam;
 	bool		m_bIsUseMovie;
-	CFog *m_pFog[FOG_MAX];
+	bool		m_bUseSecCamPlayer[PLAYER_NUM];
+	CFog *m_pFog[PLAYER_NUM];
 };
 
 #endif

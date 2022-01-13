@@ -38,6 +38,7 @@
 //=============================================================================
 float CCameraGame::m_fSecCamAngle = 0.0f;
 D3DXVECTOR3 CCameraGame::m_fSecCamPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+CCameraSecurity *CCameraGame::m_pSecCam = nullptr;
 
 //=============================================================================
 // インスタンス生成
@@ -61,7 +62,7 @@ CCameraGame * CCameraGame::Create(CCamera::SCREEN_ID id)
 //=============================================================================
 void CCameraGame::SetCameraID(CCamera::SCREEN_ID id)
 {
-	m_id = id;
+	SetScreenID(id);
 }
 
 //=============================================================================
@@ -85,7 +86,7 @@ HRESULT CCameraGame::Init(void)
 {
 	// 初期化処理
 	CCamera::Init();
-	m_id = CCamera::SCREEN_NONE;
+	SetScreenID(CCamera::SCREEN_NONE);
 	SetTarget(true);
 	m_bIsRotate = false;
 	m_fAngleMove = 0.0f;
@@ -103,10 +104,10 @@ void CCameraGame::Update(void)
 {
 	//キーボードクラス情報の取得
 	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
-	// ジョイパッドの取得
-	DIJOYSTATE js = CInputJoypad::GetStick(0);
 
-	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
+	CCamera::SCREEN_ID id = GetScreenID();
+	bool bUse = CManager::GetRenderer()->GetIsUseSecCamPlayer(id - 1);
+
 
 	// 監視カメラを使っているなら
 	if (bUse)
@@ -114,25 +115,21 @@ void CCameraGame::Update(void)
 		// 座標補間しない
 		SetIsInterpolation(false);
 
-		if (m_id == SCREEN_LEFT)
+		// 入力によってカメラを順送り・逆送り
+		if (pKeyInput->GetTrigger(DIK_1))
 		{
-			// 入力によってカメラを順送り・逆送り
-			if (pKeyInput->GetTrigger(DIK_1))
-			{
-				m_pSecCam = m_pSecCam->GetPrev();
-			}
-			if (pKeyInput->GetTrigger(DIK_2))
-			{
-				m_pSecCam = m_pSecCam->GetNext();
-			}
-
-			m_fSecCamAngle = m_pSecCam->GetAngle();
-			m_fSecCamPos = m_pSecCam->GetPos();
+			m_pSecCam = m_pSecCam->GetPrev();
+		}
+		if (pKeyInput->GetTrigger(DIK_2))
+		{
+			m_pSecCam = m_pSecCam->GetNext();
 		}
 
-		// 描画範囲を通常状態に
-		SetScreenID(CCamera::SCREEN_NONE);
+		m_fSecCamAngle = m_pSecCam->GetAngle();
+		m_fSecCamPos = m_pSecCam->GetPos();
+
 		// 注視点を変更
+		SetScreenID(id);
 		SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		SetCameraPos(m_fSecCamPos);
 		SetVartical(D3DXToRadian(110));
@@ -140,10 +137,10 @@ void CCameraGame::Update(void)
 	}
 	else
 	{
-		CameraRotate();
+		SetScreenID(id);
 		SetIsInterpolation(true);
-		SetScreenID(m_id);
 		SetVartical(CAMERA_DEFAULT_Fθ);
+		CameraRotate();
 	}
 
 	CCamera::Update();
@@ -159,6 +156,7 @@ void CCameraGame::CameraRotate(void)
 	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
+	CCamera::SCREEN_ID id = GetScreenID();
 
 	m_fHorizontal = GetHorizontal();
 
@@ -173,9 +171,9 @@ void CCameraGame::CameraRotate(void)
 		}
 		SetHorizontal(m_fHorizontal);
 	}
-	else if(!CManager::GetRenderer()->GetIsUseSecCam())
+	else if(!CManager::GetRenderer()->GetIsUseSecCamPlayer(id - 1))
 	{
-		if (m_id == SCREEN_LEFT)
+		if (id == SCREEN_LEFT)
 		{
 			if (pKeyInput->GetTrigger(DIK_Q))
 			{
@@ -233,9 +231,11 @@ void CCameraGame::CameraRotate(void)
 //=============================================================================
 // 監視カメラとの切り替え処理
 //=============================================================================
-void CCameraGame::SwitchCam(bool bSecCam)
+void CCameraGame::SwitchCam(CGame::CAMERA_ID CamId, bool bSecCam)
 {
-	if (!bSecCam)
+	CCamera::SCREEN_ID id = GetScreenID();
+
+	if (!bSecCam && CamId == id - 1)
 	{
 		m_fHorizontal =  D3DXToRadian(m_camAngle * 90);
 		SetHorizontal(m_fHorizontal);
@@ -331,6 +331,20 @@ void CCameraGame::ModifyCamera(CGame::CAMERA_ID id)
 	// 位置修正
 	pPlayer = ((CGame*)pMode)->GetPlayer(id);
 	SetTargetPos(pPlayer->GetPos());
+	CCamera::Update();
+	CCamera::SetCamera();
+}
+
+//=============================================================================
+// カメラの位置修正
+//=============================================================================
+void CCameraGame::ModifySecCamera(void)
+{
+	// プレイヤーのポインタ
+	SetTargetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetCameraPos(m_fSecCamPos);
+	SetVartical(D3DXToRadian(110));
+	SetHorizontal(m_fSecCamAngle);
 	CCamera::Update();
 	CCamera::SetCamera();
 }

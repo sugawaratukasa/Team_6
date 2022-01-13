@@ -79,7 +79,7 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
-	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
+	bool bUse = CManager::GetRenderer()->GetIsUseSecCamPlayer(m_id - 1);
 
 	// 監視カメラを使っているなら
 	if (bUse)
@@ -126,13 +126,11 @@ void CCamera::SetCamera(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
-
 	//スクリーンID別にプロジェクションマトリックスの作成
 	if (m_id == SCREEN_NONE)
 	{
 		//ビューマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxView);
-
 
 		//ビューマトリックスの作成
 		D3DXMatrixLookAtLH(&m_mtxView,
@@ -140,21 +138,17 @@ void CCamera::SetCamera(void)
 			&m_posR,
 			&m_posU);
 
-
 		//ビューマトリックスの設定
 		pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
 
-
 		//プロジェクションマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxProjection);
-
 
 		D3DXMatrixPerspectiveFovLH(&m_mtxProjection,
 			D3DXToRadian(45.0f),
 			(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 			10.0f,
 			200000.0f);
-
 
 		//プロジェクションマトリックスの設定
 		pDevice->SetTransform(D3DTS_PROJECTION,

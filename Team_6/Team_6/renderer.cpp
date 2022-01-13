@@ -155,9 +155,10 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 
 	m_bUseSecCam = false;
 
-	for (int nCount = 0; nCount < FOG_MAX; nCount++)
+	for (int nCount = 0; nCount < PLAYER_NUM; nCount++)
 	{
 		m_pFog[nCount] = new CFog;
+		m_bUseSecCamPlayer[nCount] = false;
 	}
 	
 	return S_OK;
@@ -211,7 +212,11 @@ void CRenderer::Update(void)
 
 	if (pKeyboard->GetTrigger(DIK_3))
 	{
-		SwitchCam();
+		SwitchCam(0);
+	}
+	if (pKeyboard->GetTrigger(DIK_4))
+	{
+		SwitchCam(1);
 	}
 	if (pKeyboard->GetTrigger(DIK_6))
 	{
@@ -264,7 +269,6 @@ void CRenderer::Draw(void)
 			1.0f,
 			0);
 
-
 		m_pD3DDevice->Clear(0,
 			nullptr,
 			D3DCLEAR_STENCIL,
@@ -277,37 +281,18 @@ void CRenderer::Draw(void)
 		// Direct3Dによる描画の開始
 		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 		{
-
 			// モードがgameなら
 			if (CManager::GetMode() == CManager::MODE_TYPE_GAME)
 			{
-
-				// 監視カメラを見ているなら
-				if (m_bUseSecCam)
+				// ビューポートの数だけ描画する
+				for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 				{
-					m_pFog[0]->InitSecCamFog();
-
 					// ビューポート設定
-					SetUpViewPort(CCamera::SCREEN_NONE);
-					//オブジェクトクラスの全描画処理呼び出し
-					CScene::DrawAll();
-
-
-					if (pFade != nullptr)
+					SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
+					// 監視カメラを見ているなら
+					if (m_bUseSecCamPlayer[nCount])
 					{
-						// 描画処理
-						pFade->Draw();
-					}
-				}
-				else
-				{
-					// ビューポートの数だけ描画する
-					for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
-					{
-						m_pFog[nCount]->InitPlayerFog();
-
-						// ビューポート設定
-						SetUpViewPort((CCamera::SCREEN_ID)(nCount + 1));
+						m_pFog[nCount]->InitSecCamFog();
 
 						// バッファのクリア
 						m_pD3DDevice->Clear(0,
@@ -324,9 +309,7 @@ void CRenderer::Draw(void)
 							1.0f,
 							0);
 
-
-						// カメラ位置を修正
-						((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera((CGame::CAMERA_ID)nCount);
+						((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifySecCamera();
 
 						//オブジェクトクラスの全描画処理呼び出し
 						CScene::DrawAll();
@@ -336,8 +319,38 @@ void CRenderer::Draw(void)
 							// 描画処理
 							pFade->Draw();
 						}
-						m_pFog[nCount]->UpdateFog();
 					}
+					else
+					{
+						m_pFog[nCount]->InitPlayerFog();
+
+						// バッファのクリア
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+							D3DCOLOR_RGBA(0, 0, 0, 0),
+							1.0f,
+							0);
+
+						m_pD3DDevice->Clear(0,
+							nullptr,
+							D3DCLEAR_STENCIL,
+							D3DCOLOR_XRGB(0, 0, 0),
+							1.0f,
+							0);
+
+						((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->ModifyCamera(CGame::CAMERA_ID(nCount));
+
+						//オブジェクトクラスの全描画処理呼び出し
+						CScene::DrawAll();
+
+						if (pFade != nullptr)
+						{
+							// 描画処理
+							pFade->Draw();
+						}
+					}
+					m_pFog[nCount]->UpdateFog();
 				}
 			}
 			else
@@ -345,10 +358,8 @@ void CRenderer::Draw(void)
 				// ビューポート設定
 				SetUpViewPort(CCamera::SCREEN_NONE);
 
-
 				//オブジェクトクラスの全描画処理呼び出し
 				CScene::DrawAll();
-
 
 				if (pFade != nullptr)
 				{
@@ -367,7 +378,6 @@ void CRenderer::Draw(void)
 			// Direct3Dによる描画の終了
 			m_pD3DDevice->EndScene();
 		}
-
 		// バックバッファとフロントバッファの入れ替え
 		m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 	}
@@ -376,12 +386,29 @@ void CRenderer::Draw(void)
 //=============================================================================
 // 監視カメラとの切り替え処理
 //=============================================================================
-void CRenderer::SwitchCam(void)
+void CRenderer::SwitchCam(int nNumPlayer)
 {
-	m_bUseSecCam = !m_bUseSecCam;
+	if (!m_bUseSecCamPlayer[nNumPlayer])
+	{
+		m_bUseSecCamPlayer[nNumPlayer] = true;
+	}
+	else
+	{
+		m_bUseSecCamPlayer[nNumPlayer] = false;
+	}
+
+	if (m_bUseSecCamPlayer[0] || m_bUseSecCamPlayer[1])
+	{
+		m_bUseSecCam = true;
+	}
+	else
+	{
+		m_bUseSecCam = false;
+	}
+
 	for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 	{
-		((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->SwitchCam(m_bUseSecCam);
+		((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->SwitchCam((CGame::CAMERA_ID)nNumPlayer, m_bUseSecCam);
 	}
 }
 

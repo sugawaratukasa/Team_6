@@ -40,15 +40,15 @@ public:
 	void Update(void);					// 更新処理
 	void NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot) override;
 	void ModifyCamera(CGame::CAMERA_ID id);
+	void ModifySecCamera(void);
 	void CreateSecCam(D3DXVECTOR3 pos, float fDir);
 	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
 	void CameraRotate(void);
-	void SwitchCam(bool bSecCam);
+	void SwitchCam(CGame::CAMERA_ID CamId, bool bSecCam);
 
 	void SetCameraID(CCamera::SCREEN_ID id);
 private:
-	CCamera::SCREEN_ID	m_id;
-	CCameraSecurity     *m_pSecCam;
+	static CCameraSecurity     *m_pSecCam;
 	static float m_fSecCamAngle;
 	static D3DXVECTOR3 m_fSecCamPos;
 	int m_camAngle;
