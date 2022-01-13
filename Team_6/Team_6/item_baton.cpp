@@ -58,3 +58,11 @@ void CItemBaton::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CBatonObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CItemBaton::DuctPass(D3DXVECTOR3 pos)
+{
+	CBatonObject::Create(pos, ZeroVector3);
+}

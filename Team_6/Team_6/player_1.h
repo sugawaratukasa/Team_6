@@ -17,7 +17,9 @@
 //=============================================================================
 class CPlayer1ItemUI;
 class CScene2D;
-
+class CGuidBG;
+class CBlackTexture;
+class CCaveatBar;
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
@@ -37,7 +39,11 @@ private:
 	void KeyboardMove(float fSpeed, float fAngle);					// キーボード移動処理
 	void PadMove(float fSpeed, float fAngle);						// ジョイパッド移動処理
 	void UpdateRot(void);											// 向き更新処理
+	bool m_bBlackTextureCreate;										// 黒背景のテクスチャ生成状態
 	D3DXVECTOR3 m_rotDest;								
 	CScene2D * m_pItemGuidTexture;
+	CGuidBG * m_pGuidBG;
+	CBlackTexture * m_pBlackTexture;
+	CCaveatBar * m_pCaveatBar;
 };
 #endif

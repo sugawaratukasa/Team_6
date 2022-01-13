@@ -95,6 +95,9 @@ HRESULT CPrison_Door_Left::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		SetSize(COLLISION_SIZE2);
 	}
 
+	//OBBの作成
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	// 判定用オブジェクト生成
 	CPrison_Door_Collision::Create(pos, rot, this);
 	return S_OK;

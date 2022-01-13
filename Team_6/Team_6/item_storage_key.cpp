@@ -58,3 +58,11 @@ void CStorageKey::ItemCreate(int nPlayer)
 	PlayerPos = pPlayer->GetPos();
 	CStorageKeyObject::Create(PlayerPos, ZeroVector3);
 }
+//=======================================================
+// アイテムダクト受け渡し
+// Author : SugawaraTsukasa
+//=======================================================
+void CStorageKey::DuctPass(D3DXVECTOR3 pos)
+{
+	CStorageKeyObject::Create(pos, ZeroVector3);
+}

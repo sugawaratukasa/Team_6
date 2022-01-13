@@ -19,17 +19,22 @@
 #include "sound.h"
 #include "jailer_key_guid_texture.h"
 #include "pc_room_key_guid_texture.h"
-#include "prison_key_guid_texture.h"
+
+#include "electrical_room_key_guid_texture.h"
 #include "storage_key_guid_texture.h"
 #include "baton_guid_texture.h"
 #include "map_guid_texture.h"
+#include "control_room_key_guid_texture.h"
+#include "guid_bg.h"
 #include "camera_game.h"
+#include "bg_black_texture.h"
+#include "caveatbar.h"
 
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define PRISON_POSITION (D3DXVECTOR3(5760.0f, 0.0f, -5900.0f))	//独房の位置
+#define PRISON_POSITION (D3DXVECTOR3(2450.0f, 0.0f, -7139.0f))	//独房の位置
 
 //=============================================================================
 // コンストラクタ
@@ -38,7 +43,11 @@
 CPlayer1::CPlayer1(PRIORITY Priority)
 {
 	m_rotDest = ZeroVector3;
+	m_bBlackTextureCreate = false;
 	m_pItemGuidTexture = nullptr;
+	m_pGuidBG = nullptr;
+	m_pBlackTexture = nullptr;
+	m_pCaveatBar = nullptr;
 }
 
 //=============================================================================
@@ -94,6 +103,8 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CPlayer::Init(pos, rot);
 	// プレイヤー1のUI生成
 	SetUI(CPlayer1ItemUI::Create());
+
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(100.0f, 100.0f, 0), D3DXVECTOR3(0.0f, 100.0f, 0.0f));
 	return S_OK;
 }
 
@@ -124,10 +135,20 @@ void CPlayer1::Update(void)
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
+
 	float fAngle = ((CGame*)CManager::GetModePtr())->GetCamera(0)->GetHorizontal();
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
 	{
+		if (m_bBlackTextureCreate == true)
+		{
+			if (m_pBlackTexture != nullptr)
+			{
+				m_pBlackTexture->Uninit();
+				m_pBlackTexture = nullptr;
+				m_bBlackTextureCreate = false;
+			}
+		}
 		// キーボード移動処理
 		KeyboardMove(fSpeed, fAngle);
 		// パッド移動
@@ -141,12 +162,31 @@ void CPlayer1::Update(void)
 		// 待機モーション再生
 		SetMotion(MOTION_IDOL);
 	}
+	if (bIncapacitated == true)
+	{
+		if (m_bBlackTextureCreate == false)
+		{
+			if (m_pBlackTexture == nullptr)
+			{
+				m_pBlackTexture = CBlackTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 0.0f));
+				m_bBlackTextureCreate = true;
+			}
+		}
+	}
 	// 向き補正処理
 	UpdateRot();
 	if (bItemGuidCreate == false)
 	{
 		// アイテム削除処理関数呼び出し
 		ItemDelete(PLAYER_1);
+	}
+
+
+	// 扉を開く処理
+	DoorOpen(PLAYER_1);
+	if (m_pCaveatBar != nullptr)
+	{
+		m_pCaveatBar -> Update();
 	}
 }
 
@@ -182,24 +222,33 @@ void CPlayer1::PrisonWarp(void)
 //=============================================================================
 void CPlayer1::SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type)
 {
-	if (m_pItemGuidTexture == nullptr)
+
+	if (m_pItemGuidTexture == nullptr && m_pGuidBG == nullptr)
 	{
+		m_pGuidBG = CGuidBG::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 		switch (Type)
 		{
+		case CItemObject::ITEM_OBJECT_KEY_STORAGE:
+			m_pItemGuidTexture = CStorageKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
 		case CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM:
 			m_pItemGuidTexture = CJailerKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 			SetbItemGuidCreate(true);
 			break;
+
+		case CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM:
+			m_pItemGuidTexture = CControlRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
+
+		case CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM:
+			m_pItemGuidTexture = CElectricalRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
+			SetbItemGuidCreate(true);
+			break;
+
 		case CItemObject::ITEM_OBJECT_KEY_PC_ROOM:
 			m_pItemGuidTexture = CPCRoomKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
-			SetbItemGuidCreate(true);
-			break;
-		case CItemObject::ITEM_OBJECT_KEY_PRISON:
-			m_pItemGuidTexture = CPrisonKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
-			SetbItemGuidCreate(true);
-			break;
-		case CItemObject::ITEM_OBJECT_KEY_STORAGE:
-			m_pItemGuidTexture = CStorageKeyGuidTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(500.0f, 500.0f, 0.0f));
 			SetbItemGuidCreate(true);
 			break;
 		case CItemObject::ITEM_OBJECT_BATON:
@@ -318,8 +367,17 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 	{
 		if (pKeyboard->GetTrigger(DIK_RETURN))
 		{
-			m_pItemGuidTexture->Uninit();
-			m_pItemGuidTexture = nullptr;
+
+			if (m_pItemGuidTexture != nullptr)
+			{
+				m_pItemGuidTexture->Uninit();
+				m_pItemGuidTexture = nullptr;
+			}
+			if (m_pGuidBG != nullptr)
+			{
+				m_pGuidBG->Uninit();
+				m_pGuidBG = nullptr;
+			}
 			SetbItemGuidCreate(false);
 		}
 	}

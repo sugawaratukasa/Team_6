@@ -11,6 +11,7 @@
 //=============================================================================
 #include "model.h"
 #include "object_door.h"
+#include "textlog.h"
 //=============================================================================
 // 前方宣言
 // Author : Sugawara Tsukasa
@@ -27,13 +28,23 @@ public:
 	enum TYPE
 	{
 		TYPE_NONE = -1,
-		TYPE_PRISON,
+		TYPE_ELECTRICAL_ROOM,
 		TYPE_CONTROL_ROOM,
 		TYPE_JAILER_ROOM,
 		TYPE_SWITCH,
 		TYPE_STORAGE,
+		TYPE_CAMERA_ROOM,
+		TYPE_LEVER,
 		TYPE_MAX
 	};
+
+	// プレイヤー
+	enum PLAYER
+	{
+		PLAYER_1 = 0,
+		PLAYER_2
+	};
+
 	CDoor_Collision(PRIORITY Priority = PRIORITY_OBJ_COLLISION);					// コンストラクタ
 	virtual ~CDoor_Collision();														// デストラクタ
 
@@ -42,7 +53,8 @@ public:
 	virtual void Uninit(void);														// 終了処理
 	virtual void Update(void);														// 更新処理
 	virtual void Draw(void);														// 描画処理
-	virtual void Open(void);														// 扉を開く処理
+	virtual void Open(int nPlayer);													// 扉を開く処理
+	virtual void NotOpen(int nPlayer);												// 扉が開けない処理
 	//===========================
 	// SetGet関数
 	//===========================

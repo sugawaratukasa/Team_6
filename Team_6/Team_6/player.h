@@ -56,11 +56,11 @@ public:
 	enum ITEM_GET_LIST
 	{
 		ITEM_NONE = -1,
-		ITEM_KEY_PRISON,			// 牢獄の鍵
 		ITEM_KEY_STORAGE,			// 倉庫の鍵
 		ITEM_KEY_JAILER_ROOM,		// 看守室の鍵
-		ITEM_KEY_PC_ROOM,			// PC室の鍵
 		ITEM_KEY_CONTROL_ROOM,		// 制御室の鍵
+		ITEM_KEY_ELECTRICAL_ROOM,	// 電気室の鍵
+		ITEM_KEY_PC_ROOM,			// PC室の鍵
 		ITEM_BATON,					// 警棒
 		ITEM_MAP,					// マップ
 		ITEM_MAX
@@ -86,7 +86,8 @@ public:
 	virtual void PadMove(float fSpeed, float fAngle) = 0;			// ジョイパッド移動処理
 	virtual void PrisonWarp(void) = 0;								// 独房ワープ処理
 	virtual void SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type) = 0;							// アイテム説明テクスチャ生成処理
-	void DoorOpen(void);											// 扉を開く処理
+	void DoorOpen(int nPlayer);										// 扉を開く処理
+	void Item_DuctPass(void);										// ダクトアイテム受け渡し
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
@@ -100,10 +101,12 @@ public:
 	//=============================================================================
 	//　Get関数
 	//=============================================================================
+
 	int GetItemCount(void) { return m_nItemCount; }				// アイテムの取得数所得関数
 	bool GetbItem(int nItem) { return m_abGetItem[nItem]; }		// アイテムの取得状況取得関数
 	bool GetbGoal(void) { return m_bGoal; }						// ゴール状態所得関数
 	bool GetbIncapacitated(void) { return m_bIncapacitated; }	// 行動不能状態取得関数
+	int &GetIncapacitatedTimeCount(void) { return m_nIncapacitatedTimeCount; }    // 行動不能カウント取得
 	bool GetbGuidCreate(void) { return m_bGuidCreate; }			// アイテム説明テクスチャの生成状態取得関数
 	TYPE GetType(void) { return m_Type; }
 private:

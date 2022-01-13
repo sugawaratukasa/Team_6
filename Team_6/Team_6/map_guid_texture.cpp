@@ -16,7 +16,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CMapGuidTexture::CMapGuidTexture(PRIORITY Priority)
+CMapGuidTexture::CMapGuidTexture(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 

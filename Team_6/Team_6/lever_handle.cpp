@@ -13,12 +13,18 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
+#define DOWN_Y		(40.0f)	// レバーの下がる位置7
+#define MOVE_Y		(2.0f)	// 移動
+#define UP_COUNT	(50000000)	// カウント
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
 CLever_Handle::CLever_Handle(PRIORITY Priority) : CModel(Priority)
 {
+	m_InitPos = ZeroVector3;
+	m_bDown = false;
+	m_nDownCnt = ZERO_INT;
 }
 //=============================================================================
 // インクルードファイル
@@ -58,6 +64,9 @@ CLever_Handle * CLever_Handle::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CLever_Handle::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
+	// 初期位置代入
+	m_InitPos = pos;
+
 	// 初期化処理
 	CModel::Init(pos, rot);
 
@@ -68,7 +77,7 @@ HRESULT CLever_Handle::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	if (pXfile != nullptr)
 	{
 		// モデル情報取得
-		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_LEVER_HANDLE);
+		CXfile::MODEL model = pXfile->GetXfile(CXfile::XFILE_NUM_LEVER_SWITCH_HANDLE);
 
 		// モデルの情報を渡す
 		BindModel(model);
@@ -92,6 +101,32 @@ void CLever_Handle::Update(void)
 {
 	// 更新処理
 	CModel::Update();
+
+	// レバーが下げられているか
+	if (m_bDown == true)
+	{
+		// 下がる処理
+		Down();
+
+		// インクリメント
+		m_nDownCnt++;
+
+		// レバーの上がるカウントよりも大きくなった場合
+		if (m_nDownCnt >= UP_COUNT)
+		{
+			// 0に
+			m_nDownCnt = ZERO_INT;
+
+			// 上がっている状態に
+			m_bDown = false;
+		}
+	}
+	// レバーが上げられている場合
+	if (m_bDown == false)
+	{
+		// 上がる処理
+		Up();
+	}
 }
 //=============================================================================
 // 描画処理関数
@@ -101,4 +136,42 @@ void CLever_Handle::Draw(void)
 {
 	// 描画処理
 	CModel::Draw();
+}
+//=============================================================================
+// 下げる処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CLever_Handle::Down(void)
+{
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// 位置が元の位置の場合
+	if (pos.y >= m_InitPos.y - DOWN_Y)
+	{
+		// 移動
+		pos.y -= MOVE_Y;
+
+		// 位置設定
+		SetPos(pos);
+	}
+}
+//=============================================================================
+// 上げる処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CLever_Handle::Up(void)
+{
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// 位置が元の位置の場合
+	if (pos.y <= m_InitPos.y)
+	{
+		// 移動
+		pos.y += MOVE_Y;
+
+		// 位置設定
+		SetPos(pos);
+	}
 }

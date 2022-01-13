@@ -14,8 +14,9 @@
 // Author : Sugawara Tsukasa
 //========================================================================
 #define POS	(D3DXVECTOR3(SCREEN_WIDTH / 2 + 160.0f,180.0f + 87* nCnt,0.0f))	// タイム位置
-#define MOVE_RANKING	(1)											// 順位移動
-#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")			// ランキングテキスト									// ランキングテキスト
+#define MOVE_RANKING	(1)													// 順位移動
+#define RANKIG_TEXT		("data/Text/Ranking/Ranking.txt")					// ランキングテキスト
+#define SIZE_VALUE		(D3DXVECTOR3(50.0f,50.0f,0.0f))						// サイズ量
 //========================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -25,6 +26,7 @@ CRanking::CRanking()
 	memset(m_apTime, NULL, sizeof(m_apTime));
 	memset(m_anTime, ZERO_INT, sizeof(m_anTime));
 	m_nPlayerTime = ZERO_INT;
+	m_Type = TYPE_RANKING_RESULT;
 }
 //========================================================================
 // デストラクタ
@@ -37,7 +39,7 @@ CRanking::~CRanking()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //========================================================================
-CRanking * CRanking::Create(void)
+CRanking * CRanking::Create(TYPE type)
 {
 	// CRankingのポインタ
 	CRanking *pRanking = nullptr;
@@ -51,6 +53,9 @@ CRanking * CRanking::Create(void)
 		// !nullcheck
 		if (pRanking != nullptr)
 		{
+			// タイプ代入
+			pRanking->m_Type = type;
+
 			// 初期化処理
 			pRanking->Init(ZeroVector3, ZeroVector3);
 		}
@@ -64,11 +69,17 @@ CRanking * CRanking::Create(void)
 //========================================================================
 HRESULT CRanking::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {	
+	// リザルト時にだす場合
+	if (m_Type == TYPE_RANKING_RESULT)
+	{
+		// 読み込み
+		ReadPlayerFile();
+
+		// ランキング設定
+		SetRanking(m_nPlayerTime);
+	}
 	// ファイル読み込み
 	ReadFile();
-
-	// ランキング設定
-	SetRanking(1000);
 
 	// タイム生成
 	CreateTime();
@@ -118,7 +129,7 @@ void CRanking::ReadPlayerFile(void)
 {
 	FILE * pFile;
 	// ファイルの読み込み
-	pFile = fopen("player.txt", "r");
+	pFile = fopen("Player_Time.txt", "r");
 
 	// ファイルが空じゃないか
 	if (pFile != NULL)
@@ -208,7 +219,7 @@ void CRanking::CreateTime(void)
 	for (int nCnt = ZERO_INT; nCnt < RANK_MAX; nCnt++)
 	{
 		// タイム生成
-		m_apTime[nCnt] = CTime::Create(POS);
+		m_apTime[nCnt] = CTime::Create(POS, SIZE_VALUE);
 
 		// タイム設定
 		m_apTime[nCnt]->SetTime(m_anTime[nCnt]);

@@ -70,8 +70,7 @@ HRESULT CDoor_Collision::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// 初期化処理
 	CModel::Init(pos, rot);
 
-	CModelCollisionBox::Create(pos, rot, this);
-
+	//CModelCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================
@@ -103,7 +102,7 @@ void CDoor_Collision::Draw(void)
 // 扉を開く処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CDoor_Collision::Open(void)
+void CDoor_Collision::Open(int nPlayer)
 {
 	// !nullcheck
 	if (m_pDoor != nullptr)
@@ -111,4 +110,11 @@ void CDoor_Collision::Open(void)
 		// ドアを開く
 		m_pDoor->SetLock(false);
 	}
+}
+//=============================================================================
+// 扉が開けない処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CDoor_Collision::NotOpen(int nPlayer)
+{
 }

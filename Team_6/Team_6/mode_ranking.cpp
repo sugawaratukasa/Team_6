@@ -114,7 +114,7 @@ void CMode_Ranking::RankingCreate(void)
 	CRanking_bg::Create(BG_POS);
 
 	// ¶¬
-	m_pRankig = CRanking::Create();
+	m_pRankig = CRanking::Create(CRanking::TYPE_RANKING_RESULT);
 }
 //=============================================================================
 // ƒ‚[ƒh‘JˆÚ

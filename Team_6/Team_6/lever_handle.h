@@ -26,6 +26,19 @@ public:
 	void Uninit(void);												// 終了処理
 	void Update(void);												// 更新処理
 	void Draw(void);												// 描画処理
+	void Down(void);												// 下げる処理
+	void Up(void);													// 上げる処理
+	//======================================
+	// Set関数
+	//======================================
+	void SetDown(bool bDown) { m_bDown = bDown; }	// 下げられているか設定する
+	//======================================
+	// Get関数
+	//======================================
+	bool GetbDown(void) { return m_bDown; }			// 下げられているか取得
 private:
+	D3DXVECTOR3 m_InitPos;	// 初期位置
+	bool m_bDown;			// 下げらているか判定する
+	int m_nDownCnt;			// レバーの下げられているカウント		
 };
 #endif

@@ -9,7 +9,7 @@
 //É}ÉNÉçíËã`
 //=============================================================================
 #define LOG_POS D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT, 0.0f)
-#define LOG_SIZE D3DXVECTOR3(300.0f, 30.0f, 0.0f)
+#define LOG_SIZE D3DXVECTOR3(500.0f, 50.0f, 0.0f)
 #define LOG_LIFE_LENGTH 60 * 4
 #define LOG_LINE_SPACE 10.0f
 #define LOG_MAX_HEIGHT 250.0f

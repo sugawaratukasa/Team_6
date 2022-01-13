@@ -18,7 +18,6 @@
 #define DIVIDE			(10.0f)							// 割る数
 #define SIZE_VALUE		(D3DXVECTOR3(50.0f,50.0f,0.0f))	// サイズ量
 #define TEX_SEPARATE	(11)							// テクスチャ分割数
-#define COLON			(2)								// コロン
 //=============================================================================
 // コンストラクタ
 // Author : SugawaraTsukasa
@@ -26,6 +25,7 @@
 CTime::CTime()
 {
 	memset(m_apTime, NULL, sizeof(m_apTime));
+	m_pColon = nullptr;
 }
 //=============================================================================
 // デストラクタ
@@ -38,7 +38,7 @@ CTime::~CTime()
 // 生成処理関数
 // Author : SugawaraTsukasa
 //=============================================================================
-CTime * CTime::Create(D3DXVECTOR3 pos)
+CTime * CTime::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	// CTimeのポインタ
 	CTime *pTime = nullptr;
@@ -53,7 +53,7 @@ CTime * CTime::Create(D3DXVECTOR3 pos)
 		if (pTime != nullptr)
 		{
 			// 初期化
-			pTime->Init(pos, SIZE_VALUE);
+			pTime->Init(pos, size);
 		}
 	}
 	// ポインタを返す
@@ -78,6 +78,15 @@ HRESULT CTime::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 //=============================================================================
 void CTime::Uninit(void)
 {
+	// 破棄
+	if (m_pColon != nullptr)
+	{
+		// 破棄
+		m_pColon->Uninit();
+
+		// nullptr代入
+		m_pColon = nullptr;
+	}
 	// 最大数繰り返す
 	for (int nCnt = ZERO_INT; nCnt < MAX_TIME; nCnt++)
 	{
@@ -121,9 +130,6 @@ void CTime::Draw(void)
 //=============================================================================
 void CTime::SetTime(int nTime)
 {
-	// 10倍
-	nTime *= DIVIDE;
-
 	// 計算用変数
 	int nInteger = ZERO_INT;
 
@@ -136,21 +142,13 @@ void CTime::SetTime(int nTime)
 	// 最大数分繰り返す
 	for (int nCntDigit = 1; nCntDigit <= MAX_TIME; nCntDigit++, nCntNumber++)
 	{
-		if (nCntNumber != COLON)
-		{
-			// 1の位以下を切り捨てる
-			nInteger = int(nTime / std::pow(DIVIDE, nCntDigit));
-			nInteger = int(nInteger * std::pow(DIVIDE, nCntDigit));
-			nNum = int((nTime - nInteger) / std::pow(DIVIDE, nCntDigit - 1));
+		// 1の位以下を切り捨てる
+		nInteger = int(nTime / std::pow(DIVIDE, nCntDigit));
+		nInteger = int(nInteger * std::pow(DIVIDE, nCntDigit));
+		nNum = int((nTime - nInteger) / std::pow(DIVIDE, nCntDigit - 1));
 
-			// スコアを設定
-			m_apTime[nCntNumber]->InitAnimation(nNum, TEX_SEPARATE, 0);
-		}
-		else
-		{
-			// スコアを設定
-			m_apTime[nCntNumber]->InitAnimation(10, TEX_SEPARATE, 0);
-		}
+		// スコアを設定
+		m_apTime[nCntNumber]->InitAnimation(nNum, TEX_SEPARATE, 0);
 	}
 }
 //=============================================================================
@@ -165,8 +163,17 @@ void CTime::CreateTime(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 		//	位置
 		D3DXVECTOR3 Pos = pos;
 
-		// 位置計算
-		Pos.x -= (size.x * nCnt);
+		if (nCnt > 1)
+		{
+			// 位置計算
+			Pos.x -= (size.x * (1 + nCnt));
+		}
+		else
+		{
+			// 位置計算
+			Pos.x -= (size.x * nCnt);
+
+		}
 
 		// 生成
 		m_apTime[nCnt] = CScene2D::Create(Pos, size);
@@ -175,4 +182,13 @@ void CTime::CreateTime(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 		CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
 		m_apTime[nCnt]->BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_RANKING_NUMBER));
 	}
+	pos.x -= size.x * 2;
+	m_pColon = CScene2D::Create(pos, size);
+
+	// テクスチャの設定
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+	m_pColon->BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_RANKING_NUMBER));
+
+	// スコアを設定
+	m_pColon->InitAnimation(10, TEX_SEPARATE, 0);
 }

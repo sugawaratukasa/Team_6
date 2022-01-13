@@ -28,6 +28,7 @@ class CLight;
 class CPlayer;
 class CPauseButtonManager;
 class CPlayer1ItemUI;
+class CItemSpawn;
 
 //=======================================================================================
 // ゲームクラス
@@ -71,7 +72,6 @@ public:
 	void Draw(void);								// 描画処理
 
 	void CreatePlayer(void);						// プレイヤーの生成	
-	void CreateItem(void);							// プレイヤーの生成	
 	void CreateSecCam(void);						// 監視カメラの生成
 	void CreateJailer(void);						// 看守の作成
 
@@ -86,6 +86,6 @@ private:
 	CLight *m_pLight;							// ライトのポインタ
 	CPlayer *m_apPlayer[MAX_PLAYER];			// プレイヤーのポインタ
 	CPauseButtonManager *m_pPauseButtonManager;	// ポーズボタンマネージャーのポインタ
-	LPD3DXFONT m_pFont;							// デバック用フォント
+	CItemSpawn * m_pItemSpawn;
 };
 #endif

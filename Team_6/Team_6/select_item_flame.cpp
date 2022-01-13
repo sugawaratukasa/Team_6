@@ -16,7 +16,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CSelectItemFlame::CSelectItemFlame(PRIORITY Priority)
+CSelectItemFlame::CSelectItemFlame(PRIORITY Priority) : CScene2D(Priority)
 {
 }
 

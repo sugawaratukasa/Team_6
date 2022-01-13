@@ -110,5 +110,5 @@ void CRankingButton::Press(void)
 	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 	// ‘JˆÚ
 	CFade *pFade = CManager::GetFade();
-	pFade->SetFade(CManager::MODE_TYPE_RANKING);
+	pFade->SetFade(CManager::MODE_TYPE_RANKING_BOARD);
 }

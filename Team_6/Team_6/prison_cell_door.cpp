@@ -15,15 +15,16 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-#define COLLISION_SIZE	(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
-#define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
-#define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define COLLISION_SIZE		(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
+#define COLLISION_SIZE2		(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
+#define ROT_90				(D3DXToRadian(89.0f))				// 向き
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
 CPrison_Cell_Door::CPrison_Cell_Door(PRIORITY Priority)
 {
+	m_pPlayer = nullptr;
 }
 //=============================================================================
 // デストラクタ
@@ -36,7 +37,7 @@ CPrison_Cell_Door::~CPrison_Cell_Door()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, CPlayer *pPlayer)
 {
 	// CPrison_Cell_Doorのポインタ
 	CPrison_Cell_Door *pPrison_Door = nullptr;
@@ -50,6 +51,9 @@ CPrison_Cell_Door * CPrison_Cell_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// !nullcheck
 		if (pPrison_Door != nullptr)
 		{
+			// CPlayerのポインタ代入
+			pPrison_Door->m_pPlayer = pPlayer;
+
 			// 初期化処理
 			pPrison_Door->Init(pos, rot);
 		}
@@ -88,6 +92,10 @@ HRESULT CPrison_Cell_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// サイズ
 		SetSize(COLLISION_SIZE2);
 	}
+
+	//OBBの作成
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	return S_OK;
 }
 //=============================================================================
@@ -107,7 +115,27 @@ void CPrison_Cell_Door::Update(void)
 {
 	// ドアの更新処理関数呼び出し
 	CDoor::Update();
-	Open();
+
+	// !nullcheck
+	if (m_pPlayer != nullptr)
+	{
+		// 捕まっているか取得
+		bool bIncapacitated = m_pPlayer->GetbIncapacitated();
+
+		// trueの場合
+		if (bIncapacitated == true)
+		{
+			// 拘束カウントの取得
+			int nIncapacitated_Cnt = m_pPlayer->GetIncapacitatedTimeCount();
+
+			// 拘束カウントがINCAPACITATED_TIMEの場合
+			if (nIncapacitated_Cnt >= INCAPACITATED_TIME)
+			{
+				// 開く
+				SetLock(false);
+			}
+		}
+	}
 }
 //=============================================================================
 // 描画処理関数
@@ -117,4 +145,24 @@ void CPrison_Cell_Door::Draw(void)
 {
 	// ドアの描画処理関数呼び出し
 	CDoor::Draw();
+}
+//=============================================================================
+// ボタンを押した処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CPrison_Cell_Door::Push(void)
+{
+	// !nullcheck
+	if (m_pPlayer != nullptr)
+	{
+		// trueの場合
+		if (m_pPlayer->GetbIncapacitated() == true)
+		{
+			// falseに
+			m_pPlayer->SetbIncapacitated(false);
+
+			// カウント0に
+			m_pPlayer->GetIncapacitatedTimeCount() = ZERO_INT;
+		}
+	}
 }

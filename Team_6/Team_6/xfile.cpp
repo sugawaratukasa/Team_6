@@ -43,7 +43,6 @@ CXfile::CXfile()
 		{ "data/Model/Object/map_object.x" },				// マップ
 		{ "data/Model/Object/baton_Item.x" },				// 警棒
 		{ "data/Model/Map/01_Door.x"},						// ドア
-
 		{ "data/Model/Map/02_DoorWall.x" },					// ドアの壁
 		{ "data/Model/Map/03_Wall.x" },						// 壁
 		{ "data/Model/Map/04_PrisonWall.x"},				// 牢屋の壁
@@ -51,10 +50,23 @@ CXfile::CXfile()
 		{ "data/Model/Map/06_PrisonDoor_LeftPoint.x" },		// 牢屋のドア
 		{ "data/Model/Map/07_Switch.x" },					// スイッチ
 		{"data/Model/Map/04_Camera.x"},						// 監視カメラ
-		{ "data/Model/Map/08_Lever_Handle.x" },				// レバーハンドル
-		{ "data/Model/Map/09_Lever_Body.x" },				// レバーボディー
 		{ "data/Model/Map/010_keepOut_Wall.x" },			// 開かないドアの壁
 		{ "data/Model/Map/011_IronWindow_Wall.x" },			// 鉄窓の壁
+		{ "data/Model/Map/012_DuctWall.x" },				// ダクト
+		{ "data/Model/Map/013_Woodchair_obj.x" },			// 木の椅子
+		{ "data/Model/Map/014_WoodDesk_obj.x" },			// 木の机
+		{ "data/Model/Map/015_metalchair_obj.x" },			// 金属の椅子
+		{ "data/Model/Map/016_metalDesk_obj.x" },			// 金属の机
+		{ "data/Model/Map/017_Table.x" },					// テーブル
+		{ "data/Model/Map/018_box_ob.x" },					// 木箱
+		{ "data/Model/Map/019_Generator.x" },				// 発電機
+		{ "data/Model/Map/020_WindowWall.x" },				// 窓付き壁
+		{ "data/Model/Map/021_Goal_Door.x" },				// ゴールのドア
+		{ "data/Model/Map/022_LeverSwitch_body_ob.x" },		// レバー土台
+		{ "data/Model/Map/023_LeverSwitch_Lever_ob.x" },	// レバー
+		{ "data/Model/Map/024_bookbox_ob.x" },				// 本棚
+		{ "data/Model/Map/025_PC_Desk.x" },					// PCの机
+		{ "data/Model/Map/026_Locker_obj.x" },				// ロッカー
 	};
 
 	// 階層構造モデル
