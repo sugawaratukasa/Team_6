@@ -103,7 +103,7 @@ HRESULT CPlayer2::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetUI(CPlayer2ItemUI::Create());
 
 	//プレイヤー2の警告バー生成
-	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(SCREEN_WIDTH - 100.0f, 100.0f, 0), PLAYER_2);
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(SCREEN_WIDTH - 300.0f, 100.0f, 0), PLAYER_2);
 
 	return S_OK;
 }

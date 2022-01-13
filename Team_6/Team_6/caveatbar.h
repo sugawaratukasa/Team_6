@@ -16,12 +16,9 @@
 //=============================================================================
 // 前方宣言
 //=============================================================================
-class CKeyboard;
-class CManager;
 class CTexture;
 class CResourceManager;
 class CManager;
-class CModeBase;
 
 //=============================================================================
 // 警告バークラス
@@ -43,8 +40,6 @@ public:
 	void SizeMove(const float fLength);	// テクスチャサイズの動き
 
 private:
-	float m_fUp;
-	float m_fVecLength;
 	int m_nPlayerNum;
 };
 #endif // !_CAVEAT_H_

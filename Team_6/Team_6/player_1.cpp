@@ -102,7 +102,7 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetUI(CPlayer1ItemUI::Create());
 
 	//プレイヤー1の警告バー生成
-	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(100.0f, 100.0f, 0), PLAYER_1);
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(300.0f, 100.0f, 0), PLAYER_1);
 
 	return S_OK;
 }
@@ -159,6 +159,7 @@ void CPlayer1::Update(void)
 		// アイテム削除処理関数呼び出し
 		ItemDelete(PLAYER_1);
 	}
+	//警告バー処理
 	if (m_pCaveatBar != nullptr)
 	{
 		m_pCaveatBar -> Update();

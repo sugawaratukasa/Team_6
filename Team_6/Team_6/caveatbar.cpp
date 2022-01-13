@@ -10,18 +10,14 @@
 //=============================================================================
 #define MAX_BER (20)
 #define DEFAULT_SIZE (D3DXVECTOR3(0.0f, 100.0f, 0.0f))	//画像の大きさ
-#define MAX_SIZE_X (500.0f)
+#define MAX_SIZE_X (400.0f)
 
 //=============================================================================
 // インクルード
 //=============================================================================
 #include "caveatbar.h"
-#include "keyboard.h"
-#include "manager.h"
 #include "texture.h"
 #include "resource_manager.h"
-#include "player.h"
-#include "jailer.h"
 #include "manager.h"
 #include "mode_base.h"
 #include "jailer_spot.h"
@@ -31,10 +27,7 @@
 //=============================================================================
 CCaveatBar::CCaveatBar()
 {
-	m_fUp = 0;
-	m_fVecLength = 0;
 	m_nPlayerNum = 0;
-
 }
 
 //=============================================================================
@@ -122,7 +115,7 @@ float CCaveatBar::VecLength(void)
 
 	float fLength = 1000000.0f;	//距離
 
-								//各看守の情報取得
+	//各看守の情報取得
 	for (int nCntJalier = ZERO_INT; nCntJalier < MAX_JAILER; nCntJalier++)
 	{
 		//看守情報の取得
@@ -133,6 +126,7 @@ float CCaveatBar::VecLength(void)
 		{
 			continue;
 		}
+
 		D3DXVECTOR3 JalierPos = pJalier->GetPos();
 		D3DXVECTOR3 distance = JalierPos - PlayerPos;
 		float fdistance = D3DXVec3Length(&distance);	//長さ取得
