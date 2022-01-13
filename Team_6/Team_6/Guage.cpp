@@ -316,24 +316,21 @@ void CGauge::OnTimerOver(void)
 //=============================================================================
 int CGauge::GetTime(void)
 {
+	int nElapsedTime = time(NULL) - m_nTime;
 
-    int nElapsedTime = time(NULL) - m_nTime;
-
-
-    // 1•ª‚²‚Æ‚É1“x‚¾‚¯ˆ—
-    if (nElapsedTime % 60 == 0)
-    {
-        if (!m_bTimer)
-        {
-            m_nRemainTime -= 1;
-            m_bTimer = true;
-        }
-    }
-    else
-    {
-        m_bTimer = false;
-    }
-
+	// 1•ª‚²‚Æ‚É1“x‚¾‚¯ˆ—
+	if (nElapsedTime % 60 == 0 && nElapsedTime != 0)
+	{
+		if (!m_bTimer)
+		{
+			m_nRemainTime -= 1;
+			m_bTimer = true;
+		}
+	}
+	else
+	{
+		m_bTimer = false;
+	}
 
     return m_nRemainTime;
 }
