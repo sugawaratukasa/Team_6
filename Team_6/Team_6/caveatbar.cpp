@@ -8,9 +8,8 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define MAX_BER (20)
 #define DEFAULT_SIZE (D3DXVECTOR3(0.0f, 100.0f, 0.0f))	//画像の大きさ
-#define MAX_SIZE_X (800.0f)
+#define MAX_SIZE_X (480.0f)
 
 //=============================================================================
 // インクルード
@@ -149,13 +148,21 @@ float CCaveatBar::VecLength(void)
 //=============================================================================
 void CCaveatBar::SizeMove(const float fLength)
 {
-	//長さによってBarの長さを変える
-	GetSize().x = fLength - MAX_SIZE_X;;
-	SetSize(GetSize());
+	float fBarMax = 400.0f;
+	float fBarNow = fBarMax / fLength * MAX_SIZE_X;
 
-	if (GetSize().x > ZERO_INT)
+	if (fBarNow < MAX_SIZE_X)
 	{
-		GetSize().x = ZERO_FLOAT;
-		SetSize(GetSize());
+		GetSize().x = fBarNow;
 	}
+
+	//長さによってBarの長さを変える
+	//if (GetSize().x < MAX_SIZE_X)
+	//{
+	//	GetSize().x = fLength - MAX_SIZE_X;;
+	//}
+	//if (GetSize().x > ZERO_FLOAT)
+	//{
+	//	GetSize().x = ZERO_FLOAT;
+	//}
 }
