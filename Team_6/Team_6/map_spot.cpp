@@ -10,6 +10,9 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include "map_spot.h"
+#include "scene.h"
+#include "obb.h"
+#include "object.h"
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -224,6 +227,8 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 {
 	NODE returnInfo;	//返すスポット情報
 
+	CScene *pScene = nullptr;
+
 	float fKeepRange = INFINITY_COST;
 
 	int nSize = m_vaSpot[eArea].size();
@@ -239,8 +244,45 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 			continue;
 		}
 
-		//現在地と目的地までのベクトルを計算
-		D3DXVECTOR3 Distance = m_vaSpot[eArea].at(nCntSpot).node.pos - pos;
+		//マップオブジェクトの先頭を取得
+		pScene = CScene::GetTop(CScene::PRIORITY_MAP);
+
+		if (pScene != nullptr)
+		{
+			bool bIsHit = false;
+
+			while (pScene != nullptr)
+			{
+				//次情報の取得
+				CScene *pNext = pScene->GetNext();
+
+				//Objectクラスポインタへキャスト
+				CObject *pObject = (CObject *)pScene;
+
+				//Obbクラスのポインタ取得
+				CObb *pObb = pObject->GetObbPtr();
+
+				if (pObb != nullptr)
+				{
+					//線分とOBBの交差判定
+					bIsHit = pObb->IsHitObbAndLineSegment(pos, m_vaSpot[eArea].at(nCntSpot).node.pos);
+
+					//交差している
+ 					if (bIsHit)
+					{
+						break;
+					}
+				}
+
+				//交差していないため次情報へ更新
+				pScene = pNext;
+			}
+
+			if (bIsHit)
+			{
+				continue;
+			}
+		}
 
 		//長さを求める
 		float fRange = CalculationDistanceLength(m_vaSpot[eArea].at(nCntSpot).node.pos, pos);

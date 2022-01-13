@@ -151,8 +151,10 @@ void CJailerView::Update(void)
 //=============================================================================
 void CJailerView::Draw(void)
 {
+//#ifdef _DEBUG
 	//CFan3Dの描画
 	CFan3D::Draw();
+//#endif
 }
 
 //=============================================================================
@@ -308,7 +310,6 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 	D3DXVECTOR3 origin = GetPos();		//線分の原点
 	D3DXVECTOR3 endPoint = playerPos;	//線分の終点
 
-
 	//マップの先頭情報を取得
 	pScene = GetTop(CScene::PRIORITY_MAP);
 
@@ -329,9 +330,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//オブジェクトクラスへキャスト
 			CObject *pObject = (CObject*)pScene;
 
-
 			CObb *pObb = nullptr;
-
 
 			//OBBのポインタを取得
 			pObb = pObject->GetObbPtr();
@@ -339,111 +338,18 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//OBBが存在しない
 			if (pObb == nullptr)
 			{
-
 				//次情報へ切り替え
 				pScene = pNext;
 
 				continue;
 			}
 
-			D3DXVECTOR3 center = pObb->GetCenterPos();	//中心位置の取得
-			D3DXVECTOR3 size = pObb->GetSize();			//サイズの取得
-			D3DXVECTOR3 aDir[CoordinateAxesNum];		//各軸の向き
-
-			for (int nCntNum = ZERO_INT; nCntNum < CoordinateAxesNum; nCntNum++)
-			{
-				//各軸の向きの取得
-				aDir[nCntNum] = pObb->GetDir(nCntNum);
-			}
-
-			D3DXVECTOR3 midPoint = (origin + endPoint) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
-			D3DXVECTOR3 dir = endPoint - midPoint;					//中点から線分の終点への方向ベクトル
-
-
-			//中点の位置を修正
-			midPoint = midPoint - center;
-
-
-			//中点の各軸をOBBの各軸の向きで修正
-			midPoint = D3DXVECTOR3(
-
-				D3DXVec3Dot(&aDir[0], &midPoint),
-				D3DXVec3Dot(&aDir[1], &midPoint),
-				D3DXVec3Dot(&aDir[2], &midPoint));
-
-
-			//向きの各軸をOBBの各軸の向きで修正
-			dir = D3DXVECTOR3(
-
-				D3DXVec3Dot(&aDir[0], &dir),
-				D3DXVec3Dot(&aDir[1], &dir),
-				D3DXVec3Dot(&aDir[2], &dir));
-
-			//向きのX座標を絶対値にする
-			float fDirAbsoluteX = fabsf(dir.x);
-
-
-			if (fabsf(midPoint.x) > size.x + fDirAbsoluteX)
+			//OBBと線分の当たり判定
+			if (!pObb->IsHitObbAndLineSegment(origin, endPoint))
 			{
 				//次情報へ切り替え
 				pScene = pNext;
 
-				continue;
-			}
-
-			//向きのY座標を絶対値にする
-			float fDirAbsoluteY = fabsf(dir.y);
-
-
-			if (fabsf(midPoint.y) > size.y + fDirAbsoluteY)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-
-			//向きのZ座標を絶対値にする
-			float fDirAbsoluteZ = fabsf(dir.z);
-
-
-			if (fabsf(midPoint.z) > size.z + fDirAbsoluteZ)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-
-			fDirAbsoluteX += FLT_EPSILON;
-			fDirAbsoluteY += FLT_EPSILON;
-			fDirAbsoluteZ += FLT_EPSILON;
-
-			if (fabsf(midPoint.y * dir.z - midPoint.z * dir.y) >
-
-				size.y * fDirAbsoluteZ + size.z * fDirAbsoluteY)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-			if (fabsf(midPoint.z * dir.x - midPoint.x * dir.z) >
-
-				size.x * fDirAbsoluteZ + size.z * fDirAbsoluteX)
-			{
-
-				//次情報へ切り替え
-				pScene = pNext;
-				continue;
-			}
-
-			if (fabsf(midPoint.x * dir.y - midPoint.y * dir.x) >
-
-				size.x * fDirAbsoluteY + size.y * fDirAbsoluteX)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
 				continue;
 			}
 
