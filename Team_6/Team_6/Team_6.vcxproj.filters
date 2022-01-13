@@ -190,6 +190,7 @@
     <ClCompile Include="ui_player2_item.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+
     <ClCompile Include="object.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -374,14 +375,12 @@
       <Filter>Player</Filter>
     </ClCompile>
 
-
     <ClCompile Include="character.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="fan3d.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
-
 
     <ClCompile Include="Guage.cpp">
       <Filter>Texture</Filter>
@@ -542,6 +541,9 @@
     <ClCompile Include="obb.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Mode</Filter>
+    </ClCompile>
     <ClCompile Include="mode_ranking_board.cpp">
       <Filter>Mode</Filter>
     </ClCompile>
@@ -571,14 +573,11 @@
     </ClCompile>
     <ClCompile Include="game.cpp">
 
-
       <Filter>Mode</Filter>
     </ClCompile>
-
     <ClCompile Include="bg_black_texture.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
-
     <ClCompile Include="mode_clear_time.cpp">
       <Filter>Mode</Filter>
     </ClCompile>
@@ -903,14 +902,12 @@
       <Filter>Player</Filter>
     </ClInclude>
 
-
     <ClInclude Include="character.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="fan3d.h">
       <Filter>Jailer</Filter>
     </ClInclude>
-
 
     <ClInclude Include="Guage.h">
       <Filter>Texture</Filter>

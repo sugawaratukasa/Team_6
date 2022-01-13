@@ -23,7 +23,7 @@
 //マクロ定義
 //=============================================================================
 #define JAILER_NORMAL_SPEED (5.0f)	//通常時の移動速度
-#define JAILER_CHASE_SPEED (10.0f)	//追跡時の移動速度
+#define JAILER_CHASE_SPEED (10.5f)	//追跡時の移動速度
 #define JAILER_ROTSTION_RATE (0.3f)	//回転の係数
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
@@ -258,7 +258,7 @@ void CJailer::Patrol(void)
 		//移動量の設定
 		SetMove(move);
 
-		if (m_fDestLength <= 5.0f)
+		if (m_fDestLength <= 10.0f)
 		{
 			//目的地の再設定
 			ChangePosDest();
@@ -310,7 +310,7 @@ void CJailer::RetrunRoute(void)
 	//移動量の設定
 	SetMove(move);
 
-	if (m_fDestLength <= 5.0f)
+	if (m_fDestLength <= 10.0f)
 	{
 		m_posDest = m_pSpot->ChangeBackToRoute();
 
@@ -350,7 +350,7 @@ void CJailer::ChasePlayer()
 	//目的地と自分の距離を計算
 	m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
 
-	if (m_fDestLength > 5.0f)
+	if (m_fDestLength > 10.0f)
 	{
 		//向きの目的の値の計算
 		ChangeRotDest();
