@@ -27,6 +27,7 @@
 #include "control_room_key_guid_texture.h"
 #include "guid_bg.h"
 #include "camera_game.h"
+#include "bg_black_texture.h"
 
 //=============================================================================
 // マクロ定義
@@ -42,8 +43,10 @@
 CPlayer2::CPlayer2(PRIORITY Priority)
 {
 	m_rotDest = ZeroVector3;
+	m_bBlackTextureCreate = false;
 	m_pItemGuidTexture = nullptr;
 	m_pGuidBG = nullptr;
+	m_pBlackTexture = nullptr;
 }
 
 //=============================================================================
@@ -134,6 +137,15 @@ void CPlayer2::Update(void)
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
 	{
+		if (m_bBlackTextureCreate == true)
+		{
+			if (m_pBlackTexture != nullptr)
+			{
+				m_pBlackTexture->Uninit();
+				m_pBlackTexture = nullptr;
+				m_bBlackTextureCreate = false;
+			}
+		}
 		// キーボード移動処理
 		KeyboardMove(fSpeed, fAngle);
 		// パッド移動
@@ -146,6 +158,17 @@ void CPlayer2::Update(void)
 		SetMove(ZeroVector3);
 		// 待機モーション再生
 		SetMotion(MOTION_IDOL);
+	}
+	if (bIncapacitated == true)
+	{
+		if (m_bBlackTextureCreate == false)
+		{
+			if (m_pBlackTexture == nullptr)
+			{
+				m_pBlackTexture = CBlackTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f), D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 0.0f));
+				m_bBlackTextureCreate = true;
+			}
+		}
 	}
 	// 向き補正処理
 	UpdateRot();
