@@ -28,6 +28,7 @@
 #include "guid_bg.h"
 #include "camera_game.h"
 #include "bg_black_texture.h"
+#include "caveatbar.h"
 
 //=============================================================================
 // マクロ定義
@@ -47,6 +48,7 @@ CPlayer2::CPlayer2(PRIORITY Priority)
 	m_pItemGuidTexture = nullptr;
 	m_pGuidBG = nullptr;
 	m_pBlackTexture = nullptr;
+	m_pCaveatBar = nullptr;
 }
 
 //=============================================================================
@@ -102,6 +104,10 @@ HRESULT CPlayer2::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	CPlayer::Init(pos, rot);
 	// プレイヤー2のUI生成
 	SetUI(CPlayer2ItemUI::Create());
+
+	//プレイヤー2の警告バー生成
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(SCREEN_WIDTH - 300.0f, 100.0f, 0), PLAYER_2);
+
 	return S_OK;
 }
 
@@ -178,8 +184,14 @@ void CPlayer2::Update(void)
 		ItemDelete(PLAYER_2);
 	}
 
+
 	// 扉を開く処理
 	DoorOpen(PLAYER_2);
+	//警告バー処理
+	if (m_pCaveatBar != nullptr)
+	{
+		m_pCaveatBar->Update();
+	}
 }
 
 //=============================================================================

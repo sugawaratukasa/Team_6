@@ -20,6 +20,11 @@ class CJailerSpot;
 #include "jailer_view.h"
 
 //=============================================================================
+//マクロ定義
+//=============================================================================
+#define MAX_JAILER (6)
+
+//=============================================================================
 //看守クラス
 //=============================================================================
 class CJailer :public CCharacter
@@ -82,6 +87,7 @@ public:
 	int GetTime(void) { return m_nSwitchingTime; }					//タイマーゲット
 	float GetDestLength(void)const { return m_fDestLength; }	//目的地の距離の長さの取得
 	AROUND_CONFIRMATION GetAround(void) { return m_eAroud; }
+	CJailerSpot *GetJailerSpot(void) { return m_pSpot; }
 
 private:
 	//=========================================================================

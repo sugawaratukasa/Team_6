@@ -59,11 +59,15 @@
       <UniqueIdentifier>{8432217b-0f1d-4426-b6d0-390f8c38325b}</UniqueIdentifier>
     </Filter>
 
+
     <Filter Include="Object\Map_Floor">
       <UniqueIdentifier>{00ffe3c4-3c95-4219-9d89-46c8128c7954}</UniqueIdentifier>
     </Filter>
     <Filter Include="CaveatBer">
       <UniqueIdentifier>{e7960032-f8b5-4348-862f-2954a4420b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CaveatBar">
+      <UniqueIdentifier>{2af707df-bc28-4349-9ede-558df381ef35}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -585,6 +589,7 @@
       <Filter>Mode</Filter>
     </ClCompile>
     <ClCompile Include="caveatbar.cpp">
+
       <Filter>CaveatBer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1107,7 +1112,7 @@
       <Filter>Mode</Filter>
     </ClInclude>
     <ClInclude Include="caveatbar.h">
-      <Filter>CaveatBer</Filter>
+      <Filter>CaveatBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

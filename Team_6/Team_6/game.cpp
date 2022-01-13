@@ -93,6 +93,7 @@ CGame::CGame()
 
 
 	m_pItemSpawn = nullptr;
+	memset(m_apJailer, NULL, sizeof(m_apJailer));
 }
 
 //=======================================================================================
@@ -310,10 +311,10 @@ void CGame::PauseInput(void)
 //=======================================================================================
 void CGame::CreateJailer(void)
 {
-	for (int nCntJailer = ZERO_INT; nCntJailer < 6; nCntJailer++)
+	for (int nCntJailer = ZERO_INT; nCntJailer < MAX_JAILER; nCntJailer++)
 	{
 		//ŠÅŽç‚Ì¶¬
-		CJailer::Create(nCntJailer);
+		m_apJailer[nCntJailer] = CJailer::Create(nCntJailer);
 	}
 
 

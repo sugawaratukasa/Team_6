@@ -104,7 +104,10 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// プレイヤー1のUI生成
 	SetUI(CPlayer1ItemUI::Create());
 
-	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(100.0f, 100.0f, 0), D3DXVECTOR3(0.0f, 100.0f, 0.0f));
+
+	//プレイヤー1の警告バー生成
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(300.0f, 100.0f, 0), PLAYER_1);
+
 	return S_OK;
 }
 
@@ -181,9 +184,10 @@ void CPlayer1::Update(void)
 		ItemDelete(PLAYER_1);
 	}
 
-
 	// 扉を開く処理
 	DoorOpen(PLAYER_1);
+
+	//警告バー処理
 	if (m_pCaveatBar != nullptr)
 	{
 		m_pCaveatBar -> Update();

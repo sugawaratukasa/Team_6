@@ -19,6 +19,7 @@ class CPlayer2ItemUI;
 class CScene2D;
 class CGuidBG;
 class CBlackTexture;
+class CCaveatBar;
 
 //=============================================================================
 // プレイヤークラス
@@ -44,5 +45,6 @@ private:
 	CScene2D * m_pItemGuidTexture;
 	CGuidBG * m_pGuidBG;
 	CBlackTexture * m_pBlackTexture;
+	CCaveatBar * m_pCaveatBar;
 };
 #endif
