@@ -13,6 +13,10 @@
 #include <list>
 #include "main.h"
 
+//=============================================================================
+//マクロ定義
+//=============================================================================
+#define INFINITY_COST (999999.0f)	//A*Starの各ノードのデフォルトコスト
 #define JAILER_NUM 6
 
 //=============================================================================
@@ -31,11 +35,14 @@ public:
 		MAP_AREA_MAX,
 	};
 
+	//=========================================================================
+	//A*のノードの状態
+	//=========================================================================
 	enum A_STAR_STATE
 	{
-		A_STAR_STATE_NONE = 0,
-		A_STAR_STATE_OPEN,
-		A_STAR_STATE_CLOSE,
+		A_STAR_STATE_NONE = 0,	//どの状態にも属さない
+		A_STAR_STATE_OPEN,		//Open状態
+		A_STAR_STATE_CLOSE,		//Close状態
 	};
 
 	//=========================================================================
@@ -66,7 +73,7 @@ public:
 	//=========================================================================
 	struct NEXT
 	{
-		int nNumber;		//ネクストの番号
+		int nNumber;	//ネクストの番号
 		float fLength;	//ネクストまでの長さ
 	};
 
@@ -83,7 +90,7 @@ public:
 	struct JAILER_POINT
 	{
 		int nNumber;
-		bool bGuard;
+		bool bGuard;	//警戒行動をするかどうか
 	};
 
 	//=========================================================================
@@ -91,16 +98,23 @@ public:
 	//=========================================================================
 	struct PATROL_DATA
 	{
-		vector<JAILER_POINT> vnNumber;		//スポット番号
-		MAP_AREA eArea;				//マップのエリア属性
+		vector<JAILER_POINT> vPoint;	//スポット番号
+		MAP_AREA eArea;					//マップのエリア属性
 	};
 	
+	//=========================================================================
+	//A*のコストの構造体
+	//=========================================================================
 	struct A_STAR_COST
 	{
 		float fStratToNow;	//スタートからここまでのコスト(g*(n))
-		float fHeuristic;	//ここからゴールまでのコスト(h*(n))
+		float fHeuristic;	//ゴールまでのコスト(h*(n))
 		float fTotal;		//推定最短コスト(f*(n))
 	};
+
+	//=========================================================================
+	//巡回データの構造体
+	//=========================================================================
 	struct A_SPOT
 	{
 		A_STAR_STATE state;
@@ -108,7 +122,6 @@ public:
 		SPOT spot;
 		int nParentNumber;		//親の番号
 	};
-	
 
 	//=========================================================================
 	//メンバ関数宣言
@@ -137,13 +150,12 @@ protected:
 	D3DXVECTOR3 GetNodePos(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).node.pos; }	//スポットの位置の取得
 	PATROL_DATA GetPatrolData(const int nJailer) { return m_aPatrolData[nJailer]; }												//看守の巡回データの取得
 	ROOM_TYPE GetRoomType(const MAP_AREA eArea, const int nSpotNumber) { return m_vaSpot[eArea].at(nSpotNumber).eRoom; }
-	bool GetGuard(const int nJailer, const int nSpotNumber) { return m_aPatrolData[nJailer].vnNumber.at(nSpotNumber).bGuard; }
+	bool GetGuard(const int nJailer, const int nSpotNumber) { return m_aPatrolData[nJailer].vPoint.at(nSpotNumber).bGuard; }
 
 private:
 	float CalculationDistanceLength(const D3DXVECTOR3 StartPoint, const D3DXVECTOR3 EndPoint);	//2点間ベクトルの長さの計算
 	int CountOpenList(vector<A_SPOT>& rvSpot);												//オープンリストの計算
-	int SearchMinTotal(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);	//トータルの最小のものを探す
-	void DeleteCloseList(const int nNum);													//クローズリストから削除
+	int SearchMinTotalCostNodeNumber(vector<A_SPOT>& rvSpot, const NODE startNode, const NODE goalNode);	//トータルの最小のものを探す
 
 	//privateゲッター
 	int GetOpenNum(void) { return (int)m_vOpenList.size(); }
@@ -155,6 +167,5 @@ private:
 	static PATROL_DATA m_aPatrolData[JAILER_NUM];	//看守のスポットデータ
 	static bool m_abIsOpenRoom[MAP_AREA_MAX][ROOM_TYPE_MAX];
 	vector<A_SPOT>  m_vOpenList;	//オープンリスト
-	list<A_SPOT> m_lCloseList;		//クローズリスト
 };
 #endif // !_SPOT_H_

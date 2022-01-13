@@ -95,6 +95,9 @@ HRESULT CGenerator::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// í—Şİ’è
 	SetType(TYPE_WALL);
 
+	//OBB‚Ìì¬
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	return S_OK;
 }
 
