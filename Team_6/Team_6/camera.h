@@ -63,7 +63,7 @@ public:
 	float GetVartical(void) { return m_fVartical; }			// c‚Ì‰ñ“]
 	float GetHorizontal(void) { return m_fHorizontal; }		// ‰¡‚Ì‰ñ“]
 	float GetDistance(void) { return m_fDistance; }			// ‹——£
-
+	SCREEN_ID GetScreenID(void) { return m_id; }
 private:
 	//=========================================================================
 	// ƒƒ“ƒo•Ï”éŒ¾
