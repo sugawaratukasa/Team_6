@@ -86,7 +86,7 @@ public:
 	virtual void PadMove(float fSpeed, float fAngle) = 0;			// ジョイパッド移動処理
 	virtual void PrisonWarp(void) = 0;								// 独房ワープ処理
 	virtual void SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type) = 0;							// アイテム説明テクスチャ生成処理
-	void DoorOpen(void);											// 扉を開く処理
+	void DoorOpen(int nPlayer);										// 扉を開く処理
 	void Item_DuctPass(void);										// ダクトアイテム受け渡し
 	//=============================================================================
 	//　Set関数

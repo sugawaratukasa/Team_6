@@ -167,9 +167,6 @@ void CPlayer::Update(void)
 	// マップとの当たり判定
 	MapCollision();
 
-	// 扉を開く処理
-	DoorOpen();
-
 	// アイテムダクト受け渡し処理
 	Item_DuctPass();
 	// UIポインタのnullptrチェック
@@ -516,7 +513,7 @@ void CPlayer::MapCollision(void)
 // 扉を開く処理
 // Author : SugawaraTsukasa
 //=============================================================================
-void CPlayer::DoorOpen(void)
+void CPlayer::DoorOpen(int nPlayer)
 {
 	// CSceneのポインタ
 	CScene *pScene = nullptr;
@@ -574,7 +571,6 @@ void CPlayer::DoorOpen(void)
 							if (pKeyboard->GetTrigger(DIK_F))
 							{
 								// 牢屋のドアの場合
-
 								if (nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM)
 								{
 									pSound->CSound::Play(CSound::SOUND_SE_OPEN_PRISON);
@@ -584,7 +580,21 @@ void CPlayer::DoorOpen(void)
 									pSound->CSound::Play(CSound::SOUND_SE_OPEN_DOOR);
 								}
 								// 扉を開く
-								((CDoor_Collision*)pScene)->Open();
+								((CDoor_Collision*)pScene)->Open(nPlayer);
+							}
+						}
+						if (m_abGetItem[ITEM_KEY_ELECTRICAL_ROOM] == false && nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM ||
+							m_abGetItem[ITEM_KEY_STORAGE] == false && nDoorType == CDoor_Collision::TYPE_STORAGE ||
+							m_abGetItem[ITEM_KEY_JAILER_ROOM] == false && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
+							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == false && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
+							m_abGetItem[ITEM_KEY_PC_ROOM] == false && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
+							m_abGetItem[ITEM_BATON] == false && nDoorType == CDoor_Collision::TYPE_SWITCH)
+						{
+							// Fが押された場合
+							if (pKeyboard->GetTrigger(DIK_F))
+							{
+								// 扉が開けない処理
+								((CDoor_Collision*)pScene)->NotOpen(nPlayer);
 							}
 						}
 					}

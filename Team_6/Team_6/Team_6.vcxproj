@@ -155,6 +155,7 @@
     <ClCompile Include="bg_title.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="black_fill_polygon.cpp" />
+    <ClCompile Include="bookbox.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="button_back_to_title.cpp" />
     <ClCompile Include="button_exit.cpp" />
@@ -171,6 +172,8 @@
     <ClCompile Include="caveatbar.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_collision_box.cpp" />
+    <ClCompile Include="clear_time_bg.cpp" />
+    <ClCompile Include="mode_clear_time.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="control_room_door.cpp" />
     <ClCompile Include="control_room_door_collision.cpp" />
@@ -185,6 +188,9 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="fan3d.cpp" />
     <ClCompile Include="floor.cpp" />
+    <ClCompile Include="floor2.cpp" />
+    <ClCompile Include="floor3.cpp" />
+    <ClCompile Include="floor4.cpp" />
     <ClCompile Include="fog.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="goal_area.cpp" />
@@ -229,6 +235,7 @@
     <ClCompile Include="lever_handle.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="locker.cpp" />
     <ClCompile Include="logo_title.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
@@ -274,6 +281,7 @@
     <ClCompile Include="particle_manager.cpp" />
     <ClCompile Include="pause_button_manager.cpp" />
     <ClCompile Include="pause_logo_texture.cpp" />
+    <ClCompile Include="pc_desk.cpp" />
     <ClCompile Include="pc_room_key_guid_texture.cpp" />
     <ClCompile Include="pc_room_key_texture.cpp" />
     <ClCompile Include="player.cpp" />
@@ -325,6 +333,7 @@
     <ClInclude Include="bg_title.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="black_fill_polygon.h" />
+    <ClInclude Include="bookbox.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="button_back_to_title.h" />
     <ClInclude Include="button_exit.h" />
@@ -341,6 +350,8 @@
     <ClInclude Include="caveatbar.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="character_collision_box.h" />
+    <ClInclude Include="clear_time_bg.h" />
+    <ClInclude Include="mode_clear_time.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="control_room_door.h" />
     <ClInclude Include="control_room_door_collision.h" />
@@ -355,6 +366,9 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="fan3d.h" />
     <ClInclude Include="floor.h" />
+    <ClInclude Include="floor2.h" />
+    <ClInclude Include="floor3.h" />
+    <ClInclude Include="floor4.h" />
     <ClInclude Include="fog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="goal_area.h" />
@@ -362,6 +376,7 @@
     <ClInclude Include="Guage.h" />
     <ClInclude Include="guards_door_collision.h" />
     <ClInclude Include="guid_bg.h" />
+    <ClInclude Include="locker.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="item_baton.h" />
@@ -446,6 +461,7 @@
     <ClInclude Include="particle_manager.h" />
     <ClInclude Include="pause_button_manager.h" />
     <ClInclude Include="pause_logo_texture.h" />
+    <ClInclude Include="pc_desk.h" />
     <ClInclude Include="pc_room_key_guid_texture.h" />
     <ClInclude Include="pc_room_key_texture.h" />
     <ClInclude Include="player.h" />

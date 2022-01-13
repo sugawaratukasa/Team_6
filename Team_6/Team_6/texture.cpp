@@ -85,17 +85,14 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map_texture.png" },
 		{ "data/Texture/y.png" },
 		{ "data/Texture/Ranking_bg.png" },
-
 		{ "data/Texture/ui_number.png" },
 		{ "data/Texture/jailer_key_guid.png" },
 		{ "data/Texture/pc_room_key_guid.png" },
-
 		{ "data/Texture/electrical_key_guid.png" },
 		{ "data/Texture/storage_key_guid.png" },
 		{ "data/Texture/baton_guid_texture.png" },
 		{ "data/Texture/map_guid_texture.png" },
 		{ "data/Texture/pause_logo.png" },
-
 		{ "data/Texture/black.png" },
 		{ "data/Texture/log_01_player1.png" },
 		{ "data/Texture/log_01_player2.png" },
@@ -105,8 +102,28 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map1.png" },
 		{ "data/Texture/map2.png" },
 		{ "data/Texture/guid_bg.png" },
-		{ "data/Texture/gameover.png" },
 
+		{ "data/Texture/gameover.png" },
+		{ "data/Texture/Log/Player_1/log_01_player1.png" },
+		{ "data/Texture/Log/Player_1/log_02_player1.png" },
+		{ "data/Texture/Log/Player_1/log_03_player1.png" },
+		{ "data/Texture/Log/Player_1/log_04_player1.png" },
+		{ "data/Texture/Log/Player_1/log_05_player1.png" },
+		{ "data/Texture/Log/Player_1/log_06_player1.png" },
+		{ "data/Texture/Log/Player_1/log_07_player1.png" },
+		{ "data/Texture/Log/Player_1/log_08_player1.png" },
+		{ "data/Texture/Log/Player_2/log_01_player2.png" },
+		{ "data/Texture/Log/Player_2/log_02_player2.png" },
+		{ "data/Texture/Log/Player_2/log_03_player2.png" },
+		{ "data/Texture/Log/Player_2/log_04_player2.png" },
+		{ "data/Texture/Log/Player_2/log_05_player2.png" },
+		{ "data/Texture/Log/Player_2/log_06_player2.png" },
+		{ "data/Texture/Log/Player_2/log_07_player2.png" },
+		{ "data/Texture/Log/Player_2/log_08_player2.png" },
+		{ "data/Texture/Floor_Texture2.png" },
+		{ "data/Texture/Floor_Texture3.png" },
+		{ "data/Texture/Floor_Texture4.png" },
+		{ "data/Texture/Clear_Time_BG.png" },
 		{ "data/Texture/caveatbar.png" }
 		};
 

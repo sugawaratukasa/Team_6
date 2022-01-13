@@ -67,6 +67,8 @@ HRESULT CObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// èâä˙âªèàóù
 	CModel::Init(pos, rot);
+
+	//CModelCollisionBox::Create(pos, rot, this);
 	return S_OK;
 }
 //=============================================================================

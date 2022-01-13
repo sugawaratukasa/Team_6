@@ -107,11 +107,47 @@ void CControl_Room_Door_Collision::Draw(void)
 // 開く処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CControl_Room_Door_Collision::Open(void)
+void CControl_Room_Door_Collision::Open(int nPlayer)
 {
 	// 開く処理
-	CDoor_Collision::Open();
+	CDoor_Collision::Open(nPlayer);
 
-	// テキストログ
-	//CTextLog::Create();
+	// テクスチャ取得
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+
+	// プレイヤー1の場合
+	if (nPlayer == PLAYER_1)
+	{
+		// テキストログ生成
+		CTextLog::Create(CTexture::TEXTURE_LOG_P1_OPEN_DOOR);
+	}
+	// プレイヤー2の場合
+	if (nPlayer == PLAYER_2)
+	{
+		// テキストログ生成
+		CTextLog::Create(CTexture::TEXTURE_LOG_P2_OPEN_DOOR);
+	}
+}
+
+//=============================================================================
+// 開けない処理関数
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CControl_Room_Door_Collision::NotOpen(int nPlayer)
+{
+	// テクスチャ取得
+	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+
+	// プレイヤー1の場合
+	if (nPlayer == PLAYER_1)
+	{
+		// テキストログ生成
+		CTextLog::Create(CTexture::TEXTURE_LOG_P1_NOT_OPEN_DOOR);
+	}
+	// プレイヤー2の場合
+	if (nPlayer == PLAYER_2)
+	{
+		// テキストログ生成
+		CTextLog::Create(CTexture::TEXTURE_LOG_P2_NOT_OPEN_DOOR);
+	}
 }

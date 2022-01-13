@@ -31,7 +31,7 @@ class CTime : public CScene
 public:
 	CTime();												// コンストラクタ
 	~CTime();												// デストラクタ
-	static CTime *Create(D3DXVECTOR3 pos);					// インスタンス生成
+	static CTime *Create(D3DXVECTOR3 pos,D3DXVECTOR3 size);	// インスタンス生成
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);		// 初期化処理
 	void Uninit(void);										// 終了処理
 	void Update(void);										// 更新処理

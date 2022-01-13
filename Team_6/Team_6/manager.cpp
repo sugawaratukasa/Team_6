@@ -33,6 +33,7 @@
 #include "particle_manager.h"
 #include "mode_gameover.h"
 #include "mode_ranking_board.h"
+#include "mode_clear_time.h"
 //=============================================================================
 //静的メンバ変数宣言
 //=============================================================================
@@ -328,6 +329,11 @@ void CManager::SetMode(MODE_TYPE mode)
 	case MODE_TYPE_RESULT:
 		// ゲーム生成
 		m_pModeBase.reset(new CResult);
+		break;
+		// クリアタイム
+	case MODE_TYPE_CLEAR_TIME:
+		// クリアタイム生成
+		m_pModeBase.reset(new CMode_Clear_Time);
 		break;
 		// リザルト
 	case MODE_TYPE_RANKING_RESULT:

@@ -157,6 +157,10 @@ void CPlayer1::Update(void)
 		// アイテム削除処理関数呼び出し
 		ItemDelete(PLAYER_1);
 	}
+
+
+	// 扉を開く処理
+	DoorOpen(PLAYER_1);
 	if (m_pCaveatBar != nullptr)
 	{
 		m_pCaveatBar -> Update();

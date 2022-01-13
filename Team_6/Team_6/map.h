@@ -46,6 +46,9 @@ public:
 
 		FLOOR_TYPE_NORMAL,		// 通常床
 		FLOOR_TYPE_BLACK_FILL,	// 埋める用の黒いポリゴン
+		FLOOR_TYPE_2,			// 床2
+		FLOOR_TYPE_3,			// 床3
+		FLOOR_TYPE_4,			// 床4
 		FLOOR_TYPE_MAX
 	};
 	enum MODEL_TYPE
@@ -81,6 +84,9 @@ public:
 		MODEL_TYPE_LEVER_1,
 		MODEL_TYPE_LEVER_2,
 		MODEL_TYPE_GOAL_DOOR,
+		MODEL_TYPE_BOOKBOX,
+		MODEL_TYPE_PC_DESK,
+		MODEL_TYPE_LOCKER,
 		MODEL_TYPE_MAX
 	};
 	CMap();						// コンストラクタ
