@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="baton_guid_texture.cpp" />
     <ClCompile Include="baton_texture.cpp" />
+    <ClCompile Include="bg_black_texture.cpp" />
     <ClCompile Include="bg_gameover.cpp" />
     <ClCompile Include="bg_pause.cpp" />
     <ClCompile Include="bg_title.cpp" />
@@ -319,6 +320,7 @@
   <ItemGroup>
     <ClInclude Include="baton_guid_texture.h" />
     <ClInclude Include="baton_texture.h" />
+    <ClInclude Include="bg_black_texture.h" />
     <ClInclude Include="bg_gameover.h" />
     <ClInclude Include="bg_pause.h" />
     <ClInclude Include="bg_title.h" />

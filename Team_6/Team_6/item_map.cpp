@@ -115,6 +115,7 @@ void CItemMap::PlayerItemGet(void)
 	CPlayer * apPlayer[MAX_PLAYER];
 	// プレイヤーのアイテム所得状態
 	bool abPlayerGetItem[MAX_PLAYER];
+
 	// プレイヤーの最大数分回す
 	for (int nCount = 0; nCount < MAX_PLAYER; nCount++)
 	{
@@ -123,10 +124,11 @@ void CItemMap::PlayerItemGet(void)
 		// プレイヤーポインタのnullptrチェック
 		if (apPlayer[nCount] != nullptr)
 		{
+
 			// プレイヤーのアイテム所得状態を取得する
 			abPlayerGetItem[nCount] = apPlayer[nCount]->GetbItem(CPlayer::ITEM_MAP);
-			// マップ生成処理関数
-			MapCreate(nCount, abPlayerGetItem[nCount]);
+				// マップ生成処理関数
+				MapCreate(nCount, abPlayerGetItem[nCount]);
 		}
 	}
 }
@@ -137,11 +139,22 @@ void CItemMap::PlayerItemGet(void)
 //=============================================================================
 void CItemMap::MapCreate(int nPlayer, bool bItem)
 {
+
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 	// パッド取得
 	CInputJoypad * pJoypad = CManager::GetJoypad();
-	if (bItem == true)
+	// プレイヤーのポインタ
+	CPlayer * apPlayer[MAX_PLAYER];
+	// プレイヤーのポインタを取得する
+	apPlayer[nPlayer] = CManager::GetModePtr()->GetPlayer(nPlayer);
+	bool abItemGuidCreate[MAX_PLAYER];
+	if (apPlayer[nPlayer] != nullptr)
+	{
+		abItemGuidCreate[nPlayer] = apPlayer[nPlayer]->GetbGuidCreate();
+	}
+
+	if (bItem == true && abItemGuidCreate[nPlayer] == false)
 	{
 		if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_B))
 		{

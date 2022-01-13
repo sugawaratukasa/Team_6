@@ -341,28 +341,31 @@ void CPlayer::ItemDelete(int nPlayer)
 			m_nItemSortCount++;
 		}
 	}
-	// 1P&2Pのアイテム削除入力処理
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
+	if (m_bItempCreate == false)
 	{
-		// アイテムポインタのnullptrチェック
-		if (m_pItem[m_nItemSortCount] != nullptr)
+		// 1P&2Pのアイテム削除入力処理
+		if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
 		{
-			// UIを消す	
-			m_pUI->Uninit();
-			// 選択しているアイテムの種類を取得する
-			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
-			// 選択しているアイテムの取得状態をfalseにする
-			SetSubbGetItem(nItemType, false);
-			pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
-			// アイテムを生成する
-			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
-			// アイテム効果初期化処理関数呼び出し
-			ItemEffectUninit();
-			// アイテムの最大数分回す
-			for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+			// アイテムポインタのnullptrチェック
+			if (m_pItem[m_nItemSortCount] != nullptr)
 			{
-				// アイテム効果生成処理関数呼び出し
-				ItemEffectCreate(nCount);
+				// UIを消す	
+				m_pUI->Uninit();
+				// 選択しているアイテムの種類を取得する
+				int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+				// 選択しているアイテムの取得状態をfalseにする
+				SetSubbGetItem(nItemType, false);
+				pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
+				// アイテムを生成する
+				m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
+				// アイテム効果初期化処理関数呼び出し
+				ItemEffectUninit();
+				// アイテムの最大数分回す
+				for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+				{
+					// アイテム効果生成処理関数呼び出し
+					ItemEffectCreate(nCount);
+				}
 			}
 		}
 	}
