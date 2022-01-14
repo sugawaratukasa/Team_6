@@ -15,16 +15,16 @@
 // ドア用の壁クラス
 // Author : Sugawara Tsukasa
 //=============================================================================
-class CEletrical_Room_Door : public CDoor
+class CElectrical_Room_Door : public CDoor
 {
 public:
-	CEletrical_Room_Door(PRIORITY Priority = PRIORITY_MAP);				// コンストラクタ
-	~CEletrical_Room_Door();													// デストラクタ
-	static CEletrical_Room_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
-	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
-	void Uninit(void);												// 終了処理
-	void Update(void);												// 更新処理
-	void Draw(void);												// 描画処理
+	CElectrical_Room_Door(PRIORITY Priority = PRIORITY_MAP);								// コンストラクタ
+	~CElectrical_Room_Door();															// デストラクタ
+	static CElectrical_Room_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, SIDE side);	// 生成処理
+	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);										// 初期化処理
+	void Uninit(void);																	// 終了処理
+	void Update(void);																	// 更新処理
+	void Draw(void);																	// 描画処理
 private:
 };
 #endif

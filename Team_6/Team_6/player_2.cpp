@@ -29,6 +29,7 @@
 #include "camera_game.h"
 #include "bg_black_texture.h"
 #include "caveatbar.h"
+#include "renderer.h"
 
 //=============================================================================
 // マクロ定義
@@ -138,8 +139,14 @@ void CPlayer2::Update(void)
 	// スピード取得
 	float fSpeed = GetSpeed();
 	// カメラ角度取得
-
 	float fAngle = ((CGame*)CManager::GetModePtr())->GetCamera(1)->GetHorizontal();
+
+	// レンダラー取得
+	CRenderer *pRenderer = CManager::GetRenderer();
+
+	// 監視カメラ使用状態取得
+	bool bCameraUse = pRenderer->GetIsUseSecCamPlayer(PLAYER_2);
+
 	// もし行動可能状態の場合
 	if (bIncapacitated == false)
 	{
@@ -152,10 +159,14 @@ void CPlayer2::Update(void)
 				m_bBlackTextureCreate = false;
 			}
 		}
-		// キーボード移動処理
-		KeyboardMove(fSpeed, fAngle);
-		// パッド移動
-		PadMove(fSpeed, fAngle);
+		// カメラを使っていない場合
+		if (bCameraUse == false)
+		{
+			// キーボード移動処理
+			KeyboardMove(fSpeed, fAngle);
+			// パッド移動
+			PadMove(fSpeed, fAngle);
+		}
 	}
 	// もし行動不能状態の場合又はゴール状態の場合
 	if (bIncapacitated == true || bItemGuidCreate == true || bGoal == true)
@@ -178,20 +189,23 @@ void CPlayer2::Update(void)
 	}
 	// 向き補正処理
 	UpdateRot();
-	if (bItemGuidCreate == false)
+	if (bItemGuidCreate == false && bCameraUse == false)
 	{
 		// アイテム削除処理関数呼び出し
 		ItemDelete(PLAYER_2);
 	}
 
-
 	// 扉を開く処理
 	DoorOpen(PLAYER_2);
+
 	//警告バー処理
 	if (m_pCaveatBar != nullptr)
 	{
 		m_pCaveatBar->Update();
 	}
+
+	// カメラ使用処理
+	UseSecurity_Cam(PLAYER_2);
 }
 
 //=============================================================================

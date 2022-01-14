@@ -115,26 +115,9 @@ void CDoor::Update(void)
 	// 開錠状態の場合
 	if (m_bLock == false)
 	{
-		// インクリメント
-		m_nCloseCnt++;
-
-		// CLOSE_COUNTより小さい場合
-		if (m_nCloseCnt <= CLOSE_COUNT)
-		{
-			// ドアを開く処理
-
-			this->Open();
-		}
-
-
-		// CLOSE_COUNTより大きくなった場合
-		if (m_nCloseCnt >= CLOSE_COUNT)
-		{
-			// 扉を閉じる処理
-			this->Close();
-		}
+		// ドアを開く処理
+		this->Open();
 	}
-	this->Open();
 }
 //=============================================================================
 // 描画処理関数

@@ -45,12 +45,16 @@
 #include "pc_desk.h"
 #include "locker.h"
 #include "bookbox.h"
+#include "security_camera_collision.h"
+#include "Camera_Security.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
 //========================================================================
-#define MAX_TEXT	(1024)						// テキスト最大
-#define MAP_TEXT	("data/Text/Map/Map.txt")	// テキストパス	
+#define MAX_TEXT				(1024)								// テキスト最大
+#define MAP_TEXT				("data/Text/Map/Map.txt")			// テキストパス	
+#define SECURITY_CAM_COL_POS_1	(D3DXVECTOR3(3550.0f,0.0f,0.0f))	// 監視カメラ判定の位置
+#define SECURITY_CAM_COL_POS_2	(D3DXVECTOR3(770.0f,0.0f,-2500.0f))	// 監視カメラ判定の位置
 //========================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -106,6 +110,10 @@ HRESULT CMap::Init(void)
 	// 読み込み
 	Load();
 	CGoalArea::Create(D3DXVECTOR3(1170.0f, 0.0f, 148.0f), ZeroVector3);
+
+	// 監視カメラ判定の生成
+	CSecurity_Camera_Collision::Create(SECURITY_CAM_COL_POS_1, ZeroVector3);
+	CSecurity_Camera_Collision::Create(SECURITY_CAM_COL_POS_2, ZeroVector3);
 	return S_OK;
 }
 //========================================================================
@@ -395,20 +403,21 @@ void CMap::CreateModel(void)
 			break;
 
 			// 看守の扉
-		case MODEL_TYPE_JAILER_DOOR:
+		case MODEL_TYPE_JAILER_DOOR_LEFT:
 			// ドア
-			CJailer_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			CJailer_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_LEFT);
 			break;
 
 			// 制御室の扉
-		case MODEL_TYPE_CONTROL_ROOM_DOOR:
+		case MODEL_TYPE_CONTROL_ROOM_DOOR_LEFT:
 			// ドア
-			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_LEFT);
 			break;
 
-		case MODEL_TYPE_STORAGE_DOOR:
+			// 倉庫の鍵
+		case MODEL_TYPE_STORAGE_DOOR_LEFT:
 			// ドア
-			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_LEFT);
 			break;
 
 			// ダクト
@@ -418,15 +427,15 @@ void CMap::CreateModel(void)
 			break;
 
 			// 電気室のドア
-		case MODEL_TYPE_ELECTRICAL_DOOR:
+		case MODEL_TYPE_ELECTRICAL_DOOR_LEFT:
 			// ドア
-			CEletrical_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			CElectrical_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_LEFT);
 			break;
 
 			// カメラ室のドア
-		case MODEL_TYPE_CAMERA_DOOR:
+		case MODEL_TYPE_CAMERA_DOOR_LEFT:
 			// ドア
-			CCamera_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			CCamera_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_LEFT);
 			break;
 
 			// 窓付き壁
@@ -511,6 +520,36 @@ void CMap::CreateModel(void)
 		case MODEL_TYPE_LOCKER:
 			// ロッカー
 			CLocker::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot);
+			break;
+
+			// 看守の扉
+		case MODEL_TYPE_JAILER_DOOR_RIGHT:
+			// ドア
+			CJailer_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_RIGHT);
+			break;
+
+			// 制御室の扉
+		case MODEL_TYPE_CONTROL_ROOM_DOOR_RIGHT:
+			// ドア
+			CControl_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_RIGHT);
+			break;
+
+			// 倉庫の鍵
+		case MODEL_TYPE_STORAGE_DOOR_RIGHT:
+			// ドア
+			CStorage_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_RIGHT);
+			break;
+
+			// 電気室のドア
+		case MODEL_TYPE_ELECTRICAL_DOOR_RIGHT:
+			// ドア
+			CElectrical_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_RIGHT);
+			break;
+
+			// カメラ室のドア
+		case MODEL_TYPE_CAMERA_DOOR_RIGHT:
+			// ドア
+			CCamera_Room_Door::Create(m_aModelInfo.at(nCnt).pos, m_aModelInfo.at(nCnt).rot, CDoor::SIDE_RIGHT);
 			break;
 
 			// 例外

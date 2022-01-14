@@ -9,6 +9,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "camera_room_door_collision.h"
+#include "map_spot.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -114,6 +115,25 @@ void CCamera_Room_Door_Collision::Open(int nPlayer)
 
 	// テクスチャ取得
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
+
+	// ドア取得
+	CDoor *pDoor = GetpDoor();
+
+	// ドアのサイド取得
+	CDoor::SIDE side = pDoor->GetSide();
+
+	// 左の場合
+	if (side == CDoor::SIDE_LEFT)
+	{
+		// 扉が開いたかを設定
+		CMapSpot::SetIsOpenRoom(CMapSpot::MAP_AREA_LEFT, CMapSpot::ROOM_TYPE_CAMERA_ROOM);
+	}
+	// 右の場合
+	if (side == CDoor::SIDE_RIGHT)
+	{
+		// 扉が開いたかを設定
+		CMapSpot::SetIsOpenRoom(CMapSpot::MAP_AREA_RIGHT, CMapSpot::ROOM_TYPE_CAMERA_ROOM);
+	}
 
 	// プレイヤー1の場合
 	if (nPlayer == PLAYER_1)

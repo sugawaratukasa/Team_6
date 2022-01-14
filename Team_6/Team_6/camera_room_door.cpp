@@ -37,7 +37,7 @@ CCamera_Room_Door::~CCamera_Room_Door()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CCamera_Room_Door * CCamera_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CCamera_Room_Door * CCamera_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, SIDE side)
 {
 	// CCamera_Room_Doorのポインタ
 	CCamera_Room_Door *pCamera_Room_Door = nullptr;
@@ -51,6 +51,9 @@ CCamera_Room_Door * CCamera_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		// !nullcheck
 		if (pCamera_Room_Door != nullptr)
 		{
+			// 右か左か設定
+			pCamera_Room_Door->SetSide(side);
+
 			// 初期化処理
 			pCamera_Room_Door->Init(pos, rot);
 		}

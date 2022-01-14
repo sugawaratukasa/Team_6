@@ -33,6 +33,8 @@ public:
 	void Draw(void);																		// 描画処理
 	void Push(void);																		// ボタンが押された
 private:
-	CPlayer *m_pPlayer;	// CPlayerのポインタ
+	void Open_and_Close(void);	// 開閉処理
+	CPlayer *m_pPlayer;			// CPlayerのポインタ
+	int m_nCloseCnt;			// 閉じるカウント
 };
 #endif

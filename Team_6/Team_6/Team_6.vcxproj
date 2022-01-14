@@ -302,6 +302,7 @@
     <ClCompile Include="scene_2d.cpp" />
     <ClCompile Include="scene_base.cpp" />
     <ClCompile Include="Screenframe.cpp" />
+    <ClCompile Include="security_camera_collision.cpp" />
     <ClCompile Include="select_item_flame.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="spot_polygon.cpp" />
@@ -483,6 +484,7 @@
     <ClInclude Include="scene_2d.h" />
     <ClInclude Include="scene_base.h" />
     <ClInclude Include="Screenframe.h" />
+    <ClInclude Include="security_camera_collision.h" />
     <ClInclude Include="select_item_flame.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="spot_polygon.h" />

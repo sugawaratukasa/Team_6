@@ -37,7 +37,7 @@ CControl_Room_Door::~CControl_Room_Door()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CControl_Room_Door * CControl_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CControl_Room_Door * CControl_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, SIDE side)
 {
 	// CControl_Room_Doorのポインタ
 	CControl_Room_Door *pControl_Room_Door = nullptr;
@@ -51,6 +51,9 @@ CControl_Room_Door * CControl_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot
 		// !nullcheck
 		if (pControl_Room_Door != nullptr)
 		{
+			// 右か左か設定
+			pControl_Room_Door->SetSide(side);
+
 			// 初期化処理
 			pControl_Room_Door->Init(pos, rot);
 		}

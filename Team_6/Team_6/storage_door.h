@@ -18,9 +18,9 @@
 class CStorage_Door : public CDoor
 {
 public:
-	CStorage_Door(PRIORITY Priority = PRIORITY_MODEL);				// コンストラクタ
+	CStorage_Door(PRIORITY Priority = PRIORITY_MODEL);					// コンストラクタ
 	~CStorage_Door();													// デストラクタ
-	static CStorage_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	// 生成処理
+	static CStorage_Door *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,SIDE side);	// 生成処理
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot);					// 初期化処理
 	void Uninit(void);												// 終了処理
 	void Update(void);												// 更新処理

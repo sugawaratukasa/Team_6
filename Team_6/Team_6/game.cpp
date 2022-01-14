@@ -58,6 +58,7 @@
 #include "object_window_wall.h"
 #include "goal_door.h"
 #include "item_spawn.h"
+#include "item_object_control_room_Key.h"
 
 //=======================================================================================
 // マクロ定義
@@ -78,9 +79,7 @@
 #define JAILER_ROOM_KEY_POS2 (D3DXVECTOR3(-1350.0f,0.0f,1000.0f))
 #define BATON_POS1 (D3DXVECTOR3(5330.0f,0.0f,289.0f))
 #define BATON_POS2 (D3DXVECTOR3(-547.0f,0.0f,-5331.0f))
-#define POS	(D3DXVECTOR3(PLAYER2_POS.x,PLAYER2_POS.y + 100.0f,PLAYER2_POS.z))
-#define ROT	(D3DXVECTOR3(0.0f,D3DXToRadian(180.0f),0.0f))
-
+#define SECURITY_CAM_COL_POS_1	(D3DXVECTOR3(3550.0f,0.0f,0.0f))	// 監視カメラ判定の位置
 //=======================================================================================
 // コンストラクタ
 //=======================================================================================
@@ -139,8 +138,6 @@ HRESULT CGame::Init(void)
 	CSound * pSound = GET_SOUND_PTR;
 	pSound->StopAll();
 	pSound->CSound::Play(CSound::SOUND_BGM_GAME);
-
-	CParticle_Emitter::Create(ZeroVector3, CParticle_Manager::TYPE_ITEM_RAINBOW);
 
 	//スポットの初期化
 	CMapSpot::Init();
@@ -255,17 +252,32 @@ void CGame::CreatePlayer(void)
 }
 
 //=======================================================================================
-
 // 監視カメラの生成
 //=======================================================================================
 void CGame::CreateSecCam(void)
 {
+	// 左
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1900.0f, 0.0f, -460.0f), D3DXToRadian(0.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(2950.0f, 0.0f, -550.0f), D3DXToRadian(220.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1250.0f, 0.0f, -550.0f), D3DXToRadian(145.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1300.0f, 0.0f, -2660.0f), D3DXToRadian(30.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3690.0f, 0.0f, -3550.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3330.0f, 0.0f, -4430.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(900.0f, 0.0f, -4500.0f), D3DXToRadian(150.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3330.0f, 0.0f, -5850.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1650.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3050.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f));
 
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 0.0f, -794.0f), 90.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1000.0f, 0.0f, 0.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), 0.0f);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(0.0f, 0.0f, -1000.0f), 0.0f);
+	// 右
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1780.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1730.0f, 0.0f, -5850.0f), D3DXToRadian(40.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(450.0f, 0.0f, -4830.0f), D3DXToRadian(220.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(320.0f, 0.0f, -4420.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-250.0f, 0.0f, -3890.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1040.0f, 0.0f, -2790.0f), D3DXToRadian(40.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(340.0f, 0.0f, -900.0f), D3DXToRadian(180.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, -820.0f), D3DXToRadian(320.0f));
 }
 
 //=======================================================================================
