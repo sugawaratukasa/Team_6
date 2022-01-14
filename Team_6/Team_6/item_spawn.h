@@ -32,30 +32,16 @@ public:
 	HRESULT Init(void);
 	void Update(void);
 private:
-	//void PC_Electrical_key_Create(void);
-	//void Storage_Control_KeyCreate(void);
 	void JailerKeyCreate(void);
 	void CameraKeyCreate(void);
 	void ControlKeyCreate(void);
 	void ElectricalKeyCreate(void);
-	void PCKeyCreate(void);
-
-	//int m_nPC_Electrical_key_number;
-	//bool m_bPCKeyPosition[4];
-	//bool m_bPCKeyCreate;
-	//bool m_bElectricalKeyPosition[4];
-	//bool m_bElectricalKeyCreate;
-
-	//int m_nStorage_Control_key_number;
-	//bool m_bStoragePosition[4];
-	//bool m_bStorageKeyCreate;
-	//bool m_bControlKeyPosition[4];
-	//bool m_bControlKeyCreate;
+	void StorageKeyCreate(void);
 
 	int m_nJailerNumber;
 	int m_nCameraNumber;
 	int m_nControlNumber;
 	int m_nElectricalNumber;
-	int m_nPCNumber;
+	int m_nStorageNumber;
 };
 #endif
