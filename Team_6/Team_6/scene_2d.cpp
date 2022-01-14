@@ -34,6 +34,7 @@ CScene2D::CScene2D(PRIORITY Priority) : CSceneBase(Priority)
 	m_nFlashFlame = 0;
 	m_bDisappearFlag = false;
 	m_bFadeOut = false;
+	m_bDraw = true;
 }
 
 //=======================================================================================
@@ -126,43 +127,46 @@ void CScene2D::Update(void)
 //=======================================================================================
 void CScene2D::Draw(void)
 {
-	// Rendererクラスからデバイスを取得
-	LPDIRECT3DDEVICE9 pD3DDevice = CManager::GetRenderer()->GetDevice();
+	if (m_bDraw)
+	{
+		// Rendererクラスからデバイスを取得
+		LPDIRECT3DDEVICE9 pD3DDevice = CManager::GetRenderer()->GetDevice();
 
-	//アルファテストを有効化
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		//アルファテストを有効化
+		pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
-	//アルファテスト基準値の設定
-	pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+		//アルファテスト基準値の設定
+		pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
-	//アルファテストの比較方法の設定(GREATERは基準値より大きい場合)
-	pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		//アルファテストの比較方法の設定(GREATERは基準値より大きい場合)
+		pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	// 頂点バッファをデータストリームに設定
-	pD3DDevice->SetStreamSource(0, GetVtxBuff(), 0, sizeof(VERTEX_2D));
+		// 頂点バッファをデータストリームに設定
+		pD3DDevice->SetStreamSource(0, GetVtxBuff(), 0, sizeof(VERTEX_2D));
 
-	// フォグを無効化
-	pD3DDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+		// フォグを無効化
+		pD3DDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	// 頂点フォーマットの設定
-	pD3DDevice->SetFVF(FVF_VERTEX_2D);
+		// 頂点フォーマットの設定
+		pD3DDevice->SetFVF(FVF_VERTEX_2D);
 
-	// テクスチャの設定
-	pD3DDevice->SetTexture(0, GetTexture());
+		// テクスチャの設定
+		pD3DDevice->SetTexture(0, GetTexture());
 
-	// ポリゴンの描画
-	pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-		0,
-		NUM_POLYGON);
+		// ポリゴンの描画
+		pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+			0,
+			NUM_POLYGON);
 
-	//アルファテストを無効化
-	pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		//アルファテストを無効化
+		pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
-	// フォグを有効化
-	pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		// フォグを有効化
+		pD3DDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
-	// テクスチャの設定
-	pD3DDevice->SetTexture(0, nullptr);
+		// テクスチャの設定
+		pD3DDevice->SetTexture(0, nullptr);
+	}
 }
 
 void CScene2D::SetPosition(D3DXVECTOR3 Pos)

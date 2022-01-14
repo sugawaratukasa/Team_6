@@ -399,7 +399,7 @@ void CRenderer::SwitchCam(int nNumPlayer)
 
 	for (int nCount = 0; nCount < CCamera::SCREEN_MAX - 1; nCount++)
 	{
-		((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->SwitchCam((CGame::CAMERA_ID)nNumPlayer, m_bUseSecCam);
+		((CGame*)CManager::GetModePtr())->GetCamera((CGame::CAMERA_ID)nCount)->SwitchCam((CGame::CAMERA_ID)nNumPlayer, m_bUseSecCamPlayer[nCount]);
 	}
 }
 

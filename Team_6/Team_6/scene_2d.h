@@ -46,6 +46,7 @@ public:
 	void SetScale(const float &fScale);									// 拡大の値設定
 	void SetSubFlashNum(float fSubNum) { m_fSubNum = fSubNum; }			// 点滅の値設定
 	void SetAnimSpeed(int nAnimCount) { m_nCountAnim = nAnimCount; }	// アニメーションのスピード設定
+	void SetIsDraw(bool bDraw) { m_bDraw = bDraw; }					// 描画設定
 
 																		// Get関数
 	float GetScale(void) { return m_fScaleNum; }						// 拡大の値情報
@@ -65,7 +66,8 @@ private:
 	float m_fFadeSpeedNum;		// フェードのスピード
 	int m_nFlashFlame;			// 点灯用のカウンター
 	bool m_bDisappearFlag;		// 点滅用のフラグ
-	bool m_bFadeOut;				// フェードのフラグ
+	bool m_bFadeOut;			// フェードのフラグ
+	bool m_bDraw;				// 描画するかどうか
 };
 
 #endif // !_SCENE2D_H_
