@@ -14,25 +14,14 @@
 #include "scene_2d.h"
 
 //=============================================================================
-// 前方宣言
-//=============================================================================
-
-class CTexture;
-class CResourceManager;
-
-class CManager;
-
-//=============================================================================
 // 警告バークラス
 // Author : Oguma Akira
 //=============================================================================
 class CCaveatBar : public CScene2D
 {
 public:
-
 	CCaveatBar ();
 	~CCaveatBar ();
-
 
 	static CCaveatBar *Create(D3DXVECTOR3 pos, const int nPlayer);
 	HRESULT Init(D3DXVECTOR3 pos);
@@ -41,12 +30,12 @@ public:
 	void Uninit(void);
 	void Drow(void);
 
-
 	float VecLength(void);	// ベクトルの長さ
-	void SizeMove(const float fLength);	// テクスチャサイズの動き
+	void BarMove(const float fLength);	// バーの動き
+	void BarColor(void);	//バーの色変化
 
 private:
-
+	float m_fBarNow;
 	int m_nPlayerNum;
 };
 #endif // !_CAVEAT_H_
