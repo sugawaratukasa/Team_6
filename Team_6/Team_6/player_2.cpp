@@ -392,12 +392,6 @@ void CPlayer2::KeyboardMove(float fSpeed, float fAngle)
 	}
 	// ˆÚ“®—ÊÝ’è
 	SetMove(move);
-	if (pKeyboard->GetTrigger(DIK_6))
-	{
-		D3DXVECTOR3 Pos = GetPos();
-		int n = 0;
-		n++;
-	}
 }
 
 //=============================================================================
