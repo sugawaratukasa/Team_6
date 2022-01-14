@@ -10,6 +10,7 @@
 #include "Jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer_return_routeState.h"
+#include "jailer_emotion.h"
 
 //=============================================================================
 //ƒ}ƒNƒ’è‹`
@@ -74,6 +75,7 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 	pJailer->SetMove(ZeroVector3);
 	pJailer->SetGuardBaseDir();
 	pJailerView->CautionJailer(false);
+	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_QUESTION);
 }
 
 //=============================================================================

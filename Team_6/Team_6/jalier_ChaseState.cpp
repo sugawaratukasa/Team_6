@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "fog.h"
+#include "jailer_emotion.h"
 
 //=============================================================================
 //マクロ定義
@@ -42,6 +43,8 @@ void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 
 	//フォグをワーニングに指定
 	pFog->SetFogState(CFog::FOG_WARNING);
+
+	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_ANGER);
 }
 
 //=============================================================================

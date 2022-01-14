@@ -94,13 +94,6 @@ void CJailerSpot::InitializePatrolSpot(void)
 
 		//データ追加
 		m_vPatrolRoute.push_back(patrolSpot);
-
-#ifdef _DEBUG
-		//スポットのポリゴンを作成
-		CSpotPolygon *pPolygon = CSpotPolygon::Create(patrolSpot.node.pos, patrolSpot.node.nNumber);
-
-		m_pPolygon.push_back(pPolygon);
-#endif // !_DEBUG
 	}
 }
 
@@ -109,14 +102,7 @@ void CJailerSpot::InitializePatrolSpot(void)
 //=============================================================================
 void CJailerSpot::Update(void)
 {
-#ifdef _DEBUG
 
-	if (m_pPolygon.at(m_nIndex))
-	{
-		m_pPolygon.at(m_nIndex)->SetFlashing();
-	}
-
-#endif // !_DEBUG
 }
 
 //=============================================================================
@@ -219,21 +205,19 @@ D3DXVECTOR3 CJailerSpot::ChangePatrolRoute(void)
 //=============================================================================
 D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 {
-	//スポットのサイズを取得
-	int nSpotNum = m_vRetrunRoute.size();
-
-	//インデックスを1つ進める
+	//インデックスを1つ戻す
 	m_nRetrunIndex--;
 
-	//インデックスが要素数より大きくなったときは修正
-	if (m_nRetrunIndex < 0)
+	//インデックスが要素数より小さくなったときは修正
+	if (m_nRetrunIndex < ZERO_INT)
 	{
-		int nCntIndex = 0;
+		int nCntIndex = ZERO_INT;
+		int nSize = m_vPatrolRoute.size();
 
 		//帰還ルートの最後のスポットの番号が、巡回ルートのどこの番号か探す。
-		for (int nCnt0 = 0; nCnt0 < (int)m_vPatrolRoute.size(); nCnt0++)
+		for (int nCntSpot = ZERO_INT; nCntSpot < nSize; nCntSpot++)
 		{
-			if (m_vPatrolRoute.at(nCnt0).node.nNumber == m_vRetrunRoute.at(0).nNumber)
+			if (m_vPatrolRoute.at(nCntSpot).node.nNumber == m_vRetrunRoute.at(ZERO_INT).nNumber)
 			{
 				m_nIndex = nCntIndex;
 
@@ -242,6 +226,7 @@ D3DXVECTOR3 CJailerSpot::ChangeBackToRoute(void)
 
 			nCntIndex++;
 		}
+
 		return ZeroVector3;
 	}
 

@@ -174,6 +174,7 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_collision_box.cpp" />
     <ClCompile Include="clear_time_bg.cpp" />
+    <ClCompile Include="jailer_emotion.cpp" />
     <ClCompile Include="mode_clear_time.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="control_room_door.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="character_collision_box.h" />
     <ClInclude Include="clear_time_bg.h" />
+    <ClInclude Include="jailer_emotion.h" />
     <ClInclude Include="mode_clear_time.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="control_room_door.h" />
