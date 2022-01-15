@@ -106,7 +106,7 @@ HRESULT CCameraSecurity::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_pos.x, VIEW_POS_Y, m_pos.z),
-		D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f), VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
+		D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f), VIEW_POLYGON_NUM, CJailerView::VIEW_TYPE_CAMERA);
 
 	// 監視カメラ
 	CXfile *pXFile = CManager::GetResourceManager()->GetXfileClass();
@@ -134,8 +134,9 @@ void CCameraSecurity::Update(void)
 	// 監視カメラ回転
 	m_pView->SetRotation(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
 	m_pCamModel->SetRot(D3DXVECTOR3(0.0f, m_fAngle + ADJUST_ANGLE, 0.0f));
+
 	// 監視カメラの当たり判定を更新
-	//m_pView->SetIsActive(m_bIsActive);
+	m_pView->SetIsActive(m_bIsActive);
 
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCam();
 
@@ -176,7 +177,14 @@ void CCameraSecurity::SearchPlayer(void)
 	// 監視カメラに見つかった場合
 	if (m_pView->GetIsDetection())
 	{
-		
+		//看守の情報を取得
+		CJailer *pJailer = CManager::GetModePtr()->GetJailer(0);
+
+		//検出位置の取得
+		D3DXVECTOR3 pos = m_pView->GetDetectionPos();
+
+		//看守に通報
+		pJailer->Notice(pos);
 	}
 }
 

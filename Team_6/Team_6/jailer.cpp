@@ -18,12 +18,13 @@
 #include "Jalier_MoveState.h"
 #include "Jalier_MoveState.h"
 #include "object.h"
+#include "jailer_emotion.h"
 
 //=============================================================================
 //マクロ定義
 //=============================================================================
 #define JAILER_NORMAL_SPEED (5.0f)	//通常時の移動速度
-#define JAILER_CHASE_SPEED (10.5f)	//追跡時の移動速度
+#define JAILER_CHASE_SPEED (11.0f)	//追跡時の移動速度
 #define JAILER_ROTSTION_RATE (0.3f)	//回転の係数
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
@@ -39,12 +40,13 @@ CJailer::CJailer(int nJailerNumber) :m_nNumber(nJailerNumber)
 	m_pView = nullptr;				//看守の視線クラスのポインタ変数
 	m_pJailerState = nullptr;		//状態のポインタ
 	m_pSpot = nullptr;
+	m_pEmotion = nullptr;
 	m_rotDest = ZeroVector3;		//向きの目的地
 	m_posDest = ZeroVector3;		//位置の目的地
 	m_posDestOld = ZeroVector3;		//前回の位置の目的地
 	m_distance = ZeroVector3;		//目的地までの距離
 	m_GuardBaseDir = ZeroVector3;	//警戒時の基準の方向
-	m_nSwitchingTime = ZERO_INT;	//状態の切り替えタイマー
+	m_nStateTimer = ZERO_INT;	//状態の切り替えタイマー
 	m_fDestLength = ZERO_FLOAT;		//目的地と自分の距離の長さ
 	m_TurnSpeed = ZERO_FLOAT;
 	m_eAroud = AROUND_CONFIRMATION_NONE;
@@ -112,7 +114,7 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_posDest.x, VIEW_POS_Y, m_posDest.z), 
-		ZeroVector3, VIEW_POLYGON_NUM, D3DCOLOR_RGBA(255, 0, 0, 255));
+		ZeroVector3, VIEW_POLYGON_NUM, CJailerView::VIEW_TYPE_JAILER);
 
 	//状態設定
 	m_pJailerState = CMoveState::GetInstance();
@@ -121,6 +123,9 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetSize(JAILER_SIZE);
 
 	m_TurnSpeed = TURN_SPEED;
+
+	//感情クラスクリエイト
+	m_pEmotion = CJailer_Emotion::Create(m_pSpot->GetSpotDest());
 	return S_OK;
 }
 
@@ -163,6 +168,11 @@ void CJailer::Update(void)
 		m_pJailerState->Update(this, m_pView);
 	}
 	
+	if (m_pEmotion)
+	{
+		m_pEmotion->SetPosition(pos);
+	}
+
 	if (m_pView)
 	{
 		m_pView->SetRotation(GetRot());									//扇の向きの設定
@@ -397,8 +407,8 @@ void CJailer::Damage(void)
 //=============================================================================
 int CJailer::AddTime(int add)
 {
-	m_nSwitchingTime += add;
-	return m_nSwitchingTime;
+	m_nStateTimer += add;
+	return m_nStateTimer;
 }
 
 //=============================================================================
@@ -630,6 +640,17 @@ void CJailer::CheckMapCollision(void)
 	}
 }
 
+//=============================================================================
+//通報を受ける
+//=============================================================================
+void CJailer::Notice(const D3DXVECTOR3 pos)
+{
+
+}
+
+//=============================================================================
+//周囲の見回し
+//=============================================================================
 void CJailer::TurnAround(void)
 {
 	if (m_eAroud == AROUND_CONFIRMATION_NONE)
@@ -639,13 +660,13 @@ void CJailer::TurnAround(void)
 
 	AddTime(ADD_TIME);
 
-	if (m_nSwitchingTime % 180 == 0)
+	if (m_nStateTimer % 180 == 0)
 	{
 		m_eAroud = AROUND_CONFIRMATION_NONE;
 
 		return;
 	}
-	else if (m_nSwitchingTime % 60 == 0)
+	else if (m_nStateTimer % 60 == 0)
 	{
 		if (m_eAroud == AROUND_CONFIRMATION_LEFT)
 		{

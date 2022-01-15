@@ -10,6 +10,9 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include "map_spot.h"
+#include "scene.h"
+#include "obb.h"
+#include "object.h"
 
 //=============================================================================
 //静的メンバ変数宣言
@@ -198,11 +201,14 @@ void CMapSpot::LoadSpot(void)
 	}
 }
 
+//=============================================================================
+//初期化処理
+//=============================================================================
 void CMapSpot::Init(void)
 {
-	for (int nCntArea = 0; nCntArea < MAP_AREA_MAX; nCntArea++)
+	for (int nCntArea = ZERO_INT; nCntArea < MAP_AREA_MAX; nCntArea++)
 	{
-		for (int nCntRoom = 0; nCntRoom < ROOM_TYPE_MAX; nCntRoom++)
+		for (int nCntRoom = ZERO_INT; nCntRoom < ROOM_TYPE_MAX; nCntRoom++)
 		{
 			//通路のみ通過可能にする
 			if (nCntRoom == ROOM_TYPE_AISLE)
@@ -211,7 +217,7 @@ void CMapSpot::Init(void)
 			}
 			else
 			{
-				m_abIsOpenRoom[nCntArea][nCntRoom] = true;
+				m_abIsOpenRoom[nCntArea][nCntRoom] = false;
 			}
 		}
 	}
@@ -224,6 +230,8 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 {
 	NODE returnInfo;	//返すスポット情報
 
+	CScene *pScene = nullptr;
+
 	float fKeepRange = INFINITY_COST;
 
 	int nSize = m_vaSpot[eArea].size();
@@ -233,14 +241,46 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 		//部屋が到達可能かどうか知らべる
 		bool bIsOpenRoom = GetIsOpenRoom(eArea, m_vaSpot[eArea].at(nCntSpot).eRoom);
 
-		//到達が不可能
+		//到達が不可能な部屋
 		if (bIsOpenRoom == false)
 		{
 			continue;
 		}
 
-		//現在地と目的地までのベクトルを計算
-		D3DXVECTOR3 Distance = m_vaSpot[eArea].at(nCntSpot).node.pos - pos;
+		//マップオブジェクトの先頭を取得
+		pScene = CScene::GetTop(CScene::PRIORITY_MAP);
+
+		bool bIsHit = false;
+
+		//マップオブジェクトの交差判定を行う
+		while (pScene != nullptr && bIsHit == false)
+		{
+			//次情報の取得
+			CScene *pNext = pScene->GetNext();
+
+			//Objectクラスポインタへキャスト
+			CObject *pObject = (CObject *)pScene;
+
+			//Obbクラスのポインタ取得
+			CObb *pObb = pObject->GetObbPtr();
+
+			if (pObb != nullptr)
+			{
+				//線分とOBBの交差判定
+				bIsHit = pObb->IsHitObbAndLineSegment(
+					pos, 
+					m_vaSpot[eArea].at(nCntSpot).node.pos);
+			}
+
+			//次情報へ更新
+			pScene = pNext;
+		}
+
+		//マップオブジェクトと交差しているため先頭に戻す
+		if (bIsHit)
+		{
+			continue;
+		}
 
 		//長さを求める
 		float fRange = CalculationDistanceLength(m_vaSpot[eArea].at(nCntSpot).node.pos, pos);
@@ -303,7 +343,7 @@ vector<CMapSpot::NODE> CMapSpot::PathSearch(const MAP_AREA eArea, const NODE sta
 	defaultCost.fStratToNow = INFINITY_COST;
 	defaultCost.fHeuristic = INFINITY_COST;
 
-	for (int nCntSpot = 0; nCntSpot < (int)m_vaSpot[eArea].size(); nCntSpot++)
+	for (int nCntSpot = ZERO_INT; nCntSpot < (int)m_vaSpot[eArea].size(); nCntSpot++)
 	{
 		A_SPOT aSpot;
 		aSpot.spot = m_vaSpot[eArea].at(nCntSpot);

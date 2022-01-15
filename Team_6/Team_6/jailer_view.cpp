@@ -17,8 +17,20 @@
 //=============================================================================
 //マクロ定義
 //=============================================================================
-#define DEFAULT_VIEW_LENGTH (800.0f)					//長さのデフォルト値
-#define CAUTION_VIEW_LENGTH DEFAULT_VIEW_LENGTH * 1.5f		//警戒時の長さ
+#define JAILER_DEFAULT_LENGTH (800.0f)					//長さのデフォルト値
+#define JAILER_CAUTION_LENGTH JAILER_DEFAULT_LENGTH * 1.5f		//警戒時の長さ
+#define JAILER_CENTER_ANGLE (90.0f)
+#define CAMERA_DEFAULT_LENGTH (400.0f)					//長さのデフォルト値
+#define CAMERA_CAUTION_LENGTH CAMERA_DEFAULT_LENGTH * 1.5f		//警戒時の長さ
+#define CAMERA_CENTER_ANGLE (60.0f)
+//=============================================================================
+//静的メンバ変数
+//=============================================================================
+CJailerView::VIEW_SETTING CJailerView::m_vViewLength[VIEW_TYPE_MAX] =
+{
+	{ JAILER_DEFAULT_LENGTH ,JAILER_CAUTION_LENGTH ,JAILER_CENTER_ANGLE },
+	{ CAMERA_DEFAULT_LENGTH ,CAMERA_CAUTION_LENGTH ,CAMERA_CENTER_ANGLE }
+};
 
 //=============================================================================
 //コンストラクタ
@@ -30,6 +42,7 @@ CJailerView::CJailerView()
 	m_bIsActive = true;
 	m_detectedPos = ZeroVector3;
 	m_nDetectedNumber = ZERO_INT;
+	m_eViewType = VIEW_TYPE_JAILER;
 }
 
 //=============================================================================
@@ -42,7 +55,7 @@ CJailerView::~CJailerView()
 //=============================================================================
 //クリエイト処理
 //=============================================================================
-CJailerView * CJailerView::Create(const D3DXVECTOR3 & rPos, const D3DXVECTOR3 & rRot, const int & rnPolygonNum, const D3DXCOLOR & rCol)
+CJailerView * CJailerView::Create(const D3DXVECTOR3 & rPos, const D3DXVECTOR3 & rRot, const int & rnPolygonNum, const VIEW_TYPE eViewType)
 {
 	CJailerView *pJailerView = nullptr;
 
@@ -53,7 +66,7 @@ CJailerView * CJailerView::Create(const D3DXVECTOR3 & rPos, const D3DXVECTOR3 & 
 	{
 		//各値の設定
 		pJailerView->SetPolygonNum(rnPolygonNum);
-		pJailerView->SetColor(rCol);
+		pJailerView->SetViewType(eViewType);
 
 		//初期化処理
 		pJailerView->Init(rPos, rRot);
@@ -79,7 +92,13 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_detectedPos = ZeroVector3;
 
 	//長さの設定
-	SetLength(DEFAULT_VIEW_LENGTH);
+	SetLength(m_vViewLength[m_eViewType].fDefaultLength);
+
+	//中心角の設定
+	SetCenterAngle(m_vViewLength[m_eViewType].fCenterAngle);
+
+	//色の設定
+	SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	return S_OK;
 }
@@ -151,8 +170,10 @@ void CJailerView::Update(void)
 //=============================================================================
 void CJailerView::Draw(void)
 {
+#ifdef _DEBUG
 	//CFan3Dの描画
 	CFan3D::Draw();
+#endif
 }
 
 //=============================================================================
@@ -164,12 +185,12 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 	if (bIsCaution)
 	{
 		//長さを拡大
-		SetLength(CAUTION_VIEW_LENGTH);
+		SetLength(m_vViewLength[m_eViewType].fCautionLength);
 	}
 	else
 	{
 		//長さを修正
-		SetLength(DEFAULT_VIEW_LENGTH);
+		SetLength(m_vViewLength[m_eViewType].fDefaultLength);
 	}
 }
 
@@ -178,13 +199,12 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 //=============================================================================
 void CJailerView::DetectionPlayer(void)
 {
-
-	ViewData view;
-	vector<ViewData> vecViewData;
+	VIEW_DATA view;
+	vector<VIEW_DATA> vecViewData;
 
 	for (int nCntPlayer = ZERO_INT; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		////プレイヤー情報の取得
+		//プレイヤー情報の取得
 		CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(nCntPlayer);
 
 		//プレイヤーが行動不可能なら
@@ -275,15 +295,16 @@ void CJailerView::DetectionPlayer(void)
 		}
 	}
 
-
-	//プレイヤーとの間に壁が存在するなら
-	if (MapCollision(vecViewData.at(0).playerPos))
+	if (m_eViewType == VIEW_TYPE_JAILER)
 	{
-		//プレイヤーは未発見
-		m_bIsDetection = false;
-		return;
+		//プレイヤーとの間に壁が存在するなら
+		if (MapCollision(vecViewData.at(0).playerPos))
+		{
+			//プレイヤーは未発見
+			m_bIsDetection = false;
+			return;
+		}
 	}
-
 
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
@@ -308,10 +329,8 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 	D3DXVECTOR3 origin = GetPos();		//線分の原点
 	D3DXVECTOR3 endPoint = playerPos;	//線分の終点
 
-
 	//マップの先頭情報を取得
 	pScene = GetTop(CScene::PRIORITY_MAP);
-
 
 	//オブジェクトが存在しない場合は終了
 	if (pScene == nullptr)
@@ -329,9 +348,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//オブジェクトクラスへキャスト
 			CObject *pObject = (CObject*)pScene;
 
-
 			CObb *pObb = nullptr;
-
 
 			//OBBのポインタを取得
 			pObb = pObject->GetObbPtr();
@@ -339,111 +356,18 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 			//OBBが存在しない
 			if (pObb == nullptr)
 			{
-
 				//次情報へ切り替え
 				pScene = pNext;
 
 				continue;
 			}
 
-			D3DXVECTOR3 center = pObb->GetCenterPos();	//中心位置の取得
-			D3DXVECTOR3 size = pObb->GetSize();			//サイズの取得
-			D3DXVECTOR3 aDir[CoordinateAxesNum];		//各軸の向き
-
-			for (int nCntNum = ZERO_INT; nCntNum < CoordinateAxesNum; nCntNum++)
-			{
-				//各軸の向きの取得
-				aDir[nCntNum] = pObb->GetDir(nCntNum);
-			}
-
-			D3DXVECTOR3 midPoint = (origin + endPoint) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
-			D3DXVECTOR3 dir = endPoint - midPoint;					//中点から線分の終点への方向ベクトル
-
-
-			//中点の位置を修正
-			midPoint = midPoint - center;
-
-
-			//中点の各軸をOBBの各軸の向きで修正
-			midPoint = D3DXVECTOR3(
-
-				D3DXVec3Dot(&aDir[0], &midPoint),
-				D3DXVec3Dot(&aDir[1], &midPoint),
-				D3DXVec3Dot(&aDir[2], &midPoint));
-
-
-			//向きの各軸をOBBの各軸の向きで修正
-			dir = D3DXVECTOR3(
-
-				D3DXVec3Dot(&aDir[0], &dir),
-				D3DXVec3Dot(&aDir[1], &dir),
-				D3DXVec3Dot(&aDir[2], &dir));
-
-			//向きのX座標を絶対値にする
-			float fDirAbsoluteX = fabsf(dir.x);
-
-
-			if (fabsf(midPoint.x) > size.x + fDirAbsoluteX)
+			//OBBと線分の当たり判定
+			if (!pObb->IsHitObbAndLineSegment(origin, endPoint))
 			{
 				//次情報へ切り替え
 				pScene = pNext;
 
-				continue;
-			}
-
-			//向きのY座標を絶対値にする
-			float fDirAbsoluteY = fabsf(dir.y);
-
-
-			if (fabsf(midPoint.y) > size.y + fDirAbsoluteY)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-
-			//向きのZ座標を絶対値にする
-			float fDirAbsoluteZ = fabsf(dir.z);
-
-
-			if (fabsf(midPoint.z) > size.z + fDirAbsoluteZ)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-
-			fDirAbsoluteX += FLT_EPSILON;
-			fDirAbsoluteY += FLT_EPSILON;
-			fDirAbsoluteZ += FLT_EPSILON;
-
-			if (fabsf(midPoint.y * dir.z - midPoint.z * dir.y) >
-
-				size.y * fDirAbsoluteZ + size.z * fDirAbsoluteY)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
-
-				continue;
-			}
-			if (fabsf(midPoint.z * dir.x - midPoint.x * dir.z) >
-
-				size.x * fDirAbsoluteZ + size.z * fDirAbsoluteX)
-			{
-
-				//次情報へ切り替え
-				pScene = pNext;
-				continue;
-			}
-
-			if (fabsf(midPoint.x * dir.y - midPoint.y * dir.x) >
-
-				size.x * fDirAbsoluteY + size.y * fDirAbsoluteX)
-			{
-				//次情報へ切り替え
-				pScene = pNext;
 				continue;
 			}
 
@@ -473,5 +397,4 @@ void CJailerView::ChangeColor(void)
 	{
 		SetColor(D3DCOLOR_RGBA(0, 0, 255, 255));
 	}
-
 }

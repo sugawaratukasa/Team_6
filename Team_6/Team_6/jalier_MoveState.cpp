@@ -17,6 +17,7 @@
 #include "jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer.h"
+#include "jailer_emotion.h"
 
 //=============================================================================
 //インスタンス生成関数
@@ -33,6 +34,7 @@ CMoveState * CMoveState::GetInstance()
 void CMoveState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
 	pJailer->SetTime(ZERO_INT);
+	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_NONE);
 }
 
 //=============================================================================

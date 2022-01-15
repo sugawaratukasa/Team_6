@@ -96,6 +96,9 @@ HRESULT CDuct_Wall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// éÌóﬁê›íË
 	SetType(TYPE_WALL);
 
+	//OBBÇÃçÏê¨
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	// îªíËê∂ê¨
 	CDuct_Collision::Create(COLLISION_POS, ZeroVector3, CDuct_Collision::TYPE_LEFT);
 	CDuct_Collision::Create(COLLISION_POS2, ZeroVector3, CDuct_Collision::TYPE_RIGHT);

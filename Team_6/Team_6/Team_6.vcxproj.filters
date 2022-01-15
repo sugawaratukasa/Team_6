@@ -153,6 +153,7 @@
     <ClCompile Include="jailer_AttackState.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
+
     <ClCompile Include="jailer_LostTargetState.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
@@ -582,7 +583,9 @@
     <ClCompile Include="caveatbar.cpp">
       <Filter>CaveatBer</Filter>
     </ClCompile>
-    <ClCompile Include="security_camera_collision.cpp">
+    <ClCompile Include="jailer_emotion.cpp">
+      <Filter>Jailer</Filter>
+    </ClCompile>    <ClCompile Include="security_camera_collision.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
     <ClCompile Include="jailer_door.cpp">
@@ -1102,6 +1105,9 @@
     </ClInclude>
     <ClInclude Include="caveatbar.h">
       <Filter>CaveatBar</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_emotion.h">
+      <Filter>Jailer</Filter>
     </ClInclude>
     <ClInclude Include="security_camera_collision.h">
       <Filter>Collision</Filter>

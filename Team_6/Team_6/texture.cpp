@@ -102,7 +102,6 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map1.png" },
 		{ "data/Texture/map2.png" },
 		{ "data/Texture/guid_bg.png" },
-
 		{ "data/Texture/gameover.png" },
 		{ "data/Texture/Log/Player_1/log_01_player1.png" },
 		{ "data/Texture/Log/Player_1/log_02_player1.png" },
@@ -124,7 +123,9 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/Floor_Texture3.png" },
 		{ "data/Texture/Floor_Texture4.png" },
 		{ "data/Texture/Clear_Time_BG.png" },
-		{ "data/Texture/caveatbar.png" }
+		{ "data/Texture/caveatbar.png" },
+		{ "data/Texture/Question.png" },
+		{ "data/Texture/Anger.png" },
 		};
 
 	// 分割テクスチャ

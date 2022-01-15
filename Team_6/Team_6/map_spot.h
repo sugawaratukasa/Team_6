@@ -87,6 +87,9 @@ public:
 		vector<NEXT> vNext;	//通行可能なネクスト
 	};
 
+	//=========================================================================
+	//看守のポイント
+	//=========================================================================
 	struct JAILER_POINT
 	{
 		int nNumber;
@@ -117,9 +120,9 @@ public:
 	//=========================================================================
 	struct A_SPOT
 	{
-		A_STAR_STATE state;
-		A_STAR_COST cost;
-		SPOT spot;
+		A_STAR_STATE state;		//状態
+		A_STAR_COST cost;		//コスト
+		SPOT spot;				//スポット
 		int nParentNumber;		//親の番号
 	};
 

@@ -46,7 +46,7 @@
 //=============================================================================
 
 
-#define PLAYER_SPEED			(20.0f)									// プレイヤーの移動量
+#define PLAYER_SPEED			(10.0f)									// プレイヤーの移動量
 #define STICK_SENSITIVITY		(50.0f)									// スティック感度
 #define SIZE					(D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
 #define STICK_INPUT_ZONE		(100)									// スティックの入力範囲

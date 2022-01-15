@@ -11,7 +11,6 @@
 //インクルードファイル
 //=============================================================================
 #include "map_spot.h"
-#include "spot_polygon.h"
 
 //=============================================================================
 //看守スポットクラス
@@ -57,9 +56,6 @@ private:
 	MAP_AREA m_eArea;					//担当エリア
 	vector<PATROL_ROUTE> m_vPatrolRoute;	//巡回スポット情報
 	vector<NODE> m_vRetrunRoute;
-#ifdef _DEBUG
-	vector<CSpotPolygon*> m_pPolygon;	//ポリゴン
-#endif // !_DEBUG
 	int m_nJailerNumber;				//看守番号
 	int m_nIndex;						//インデックス
 	int m_nRetrunIndex;

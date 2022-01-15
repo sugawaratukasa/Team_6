@@ -93,6 +93,9 @@ HRESULT CElectrical_Room_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		SetSize(COLLISION_SIZE2);
 	}
 
+	//OBBの作成
+	SetObb(CObb::Create(pos, rot, GetMesh()));
+
 	// 判定用のオブジェクト生成
 	CElectrical_Room_Door_Collision::Create(pos, rot, this);
 	return S_OK;

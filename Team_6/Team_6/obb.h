@@ -57,6 +57,9 @@ public:
 
 	void Uninit(void);
 
+	bool IsHitObbAndLineSegment(const D3DXVECTOR3 origin, const D3DXVECTOR3 endPoint);	//OBB‚Æü•ª‚ÌŒğ·”»’è
+
+	//publicƒQƒbƒ^[
 	OBB_DATA& GetObbData(void) { return m_obb; }
 	D3DXVECTOR3 GetCenterPos(void) { return m_obb.Center; }
 	D3DXVECTOR3 GetDir(const int nCntNum) { return m_obb.Dir[nCntNum]; }

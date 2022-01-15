@@ -57,7 +57,7 @@ public:
 	virtual void Update(void) = 0;								// 更新処理
 	virtual void Draw(void) = 0;								// 描画処理
 
-	CScene *GetTop(int nCount);									// シーンの情報受け取り
+	static CScene *GetTop(int nCount);									// シーンの情報受け取り
 	CScene *GetNext(void);										// 次の情報を受け取る
 	static void SetPause(bool Pause);							// ポーズの情報
 	static bool GetPause(void) { return m_bPause; }

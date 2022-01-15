@@ -8,6 +8,8 @@
 #include "jalier_MoveState.h"
 #include "jalier_ChaseState.h"
 #include "jailer.h"
+#include "jailer_emotion.h"
+
 //=============================================================================
 //ƒ}ƒNƒ’è‹`
 //=============================================================================
@@ -28,9 +30,10 @@ CReturnRouteState * CReturnRouteState::GetInstance()
 void CReturnRouteState::Init(CJailer *pJailer, CJailerView *pJailerView)
 {
 	pJailer->SetTime(ZERO_INT);
-
 	pJailer->SetRetrunData();
+	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_NONE);
 }
+
 //=============================================================================
 //XVŠÖ”
 //=============================================================================
@@ -38,25 +41,11 @@ void CReturnRouteState::Update(CJailer *pJailer, CJailerView *pJailerView)
 {//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
 
 	pJailer->RetrunRoute();
-	//if (pJailerView->GetIsDetection() == false)
-	//{	
-	//	//‘Ò‹@ŽžŠÔ
-	//	if (pJailer->AddTimer(ADD_TIME) >= WAIT_TIME)
-	//	{
-	//		pJailer->SettingPosDest();
-	//		//„‰ñó‘Ô‚Ö
-	//		pJailer->ChangeState(CMoveState::GetInstance());
-	//	}
-	//	else
-	//	{
-	//		
-	//	}
-	//}
-	////õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
-	//else if (pJailerView->GetIsDetection() == true)
-	//{
-	//	//’ÇÕó‘Ô‚Ö
-	//	pJailer->ChangeState(CChaseState::GetInstance());
-	//}
 
+	//õ“G”ÍˆÍ‚É‚ª‚¢‚éê‡
+	if (pJailerView->GetIsDetection() == true)
+	{
+		//’ÇÕó‘Ô‚Ö
+		pJailer->ChangeState(CChaseState::GetInstance());
+	}
 }
