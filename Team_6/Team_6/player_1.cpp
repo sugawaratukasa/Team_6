@@ -106,7 +106,7 @@ HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 
 	//プレイヤー1の警告バー生成
-	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(300.0f, 100.0f, 0), PLAYER_1);
+	m_pCaveatBar = CCaveatBar::Create(D3DXVECTOR3(300.0f, SCREEN_HEIGHT - 100.0f, 0), PLAYER_1);
 
 	return S_OK;
 }

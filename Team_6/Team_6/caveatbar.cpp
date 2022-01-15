@@ -8,18 +8,18 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define MAX_BER (20)
-#define DEFAULT_SIZE (D3DXVECTOR3(0.0f, 100.0f, 0.0f))	//画像の大きさ
-#define MAX_SIZE_X (800.0f)
-
+#define DEF_SIZE (D3DXVECTOR3(0.0f, 100.0f, 0.0f))	//テクスチャのデフォルトサイズ
+#define MAX_SIZE_X (540.0f)	//横の最大サイズ
+#define MAX_BAR_RATIO (300.0f)	//バーの最大比率
+#define INCDEC_COLOR_BAR (0.1f)	//色の増減値
+#define SIZE_RATIO (MAX_SIZE_X / 4)	//テクスチャの割合での大きさ
+#define CONS_COLOR_BAR (1.0f)	//色の定数
 //=============================================================================
 // インクルード
 //=============================================================================
 #include "caveatbar.h"
-
 #include "texture.h"
 #include "resource_manager.h"
-
 #include "manager.h"
 #include "mode_base.h"
 #include "jailer_spot.h"
@@ -29,8 +29,8 @@
 //=============================================================================
 CCaveatBar::CCaveatBar()
 {
-
-	m_nPlayerNum = 0;
+	m_fBarNow = ZERO_FLOAT;
+	m_nPlayerNum = ZERO_INT;
 }
 
 //=============================================================================
@@ -70,7 +70,7 @@ CCaveatBar *CCaveatBar::Create(D3DXVECTOR3 pos, const int nPlayer)
 //=============================================================================
 HRESULT CCaveatBar::Init(D3DXVECTOR3 pos)
 {
-	CScene2D::Init(pos, DEFAULT_SIZE);
+	CScene2D::Init(pos, DEF_SIZE);
 
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
@@ -87,7 +87,7 @@ void CCaveatBar::Update(void)
 
 	//ベクトルの長さ
 	float fVecLength = VecLength();
-	SizeMove(fVecLength);
+	BarMove(fVecLength);
 
 	CScene2D::Update();
 }
@@ -107,6 +107,7 @@ void CCaveatBar::Drow(void)
 {
 	CScene2D::Draw();
 }
+
 
 //=============================================================================
 // ベクトルの長さ
@@ -145,17 +146,46 @@ float CCaveatBar::VecLength(void)
 }
 
 //=============================================================================
-// テクスチャサイズの動き
+//バーの動き
 //=============================================================================
-void CCaveatBar::SizeMove(const float fLength)
+void CCaveatBar::BarMove(const float fLength)
 {
-	//長さによってBarの長さを変える
-	GetSize().x = fLength - MAX_SIZE_X;;
-	SetSize(GetSize());
+	//変数宣言
+	m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
 
-	if (GetSize().x > ZERO_INT)
+	//サイズの限界値まで
+	if (m_fBarNow < MAX_SIZE_X)
 	{
-		GetSize().x = ZERO_FLOAT;
-		SetSize(GetSize());
+		GetSize().x = m_fBarNow;
+		BarColor();
 	}
+}
+
+//=============================================================================
+// バーの色変化
+//=============================================================================
+void CCaveatBar::BarColor(void)
+{
+	D3DXCOLOR color = GetColor();
+	color.b = ZERO_FLOAT;
+	//サイズが3割より下回るかつα値が0以下の場合
+	if (m_fBarNow < MAX_SIZE_X / 4 && BlackColor < color.a)
+	{
+		color.a -= INCDEC_COLOR_BAR;
+		color.g = CONS_COLOR_BAR;
+		color.r = ZERO_FLOAT;
+
+	}
+	else if (MAX_SIZE_X / 4 < m_fBarNow && color.a < WhiteColor)
+	{
+		color.a += INCDEC_COLOR_BAR;
+		color.r = CONS_COLOR_BAR;
+		color.g = ZERO_FLOAT;
+		if (m_fBarNow < MAX_SIZE_X / 2 && BlackColor < color.a)
+		{
+			color.g = CONS_COLOR_BAR;
+		}
+	}
+
+	SetColor(color);
 }
