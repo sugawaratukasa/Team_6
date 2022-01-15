@@ -23,46 +23,49 @@
 // コンストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CEletrical_Room_Door::CEletrical_Room_Door(PRIORITY Priority)
+CElectrical_Room_Door::CElectrical_Room_Door(PRIORITY Priority)
 {
 }
 //=============================================================================
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-CEletrical_Room_Door::~CEletrical_Room_Door()
+CElectrical_Room_Door::~CElectrical_Room_Door()
 {
 }
 //=============================================================================
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CEletrical_Room_Door * CEletrical_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CElectrical_Room_Door * CElectrical_Room_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, SIDE side)
 {
-	// CEletrical_Room_Doorのポインタ
-	CEletrical_Room_Door *pEletrical_Room_Door = nullptr;
+	// CElectrical_Room_Doorのポインタ
+	CElectrical_Room_Door *pElectrical_Room_Door = nullptr;
 
 	// nullcheck
-	if (pEletrical_Room_Door == nullptr)
+	if (pElectrical_Room_Door == nullptr)
 	{
 		// メモリ確保
-		pEletrical_Room_Door = new CEletrical_Room_Door;
+		pElectrical_Room_Door = new CElectrical_Room_Door;
 
 		// !nullcheck
-		if (pEletrical_Room_Door != nullptr)
+		if (pElectrical_Room_Door != nullptr)
 		{
+			// 右か左設定
+			pElectrical_Room_Door->SetSide(side);
+
 			// 初期化処理
-			pEletrical_Room_Door->Init(pos, rot);
+			pElectrical_Room_Door->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-	return pEletrical_Room_Door;
+	return pElectrical_Room_Door;
 }
 //=============================================================================
 // 初期化処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-HRESULT CEletrical_Room_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+HRESULT CElectrical_Room_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// ドアの初期化処理関数呼び出し
 	CDoor::Init(pos, rot);
@@ -98,7 +101,7 @@ HRESULT CEletrical_Room_Door::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 // 終了処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CEletrical_Room_Door::Uninit(void)
+void CElectrical_Room_Door::Uninit(void)
 {
 	// ドアの終了処理関数呼び出し
 	CDoor::Uninit();
@@ -107,7 +110,7 @@ void CEletrical_Room_Door::Uninit(void)
 // 更新処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CEletrical_Room_Door::Update(void)
+void CElectrical_Room_Door::Update(void)
 {
 	// ドアの更新処理関数呼び出し
 	CDoor::Update();
@@ -116,7 +119,7 @@ void CEletrical_Room_Door::Update(void)
 // 描画処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-void CEletrical_Room_Door::Draw(void)
+void CElectrical_Room_Door::Draw(void)
 {
 	// ドアの描画処理関数呼び出し
 	CDoor::Draw();

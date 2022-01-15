@@ -7,10 +7,10 @@
 // マクロ定義
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 #define COLLISION_SIZE	(D3DXVECTOR3(220.0f,400.0f,40.0f))	// サイズ
 #define COLLISION_SIZE2	(D3DXVECTOR3(40.0f,400.0f,220.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
+#define ROT_180			(D3DXToRadian(179.0f))				// 向き
 //=============================================================================
 // インクルードファイル
 // Author : Sugawara Tsukasa
@@ -86,12 +86,17 @@ HRESULT CLocker::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	}
 
 	// 90以上の場合
-	if (rot.y >= ROT_90)
+	if (rot.y >= ROT_90 && rot.y < ROT_180)
 	{
 		// サイズ
 		SetSize(COLLISION_SIZE2);
 	}
-
+	// 90以上の場合
+	if (rot.y >= ROT_180 && rot.y > ROT_180)
+	{
+		// サイズ
+		SetSize(COLLISION_SIZE);
+	}
 	// 種類設定
 	SetType(TYPE_WALL);
 

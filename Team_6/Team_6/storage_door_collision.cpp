@@ -10,6 +10,7 @@
 #include "resource_manager.h"
 #include "storage_door_collision.h"
 #include "textlog.h"
+#include "map_spot.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -112,6 +113,25 @@ void CStorage_Door_Collision::Open(int nPlayer)
 {
 	// 開く処理
 	CDoor_Collision::Open(nPlayer);
+
+	// ドア取得
+	CDoor *pDoor = GetpDoor();
+
+	// ドアのサイド取得
+	CDoor::SIDE side = pDoor->GetSide();
+
+	// 左の場合
+	if (side == CDoor::SIDE_LEFT)
+	{
+		// 扉が開いたかを設定
+		CMapSpot::SetIsOpenRoom(CMapSpot::MAP_AREA_LEFT, CMapSpot::ROOM_TYPE_STORAGE);
+	}
+	// 右の場合
+	if (side == CDoor::SIDE_RIGHT)
+	{
+		// 扉が開いたかを設定
+		CMapSpot::SetIsOpenRoom(CMapSpot::MAP_AREA_RIGHT, CMapSpot::ROOM_TYPE_STORAGE);
+	}
 
 	// テクスチャ取得
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();

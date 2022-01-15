@@ -25,7 +25,7 @@
 #define ANGLE_270                (D3DXToRadian(270.0f))                  // 角度270
 #define PLAYER_ROT_SPEED        (1.0f)                                   // キャラクターの回転する速度
 
-#define INCAPACITATED_TIME		(1200)									 // 行動不能時間
+#define INCAPACITATED_TIME		(30)									 // 行動不能時間
 #define MAX_PLAYER (2)													 // プレイヤーの最大数
 #define MAX_ITEM (3)													 // プレイヤーが取得できるアイテムの最大数
 
@@ -88,6 +88,7 @@ public:
 	virtual void SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type) = 0;							// アイテム説明テクスチャ生成処理
 	void DoorOpen(int nPlayer);										// 扉を開く処理
 	void Item_DuctPass(void);										// ダクトアイテム受け渡し
+	void UseSecurity_Cam(int nPlayer);								// 監視カメラの使用処理
 	//=============================================================================
 	//　Set関数
 	//=============================================================================

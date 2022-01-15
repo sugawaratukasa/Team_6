@@ -13,6 +13,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "jailer_door_collision.h"
+#include "map_spot.h"
 
 //=============================================================================
 // マクロ定義
@@ -42,7 +43,7 @@ CJailer_Door::~CJailer_Door()
 // 生成処理関数
 // Author : Sugawara Tsukasa
 //=============================================================================
-CJailer_Door * CJailer_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CJailer_Door * CJailer_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, SIDE side)
 {
 
 	// CJailer_Doorのポインタ
@@ -60,13 +61,14 @@ CJailer_Door * CJailer_Door::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 		if (pJailer_Door != nullptr)
 		{
-			// 初期化処理
+			// 右か左か設定
+			pJailer_Door->SetSide(side);
 
+			// 初期化処理
 			pJailer_Door->Init(pos, rot);
 		}
 	}
 	// ポインタを返す
-
 	return pJailer_Door;
 }
 

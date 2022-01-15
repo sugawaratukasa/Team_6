@@ -39,7 +39,7 @@
 #include "door_collision.h"
 #include "duct_collision.h"
 #include "textlog.h"
-
+#include "security_camera_collision.h"
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
@@ -338,31 +338,28 @@ void CPlayer::ItemDelete(int nPlayer)
 			m_nItemSortCount++;
 		}
 	}
-	if (m_bItempCreate == false)
+	// 1P&2Pのアイテム削除入力処理
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
 	{
-		// 1P&2Pのアイテム削除入力処理
-		if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
+		// アイテムポインタのnullptrチェック
+		if (m_pItem[m_nItemSortCount] != nullptr)
 		{
-			// アイテムポインタのnullptrチェック
-			if (m_pItem[m_nItemSortCount] != nullptr)
+			// UIを消す	
+			m_pUI->Uninit();
+			// 選択しているアイテムの種類を取得する
+			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+			// 選択しているアイテムの取得状態をfalseにする
+			SetSubbGetItem(nItemType, false);
+			pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
+			// アイテムを生成する
+			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
+			// アイテム効果初期化処理関数呼び出し
+			ItemEffectUninit();
+			// アイテムの最大数分回す
+			for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
 			{
-				// UIを消す	
-				m_pUI->Uninit();
-				// 選択しているアイテムの種類を取得する
-				int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
-				// 選択しているアイテムの取得状態をfalseにする
-				SetSubbGetItem(nItemType, false);
-				pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
-				// アイテムを生成する
-				m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
-				// アイテム効果初期化処理関数呼び出し
-				ItemEffectUninit();
-				// アイテムの最大数分回す
-				for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
-				{
-					// アイテム効果生成処理関数呼び出し
-					ItemEffectCreate(nCount);
-				}
+				// アイテム効果生成処理関数呼び出し
+				ItemEffectCreate(nCount);
 			}
 		}
 	}
@@ -561,7 +558,6 @@ void CPlayer::DoorOpen(int nPlayer)
 						int nDoorType = ((CDoor_Collision*)pScene)->GetType();
 
 						// ドアに対応したアイテムを所持している場合
-
 						if (m_abGetItem[ITEM_KEY_ELECTRICAL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM ||
 							m_abGetItem[ITEM_KEY_STORAGE] == true && nDoorType == CDoor_Collision::TYPE_STORAGE ||
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
@@ -696,6 +692,64 @@ void CPlayer::Item_DuctPass(void)
 								}
 							}
 						}
+					}
+				}
+				// 次のポインタ取得
+				pScene = pSceneCur;
+			}
+		}
+	}
+}
+//=============================================================================
+// 監視カメラ使用処理
+// Author : SugawaraTsukasa
+//=============================================================================
+void CPlayer::UseSecurity_Cam(int nPlayer)
+{
+	// CSceneのポインタ
+	CScene *pScene = nullptr;
+
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// サウンドのポインタ
+	CSound * pSound = GET_SOUND_PTR;
+
+	// nullcheck
+	if (pScene == nullptr)
+	{
+		// 先頭のポインタ取得
+		pScene = GetTop(CScene::PRIORITY_SECURITY_CAM_COL);
+
+		// !nullcheck
+		if (pScene != nullptr)
+		{
+			// 判定用オブジェ取得
+			while (pScene != nullptr) // nullptrになるまで回す
+			{
+				// 現在のポインタ
+				CScene *pSceneCur = pScene->GetNext();
+
+				// 位置取得
+				D3DXVECTOR3 Security_Cam_Col_Pos = ((CSecurity_Camera_Collision*)pScene)->GetPos();
+
+				// サイズ取得
+				D3DXVECTOR3 Security_Cam_Col_Size = ((CSecurity_Camera_Collision*)pScene)->GetSize();
+
+				// 立方体の判定
+				if (CCollision::CollisionRectangleAndRectangle(pos, Security_Cam_Col_Pos, size, Security_Cam_Col_Size) == true)
+				{
+					// キーボード取得
+					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+
+					// Fが押された場合
+					if (pKeyboard->GetTrigger(DIK_F))
+					{
+						// カメラ使用処理
+						((CSecurity_Camera_Collision*)pScene)->CameraUse(nPlayer);
 					}
 				}
 				// 次のポインタ取得

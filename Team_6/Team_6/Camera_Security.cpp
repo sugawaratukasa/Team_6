@@ -188,7 +188,7 @@ CCameraSecurity * CCameraSecurity::Create(D3DXVECTOR3 pos, float fDir)
 	CCameraSecurity *pSecCam;
 	pSecCam = new CCameraSecurity;
 	pSecCam->m_fDir = fDir;
-	pSecCam->Init(D3DXVECTOR3(pos.x, CAM_POS_Y, pos.y), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pSecCam->Init(D3DXVECTOR3(pos.x, CAM_POS_Y, pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return pSecCam;
 }

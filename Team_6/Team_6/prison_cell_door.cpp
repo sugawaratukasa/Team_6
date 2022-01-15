@@ -18,6 +18,7 @@
 #define COLLISION_SIZE		(D3DXVECTOR3(130.0f,330.0f,25.0f))	// サイズ
 #define COLLISION_SIZE2		(D3DXVECTOR3(25.0f,330.0f,130.0f))	// サイズ
 #define ROT_90				(D3DXToRadian(89.0f))				// 向き
+#define CLOSE_COUNT			(1200)								// 扉を閉じるカウント
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -25,6 +26,7 @@
 CPrison_Cell_Door::CPrison_Cell_Door(PRIORITY Priority)
 {
 	m_pPlayer = nullptr;
+	m_nCloseCnt = ZERO_INT;
 }
 //=============================================================================
 // デストラクタ
@@ -113,7 +115,7 @@ void CPrison_Cell_Door::Uninit(void)
 //=============================================================================
 void CPrison_Cell_Door::Update(void)
 {
-	// ドアの更新処理関数呼び出し
+	// 更新処理
 	CDoor::Update();
 
 	// !nullcheck
@@ -125,15 +127,13 @@ void CPrison_Cell_Door::Update(void)
 		// trueの場合
 		if (bIncapacitated == true)
 		{
-			// 拘束カウントの取得
-			int nIncapacitated_Cnt = m_pPlayer->GetIncapacitatedTimeCount();
-
-			// 拘束カウントがINCAPACITATED_TIMEの場合
-			if (nIncapacitated_Cnt >= INCAPACITATED_TIME)
-			{
-				// 開く
-				SetLock(false);
-			}
+			// 閉じる
+			Close();
+		}
+		else
+		{
+			// 開く
+			Open();
 		}
 	}
 }
@@ -152,6 +152,9 @@ void CPrison_Cell_Door::Draw(void)
 //=============================================================================
 void CPrison_Cell_Door::Push(void)
 {
+	// 更新処理
+	CObject::Update();
+
 	// !nullcheck
 	if (m_pPlayer != nullptr)
 	{
@@ -164,5 +167,29 @@ void CPrison_Cell_Door::Push(void)
 			// カウント0に
 			m_pPlayer->GetIncapacitatedTimeCount() = ZERO_INT;
 		}
+	}
+}
+//=============================================================================
+// 開閉処理関数　
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CPrison_Cell_Door::Open_and_Close(void)
+{
+	// インクリメント
+	m_nCloseCnt++;
+
+	// CLOSE_COUNTより小さい場合
+	if (m_nCloseCnt <= CLOSE_COUNT)
+	{
+		// ドアを開く処理
+
+		this->Open();
+	}
+
+	// CLOSE_COUNTより大きくなった場合
+	if (m_nCloseCnt >= CLOSE_COUNT)
+	{
+		// 扉を閉じる処理
+		this->Close();
 	}
 }

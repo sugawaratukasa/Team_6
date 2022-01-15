@@ -27,6 +27,12 @@ public:
 		DOOR_PRISON_CELL,
 		DOOR_MAX
 	};
+	enum SIDE
+	{
+		SIDE_NONE = 0,
+		SIDE_RIGHT,
+		SIDE_LEFT
+	};
 
 	CDoor(PRIORITY Priority = PRIORITY_MAP);						// コンストラクタ
 	virtual ~CDoor();												// デストラクタ
@@ -42,16 +48,20 @@ public:
 	//=============================================================================
 	void SetType(DOOR_LIST Type) { m_Type = Type; }
 	void SetLock(bool bLock) { m_bLock = bLock; }
+	void SetSide(SIDE side) { m_Side = side; }
 	//=============================================================================
 	//　Get関数
 	//=============================================================================
-	DOOR_LIST GetType(void) { return m_Type; }
-	bool GetLock(void) { return m_bLock; }
+	DOOR_LIST GetType(void) { return m_Type; }			// ドアのタイプ取得
+	SIDE GetSide(void) { return m_Side; }				// 右か左か取得
+	bool GetLock(void) { return m_bLock; }				// ロック状態取得
 	D3DXVECTOR3 GetInitPos(void) { return m_InitPos; }	// 初期位置取得
 	int &GetCloseCnt(void) { return m_nCloseCnt; }		// 閉じるカウント取得
+	
 private:
 
 	DOOR_LIST m_Type;		// ドアの種類
+	SIDE m_Side;			// 右か左か
 	bool m_bLock;			// ロック状態
 	D3DXVECTOR3 m_InitPos;	// 初期位置
 	int m_nCloseCnt;		// 扉を閉じるカウント
