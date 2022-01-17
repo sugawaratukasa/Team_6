@@ -10,10 +10,11 @@
 //=============================================================================
 #define DEF_SIZE (D3DXVECTOR3(0.0f, 100.0f, 0.0f))	//テクスチャのデフォルトサイズ
 #define MAX_SIZE_X (540.0f)	//横の最大サイズ
-#define MAX_BAR_RATIO (300.0f)	//バーの最大比率
+#define MAX_BAR_RATIO (540.0f)	//バーの最大比率
 #define INCDEC_COLOR_BAR (0.1f)	//色の増減値
 #define SIZE_RATIO (MAX_SIZE_X / 4)	//テクスチャの割合での大きさ
-#define CONS_COLOR_BAR (1.0f)	//色の定数
+#define MAX_COLOR_BAR (1.0f)	//色の最大値
+
 //=============================================================================
 // インクルード
 //=============================================================================
@@ -149,13 +150,12 @@ float CCaveatBar::VecLength(void)
 //バーの動き
 //=============================================================================
 void CCaveatBar::BarMove(const float fLength)
-{
-	//変数宣言
-	m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
-
-	//サイズの限界値まで
-	if (m_fBarNow < MAX_SIZE_X)
+{		
+	//比率の限界値まで
+	if (fLength >= MAX_BAR_RATIO)
 	{
+		//変数宣言
+		m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
 		GetSize().x = m_fBarNow;
 		BarColor();
 	}
@@ -167,24 +167,28 @@ void CCaveatBar::BarMove(const float fLength)
 void CCaveatBar::BarColor(void)
 {
 	D3DXCOLOR color = GetColor();
-	color.b = ZERO_FLOAT;
-	//サイズが3割より下回るかつα値が0以下の場合
-	if (m_fBarNow < MAX_SIZE_X / 4 && BlackColor < color.a)
+	color.b = ZERO_FLOAT;	//青は使わない
+	//緑
+	if (m_fBarNow < MAX_SIZE_X / 3 && ZERO_FLOAT <= color.a)
 	{
+		
 		color.a -= INCDEC_COLOR_BAR;
-		color.g = CONS_COLOR_BAR;
+		color.g = MAX_COLOR_BAR;
 		color.r = ZERO_FLOAT;
-
-	}
-	else if (MAX_SIZE_X / 4 < m_fBarNow && color.a < WhiteColor)
+	}	
+	//黄色
+	else if (m_fBarNow < MAX_SIZE_X / 1.5f && color.a >= MAX_COLOR_BAR)
 	{
 		color.a += INCDEC_COLOR_BAR;
-		color.r = CONS_COLOR_BAR;
+		color.g = MAX_COLOR_BAR;
+		color.r = MAX_COLOR_BAR;
+	}
+	//赤
+	else
+	{
+		color.a += INCDEC_COLOR_BAR;
+		color.r = MAX_COLOR_BAR;
 		color.g = ZERO_FLOAT;
-		if (m_fBarNow < MAX_SIZE_X / 2 && BlackColor < color.a)
-		{
-			color.g = CONS_COLOR_BAR;
-		}
 	}
 
 	SetColor(color);
