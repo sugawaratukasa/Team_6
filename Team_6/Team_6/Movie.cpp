@@ -259,17 +259,23 @@ void CMovie::Uninit(void)
 	if (m_pControl != NULL)
 	{
 		m_pControl->Release();
+		m_pControl = nullptr;
 	}
 	if (m_pVMR9 != NULL)
 	{
 		m_pVMR9->Release();
+		m_pVMR9 = nullptr;
 	}
 	if (m_pCGB2 != NULL)
 	{
 		m_pCGB2->Release();
+		m_pCGB2 = nullptr;
 	}
 	if (m_pGraph != NULL)
 	{
 		m_pGraph->Release();
+		m_pGraph = nullptr;
 	}
+
+	CoUninitialize();
 }
