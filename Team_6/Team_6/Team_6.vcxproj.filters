@@ -594,6 +594,9 @@
     <ClCompile Include="jailer_notice.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
+    <ClCompile Include="caveatmark.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h">
@@ -1120,6 +1123,9 @@
     </ClInclude>
     <ClInclude Include="jailer_notice.h">
       <Filter>Jailer</Filter>
+    </ClInclude>
+    <ClInclude Include="caveatmark.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

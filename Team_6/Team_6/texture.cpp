@@ -103,6 +103,7 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/map2.png" },
 		{ "data/Texture/guid_bg.png" },
 		{ "data/Texture/gameover.png" },
+
 		{ "data/Texture/Player_Log/Player_1/log_01_player1.png" },
 		{ "data/Texture/Player_Log/Player_1/log_02_player1.png" },
 		{ "data/Texture/Player_Log/Player_1/log_03_player1.png" },
@@ -124,9 +125,10 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/Floor_Texture4.png" },
 		{ "data/Texture/Clear_Time_BG.png" },
 		{ "data/Texture/caveatbar.png" },
+		{ "data/Texture/caveat.png" },
 		{ "data/Texture/Question.png" },
 		{ "data/Texture/Anger.png" },
-		};
+	};
 
 	// 分割テクスチャ
 	m_aTexFileName[TEXTURE_TYPE_NUM_SEPARATE] =
