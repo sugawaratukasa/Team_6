@@ -25,7 +25,7 @@
 #define ANGLE_270                (D3DXToRadian(270.0f))                  // 角度270
 #define PLAYER_ROT_SPEED        (1.0f)                                   // キャラクターの回転する速度
 
-#define INCAPACITATED_TIME		(1200)									 // 行動不能時間
+#define INCAPACITATED_TIME		(600)									 // 行動不能時間
 #define MAX_PLAYER (2)													 // プレイヤーの最大数
 #define MAX_ITEM (3)													 // プレイヤーが取得できるアイテムの最大数
 

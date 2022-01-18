@@ -17,7 +17,6 @@
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define SIZE (D3DXVECTOR3(100.0f,100.0f,100.0f))
 
 //=============================================================================
 // コンストラクタ
@@ -70,8 +69,6 @@ HRESULT CElectricalRoomKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_ELECTRICAL_ROOM);
-	// サイズ設定
-	SetSize(SIZE);
 	if (m_pParticleEmitter == nullptr)
 	{
 		m_pParticleEmitter = CParticle_Emitter::Create(pos, CParticle_Manager::TYPE_ITEM_GOLD);

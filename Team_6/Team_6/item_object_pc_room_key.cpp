@@ -21,7 +21,6 @@
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define SIZE (D3DXVECTOR3(100.0f,100.0f,100.0f))
 
 //=============================================================================
 // コンストラクタ
@@ -72,8 +71,6 @@ CPCRoomKeyObject * CPCRoomKeyObject::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CPCRoomKeyObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	// サイズ設定
-	SetSize(SIZE);
 	// タイプ設定
 	SetType(ITEM_OBJECT_KEY_PC_ROOM);
 	if (m_pParticleEmitter == nullptr)

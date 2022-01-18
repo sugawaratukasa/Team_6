@@ -82,8 +82,8 @@ HRESULT CItemSpawn::Init(void)
 	CMapObject::Create(MAP_POSITION1, ZeroVector3);
 	CMapObject::Create(MAP_POSITION2, ZeroVector3);
 
-	CBatonObject::Create(BATON_POSITION1, ZeroVector3);
-	CBatonObject::Create(BATON_POSITION2, ZeroVector3);
+	//CBatonObject::Create(BATON_POSITION1, ZeroVector3);
+	//CBatonObject::Create(BATON_POSITION2, ZeroVector3);
 	JailerKeyCreate();
 	CameraKeyCreate();
 	ControlKeyCreate();

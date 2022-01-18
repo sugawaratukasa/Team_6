@@ -180,14 +180,14 @@ void CPlayer2ItemUI::PlayerItemGet(void)
 	// ƒpƒbƒhŽæ“¾
 	CInputJoypad * pJoypad = CManager::GetJoypad();
 
-	if (pKeyboard->GetTrigger(DIK_K) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 1))
+	if (pKeyboard->GetTrigger(DIK_K) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 1))
 	{
 		if (m_nSelectCount < 2)
 		{
 			m_nSelectCount++;
 		}
 	}
-	if (pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 1))
+	if (pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 1))
 	{
 		if (m_nSelectCount > 0)
 		{

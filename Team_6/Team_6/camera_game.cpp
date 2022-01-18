@@ -107,7 +107,11 @@ void CCameraGame::Update(void)
 
 	CCamera::SCREEN_ID id = GetScreenID();
 	bool bUse = CManager::GetRenderer()->GetIsUseSecCamPlayer(id - 1);
+	bool bUsePlayer0 = CManager::GetRenderer()->GetIsUseSecCamPlayer(0);
+	bool bUsePlayer1 = CManager::GetRenderer()->GetIsUseSecCamPlayer(1);
 
+	// パッド取得
+	CInputJoypad * pJoypad = CManager::GetJoypad();
 
 	// 監視カメラを使っているなら
 	if (bUse)
@@ -115,14 +119,31 @@ void CCameraGame::Update(void)
 		// 座標補間しない
 		SetIsInterpolation(false);
 
-		// 入力によってカメラを順送り・逆送り
-		if (pKeyInput->GetTrigger(DIK_1))
+		// プレイヤー1の監視カメラ操作
+		if (bUsePlayer0)
 		{
-			m_pSecCam = m_pSecCam->GetPrev();
+			// 入力によってカメラを順送り・逆送り
+			if (pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L2_TRIGGER,0))
+			{
+				m_pSecCam = m_pSecCam->GetPrev();
+			}
+			if (pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R2_TRIGGER, 0))
+			{
+				m_pSecCam = m_pSecCam->GetNext();
+			}
 		}
-		if (pKeyInput->GetTrigger(DIK_2))
+		// プレイヤー2の監視カメラ操作
+		else if (bUsePlayer1)
 		{
-			m_pSecCam = m_pSecCam->GetNext();
+			// 入力によってカメラを順送り・逆送り
+			if (pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L2_TRIGGER, 1))
+			{
+				m_pSecCam = m_pSecCam->GetPrev();
+			}
+			if (pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R2_TRIGGER, 1))
+			{
+				m_pSecCam = m_pSecCam->GetNext();
+			}
 		}
 
 		m_fSecCamAngle = m_pSecCam->GetAngle();

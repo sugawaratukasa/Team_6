@@ -386,7 +386,7 @@ void CPlayer2::InputMove(float fSpeed, float fAngle)
 		if (P2_PAD != nullptr)
 		{
 			// スティック取得
-			DIJOYSTATE js = CInputJoypad::GetStick(PLAYER_1);
+			DIJOYSTATE js = CInputJoypad::GetStick(PLAYER_2);
 			// 入力されている場合
 			if ((js.lX != ZERO_FLOAT || js.lY != ZERO_FLOAT))
 			{
@@ -406,7 +406,6 @@ void CPlayer2::InputMove(float fSpeed, float fAngle)
 	}
 	else
 	{
-		pJoypad->Update();
 		if (pKeyboard->GetTrigger(DIK_NUMPADENTER) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X, 1))
 		{
 
