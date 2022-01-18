@@ -162,10 +162,10 @@ void CPlayer1::Update(void)
 		// カメラを使っていない場合
 		if (bCameraUse == false)
 		{
-			// キーボード移動処理
-			KeyboardMove(fSpeed, fAngle);
 			// パッド移動
-			PadMove(fSpeed, fAngle);
+			//PadMove(fSpeed, fAngle);
+			// キーボード移動処理
+			InputMove(fSpeed, fAngle);
 		}
 	}
 	// もし行動不能状態の場合又はゴール状態の場合
@@ -206,6 +206,9 @@ void CPlayer1::Update(void)
 
 	// カメラ使用処理
 	UseSecurity_Cam(PLAYER_1);
+
+	// ダクトアイテム受け渡し
+	Item_DuctPass(PLAYER_1);
 }
 
 //=============================================================================
@@ -286,10 +289,14 @@ void CPlayer1::SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type)
 // キーボード移動処理関数
 // Author : Nikaido Taichi
 //=============================================================================
-void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
+void CPlayer1::InputMove(float fSpeed, float fAngle)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	CInputJoypad * pJoypad = CManager::GetJoypad();
+
+	// パッド取得
+	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(PLAYER_1);
 
 	// 移動量
 	D3DXVECTOR3 move = ZeroVector3;
@@ -380,10 +387,32 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 			// 歩行モーション再生
 			SetMotion(MOTION_WALK);
 		}
+
+		// !nullcheck 
+		if (P1_PAD != nullptr)
+		{
+			// スティック取得
+			DIJOYSTATE js = CInputJoypad::GetStick(PLAYER_1);
+			// 入力されている場合
+			if ((js.lX != ZERO_FLOAT || js.lY != ZERO_FLOAT))
+			{
+				// コントローラの角度
+				float fAngle3 = atan2f((float)js.lX, -(float)js.lY);
+				float fAngle2 = atan2f(-(float)js.lX, (float)js.lY);
+				// 歩行モーション再生
+				SetMotion(MOTION_WALK);
+				// 移動量設定
+				move.x = sinf(fAngle + (fAngle2))* fSpeed;
+				move.z = cosf(fAngle + (fAngle2))* fSpeed;
+
+				// 角度の設定
+				m_rotDest.y = fAngle + (fAngle3);
+			}
+		}
 	}
 	else
 	{
-		if (pKeyboard->GetTrigger(DIK_RETURN))
+		if (pKeyboard->GetTrigger(DIK_RETURN) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_X,0))
 		{
 
 			if (m_pItemGuidTexture != nullptr)
@@ -407,51 +436,6 @@ void CPlayer1::KeyboardMove(float fSpeed, float fAngle)
 	}
 	// 移動量設定
 	SetMove(move);
-}
-
-//=============================================================================
-// パッド移動処理関数
-// Author : Nikaido Taichi
-//=============================================================================
-void CPlayer1::PadMove(float fSpeed, float fAngle)
-{
-	// パッド取得
-	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(PLAYER_1);
-	// アイテム説明テクスチャの生成状態
-	bool bItemGuidCreate = GetbGuidCreate();
-	// !nullcheck 
-	if (P1_PAD != nullptr)
-	{
-		// スティック取得
-		DIJOYSTATE js = CInputJoypad::GetStick(PLAYER_1);
-
-		// 移動量
-		D3DXVECTOR3 move = ZeroVector3;
-		if (bItemGuidCreate == false)
-		{
-			// 入力されている場合
-			if ((js.lX != ZERO_FLOAT || js.lY != ZERO_FLOAT))
-			{
-				// コントローラの角度
-				float fAngle3 = atan2f((float)js.lX, -(float)js.lY);
-				float fAngle2 = atan2f(-(float)js.lX, (float)js.lY);
-
-				// 移動量設定
-				move.x = sinf(fAngle + (fAngle2))* fSpeed;
-				move.z = cosf(fAngle + (fAngle2))* fSpeed;
-
-				// 角度の設定
-				m_rotDest.y = fAngle + (fAngle3);
-			}
-			else
-			{
-				// 移動量0
-				move = ZeroVector3;
-			}
-		}
-		// 移動量設定
-		SetMove(move);
-	}
 }
 
 //=============================================================================

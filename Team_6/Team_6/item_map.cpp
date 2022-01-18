@@ -156,7 +156,7 @@ void CItemMap::MapCreate(int nPlayer, bool bItem)
 
 	if (bItem == true && abItemGuidCreate[nPlayer] == false)
 	{
-		if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_B))
+		if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_B) || nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y,0))
 		{
 			// マップテクスチャを生成してない場合
 			if (m_abCreateMap[nPlayer] == false)
@@ -184,7 +184,7 @@ void CItemMap::MapCreate(int nPlayer, bool bItem)
 				}
 			}
 		}
-		if (nPlayer == 1 && pKeyboard->GetTrigger(DIK_N))
+		if (nPlayer == 1 && pKeyboard->GetTrigger(DIK_M) || nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, 1))
 		{
 			// マップテクスチャを生成してない場合
 			if (m_abCreateMap[nPlayer] == false)

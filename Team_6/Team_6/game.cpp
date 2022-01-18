@@ -287,11 +287,12 @@ void CGame::PauseInput(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	CInputJoypad *pJoypad = CManager::GetJoypad();
 	// ポーズボタンマネージャーポインタのnullptrチェック
 	if (m_pPauseButtonManager == nullptr)
 	{
 		// もしESCAPEキー押したら
-		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		if (pKeyboard->GetTrigger(DIK_ESCAPE) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START,0) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 1))
 		{
 			// ポーズボタンマネージャーを生成する
 			m_pPauseButtonManager = CPauseButtonManager::Create();
@@ -302,7 +303,7 @@ void CGame::PauseInput(void)
 		// ポーズボタンマネージャーの更新処理関数
 		m_pPauseButtonManager->Update();
 		// もしESCAPEキー押したら
-		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		if (pKeyboard->GetTrigger(DIK_ESCAPE) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 0) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 1))
 		{
 			// ポーズ状態を解除する
 			CScene::SetPause(false);

@@ -4,7 +4,7 @@
 #include "joypad.h"
 #include "manager.h"
 #include "fade.h"
-
+#include "joypad.h"
 CGameOver::CGameOver()
 {
 }
@@ -27,7 +27,12 @@ void CGameOver::Update(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-	if (pKeyboard->GetTrigger(DIK_RETURN))
+	CInputJoypad *pPad = CManager::GetJoypad();
+
+	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
+
+	if (pKeyboard->GetTrigger(DIK_RETURN) && mode == CFade::FADE_MODE_NONE || 
+		pPad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 0) && mode == CFade::FADE_MODE_NONE)
 	{
 		// 遷移
 		CFade *pFade = CManager::GetFade();

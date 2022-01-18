@@ -182,14 +182,14 @@ void CPlayer1ItemUI::PlayerItemGet(void)
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 	// ƒpƒbƒhŽæ“¾
 	CInputJoypad * pJoypad = CManager::GetJoypad();
-	if (pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER,0))
+	if (pKeyboard->GetTrigger(DIK_Z) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER,0))
 	{
 		if (m_nSelectCount > 0)
 		{
 			m_nSelectCount--;
 		}
 	}
-	if (pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 0))
+	if (pKeyboard->GetTrigger(DIK_X) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 0))
 	{
 		if (m_nSelectCount < 2)
 		{

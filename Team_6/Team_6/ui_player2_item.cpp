@@ -180,14 +180,14 @@ void CPlayer2ItemUI::PlayerItemGet(void)
 	// パッド取得
 	CInputJoypad * pJoypad = CManager::GetJoypad();
 
-	if (pKeyboard->GetTrigger(DIK_J) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 1))
+	if (pKeyboard->GetTrigger(DIK_K) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, 1))
 	{
 		if (m_nSelectCount < 2)
 		{
 			m_nSelectCount++;
 		}
 	}
-	if (pKeyboard->GetTrigger(DIK_K) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 1))
+	if (pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, 1))
 	{
 		if (m_nSelectCount > 0)
 		{
@@ -225,7 +225,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] = CElectricalKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_ELECTRICAL_ROOM] = CElectricalKeyTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -235,7 +235,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] = CStorageKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_STORAGE] = CStorageKeyTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -245,7 +245,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] = CJailerKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_JAILER_ROOM] = CJailerKeyTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -255,7 +255,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = CPCRoomKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_PC_ROOM] = CPCRoomKeyTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -265,7 +265,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] = CControlKeyTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_KEY_CONTOROL_ROOM] = CControlKeyTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -275,7 +275,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_BATON] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_BATON] = CBatonTexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_BATON] = CBatonTexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}
@@ -285,7 +285,7 @@ void CPlayer2ItemUI::ItemGetGuideUICreate(void)
 	{
 		if (m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] == nullptr)
 		{
-			m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] = CMapUITexture::Create(D3DXVECTOR3(SCREEN_WIDTH - 45.0f - 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
+			m_apItemTexture[CItemObject::ITEM_OBJECT_MAP] = CMapUITexture::Create(D3DXVECTOR3((SCREEN_WIDTH / 2 + SCREEN_WIDTH / 2 - 175.0f) + 65.0f * m_nItemTextureCount, SCREEN_HEIGHT - 40.0f, 0.0f), D3DXVECTOR3(60.0f, 60.0f, 0.0f));
 			// アイテムテクスチャのカウントを加算する
 			m_nItemTextureCount++;
 		}

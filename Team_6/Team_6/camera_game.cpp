@@ -154,6 +154,7 @@ void CCameraGame::CameraRotate(void)
 {
 	//キーボードクラス情報の取得
 	CInputKeyboard *pKeyInput = CManager::GetKeyboard();
+	CInputJoypad * pJoypad = CManager::GetJoypad();
 	// ジョイパッドの取得
 	DIJOYSTATE js = CInputJoypad::GetStick(0);
 	CCamera::SCREEN_ID id = GetScreenID();
@@ -175,7 +176,7 @@ void CCameraGame::CameraRotate(void)
 	{
 		if (id == SCREEN_LEFT)
 		{
-			if (pKeyInput->GetTrigger(DIK_Q))
+			if (pKeyInput->GetTrigger(DIK_Q) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L2_TRIGGER,0))
 			{
 				m_fDestHorizontal = m_fHorizontal - D3DXToRadian(90);
 				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
@@ -186,7 +187,7 @@ void CCameraGame::CameraRotate(void)
 					m_camAngle = ANGLE_FRONT;
 				}
 			}
-			if (pKeyInput->GetTrigger(DIK_E))
+			if (pKeyInput->GetTrigger(DIK_E) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R2_TRIGGER, 0))
 			{
 				m_fDestHorizontal = m_fHorizontal + D3DXToRadian(90);
 				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
@@ -200,7 +201,7 @@ void CCameraGame::CameraRotate(void)
 		}
 		else
 		{
-			if (pKeyInput->GetTrigger(DIK_RSHIFT))
+			if (pKeyInput->GetTrigger(DIK_RSHIFT) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L2_TRIGGER, 1))
 			{
 				m_fDestHorizontal = m_fHorizontal - D3DXToRadian(90);
 				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;
@@ -211,7 +212,7 @@ void CCameraGame::CameraRotate(void)
 					m_camAngle = ANGLE_FRONT;
 				}
 			}
-			if (pKeyInput->GetTrigger(DIK_NUMPAD1))
+			if (pKeyInput->GetTrigger(DIK_NUMPAD1) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R2_TRIGGER, 1))
 			{
 				m_fDestHorizontal = m_fHorizontal + D3DXToRadian(90);
 				m_fAngleMove = (m_fDestHorizontal - m_fHorizontal) / MOVE_FRAME;

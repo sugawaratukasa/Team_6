@@ -167,8 +167,6 @@ void CPlayer::Update(void)
 	// マップとの当たり判定
 	MapCollision();
 
-	// アイテムダクト受け渡し処理
-	Item_DuctPass();
 	// UIポインタのnullptrチェック
 	if (m_pUI != nullptr)
 	{
@@ -316,50 +314,60 @@ void CPlayer::ItemDelete(int nPlayer)
 	// パッド取得
 	CInputJoypad * pJoypad = CManager::GetJoypad();
 	CSound * pSound = GET_SOUND_PTR;
-	// 1Pのアイテム選択入力処理
 
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_I) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, nPlayer))
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_Z) ||
+		nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_K)
+		||pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_L_TRIGGER, nPlayer)
+		)
 	{
 
-		if (nPlayer == PLAYER_1 && m_nItemSortCount > 0)
+		if (nPlayer == PLAYER_1 && m_nItemSortCount > 0 ||
+			nPlayer == PLAYER_2 && m_nItemSortCount > 0)
 		{
 			// アイテムソート用カウントを減算する
 			m_nItemSortCount--;
 		}
 	}
-	// 1Pのアイテム選択入力処理
 
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_O) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, nPlayer))
+	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_X) ||
+		nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) ||
+		pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_R_TRIGGER, nPlayer))
 	{
 
-		if (nPlayer == PLAYER_1 && m_nItemSortCount < 2)
+		if (nPlayer == PLAYER_1 && m_nItemSortCount < 2 ||
+			nPlayer == PLAYER_2 && m_nItemSortCount < 2)
 		{
 			// アイテムソート用カウントを加算する
 			m_nItemSortCount++;
 		}
 	}
-	// 1P&2Pのアイテム削除入力処理
-	if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_P) || nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_L) || pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_Y, nPlayer))
+	if (m_bIncapacitated == false)
 	{
-		// アイテムポインタのnullptrチェック
-		if (m_pItem[m_nItemSortCount] != nullptr)
+		// 1P&2Pのアイテム削除入力処理
+		if (nPlayer == PLAYER_1 && pKeyboard->GetTrigger(DIK_C) ||
+			nPlayer == PLAYER_2 && pKeyboard->GetTrigger(DIK_J) ||
+			pJoypad != nullptr && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_B, nPlayer))
 		{
-			// UIを消す	
-			m_pUI->Uninit();
-			// 選択しているアイテムの種類を取得する
-			int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
-			// 選択しているアイテムの取得状態をfalseにする
-			SetSubbGetItem(nItemType, false);
-			pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
-			// アイテムを生成する
-			m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
-			// アイテム効果初期化処理関数呼び出し
-			ItemEffectUninit();
-			// アイテムの最大数分回す
-			for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+			// アイテムポインタのnullptrチェック
+			if (m_pItem[m_nItemSortCount] != nullptr)
 			{
-				// アイテム効果生成処理関数呼び出し
-				ItemEffectCreate(nCount);
+				// UIを消す	
+				m_pUI->Uninit();
+				// 選択しているアイテムの種類を取得する
+				int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
+				// 選択しているアイテムの取得状態をfalseにする
+				SetSubbGetItem(nItemType, false);
+				pSound->Play(CSound::SOUND_SE_RELEASE_ITEM);
+				// アイテムを生成する
+				m_pItem[m_nItemSortCount]->ItemCreate(nPlayer);
+				// アイテム効果初期化処理関数呼び出し
+				ItemEffectUninit();
+				// アイテムの最大数分回す
+				for (int nCount = ZERO_INT; nCount < ITEM_MAX; nCount++)
+				{
+					// アイテム効果生成処理関数呼び出し
+					ItemEffectCreate(nCount);
+				}
 			}
 		}
 	}
@@ -553,7 +561,8 @@ void CPlayer::DoorOpen(int nPlayer)
 					{
 						// キーボード取得
 						CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-
+						// パッド取得
+						CInputJoypad * pJoypad = CManager::GetJoypad();
 						// ドアの種類取得
 						int nDoorType = ((CDoor_Collision*)pScene)->GetType();
 
@@ -567,7 +576,10 @@ void CPlayer::DoorOpen(int nPlayer)
 							nDoorType == CDoor_Collision::TYPE_LEVER)
 						{
 							// Fが押された場合
-							if (pKeyboard->GetTrigger(DIK_F))
+							if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_F) ||
+								nPlayer == 1 && pKeyboard->GetTrigger(DIK_P) ||
+								nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A,0) ||
+								nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 1))
 							{
 								// 牢屋のドアの場合
 								if (nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM)
@@ -590,7 +602,10 @@ void CPlayer::DoorOpen(int nPlayer)
 							m_abGetItem[ITEM_BATON] == false && nDoorType == CDoor_Collision::TYPE_SWITCH)
 						{
 							// Fが押された場合
-							if (pKeyboard->GetTrigger(DIK_F))
+							if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_F) ||
+								nPlayer == 1 && pKeyboard->GetTrigger(DIK_P) ||
+								nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 0) ||
+								nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 1))
 							{
 								// 扉が開けない処理
 								((CDoor_Collision*)pScene)->NotOpen(nPlayer);
@@ -608,7 +623,7 @@ void CPlayer::DoorOpen(int nPlayer)
 // ダクトの処理
 // Author : SugawaraTsukasa
 //=============================================================================
-void CPlayer::Item_DuctPass(void)
+void CPlayer::Item_DuctPass(int nPlayer)
 {
 	// CSceneのポインタ
 	CScene *pScene = nullptr;
@@ -648,10 +663,15 @@ void CPlayer::Item_DuctPass(void)
 				{
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+					// パッド取得
+					CInputJoypad * pJoypad = CManager::GetJoypad();
 					if (m_pItem[m_nItemSortCount] != nullptr)
 					{
 						// Fが押された場合
-						if (pKeyboard->GetTrigger(DIK_F))
+						if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_F) ||
+							nPlayer == 1 && pKeyboard->GetTrigger(DIK_P) ||
+							nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 0) ||
+							nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 1))
 						{
 							// 選択しているアイテムの種類を取得する
 							int nItemType = m_pItem[m_nItemSortCount]->GetItemType();
@@ -744,9 +764,13 @@ void CPlayer::UseSecurity_Cam(int nPlayer)
 				{
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
-
+					// パッド取得
+					CInputJoypad * pJoypad = CManager::GetJoypad();
 					// Fが押された場合
-					if (pKeyboard->GetTrigger(DIK_F))
+					if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_F) ||
+						nPlayer == 1 && pKeyboard->GetTrigger(DIK_P) ||
+						nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 0) ||
+						nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 1))
 					{
 						// カメラ使用処理
 						((CSecurity_Camera_Collision*)pScene)->CameraUse(nPlayer);
