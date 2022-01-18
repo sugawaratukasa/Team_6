@@ -87,12 +87,6 @@ HRESULT CCaveatMark::Init(D3DXVECTOR3 pos)
 void CCaveatMark::Update(void)
 {
 	CScene2D::Update();
-
-	//ê‘Ç…Ç»Ç¡ÇΩèÍçá(UpdateÇÃèäÇ≈ÇµÇ©ìÆÇ©Ç»Ç¢ÇΩÇﬂÇ±Ç±Ç≈Ç‚ÇÈ)
-	if (m_state == FLASH_STATE)
-	{
-		FlashCaveat(30);
-	}
 }
 
 //=============================================================================
@@ -132,6 +126,11 @@ void CCaveatMark::ColorState(State state)
 		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		break;
 
+		//ì_ñ≈
+	case CCaveatMark::FLASH_STATE:
+		FlashCaveat(MAX_FLASH_BAR);
+		break;
+
 	default:
 		break;
 	}
@@ -141,19 +140,19 @@ void CCaveatMark::ColorState(State state)
 //====================================================================
 void CCaveatMark::FlashCaveat(int nFlashFlame)
 {
-		m_nFrameCnt++;
-		if (m_nFrameCnt < nFlashFlame/2)
-		{
-			SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		}
-		else if (m_nFrameCnt > nFlashFlame/2)
-		{
-			SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f));
-		}
-		if (m_nFrameCnt == nFlashFlame)
-		{
-			m_nFrameCnt = 0;
-		}
+	m_nFrameCnt++;
+	if (m_nFrameCnt < nFlashFlame / 2)
+	{
+		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	else if (m_nFrameCnt > nFlashFlame / 2)
+	{
+		SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f));
+	}
+	if (m_nFrameCnt == nFlashFlame)
+	{
+		m_nFrameCnt = 0;
+	}
 }
 
 

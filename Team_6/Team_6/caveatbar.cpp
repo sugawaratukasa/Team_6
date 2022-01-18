@@ -74,13 +74,10 @@ CCaveatBar *CCaveatBar::Create(D3DXVECTOR3 pos, const int nPlayer)
 HRESULT CCaveatBar::Init(D3DXVECTOR3 pos)
 {
 	CScene2D::Init(pos, DEF_SIZE);
-
 	//警告マークの生成
 	m_pCaveat = CCaveatMark::Create(D3DXVECTOR3(pos.x, pos.y - 50, pos.z));
-
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-
 	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_CAVEATBAR));
 	return S_OK;
 }
@@ -161,7 +158,7 @@ float CCaveatBar::VecLength(void)
 void CCaveatBar::BarMove(const float fLength)
 {		
 	//比率の限界値まで
-	if (fLength >= MAX_BAR_RATIO)
+	if (m_fBarNow <= MAX_SIZE_X)
 	{
 		//変数宣言
 		m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
@@ -176,31 +173,36 @@ void CCaveatBar::BarMove(const float fLength)
 void CCaveatBar::BarColor(void)
 {
 	D3DXCOLOR color = GetColor();
-	color.b = ZERO_FLOAT;	//青は使わない
 	//緑
-	if (m_fBarNow < MAX_SIZE_X / 3 && ZERO_FLOAT <= color.a)
+	if (m_fBarNow < MAX_SIZE_X / 3)
 	{
 		m_pCaveat->ColorState(CCaveatMark::FADEIN_STATE);
-		color.a -= INCDEC_COLOR_BAR;
-		color.g = MAX_COLOR_BAR;
-		color.r = ZERO_FLOAT;
+		if (ZERO_FLOAT <= color.a)
+		{
+			color.a -= INCDEC_COLOR_BAR;
+		}
+		color = D3DXCOLOR(ZERO_FLOAT, MAX_COLOR_BAR, ZERO_FLOAT, color.a);
+
 	}	
 	//黄色
-	else if (m_fBarNow < MAX_SIZE_X / 1.5f && color.a >= MAX_COLOR_BAR)
+	else if (m_fBarNow < MAX_SIZE_X / 1.5f)
 	{
 		m_pCaveat->ColorState(CCaveatMark::NORMAL_STATE);
-		color.a += INCDEC_COLOR_BAR;
-		color.g = MAX_COLOR_BAR;
-		color.r = MAX_COLOR_BAR;
+		if (color.a >= MAX_COLOR_BAR)
+		{
+			color.a += INCDEC_COLOR_BAR;
+		}
+		color = D3DXCOLOR(MAX_COLOR_BAR, MAX_COLOR_BAR, ZERO_FLOAT, color.a);
 	}
 	//赤
 	else
 	{
 		m_pCaveat->ColorState(CCaveatMark::FLASH_STATE);
-		color.a += INCDEC_COLOR_BAR;
-		color.r = MAX_COLOR_BAR;
-		color.g = ZERO_FLOAT;
+		if (color.a >= MAX_COLOR_BAR)
+		{
+			color.a += INCDEC_COLOR_BAR;
+		}
+		color = D3DXCOLOR(MAX_COLOR_BAR, ZERO_FLOAT, ZERO_FLOAT, color.a);
 	}
-
 	SetColor(color);
 }
