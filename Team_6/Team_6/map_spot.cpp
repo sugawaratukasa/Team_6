@@ -9,6 +9,7 @@
 //インクルードファイル
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
+#define TEST_MAP 0
 #include "map_spot.h"
 #include "scene.h"
 #include "obb.h"
@@ -229,6 +230,7 @@ void CMapSpot::Init(void)
 CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 pos)
 {
 	NODE returnInfo;	//返すスポット情報
+	returnInfo = m_vaSpot[eArea].at(0).node;
 
 	CScene *pScene = nullptr;
 
@@ -247,40 +249,172 @@ CMapSpot::NODE CMapSpot::SearchNearNode(const MAP_AREA eArea, const D3DXVECTOR3 
 			continue;
 		}
 
-		//マップオブジェクトの先頭を取得
-		pScene = CScene::GetTop(CScene::PRIORITY_MAP);
-
-		bool bIsHit = false;
-
-		//マップオブジェクトの交差判定を行う
-		while (pScene != nullptr && bIsHit == false)
-		{
-			//次情報の取得
-			CScene *pNext = pScene->GetNext();
-
-			//Objectクラスポインタへキャスト
-			CObject *pObject = (CObject *)pScene;
-
-			//Obbクラスのポインタ取得
-			CObb *pObb = pObject->GetObbPtr();
-
-			if (pObb != nullptr)
-			{
-				//線分とOBBの交差判定
-				bIsHit = pObb->IsHitObbAndLineSegment(
-					pos, 
-					m_vaSpot[eArea].at(nCntSpot).node.pos);
-			}
-
-			//次情報へ更新
-			pScene = pNext;
-		}
-
-		//マップオブジェクトと交差しているため先頭に戻す
-		if (bIsHit)
-		{
-			continue;
-		}
+//		//マップオブジェクトの先頭を取得
+//		pScene = CScene::GetTop(CScene::PRIORITY_MAP);
+//
+//		bool bIsHit = false;
+//
+//#ifdef TEST_MAP
+//		//マップオブジェクトの交差判定を行う
+//		while (pScene != nullptr && bIsHit == false)
+//		{
+//			//次情報の取得
+//			CScene *pNext = pScene->GetNext();
+//
+//			//Objectクラスポインタへキャスト
+//			CObject *pObject = (CObject *)pScene;
+//
+//			//Obbクラスのポインタ取得
+//			CObb *pObb = pObject->GetObbPtr();
+//
+//			if (pObb != nullptr)
+//			{
+//				//線分とOBBの交差判定
+//				bIsHit = pObb->IsHitObbAndLineSegment(
+//					pos, 
+//					m_vaSpot[eArea].at(nCntSpot).node.pos);
+//
+//				break;
+//			}
+//
+//			//次情報へ更新
+//			pScene = pNext;
+//		}
+//#endif // TEST_MAP
+//
+//#ifndef TEST_MAP
+//
+//		while (pScene != nullptr && bIsHit == false)
+//		{
+//			//次情報の取得
+//			CScene *pNext = pScene->GetNext();
+//
+//			//Objectクラスポインタへキャスト
+//			CObject *pObject = (CObject *)pScene;
+//
+//			//Obbクラスのポインタ取得
+//			CObb *pObb = pObject->GetObbPtr();
+//
+//			if (pObb == nullptr)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//
+//				continue;
+//			}
+//
+//			D3DXVECTOR3 center = pObb->GetCenterPos();	//中心位置の取得
+//			D3DXVECTOR3 size = pObb->GetSize();			//サイズの取得
+//			D3DXVECTOR3 aDir[CoordinateAxesNum];		//各軸の向き
+//
+//			for (int nCntNum = ZERO_INT; nCntNum < CoordinateAxesNum; nCntNum++)
+//			{
+//				//各軸の向きの取得
+//				aDir[nCntNum] = pObb->GetDir(nCntNum);
+//			}
+//
+//			D3DXVECTOR3 midPoint = (pos + m_vaSpot[eArea].at(nCntSpot).node.pos) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
+//			D3DXVECTOR3 dir = m_vaSpot[eArea].at(nCntSpot).node.pos - midPoint;					//中点から線分の終点への方向ベクトル
+//
+//
+//			//中点の位置を修正
+//			midPoint = midPoint - center;
+//
+//
+//			//中点の各軸をOBBの各軸の向きで修正
+//			midPoint = D3DXVECTOR3(
+//
+//				D3DXVec3Dot(&aDir[0], &midPoint),
+//				D3DXVec3Dot(&aDir[1], &midPoint),
+//				D3DXVec3Dot(&aDir[2], &midPoint));
+//
+//
+//			//向きの各軸をOBBの各軸の向きで修正
+//			dir = D3DXVECTOR3(
+//
+//				D3DXVec3Dot(&aDir[0], &dir),
+//				D3DXVec3Dot(&aDir[1], &dir),
+//				D3DXVec3Dot(&aDir[2], &dir));
+//
+//			//向きのX座標を絶対値にする
+//			float fDirAbsoluteX = fabsf(dir.x);
+//
+//
+//			if (fabsf(midPoint.x) > size.x + fDirAbsoluteX)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//
+//				continue;
+//			}
+//
+//			//向きのY座標を絶対値にする
+//			float fDirAbsoluteY = fabsf(dir.y);
+//
+//
+//			if (fabsf(midPoint.y) > size.y + fDirAbsoluteY)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//
+//				continue;
+//			}
+//
+//			//向きのZ座標を絶対値にする
+//			float fDirAbsoluteZ = fabsf(dir.z);
+//
+//
+//			if (fabsf(midPoint.z) > size.z + fDirAbsoluteZ)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//
+//				continue;
+//			}
+//
+//			fDirAbsoluteX += FLT_EPSILON;
+//			fDirAbsoluteY += FLT_EPSILON;
+//			fDirAbsoluteZ += FLT_EPSILON;
+//
+//			if (fabsf(midPoint.y * dir.z - midPoint.z * dir.y) >
+//
+//				size.y * fDirAbsoluteZ + size.z * fDirAbsoluteY)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//
+//				continue;
+//			}
+//			if (fabsf(midPoint.z * dir.x - midPoint.x * dir.z) >
+//
+//				size.x * fDirAbsoluteZ + size.z * fDirAbsoluteX)
+//			{
+//
+//				//次情報へ切り替え
+//				pScene = pNext;
+//				continue;
+//			}
+//
+//			if (fabsf(midPoint.x * dir.y - midPoint.y * dir.x) >
+//
+//				size.x * fDirAbsoluteY + size.y * fDirAbsoluteX)
+//			{
+//				//次情報へ切り替え
+//				pScene = pNext;
+//				continue;
+//			}
+//
+//			//壁と交差した
+//			bIsHit = true;
+//			break;
+//		}
+//#endif // !TEST_MAP
+//
+//		//マップオブジェクトと交差しているためforの先頭に戻す
+//		if (bIsHit == true)
+//		{
+//			continue;
+//		}
 
 		//長さを求める
 		float fRange = CalculationDistanceLength(m_vaSpot[eArea].at(nCntSpot).node.pos, pos);

@@ -69,6 +69,7 @@ public:
 	void RetrunRoute(void);							//待機
 	void ChasePlayer(void);							//プレイヤーを追跡
 	void GuardSurrounding(void);					//周囲警戒状態
+	void Notice(void);
 	void Attack(void);								//攻撃状態
 	void Damage(void);
 
@@ -77,14 +78,16 @@ public:
 	void ChangeRotDest(void);		//向きの目的の値の設定
 	bool IsHitPlayer(void);			//プレイヤーとの衝突判定
 	void CheckMapCollision(void);	// マップとの当たり判定
-	void Notice(const D3DXVECTOR3 pos);	//通報
+	
 	void TurnAround(void);
 
 	//publicセッター
 	void SetRetrunData(void);	//ルート復帰の情報設定
 	void SetGuardBaseDir(void);//警戒時の基準の方向の設定
 	void SetTime(int time) { m_nStateTimer = time; }	//タイマーセット
-	
+	void SetNotice(const D3DXVECTOR3 pos);	//通報
+	void SetReceiptNotice(const bool bIsReceipt) { m_bIsReceiptNotice = bIsReceipt; }
+	void ReSetHitPlayer(void) { m_bIsHitPlayer = false; }
 
 	//publicゲッター
 	int GetTime(void) { return m_nStateTimer; }				//タイマーゲット
@@ -92,6 +95,8 @@ public:
 	AROUND_CONFIRMATION GetAround(void) { return m_eAroud; }
 	CJailerSpot *GetJailerSpot(void) { return m_pSpot; }
 	CJailer_Emotion *GetEmotion(void) { return m_pEmotion; }
+	bool GetReceiptNotice(void) { return m_bIsReceiptNotice; }
+	bool GetHitPlayer(void) { return m_bIsHitPlayer; }
 
 private:
 	//=========================================================================
@@ -107,9 +112,13 @@ private:
 	D3DXVECTOR3 m_distance;			//目的地までの距離
 	D3DXVECTOR3 m_GuardBaseDir;		//警戒時の基準の方向
 	int m_nStateTimer;				//状態の切り替えタイマー
+	int m_nMapHitTime;				//マップに触れ続けた時間
 	const int m_nNumber;			//自分の番号	
 	float m_fDestLength;			//目的地と自分の距離の長さ
 	float m_TurnSpeed;				//振り向き速度
+	bool m_bIsReceiptNotice;		//通報を受信できるかどうか
+	bool m_bIsHitPlayer;			//プレイヤーと当たったかどうか
+	bool m_bHitMap;
 	AROUND_CONFIRMATION m_eAroud;	//周囲警戒の状態
 };
 #endif // !_JAILER_H_

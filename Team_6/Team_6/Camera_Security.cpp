@@ -83,7 +83,11 @@ CCameraSecurity::CCameraSecurity()
 
 	m_pView = nullptr;		//扇クラスのポインタ変数
 
+	m_pEmotion = nullptr;
+
 	m_pCamModel = NULL;
+
+	m_nNoticeJailerNum = ZERO_INT;
 }
 
 //=============================================================================
@@ -102,7 +106,7 @@ HRESULT CCameraSecurity::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_fAngle = m_fDir;
 	m_fAngleMoveRate = D3DXToRadian(0.1);
 	m_nCamReturnCount = 0;
-	m_bIsActive = false;
+	m_bIsActive = true;
 
 	//視界のクリエイト
 	m_pView = CJailerView::Create(D3DXVECTOR3(m_pos.x, VIEW_POS_Y, m_pos.z),
@@ -115,6 +119,8 @@ HRESULT CCameraSecurity::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_pCamModel->Init(pos, D3DXVECTOR3(0.0f, m_fAngle, 0.0f));
 	m_pCamModel->BindModel(pXFile->GetXfile(CXfile::XFILE_NUM_SECCAM));
 
+	m_pEmotion = CJailer_Emotion::Create(pos, CAMERA_EMOTION_SIZE, CAMERA_CORRECTION);
+	m_pEmotion->SetAutoOut(true);
 	return S_OK;
 }
 
@@ -177,25 +183,28 @@ void CCameraSecurity::SearchPlayer(void)
 	// 監視カメラに見つかった場合
 	if (m_pView->GetIsDetection())
 	{
+		m_pEmotion->SetEmotion(CJailer_Emotion::EMOTION_TYPE_ANGER);
+
 		//看守の情報を取得
-		CJailer *pJailer = CManager::GetModePtr()->GetJailer(0);
+		CJailer *pJailer = CManager::GetModePtr()->GetJailer(m_nNoticeJailerNum);
 
 		//検出位置の取得
 		D3DXVECTOR3 pos = m_pView->GetDetectionPos();
 
 		//看守に通報
-		pJailer->Notice(pos);
+		pJailer->SetNotice(pos);
 	}
 }
 
 //=============================================================================
 // インスタンス生成処理
 //=============================================================================
-CCameraSecurity * CCameraSecurity::Create(D3DXVECTOR3 pos, float fDir)
+CCameraSecurity * CCameraSecurity::Create(D3DXVECTOR3 pos, float fDir, int m_nJailerNum)
 {
 	CCameraSecurity *pSecCam;
 	pSecCam = new CCameraSecurity;
 	pSecCam->m_fDir = fDir;
+	pSecCam->m_nNoticeJailerNum = m_nJailerNum;
 	pSecCam->Init(D3DXVECTOR3(pos.x, CAM_POS_Y, pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return pSecCam;

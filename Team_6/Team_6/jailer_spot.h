@@ -37,6 +37,7 @@ public:
 	void Update(void);						//更新処理
 
 	D3DXVECTOR3 SearchBackToRoute(const D3DXVECTOR3 jailerPos);	//帰還ルートの検索処理
+	D3DXVECTOR3 SearchNoticeRoute(const D3DXVECTOR3 jailerPos,const D3DXVECTOR3 detectionPos);
 
 	NODE SearchNearPatrolNode(D3DXVECTOR3 jailerPos);	//近い巡回スポットを求める
 	D3DXVECTOR3 ChangePatrolRoute(void);				//巡回の変更処理

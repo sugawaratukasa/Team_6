@@ -95,7 +95,7 @@ HRESULT CIronWindow_Wall::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	SetType(TYPE_WALL);
 
 	//OBB�̍쐬
-	SetObb(CObb::Create(pos, rot, GetMesh()));
+	//SetObb(CObb::Create(pos, rot, GetMesh()));
 
 	return S_OK;
 }

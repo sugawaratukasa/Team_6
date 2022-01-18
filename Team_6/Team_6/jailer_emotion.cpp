@@ -6,11 +6,6 @@
 //=============================================================================
 
 //=============================================================================
-//マクロ定義
-//=============================================================================
-#define EMOTION_SIZE D3DXVECTOR3(100.0f,100.0f,0.0f)	//サイズ
-
-//=============================================================================
 //インクルードファイル
 //=============================================================================
 #include "jailer_emotion.h"
@@ -24,6 +19,9 @@
 CJailer_Emotion::CJailer_Emotion()
 {
 	m_eEmotionType = EMOTION_TYPE_NONE;
+	m_fCorrectionPos = ZERO_FLOAT;
+	m_bIsAutoOut = false;
+	m_nOutTime = ZERO_INT;
 }
 
 //=============================================================================
@@ -36,7 +34,7 @@ CJailer_Emotion::~CJailer_Emotion()
 //=============================================================================
 //クリエイト処理
 //=============================================================================
-CJailer_Emotion * CJailer_Emotion::Create(const D3DXVECTOR3 pos)
+CJailer_Emotion * CJailer_Emotion::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const float fCorrection)
 {
 	CJailer_Emotion *pEmotion = nullptr;
 
@@ -45,8 +43,10 @@ CJailer_Emotion * CJailer_Emotion::Create(const D3DXVECTOR3 pos)
 
 	if (pEmotion)
 	{
+		pEmotion->SetCorrectionPos(fCorrection);
+
 		//初期化処理
-		pEmotion->Init(pos, EMOTION_SIZE);
+		pEmotion->Init(pos, size);
 	}
 
 	return pEmotion;
@@ -65,6 +65,8 @@ HRESULT CJailer_Emotion::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 	//テクスチャの設定
 	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_EMOTION_ANGER));
+
+	SetPosition(pos);
 
 	return S_OK;
 }
@@ -85,6 +87,10 @@ void CJailer_Emotion::Update(void)
 {
 	//基底クラスの更新
 	CBillboard::Update();
+	if (m_bIsAutoOut)
+	{
+		AutoOut();
+	}
 }
 
 //=============================================================================
@@ -104,7 +110,8 @@ void CJailer_Emotion::Draw(void)
 //=============================================================================
 void CJailer_Emotion::SetPosition(D3DXVECTOR3 Pos)
 {
-	Pos.y = 300.0f;
+	Pos.y = m_fCorrectionPos;
+
 	SetPos(Pos);
 }
 
@@ -133,5 +140,22 @@ void CJailer_Emotion::SetEmotion(const EMOTION_TYPE emotion)
 
 	default:
 		break;
+	}
+}
+
+void CJailer_Emotion::AutoOut(void)
+{
+	if (m_eEmotionType == EMOTION_TYPE_NONE)
+	{
+		return;
+	}
+
+	m_nOutTime++;
+
+	if (m_nOutTime >= 600)
+	{
+		SetEmotion(EMOTION_TYPE_NONE);
+
+		m_nOutTime = ZERO_INT;
 	}
 }

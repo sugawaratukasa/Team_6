@@ -352,7 +352,7 @@ void CCameraGame::ModifySecCamera(void)
 //=============================================================================
 // 監視カメラの生成
 //=============================================================================
-void CCameraGame::CreateSecCam(D3DXVECTOR3 pos, float fDir)
+void CCameraGame::CreateSecCam(D3DXVECTOR3 pos, float fDir, int nJailerNum)
 {
-	m_pSecCam = CCameraSecurity::Create(pos, fDir);
+	m_pSecCam = CCameraSecurity::Create(pos, fDir, nJailerNum);
 }

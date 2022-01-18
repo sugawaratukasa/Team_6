@@ -41,7 +41,7 @@ public:
 	void NomalUpdate(D3DXVECTOR3 PlayerPos, D3DXVECTOR3 PlayerRot) override;
 	void ModifyCamera(CGame::CAMERA_ID id);
 	void ModifySecCamera(void);
-	void CreateSecCam(D3DXVECTOR3 pos, float fDir);
+	void CreateSecCam(D3DXVECTOR3 pos, float fDir ,int nJailerNum);
 	static CCameraGame*Create(CCamera::SCREEN_ID id);	// クリエイト
 	void CameraRotate(void);
 	void SwitchCam(CGame::CAMERA_ID CamId, bool bSecCam);

@@ -44,6 +44,9 @@ void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 	//フォグをワーニングに指定
 	pFog->SetFogState(CFog::FOG_WARNING);
 
+	//追跡中は通報を受け付けない
+	pJailer->SetReceiptNotice(false);
+
 	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_ANGER);
 }
 
@@ -60,9 +63,11 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 	{
 		pJailer->SetTime(0);
 
-		//当たり判定を行う
-		if (pJailer->IsHitPlayer() == true)
+		//当たり判定の取得
+		if (pJailer->GetHitPlayer() == true)
 		{
+			pJailer->ReSetHitPlayer();
+
 			//検出したプレイヤー番号を取得
 			int nPlayerNumber = pJailerView->GetDetectionNumber();
 
@@ -72,7 +77,6 @@ void CChaseState::Update(CJailer *pJailer, CJailerView *pJailerView)
 			//フォグの終了
 			pFog->SetFogState(CFog::FOG_END);
 
-			//別の状態へ移行
 			//警戒状態へ
 			pJailer->ChangeState(CJailer_LostTarget::GetInstance());
 		}

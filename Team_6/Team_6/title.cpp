@@ -102,7 +102,7 @@ void CTitle::Update(void)
 		// ‰æ–Ê‘JˆÚ
 		
 		pRenderer->SetIsUseMovie(true);
-		CManager::GetMovie()->ChangeMovie(L"./data/Movie/Test.avi",true);
+		CManager::GetMovie()->ChangeMovie(L"./data/Movie/Test.avi",false);
 		CManager::GetMovie()->Init();
 		CManager::GetMovie()->Play();
 	}

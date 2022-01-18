@@ -257,27 +257,27 @@ void CGame::CreatePlayer(void)
 void CGame::CreateSecCam(void)
 {
 	// ¶
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1900.0f, 0.0f, -460.0f), D3DXToRadian(0.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(2950.0f, 0.0f, -550.0f), D3DXToRadian(220.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1250.0f, 0.0f, -550.0f), D3DXToRadian(145.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1300.0f, 0.0f, -2660.0f), D3DXToRadian(30.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3690.0f, 0.0f, -3550.0f), D3DXToRadian(320.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3330.0f, 0.0f, -4430.0f), D3DXToRadian(320.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(900.0f, 0.0f, -4500.0f), D3DXToRadian(150.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3330.0f, 0.0f, -5850.0f), D3DXToRadian(320.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1650.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3050.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1900.0f, 0.0f, -460.0f), D3DXToRadian(0.0f),2);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(2950.0f, 0.0f, -550.0f), D3DXToRadian(220.0f),2);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1250.0f, 0.0f, -550.0f), D3DXToRadian(145.0f),2);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1300.0f, 0.0f, -2660.0f), D3DXToRadian(30.0f),2);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3690.0f, 0.0f, -3550.0f), D3DXToRadian(320.0f),1);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3300.0f, 0.0f, -4350.0f), D3DXToRadian(320.0f),1);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(900.0f, 0.0f, -4500.0f), D3DXToRadian(150.0f),1);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3330.0f, 0.0f, -5850.0f), D3DXToRadian(320.0f),1);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1650.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f),0);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(3050.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f),0);
 
 	// ‰E
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1780.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1730.0f, 0.0f, -5850.0f), D3DXToRadian(40.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(450.0f, 0.0f, -4830.0f), D3DXToRadian(220.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(320.0f, 0.0f, -4420.0f), D3DXToRadian(320.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-250.0f, 0.0f, -3890.0f), D3DXToRadian(320.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1040.0f, 0.0f, -2790.0f), D3DXToRadian(40.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(340.0f, 0.0f, -900.0f), D3DXToRadian(180.0f));
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, -820.0f), D3DXToRadian(320.0f));
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1600.0f, 0.0f, -7350.0f), D3DXToRadian(145.0f),3);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1780.0f, 0.0f, -6590.0f), D3DXToRadian(40.0f),3);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1730.0f, 0.0f, -5850.0f), D3DXToRadian(40.0f),4);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(450.0f, 0.0f, -4830.0f), D3DXToRadian(220.0f),4);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(320.0f, 0.0f, -4420.0f), D3DXToRadian(320.0f),4);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-250.0f, 0.0f, -3890.0f), D3DXToRadian(320.0f),4);
+	//m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-990.0f, 0.0f, -2730.0f), D3DXToRadian(40.0f),5);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(340.0f, 0.0f, -900.0f), D3DXToRadian(180.0f),5);
+	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, -820.0f), D3DXToRadian(320.0f),5);
 }
 
 //=======================================================================================

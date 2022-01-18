@@ -127,6 +127,25 @@ D3DXVECTOR3 CJailerSpot::SearchBackToRoute(const D3DXVECTOR3 jailerPos)
 	return m_vRetrunRoute.at(m_nRetrunIndex).pos;
 }
 
+D3DXVECTOR3 CJailerSpot::SearchNoticeRoute(const D3DXVECTOR3 jailerPos, const D3DXVECTOR3 detectionPos)
+{
+	m_vRetrunRoute.clear();
+	m_nRetrunIndex = 0;
+
+	//看守の位置に一番近いスポットを検索
+	NODE nearSpot = SearchNearNode(m_eArea, jailerPos);
+
+	//検出した位置に一番近いスポットを検索
+	NODE nearDetection = SearchNearNode(m_eArea,detectionPos);
+
+	//ルートを検索する
+	m_vRetrunRoute = PathSearch(m_eArea, nearSpot, nearDetection);
+
+	m_nRetrunIndex = m_vRetrunRoute.size() - 1;
+
+	return m_vRetrunRoute.at(m_nRetrunIndex).pos;
+}
+
 //=============================================================================
 //一番近い巡回スポットを求める
 //=============================================================================

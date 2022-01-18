@@ -19,7 +19,9 @@
 #include "Jalier_MoveState.h"
 #include "object.h"
 #include "jailer_emotion.h"
-
+#include "jailer_notice.h"
+#include "jailer_LostTargetState.h"
+#include "jailer_return_routeState.h"
 //=============================================================================
 //マクロ定義
 //=============================================================================
@@ -27,10 +29,10 @@
 #define JAILER_CHASE_SPEED (11.0f)	//追跡時の移動速度
 #define JAILER_ROTSTION_RATE (0.3f)	//回転の係数
 #define VIEW_POS_Y (70.0f)			//視線の高さ
-#define VIEW_POLYGON_NUM (8)		//視線のポリゴン数
+#define VIEW_POLYGON_NUM (5)		//視線のポリゴン数
 #define JAILER_SIZE (D3DXVECTOR3 (100.0f,200.0f,100.0f))	// サイズ
-#define GUARD_ROT_ANGLE D3DXToRadian(60)
-#define TURN_SPEED (10.0f)
+#define GUARD_ROT_ANGLE D3DXToRadian(80)
+#define TURN_SPEED (8.0f)
 
 //=============================================================================
 //コンストラクタ
@@ -47,8 +49,12 @@ CJailer::CJailer(int nJailerNumber) :m_nNumber(nJailerNumber)
 	m_distance = ZeroVector3;		//目的地までの距離
 	m_GuardBaseDir = ZeroVector3;	//警戒時の基準の方向
 	m_nStateTimer = ZERO_INT;	//状態の切り替えタイマー
+	m_nMapHitTime = ZERO_INT;
 	m_fDestLength = ZERO_FLOAT;		//目的地と自分の距離の長さ
 	m_TurnSpeed = ZERO_FLOAT;
+	m_bIsReceiptNotice = true;
+	m_bIsHitPlayer = false;
+	m_bHitMap = false;
 	m_eAroud = AROUND_CONFIRMATION_NONE;
 }
 
@@ -117,15 +123,18 @@ HRESULT CJailer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		ZeroVector3, VIEW_POLYGON_NUM, CJailerView::VIEW_TYPE_JAILER);
 
 	//状態設定
-	m_pJailerState = CMoveState::GetInstance();
+	m_pJailerState = CJailer_LostTarget::GetInstance();
 
 	//サイズの設定
 	SetSize(JAILER_SIZE);
 
 	m_TurnSpeed = TURN_SPEED;
 
+	//通報を受けれる状態
+	m_bIsReceiptNotice = true;
+
 	//感情クラスクリエイト
-	m_pEmotion = CJailer_Emotion::Create(m_pSpot->GetSpotDest());
+	m_pEmotion = CJailer_Emotion::Create(m_pSpot->GetSpotDest(), JAILER_EMOTION_SIZE,JAILER_CORRECTION);
 	return S_OK;
 }
 
@@ -158,6 +167,8 @@ void CJailer::Update(void)
 	//回転処理
 	Rotation();
 	
+	IsHitPlayer();
+
 	CheckMapCollision();
 
 	m_pSpot->Update();
@@ -391,6 +402,59 @@ void CJailer::GuardSurrounding(void)
 	TurnAround();
 }
 
+void CJailer::Notice(void)
+{
+	AddTime(1);
+
+	if (m_nStateTimer == 60)
+	{
+		m_bIsReceiptNotice = true;
+	}
+
+	D3DXVECTOR3 move = ZeroVector3;
+
+	//単位ベクトル
+	D3DXVECTOR3 nor = ZeroVector3;
+
+	//現在地と目的地までのベクトルを計算
+	m_distance = m_posDest - GetPos();
+
+	//目的地と自分の距離の長さを計算
+	m_fDestLength = sqrtf((m_distance.x * m_distance.x) + (m_distance.z * m_distance.z));
+
+	//向きの目的の値の計算
+	ChangeRotDest();
+
+	//アイドルモーション再生
+	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
+
+	
+
+	//移動方向のベクトルの正規化
+	D3DXVec3Normalize(&nor, &m_distance);
+
+	//移動量を設定
+	move.x = nor.x * GetSpeed();
+	move.z = nor.z * GetSpeed();
+
+	//移動量の設定
+	SetMove(move);
+
+	if (m_fDestLength <= 10.0f)
+	{
+		m_posDest = m_pSpot->ChangeBackToRoute();
+
+		if (m_posDest == ZeroVector3)
+		{
+			//ステートを移動に変更
+			ChangeState(CJailer_LostTarget::GetInstance());
+
+			ChangePosDest();
+			return;
+		}
+	}
+}
+
 //=============================================================================
 //攻撃処理
 //=============================================================================
@@ -510,10 +574,14 @@ bool CJailer::IsHitPlayer(void)
 			bIsHit = true;
 		}
 
-		if (bIsHit)
+		//視界にプレイヤーがいて当たっているなら
+		if (bIsHit && m_pView->GetIsDetection())
 		{
+			m_bIsHitPlayer = true;
+
 			//プレイヤーに対しアクションする
 			pPlayer->PrisonWarp();
+
 			break;
 		}
 	}
@@ -571,6 +639,10 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
 				}
 				// 上
 				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_UP)
@@ -583,6 +655,10 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
 				}
 				// 左
 				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_LEFT)
@@ -595,6 +671,10 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
 				}
 				// 右
 				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_RIGHT)
@@ -607,6 +687,10 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
 				}
 				// 手前
 				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_PREVIOUS)
@@ -619,6 +703,10 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
 				}
 				// 奥
 				else if (CCollision::ActiveCollisionRectangleAndRectangle(pos, posOld, ObjPos, size, ObjSize) == CCollision::SURFACE_BACK)
@@ -631,6 +719,14 @@ void CJailer::CheckMapCollision(void)
 
 					// 位置設定
 					SetPos(pos);
+
+					m_bHitMap = true;
+
+					break;
+				}
+				else
+				{
+					m_bHitMap = false;
 				}
 
 				// 次のポインタ取得
@@ -638,14 +734,24 @@ void CJailer::CheckMapCollision(void)
 			}
 		}
 	}
-}
 
-//=============================================================================
-//通報を受ける
-//=============================================================================
-void CJailer::Notice(const D3DXVECTOR3 pos)
-{
+	
+	//スタック対策
+	if (m_bHitMap == true)
+	{
+		m_nMapHitTime++;
 
+		if (m_nMapHitTime >= 240)
+		{
+			ChangeState(CReturnRouteState::GetInstance());
+			m_nMapHitTime = ZERO_INT;
+			m_bHitMap = false;
+		}
+	}
+	else
+	{
+		m_nMapHitTime = ZERO_INT;
+	}
 }
 
 //=============================================================================
@@ -714,4 +820,21 @@ void CJailer::SetGuardBaseDir(void)
 
 	SetSpeed(ZERO_FLOAT);
 	SetMove(ZeroVector3);
+}
+
+//=============================================================================
+//通報を受ける
+//=============================================================================
+void CJailer::SetNotice(const D3DXVECTOR3 pos)
+{
+	if (m_bIsReceiptNotice == true)
+	{
+		//通報を受けないようにする
+		m_bIsReceiptNotice = false;
+
+		//通報された場所までのルートを作成
+		m_posDest = m_pSpot->SearchNoticeRoute(GetPos(), pos);
+
+		ChangeState(CJailer_Notice::GetInstance());
+	}
 }
