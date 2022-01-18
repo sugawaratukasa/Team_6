@@ -51,5 +51,6 @@ private:
 	CPauseBG *m_pPauseBG;				// ポーズのポインタ
 	CPauseLogoTexture *m_pPauseLogo;			// ポーズロゴのポインタ
 	int m_nButton;						// ボタン
+	bool m_bStick;						// スティック
 };
 #endif

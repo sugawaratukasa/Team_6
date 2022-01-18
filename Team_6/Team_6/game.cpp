@@ -274,7 +274,7 @@ void CGame::CreateSecCam(void)
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-1730.0f, 0.0f, -5850.0f), D3DXToRadian(40.0f),4);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(450.0f, 0.0f, -4830.0f), D3DXToRadian(220.0f),4);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(320.0f, 0.0f, -4420.0f), D3DXToRadian(320.0f),4);
-	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-250.0f, 0.0f, -3890.0f), D3DXToRadian(320.0f),4);
+	//m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-250.0f, 0.0f, -3890.0f), D3DXToRadian(320.0f),4);
 	//m_pCamera[0]->CreateSecCam(D3DXVECTOR3(-990.0f, 0.0f, -2730.0f), D3DXToRadian(40.0f),5);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(340.0f, 0.0f, -900.0f), D3DXToRadian(180.0f),5);
 	m_pCamera[0]->CreateSecCam(D3DXVECTOR3(1000.0f, 0.0f, -820.0f), D3DXToRadian(320.0f),5);
@@ -287,11 +287,12 @@ void CGame::PauseInput(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	CInputJoypad *pJoypad = CManager::GetJoypad();
 	// ポーズボタンマネージャーポインタのnullptrチェック
 	if (m_pPauseButtonManager == nullptr)
 	{
 		// もしESCAPEキー押したら
-		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		if (pKeyboard->GetTrigger(DIK_ESCAPE) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START,0) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 1))
 		{
 			// ポーズボタンマネージャーを生成する
 			m_pPauseButtonManager = CPauseButtonManager::Create();
@@ -302,7 +303,7 @@ void CGame::PauseInput(void)
 		// ポーズボタンマネージャーの更新処理関数
 		m_pPauseButtonManager->Update();
 		// もしESCAPEキー押したら
-		if (pKeyboard->GetTrigger(DIK_ESCAPE))
+		if (pKeyboard->GetTrigger(DIK_ESCAPE) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 0) || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_START, 1))
 		{
 			// ポーズ状態を解除する
 			CScene::SetPause(false);

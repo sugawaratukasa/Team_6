@@ -27,7 +27,7 @@
 // マクロ定義
 // Author : Nikaido Taichi
 //=============================================================================
-#define COLLISION_SIZE (D3DXVECTOR3(550.0f,550.0f,550.0f))
+#define COLLISION_SIZE (D3DXVECTOR3(50.0f,50.0f,50.0f))
 //=============================================================================
 // コンストラクタ
 // Author : Nikaido Taichi
@@ -115,7 +115,10 @@ void CItemObject::Collision(void)
 			// アイテムとプレイヤーの矩形型の当たり判定
 			if (CCollision::CollisionRectangleAndRectangle(m_Position, PlayerPosition[nCount], COLLISION_SIZE, PlayerSize[nCount]) == true)
 			{
-				if (nCount == CPlayer::PLAYER_1 && pKeyboard->GetTrigger(DIK_U) || nCount == CPlayer::PLAYER_2 && pKeyboard->GetTrigger(DIK_H))
+				if (nCount == CPlayer::PLAYER_1 && pKeyboard->GetTrigger(DIK_V) ||
+					nCount == CPlayer::PLAYER_1 &&pJoypad->GetJoystickRelease(CInputJoypad::JOY_BUTTON_X, 0) ||
+					nCount == CPlayer::PLAYER_2 && pKeyboard->GetTrigger(DIK_H) ||
+					nCount == CPlayer::PLAYER_2 && pJoypad->GetJoystickRelease(CInputJoypad::JOY_BUTTON_X, 1))
 				{
 					if (apPlayer[nCount]->GetItemCount() < MAX_ITEM && apPlayer[nCount]->GetbGuidCreate() == false)
 					{

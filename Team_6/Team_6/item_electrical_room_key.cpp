@@ -61,4 +61,5 @@ void CElectricalRoomKey::ItemCreate(int nPlayer)
 
 void CElectricalRoomKey::DuctPass(D3DXVECTOR3 pos)
 {
+	CElectricalRoomKeyObject::Create(pos,ZeroVector3);
 }

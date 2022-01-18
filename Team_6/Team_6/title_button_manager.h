@@ -47,5 +47,6 @@ private:
 	void InitCreateAll(void);
 	CButton * m_apButton[BUTTON_MAX];	//ボタンのポインタ
 	int m_nButton;						//ボタン
+	bool m_bStick;						// スティック
 };
 #endif

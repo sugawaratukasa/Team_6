@@ -26,7 +26,7 @@
 //マクロ定義
 //=============================================================================
 #define JAILER_NORMAL_SPEED (5.0f)	//通常時の移動速度
-#define JAILER_CHASE_SPEED (11.0f)	//追跡時の移動速度
+#define JAILER_CHASE_SPEED (8.0f)	//追跡時の移動速度
 #define JAILER_ROTSTION_RATE (0.3f)	//回転の係数
 #define VIEW_POS_Y (70.0f)			//視線の高さ
 #define VIEW_POLYGON_NUM (5)		//視線のポリゴン数

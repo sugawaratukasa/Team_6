@@ -28,7 +28,8 @@
 #define RANKING_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 80.0f, 0.0f))	//ランキングボタンの位置
 #define EXIT_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 160.0f, 0.0f))		//終了ボタンの位置
 #define SIZE (D3DXVECTOR3(450.0f,50.0f,0.0f))														//サイズ
-
+#define STICK_REACTION		(500.0f)																// スティックの範囲
+#define STICK_REACTION_MIN	(0.0f)																	// スティックの範囲
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
@@ -42,6 +43,7 @@ CPauseButtonManager::CPauseButtonManager()
 	m_pPauseBG = nullptr;
 	m_pPauseLogo = nullptr;
 	m_nButton = BUTTON_NONE;						//ボタン
+	m_bStick = false;
 }
 
 //=============================================================================
@@ -129,8 +131,13 @@ void CPauseButtonManager::PlayerItemGet(void)
 {
 	// キーボード取得
 	CInputKeyboard *pKeyboard = CManager::GetKeyboard();
+	CInputJoypad * pJoypad = CManager::GetJoypad();
 	// パッド取得
 	LPDIRECTINPUTDEVICE8 P1_PAD = CInputJoypad::GetController(0);
+
+	// スティック取得
+	DIJOYSTATE js = CInputJoypad::GetStick(0);
+
 	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
 	//上矢印キーが入力された場合
 	if (pKeyboard->GetTrigger(DIK_UP) && mode == CFade::FADE_MODE_NONE)
@@ -149,10 +156,47 @@ void CPauseButtonManager::PlayerItemGet(void)
 		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
 	//もしENTERキー又はジョイスティックのAボタンを押されたら
-	if (pKeyboard->GetTrigger(DIK_RETURN) && mode == CFade::FADE_MODE_NONE)
+	if (pKeyboard->GetTrigger(DIK_RETURN) && mode == CFade::FADE_MODE_NONE || pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 0) && mode == CFade::FADE_MODE_NONE)
 	{
 		//ボタンのプレス処理関数呼び出し
 		m_apButton[m_nButton]->Press();
+	}
+	// falseの場合
+	if (m_bStick == false)
+	{
+		// スティックが範囲を越えたら
+		if (js.lY <= -STICK_REACTION)
+		{
+			// trueに
+			m_bStick = true;
+
+			// インクリメント
+			m_nButton++;
+		}
+		// スティックが範囲を越えたら
+		if (js.lY >= STICK_REACTION)
+		{
+			// trueに
+			m_bStick = true;
+
+			// インクリメント
+			m_nButton--;
+		}
+	}
+	else
+	{
+		// スティックが範囲外の場合
+		if (js.lY >= -STICK_REACTION && js.lY <= STICK_REACTION_MIN)
+		{
+			// falseに
+			m_bStick = false;
+		}
+		// スティックが範囲外の場合
+		if (js.lY <= STICK_REACTION && js.lY >= STICK_REACTION_MIN)
+		{
+			// falseに
+			m_bStick = false;
+		}
 	}
 }
 
