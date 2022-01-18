@@ -124,7 +124,8 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/Floor_Texture3.png" },
 		{ "data/Texture/Floor_Texture4.png" },
 		{ "data/Texture/Clear_Time_BG.png" },
-		{ "data/Texture/caveatbar.png" }
+		{ "data/Texture/caveatbar.png" },
+		{ "data/Texture/caveat.png" }
 		};
 
 	// 分割テクスチャ

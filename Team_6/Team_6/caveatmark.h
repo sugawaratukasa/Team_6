@@ -1,9 +1,9 @@
-#ifndef _CAVEATBAR_H_
-#define _CAVEATBAR_H_
+#ifndef _CAVEATMARK_H_
+#define _CAVEATMARK_H_
 
 //=============================================================================
 //
-// 警告バー [caveat.h]
+// 警告マーク [caveatmark.h]
 // Author : Oguma Akira
 //
 //=============================================================================
@@ -12,37 +12,37 @@
 // インクルード
 //=============================================================================
 #include "scene_2d.h"
-#include "caveat.h"
-
-//=============================================================================
-// 前方宣言
-//=============================================================================
-class CCaveat;
 
 //=============================================================================
 // 警告バークラス
 // Author : Oguma Akira
 //=============================================================================
-class CCaveatBar : public CScene2D
+class CCaveatMark : public CScene2D
 {
 public:
-	CCaveatBar ();
-	~CCaveatBar ();
+	enum State
+	{
+		NONE_STATE,
+		FADEIN_STATE,
+		NORMAL_STATE,
+		FLASH_STATE,
+		MAX_STATE
+	};
 
-	static CCaveatBar *Create(D3DXVECTOR3 pos, const int nPlayer);
+	CCaveatMark();
+	~CCaveatMark();
+
+	static CCaveatMark *Create(D3DXVECTOR3 pos);
 	HRESULT Init(D3DXVECTOR3 pos);
 
-	void Update(void); 
+	void Update(void);
 	void Uninit(void);
 	void Drow(void);
 
-	float VecLength(void);	// ベクトルの長さ
-	void BarMove(const float fLength);	// バーの動き
-	void BarColor(void);	//バーの色変化
-
+	void ColorState(State state);	//色の状態変化
+	void FlashCaveat(int nFlashFlame);
 private:
-	float m_fBarNow;
-	int m_nPlayerNum;
-	CCaveat *m_pCaveat;
+	State m_state;
+	int	m_nFrameCnt;
 };
 #endif // !_CAVEAT_H_

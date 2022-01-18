@@ -19,6 +19,7 @@
 // インクルード
 //=============================================================================
 #include "caveatbar.h"
+#include "caveat.h"
 #include "texture.h"
 #include "resource_manager.h"
 #include "manager.h"
@@ -32,6 +33,7 @@ CCaveatBar::CCaveatBar()
 {
 	m_fBarNow = ZERO_FLOAT;
 	m_nPlayerNum = ZERO_INT;
+	m_pCaveat = nullptr;
 }
 
 //=============================================================================
@@ -48,22 +50,22 @@ CCaveatBar::~CCaveatBar()
 CCaveatBar *CCaveatBar::Create(D3DXVECTOR3 pos, const int nPlayer)
 {
 	// CCaveatBarのポインタ
-	CCaveatBar *pCaveat = nullptr;
+	CCaveatBar *pCaveatBar = nullptr;
 
 	// nullcheck
-	if (pCaveat == nullptr)
+	if (pCaveatBar == nullptr)
 	{	
-		pCaveat = new CCaveatBar;// メモリ確保
+		pCaveatBar = new CCaveatBar;// メモリ確保
 
 		// !nullcheck
-		if (pCaveat != nullptr)
+		if (pCaveatBar != nullptr)
 		{
-			pCaveat->m_nPlayerNum = nPlayer;
-			pCaveat->Init(pos);	// 初期化処理
+			pCaveatBar->m_nPlayerNum = nPlayer;
+			pCaveatBar->Init(pos);	// 初期化処理
 		}
 	}
 	// ポインタを返す
-	return pCaveat;
+	return pCaveatBar;
 }
 
 //=============================================================================
@@ -72,6 +74,9 @@ CCaveatBar *CCaveatBar::Create(D3DXVECTOR3 pos, const int nPlayer)
 HRESULT CCaveatBar::Init(D3DXVECTOR3 pos)
 {
 	CScene2D::Init(pos, DEF_SIZE);
+
+	//警告マークの生成
+	m_pCaveat = CCaveat::Create(D3DXVECTOR3(pos.x, pos.y - 50, pos.z));
 
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
@@ -85,11 +90,15 @@ HRESULT CCaveatBar::Init(D3DXVECTOR3 pos)
 //=============================================================================
 void CCaveatBar::Update(void)
 {
-
 	//ベクトルの長さ
 	float fVecLength = VecLength();
 	BarMove(fVecLength);
 
+	//警告マークの更新
+	if (m_pCaveat!=nullptr)
+	{
+		m_pCaveat->Update();
+	}
 	CScene2D::Update();
 }
 
@@ -171,7 +180,7 @@ void CCaveatBar::BarColor(void)
 	//緑
 	if (m_fBarNow < MAX_SIZE_X / 3 && ZERO_FLOAT <= color.a)
 	{
-		
+		m_pCaveat->ColorState(CCaveat::FADEIN_STATE);
 		color.a -= INCDEC_COLOR_BAR;
 		color.g = MAX_COLOR_BAR;
 		color.r = ZERO_FLOAT;
@@ -179,6 +188,7 @@ void CCaveatBar::BarColor(void)
 	//黄色
 	else if (m_fBarNow < MAX_SIZE_X / 1.5f && color.a >= MAX_COLOR_BAR)
 	{
+		m_pCaveat->ColorState(CCaveat::NORMAL_STATE);
 		color.a += INCDEC_COLOR_BAR;
 		color.g = MAX_COLOR_BAR;
 		color.r = MAX_COLOR_BAR;
@@ -186,6 +196,7 @@ void CCaveatBar::BarColor(void)
 	//赤
 	else
 	{
+		m_pCaveat->ColorState(CCaveat::FLASH_STATE);
 		color.a += INCDEC_COLOR_BAR;
 		color.r = MAX_COLOR_BAR;
 		color.g = ZERO_FLOAT;
