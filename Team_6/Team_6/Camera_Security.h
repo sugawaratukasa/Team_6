@@ -14,6 +14,7 @@
 #include "jailer_view.h"
 #include "scene.h"
 #include "model.h"
+#include "jailer_emotion.h"
 
 //=============================================================================
 // マクロ定義
@@ -35,7 +36,7 @@ public:
 	void Draw(void);
 	void Uninit(void);
 	void SearchPlayer(void);
-	static CCameraSecurity*Create(D3DXVECTOR3 pos, float fDir);	// クリエイト
+	static CCameraSecurity*Create(D3DXVECTOR3 pos, float fDir, int m_nJailerNum);	// クリエイト
 
 	D3DXVECTOR3 GetPos(void) { return m_pos; }
 	float GetAngle(void) { return m_fAngle; }
@@ -59,6 +60,8 @@ private:
 	CCameraSecurity *m_pPrev;
 	CCameraSecurity *m_pNext;
 	CModel *m_pCamModel;
+	CJailer_Emotion *m_pEmotion;
 	bool m_bIsActive;
+	int m_nNoticeJailerNum;	//通報する看守の番号
 };
 #endif 

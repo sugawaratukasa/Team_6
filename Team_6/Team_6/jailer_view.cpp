@@ -19,14 +19,16 @@
 //=============================================================================
 #define JAILER_DEFAULT_LENGTH (800.0f)					//長さのデフォルト値
 #define JAILER_CAUTION_LENGTH JAILER_DEFAULT_LENGTH * 1.5f		//警戒時の長さ
-#define JAILER_CENTER_ANGLE (90.0f)
-#define CAMERA_DEFAULT_LENGTH (400.0f)					//長さのデフォルト値
+#define JAILER_CENTER_ANGLE (60.0f)
+#define CAMERA_DEFAULT_LENGTH (240.0f)					//長さのデフォルト値
 #define CAMERA_CAUTION_LENGTH CAMERA_DEFAULT_LENGTH * 1.5f		//警戒時の長さ
-#define CAMERA_CENTER_ANGLE (60.0f)
+#define CAMERA_CENTER_ANGLE (40.0f)
+
+#define TEST_VIEW 0
 //=============================================================================
 //静的メンバ変数
 //=============================================================================
-CJailerView::VIEW_SETTING CJailerView::m_vViewLength[VIEW_TYPE_MAX] =
+CJailerView::VIEW_SETTING CJailerView::m_viewLength[VIEW_TYPE_MAX] =
 {
 	{ JAILER_DEFAULT_LENGTH ,JAILER_CAUTION_LENGTH ,JAILER_CENTER_ANGLE },
 	{ CAMERA_DEFAULT_LENGTH ,CAMERA_CAUTION_LENGTH ,CAMERA_CENTER_ANGLE }
@@ -43,6 +45,7 @@ CJailerView::CJailerView()
 	m_detectedPos = ZeroVector3;
 	m_nDetectedNumber = ZERO_INT;
 	m_eViewType = VIEW_TYPE_JAILER;
+	m_nRepPlayerNum = ZERO_INT;
 }
 
 //=============================================================================
@@ -77,6 +80,28 @@ CJailerView * CJailerView::Create(const D3DXVECTOR3 & rPos, const D3DXVECTOR3 & 
 	return nullptr;
 }
 
+CJailerView * CJailerView::Create(const D3DXVECTOR3 & rPos, const D3DXVECTOR3 & rRot, const int & rnPolygonNum, const VIEW_TYPE eViewType, const int nPlayerNum)
+{
+	CJailerView *pJailerView = nullptr;
+
+	//インスタンス生成
+	pJailerView = new CJailerView;
+
+	if (pJailerView)
+	{
+		//各値の設定
+		pJailerView->SetPolygonNum(rnPolygonNum);
+		pJailerView->SetViewType(eViewType);
+		pJailerView->SetRapPlayer(nPlayerNum);
+		//初期化処理
+		pJailerView->Init(rPos, rRot);
+
+		return pJailerView;
+	}
+
+	return nullptr;
+}
+
 //=============================================================================
 //初期化処理
 //=============================================================================
@@ -88,14 +113,16 @@ HRESULT CJailerView::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//発見フラグをオフ
 	m_bIsDetection = false;
 
+	m_bIsActive = true;
+
 	//検出位置を初期化
 	m_detectedPos = ZeroVector3;
 
 	//長さの設定
-	SetLength(m_vViewLength[m_eViewType].fDefaultLength);
+	SetLength(m_viewLength[m_eViewType].fDefaultLength);
 
 	//中心角の設定
-	SetCenterAngle(m_vViewLength[m_eViewType].fCenterAngle);
+	SetCenterAngle(m_viewLength[m_eViewType].fCenterAngle);
 
 	//色の設定
 	SetColor(D3DCOLOR_RGBA(255, 0, 0, 255));
@@ -128,41 +155,6 @@ void CJailerView::Update(void)
 
 	//色の変更処理
 	ChangeColor();
-
-#ifdef _DEBUG
-	//中心角の取得
-	float fCenterAngle = GetCenterAngle();
-
-	//中心角の変更
-	if (CManager::GetKeyboard()->GetPress(DIK_NUMPAD4))
-	{
-		fCenterAngle += 1.0f;
-	}
-	if (CManager::GetKeyboard()->GetPress(DIK_NUMPAD6))
-	{
-		fCenterAngle -= 1.0f;
-	}
-
-	//中心角の設定
-	SetCenterAngle(fCenterAngle);
-
-	//長さの取得
-	float fLength = GetLength();
-
-	//長さの変更
-	if (CManager::GetKeyboard()->GetPress(DIK_NUMPAD1))
-	{
-		fLength += 10.0f;
-	}
-	if (CManager::GetKeyboard()->GetPress(DIK_NUMPAD3))
-	{
-		fLength -= 10.0f;
-	}
-
-	//長さの設定
-	SetLength(fLength);
-
-#endif
 }
 
 //=============================================================================
@@ -170,10 +162,10 @@ void CJailerView::Update(void)
 //=============================================================================
 void CJailerView::Draw(void)
 {
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	//CFan3Dの描画
 	CFan3D::Draw();
-#endif
+//#endif
 }
 
 //=============================================================================
@@ -185,12 +177,12 @@ void CJailerView::CautionJailer(const bool bIsCaution)
 	if (bIsCaution)
 	{
 		//長さを拡大
-		SetLength(m_vViewLength[m_eViewType].fCautionLength);
+		SetLength(m_viewLength[m_eViewType].fCautionLength);
 	}
 	else
 	{
 		//長さを修正
-		SetLength(m_vViewLength[m_eViewType].fDefaultLength);
+		SetLength(m_viewLength[m_eViewType].fDefaultLength);
 	}
 }
 
@@ -226,9 +218,11 @@ void CJailerView::DetectionPlayer(void)
 		//ベクトルの長さ
 		view.fLength = sqrtf((view.fanToPlayer.x * view.fanToPlayer.x) + (view.fanToPlayer.z * view.fanToPlayer.z));
 
-		float fLength = GetLength();
+		//扇の長さを取得
+		float fFanLength = GetLength();
+
 		//ベクトルの長さが半径より大きい場合
-		if (view.fLength > fLength)
+		if (view.fLength > fFanLength)
 		{
 			//先頭に戻る
 			continue;
@@ -238,8 +232,6 @@ void CJailerView::DetectionPlayer(void)
 		D3DXVECTOR3 fanDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
 		D3DXVECTOR3 rotFanDir = ZeroVector3;	//回転させたベクトル
-		D3DXVECTOR3 testrot = ZeroVector3;
-		D3DXMATRIX mtx;
 
 		//向きの情報を修正
 		float fRot = GetRot().y + D3DXToRadian(90.0f);
@@ -278,6 +270,7 @@ void CJailerView::DetectionPlayer(void)
 	{
 		//該当なしのためフラグをfalse
 		m_bIsDetection = false;
+
 		//処理終了
 		return;
 	}
@@ -295,16 +288,17 @@ void CJailerView::DetectionPlayer(void)
 		}
 	}
 
-	if (m_eViewType == VIEW_TYPE_JAILER)
-	{
+	/*if (m_eViewType == VIEW_TYPE_JAILER)
+	{*/
 		//プレイヤーとの間に壁が存在するなら
-		if (MapCollision(vecViewData.at(0).playerPos))
+		if (MapCollision(vecViewData.at(nNumber).playerPos))
 		{
 			//プレイヤーは未発見
 			m_bIsDetection = false;
+
 			return;
 		}
-	}
+	//}
 
 	//検出した位置の保存
 	m_detectedPos = vecViewData[nNumber].playerPos;
@@ -314,15 +308,92 @@ void CJailerView::DetectionPlayer(void)
 	m_bIsDetection = true;
 }
 
+void CJailerView::DetectionPlayer2(void)
+{
+	//プレイヤー情報の取得
+	CPlayer *pPlayer = CManager::GetModePtr()->GetPlayer(m_nRepPlayerNum);
+		
+	//プレイヤーが行動不可能なら
+	if (pPlayer->GetbIncapacitated() == true)
+	{
+		//プレイヤーは未発見
+		m_bIsDetection = false;
+
+		return;
+	}
+
+	//プレイヤーの位置の取得
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+
+	//扇からプレイヤーへのベクトル計算
+	D3DXVECTOR3 fanToPlayer = playerPos - GetPos();
+
+	//ベクトルの長さ
+	float fLength= sqrtf((fanToPlayer.x * fanToPlayer.x) + (fanToPlayer.z * fanToPlayer.z));
+	
+
+	//扇の長さを取得
+	float fFanLength = GetLength();
+
+	//ベクトルの長さが半径より大きい場合
+	if (fLength > fFanLength)
+	{
+		//プレイヤーは未発見
+		m_bIsDetection = false;
+
+		return;
+	}
+
+	//回転角度0度の単位ベクトル
+	D3DXVECTOR3 fanDir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
+	D3DXVECTOR3 rotFanDir = ZeroVector3;	//回転させたベクトル
+
+	//向きの情報を修正
+	float fRot = GetRot().y + D3DXToRadian(90.0f);
+
+	//ベクトルを回転させる
+	rotFanDir.x = fanDir.x * cosf(fRot) + fanDir.z *-sinf(fRot);
+	rotFanDir.z = fanDir.x * sinf(fRot) + fanDir.z *cosf(fRot);
+
+	//扇からプレイヤーへのベクトルを正規化
+	D3DXVECTOR3 norFanToPoint = D3DXVECTOR3(
+		fanToPlayer.x / fLength,
+		fanToPlayer.y / fLength,
+		fanToPlayer.z / fLength);
+
+	//扇とプレイヤーのベクトルのなす角度を求める（内積）
+	float fDot = norFanToPoint.x * rotFanDir.x - norFanToPoint.z * rotFanDir.z;
+
+	//扇の方向ベクトルをcosにする
+	float fFanCos = cosf(D3DXToRadian(GetCenterAngle() / 2.0f));
+
+	//なす角が扇の角度より小さいと失敗
+	if (fDot < fFanCos)
+	{
+		//プレイヤーは未発見
+		m_bIsDetection = false;
+
+		return;
+	}
+
+	//プレイヤーとの間に壁が存在するなら
+	if (MapCollision(playerPos))
+	{
+		//プレイヤーは未発見
+		m_bIsDetection = false;
+
+		return;
+	}
+
+	m_bIsDetection = true;
+}
+
 //=============================================================================
 //マップの当たり判定
 //=============================================================================
 bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 {
-	if (CManager::GetKeyboard()->GetTrigger(DIK_O))
-	{
-		int nCnt = 0;
-	}
 	CScene *pScene = nullptr;
 	CScene *pNext = nullptr;
 
@@ -362,6 +433,7 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 				continue;
 			}
 
+#ifdef TEST_VIEW
 			//OBBと線分の当たり判定
 			if (!pObb->IsHitObbAndLineSegment(origin, endPoint))
 			{
@@ -373,6 +445,113 @@ bool CJailerView::MapCollision(const D3DXVECTOR3 playerPos)
 
 			//壁が存在する
 			return true;
+
+#endif // !TEST_VIEW
+#ifndef TEST_VIEW
+			D3DXVECTOR3 center = pObb->GetCenterPos();	//中心位置の取得
+			D3DXVECTOR3 size = pObb->GetSize();			//サイズの取得
+			D3DXVECTOR3 aDir[CoordinateAxesNum];		//各軸の向き
+
+			for (int nCntNum = ZERO_INT; nCntNum < CoordinateAxesNum; nCntNum++)
+			{
+				//各軸の向きの取得
+				aDir[nCntNum] = pObb->GetDir(nCntNum);
+			}
+
+			D3DXVECTOR3 midPoint = (origin + endPoint) / DIVIDE_2;	//視界からプレイヤーまでの線分の中点を求める
+			D3DXVECTOR3 dir = endPoint - midPoint;					//中点から線分の終点への方向ベクトル
+
+
+																	//中点の位置を修正
+			midPoint = midPoint - center;
+
+
+			//中点の各軸をOBBの各軸の向きで修正
+			midPoint = D3DXVECTOR3(
+
+				D3DXVec3Dot(&aDir[0], &midPoint),
+				D3DXVec3Dot(&aDir[1], &midPoint),
+				D3DXVec3Dot(&aDir[2], &midPoint));
+
+
+			//向きの各軸をOBBの各軸の向きで修正
+			dir = D3DXVECTOR3(
+
+				D3DXVec3Dot(&aDir[0], &dir),
+				D3DXVec3Dot(&aDir[1], &dir),
+				D3DXVec3Dot(&aDir[2], &dir));
+
+			//向きのX座標を絶対値にする
+			float fDirAbsoluteX = fabsf(dir.x);
+
+
+			if (fabsf(midPoint.x) > size.x + fDirAbsoluteX)
+			{
+				//次情報へ切り替え
+				pScene = pNext;
+
+				continue;
+			}
+
+			//向きのY座標を絶対値にする
+			float fDirAbsoluteY = fabsf(dir.y);
+
+
+			if (fabsf(midPoint.y) > size.y + fDirAbsoluteY)
+			{
+				//次情報へ切り替え
+				pScene = pNext;
+
+				continue;
+			}
+
+			//向きのZ座標を絶対値にする
+			float fDirAbsoluteZ = fabsf(dir.z);
+
+
+			if (fabsf(midPoint.z) > size.z + fDirAbsoluteZ)
+			{
+				//次情報へ切り替え
+				pScene = pNext;
+
+				continue;
+			}
+
+			fDirAbsoluteX += FLT_EPSILON;
+			fDirAbsoluteY += FLT_EPSILON;
+			fDirAbsoluteZ += FLT_EPSILON;
+
+			if (fabsf(midPoint.y * dir.z - midPoint.z * dir.y) >
+
+				size.y * fDirAbsoluteZ + size.z * fDirAbsoluteY)
+			{
+				//次情報へ切り替え
+				pScene = pNext;
+
+				continue;
+			}
+			if (fabsf(midPoint.z * dir.x - midPoint.x * dir.z) >
+
+				size.x * fDirAbsoluteZ + size.z * fDirAbsoluteX)
+			{
+
+				//次情報へ切り替え
+				pScene = pNext;
+				continue;
+			}
+
+			if (fabsf(midPoint.x * dir.y - midPoint.y * dir.x) >
+
+				size.x * fDirAbsoluteY + size.y * fDirAbsoluteX)
+			{
+				//次情報へ切り替え
+				pScene = pNext;
+				continue;
+			}
+
+			//壁が存在する
+			return true;
+#endif
 		}
 
 		//次情報へ切り替え

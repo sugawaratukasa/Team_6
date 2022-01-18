@@ -71,11 +71,12 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 {
 	//タイマーのセット
 	pJailer->SetTime(1);
-	pJailer->SetSpeed(ZERO_FLOAT);
-	pJailer->SetMove(ZeroVector3);
-	pJailer->SetGuardBaseDir();
+	pJailer->SetSpeed(ZERO_FLOAT);	//移動速度を0
+	pJailer->SetMove(ZeroVector3);	//移動量を0
+	pJailer->SetGuardBaseDir();		//見回す際の基準向きの設定
 	pJailerView->CautionJailer(false);
 	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_QUESTION);
+	pJailer->SetReceiptNotice(true);	//通報を受けるようにする
 }
 
 //=============================================================================
@@ -94,7 +95,6 @@ void CJailer_LostTarget::Update(CJailer * pJailer, CJailerView * pJailerView)
 	}
 	else
 	{
-		//未発見状態が一定時間続いたら
 		if (pJailer->GetAround() == CJailer::AROUND_CONFIRMATION_NONE)
 		{
 			//巡回状態へ
