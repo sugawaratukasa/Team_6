@@ -156,13 +156,13 @@ float CCaveatBar::VecLength(void)
 //ÉoÅ[ÇÃìÆÇ´
 //=============================================================================
 void CCaveatBar::BarMove(const float fLength)
-{		
-	//î‰ó¶ÇÃå¿äEílÇ‹Ç≈
-	if (m_fBarNow <= MAX_SIZE_X)
+{
+	//ïœêîêÈåæ
+	m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
+
+	if (m_fBarNow < MAX_BAR_RATIO)
 	{
-		//ïœêîêÈåæ
-		m_fBarNow = MAX_BAR_RATIO / fLength * MAX_SIZE_X;
-		GetSize().x = m_fBarNow;
+		GetSize().x = m_fBarNow ;
 		BarColor();
 	}
 }
@@ -177,7 +177,7 @@ void CCaveatBar::BarColor(void)
 	if (m_fBarNow < MAX_SIZE_X / 3)
 	{
 		m_pCaveat->ColorState(CCaveatMark::FADEIN_STATE);
-		if (ZERO_FLOAT <= color.a)
+		if (ZERO_FLOAT < color.a)
 		{
 			color.a -= INCDEC_COLOR_BAR;
 		}
@@ -188,7 +188,7 @@ void CCaveatBar::BarColor(void)
 	else if (m_fBarNow < MAX_SIZE_X / 1.5f)
 	{
 		m_pCaveat->ColorState(CCaveatMark::NORMAL_STATE);
-		if (color.a >= MAX_COLOR_BAR)
+		if (color.a < MAX_COLOR_BAR)
 		{
 			color.a += INCDEC_COLOR_BAR;
 		}
@@ -198,7 +198,7 @@ void CCaveatBar::BarColor(void)
 	else
 	{
 		m_pCaveat->ColorState(CCaveatMark::FLASH_STATE);
-		if (color.a >= MAX_COLOR_BAR)
+		if (color.a < MAX_COLOR_BAR)
 		{
 			color.a += INCDEC_COLOR_BAR;
 		}
