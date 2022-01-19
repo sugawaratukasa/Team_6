@@ -16,7 +16,8 @@
 //‘O•ûéŒ¾
 //=============================================================================
 class CScene2D;
-
+class CKeyboardTexture;
+class CPadTexture;
 //=============================================================================
 //ƒNƒ‰ƒXéŒ¾
 //=============================================================================
@@ -30,8 +31,9 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-
 private:
+	CKeyboardTexture * m_pKeyboardTexture;
+	CPadTexture * m_pPadTexture;
 };
 
 #endif // ! _TUTORIAL_H_

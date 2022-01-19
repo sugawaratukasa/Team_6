@@ -591,11 +591,14 @@
     <ClCompile Include="jailer_door.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_notice.cpp">
-      <Filter>Jailer</Filter>
-    </ClCompile>
     <ClCompile Include="caveatmark.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_texture.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="pad_texture.cpp">
+      <Filter>Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1121,11 +1124,14 @@
     <ClInclude Include="jailer_door.h">
       <Filter>Jailer</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_notice.h">
-      <Filter>Jailer</Filter>
-    </ClInclude>
     <ClInclude Include="caveatmark.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard_texture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="pad_texture.h">
+      <Filter>Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

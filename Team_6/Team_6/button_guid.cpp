@@ -15,6 +15,7 @@
 #include "button_guid.h"
 #include "texture.h"
 #include "resource_manager.h"
+#include "fade.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -105,4 +106,9 @@ void CGuidButton::Draw(void)
 //=============================================================================
 void CGuidButton::Press(void)
 {
+	//押したときのサウンド再生
+	PlayButtonSE(CButton::BUTTON_SE_PUSH);
+	// 遷移
+	CFade *pFade = CManager::GetFade();
+	pFade->SetFade(CManager::MODE_TYPE_TUTORIAL);
 }

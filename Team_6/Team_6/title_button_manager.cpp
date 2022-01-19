@@ -15,6 +15,7 @@
 #include "joypad.h"
 #include "title_button_manager.h"
 #include "button_start.h"
+#include "button_guid.h"
 #include "button_ranking.h"
 #include "button_exit.h"
 #include "fade.h"
@@ -23,8 +24,9 @@
 // マクロ定義
 //*****************************************************************************
 #define START_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f))				//スタートボタンの位置
-#define RANKING_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 80.0f, 0.0f))	//ランキングボタンの位置
-#define EXIT_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 160.0f, 0.0f))		//終了ボタンの位置
+#define GUID_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 80.0f, 0.0f))	
+#define RANKING_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 160.0f, 0.0f))	//ランキングボタンの位置
+#define EXIT_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 240.0f, 0.0f))		//終了ボタンの位置
 #define SIZE (D3DXVECTOR3(450.0f,50.0f,0.0f))														//サイズ
 #define STICK_REACTION		(500.0f)																// スティックの範囲
 #define STICK_REACTION_MIN	(0.0f)																	// スティックの範囲
@@ -221,6 +223,8 @@ void CTitleButtonManager::InitCreateAll(void)
 {
 	//スタートボタン生成
 	m_apButton[BUTTON_START] = CStartButton::Create(START_BUTTON_POSITION, SIZE);
+	//操作説明ボタン生成
+	m_apButton[BUTTON_GUID] = CGuidButton::Create(GUID_BUTTON_POSITION, SIZE);
 	//ランキングボタン生成
 	m_apButton[BUTTON_RANKING] = CRankingButton::Create(RANKING_BUTTON_POSITION, SIZE);
 	//終了ボタン
