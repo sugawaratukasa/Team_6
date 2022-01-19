@@ -62,6 +62,7 @@ private:
 	int						m_nCurrentTime2;// 下二桁
 	bool					m_bIsStencil;	// ステンシル描画中かどうか
 	bool					m_bTimer;		// タイマー用
+	bool					m_bIsPlayedMovie;
 };
 
 #endif

@@ -37,5 +37,6 @@ public:
 	void ModeTransition(void);	// 遷移
 private:
 	CRanking *m_pRankig;	// ランキングのポインタ
+	bool m_bIsPlayedMovie;
 };
 #endif

@@ -20,6 +20,7 @@
 #include "resource_manager.h"
 #include "ranking_bg.h"
 #include "ranking.h"
+#include "Movie.h"
 //=============================================================================
 // マクロ定義
 //=============================================================================
@@ -31,6 +32,7 @@
 CMode_Ranking::CMode_Ranking()
 {
 	m_pRankig = nullptr;
+	m_bIsPlayedMovie = false;
 }
 
 //=============================================================================
@@ -75,25 +77,36 @@ void CMode_Ranking::Update(void)
 	CInputKeyboard* pKey = CManager::GetKeyboard();
 	CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
 
-	// どこのキーでも反応する様に
-	for (int nCnt = ZERO_INT; nCnt <= KEYBORAD_MAX; nCnt++)
+	if(!CManager::GetRenderer()->GetIsUseMovie() && m_bIsPlayedMovie)
 	{
-		// キーが押されたかつモード遷移中でない場合
-		if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+		// どこのキーでも反応する様に
+		for (int nCnt = ZERO_INT; nCnt <= KEYBORAD_MAX; nCnt++)
 		{
-			// 画面遷移
-			ModeTransition();
+			// キーが押されたかつモード遷移中でない場合
+			if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+			{
+				// 画面遷移
+				ModeTransition();
+			}
+		}
+		// コントローラのボタンを押した場合
+		for (int nCnt = ZERO_INT; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
+		{
+			// キーが押されたかつモード遷移中でない場合
+			if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
+			{
+				// 画面遷移
+				ModeTransition();
+				m_bIsPlayedMovie = false;
+			}
 		}
 	}
-	// コントローラのボタンを押した場合
-	for (int nCnt = ZERO_INT; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
+	else if (!m_bIsPlayedMovie)
 	{
-		// キーが押されたかつモード遷移中でない場合
-		if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
-		{
-			// 画面遷移
-			ModeTransition();
-		}
+		CMovie *pMovie = CManager::GetMovie();
+		pMovie->ChangeMovie(L"./data/Movie/MovieClear.avi", false);
+		pMovie->Play();
+		m_bIsPlayedMovie = true;
 	}
 }
 

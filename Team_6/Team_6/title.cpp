@@ -79,7 +79,6 @@ void CTitle::Uninit(void)
 //=============================================================================
 void CTitle::Update(void)
 {
-
 	CRenderer *pRenderer = CManager::GetRenderer();
 	// 動画開始までのカウンターを加算
 	if (!pRenderer->GetIsUseMovie())
@@ -91,7 +90,6 @@ void CTitle::Update(void)
 			m_pTitleButtonManager->Update();
 		}
 
-
 		m_nCountToMovie++;
 	}
 
@@ -101,10 +99,9 @@ void CTitle::Update(void)
 		m_nCountToMovie = 0;
 		// 画面遷移
 		
-		pRenderer->SetIsUseMovie(true);
-		CManager::GetMovie()->ChangeMovie(L"./data/Movie/Test.avi",false);
-		CManager::GetMovie()->Init();
-		CManager::GetMovie()->Play();
+		CMovie *pMovie = CManager::GetMovie();
+		pMovie->ChangeMovie(L"./data/Movie/op_movie_1.avi",false);
+		pMovie->Play();
 	}
 }
 

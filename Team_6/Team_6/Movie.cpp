@@ -20,16 +20,12 @@
 // マクロ定義
 //=============================================================================
 #define KEYBORAD_MAX		(256)
-#define MOVIE_PATH		L"./data/Movie/op_movie_1.avi"
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CMovie::CMovie()
 {
-	m_wcFileName = MOVIE_PATH;
-	m_bIsloop = false;
-	m_nNextMode = (int)CManager::MODE_TYPE_TITLE;
 }
 
 //=============================================================================
@@ -44,8 +40,6 @@ CMovie::~CMovie()
 //=============================================================================
 HRESULT CMovie::Init(void)
 {
-	// COM初期化
-	CoInitialize(NULL);
 	HRESULT hRes;
 
 	// フィルタグラフマネージャの取得
@@ -69,7 +63,7 @@ HRESULT CMovie::Init(void)
 	pVMRCfg = NULL;
 
 	// 描画ウィンドウの指定
-	IVMRWindowlessControl *pVMRWndControl = NULL;;
+	IVMRWindowlessControl *pVMRWndControl = NULL;
 	m_pVMR9->QueryInterface(IID_IVMRWindowlessControl9, (void**)&pVMRWndControl);
 	m_hWnd = FindWindow("WindowClass", "Prison Leak");
 	pVMRWndControl->SetVideoClippingWindow(m_hWnd);
@@ -97,6 +91,8 @@ HRESULT CMovie::Init(void)
 	// フィルタの接続
 	m_pCGB2->RenderStream(0, 0, pSource, 0, m_pVMR9);				// ビデオの接続
 	m_pCGB2->RenderStream(0, &MEDIATYPE_Audio, pSource, 0, 0);	// オーディオの接続
+	pSource->Release();
+	pSource = NULL;
 
 	// レンダリングサイズの指定 (フィルタの接続後にやること)
 	LONG lWidth, lHeight;
@@ -120,7 +116,6 @@ HRESULT CMovie::Init(void)
 	pVMRWndControl->Release(); // 使わないので解放
 	pVMRWndControl = NULL;
 
-	// 
 	IVideoWindow *pVidWnd = NULL;
 	m_pGraph->QueryInterface(IID_IVideoWindow, (void**)&pVidWnd);
 
@@ -146,46 +141,52 @@ void CMovie::Update(void)
 	{
 		CInputKeyboard* pKey = CManager::GetKeyboard();
 		CFade::FADE_MODE mode = CManager::GetFade()->GetFade();
-		long lEventCode;
-		LONG_PTR lpEvParam1, lpEvparam2;
+		long lEventCode = 0;
+		LONG_PTR lpEvParam1, lpEvParam2;
 
-		// どこのキーでも反応する様に
-		for (int nCnt = ZERO_INT; nCnt <= KEYBORAD_MAX; nCnt++)
+		if (CManager::GetMode() == CManager::MODE_TYPE_TITLE)
 		{
-			// キーが押されたかつモード遷移中でない場合
-			if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+			// どこのキーでも反応する様に
+			for (int nCnt = 0; nCnt <= KEYBORAD_MAX; nCnt++)
 			{
-				// 画面遷移
-				OnEndMovie();
+				// キーが押されたかつモード遷移中でない場合
+				if (pKey->GetTrigger(nCnt) && mode == CFade::FADE_MODE_NONE)
+				{
+					// 画面遷移
+					OnEndMovie();
+				}
 			}
-		}
-		// コントローラのボタンを押した場合
-		for (int nCnt = ZERO_INT; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
-		{
-			// キーが押されたかつモード遷移中でない場合
-			if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
+			// コントローラのボタンを押した場合
+			for (int nCnt = 0; nCnt < CInputJoypad::JOY_BUTTON_MAX; nCnt++)
 			{
-				// 画面遷移
-				OnEndMovie();
+				// キーが押されたかつモード遷移中でない場合
+				if (CManager::GetJoypad()->GetJoystickTrigger(nCnt, 0) && mode == CFade::FADE_MODE_NONE)
+				{
+					// 画面遷移
+					OnEndMovie();
+				}
 			}
 		}
 
 		// 動画再生が終了したらタイトルに戻る
-		m_pMedEventEx->GetEvent(&lEventCode, &lpEvParam1, &lpEvparam2, 0);
-		if (lEventCode == EC_COMPLETE)
+		if (m_pMedEventEx != NULL)
 		{
-			m_pMedEventEx->FreeEventParams(lEventCode, lpEvParam1, lpEvparam2);
-			if (m_bIsloop)
+			m_pMedEventEx->GetEvent(&lEventCode, &lpEvParam1, &lpEvParam2, 0);
+			if (lEventCode == EC_COMPLETE)
 			{
-				Stop();
-				Uninit();
-				Init();
-				Play();
-			}
-			else
-			{
-				// 画面遷移
-				OnEndMovie();
+				m_pMedEventEx->FreeEventParams(lEventCode, lpEvParam1, lpEvParam2);
+				if (m_bIsloop)
+				{
+					Stop();
+					Uninit();
+					Init();
+					Play();
+				}
+				else
+				{
+					// 画面遷移
+					OnEndMovie();
+				}
 			}
 		}
 	}
@@ -225,6 +226,7 @@ void CMovie::ChangeMovie(WCHAR* path, bool bLoop)
 HRESULT CMovie::Play(void)
 {
 	HRESULT hRes;
+	CManager::GetRenderer()->SetIsUseMovie(true);
 
 	// フィルタグラフの実行
 	m_pControl = NULL;
@@ -255,11 +257,16 @@ void CMovie::Stop(void)
 //=============================================================================
 void CMovie::Uninit(void)
 {
-	// メモリの解放
+	 //メモリの解放
 	if (m_pControl != NULL)
 	{
 		m_pControl->Release();
 		m_pControl = nullptr;
+	}
+	if (m_pMedEventEx != NULL)
+	{
+		m_pMedEventEx->Release();
+		m_pMedEventEx = nullptr;
 	}
 	if (m_pVMR9 != NULL)
 	{
@@ -276,6 +283,4 @@ void CMovie::Uninit(void)
 		m_pGraph->Release();
 		m_pGraph = nullptr;
 	}
-
-	CoUninitialize();
 }

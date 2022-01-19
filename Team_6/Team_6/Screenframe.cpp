@@ -117,6 +117,7 @@ void CScreenFrame::Uninit(void)
 		m_pScene2D[nCount]->Uninit();
 		m_pScene2D[nCount] = NULL;
 	}
+	Release();
 }
 
 //=============================================================================

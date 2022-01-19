@@ -119,13 +119,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 		m_pParticle_Manager->Init();
 	}
 
-	// !nullcheck
-	if (m_pMovie != nullptr)
-	{
-		// 初期化処理
-		m_pMovie->Init();
-	}
-
 	//全テクスチャの読み込み
 	LoadAll();
 

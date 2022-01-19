@@ -293,6 +293,7 @@ void CGauge::CalcTime(void)
     if (m_fRatio >= 1.0f)
     {
         OnTimerOver();
+		m_fRatio = 1.0f;
     }
 }
 
@@ -301,7 +302,6 @@ void CGauge::CalcTime(void)
 //=============================================================================
 void CGauge::OnTimerOver(void)
 {
-
     // ŽžŠÔØ‚ê
     CFade *pFade = CManager::GetFade();
     CFade::FADE_MODE mode = CManager::GetFade()->GetFade();

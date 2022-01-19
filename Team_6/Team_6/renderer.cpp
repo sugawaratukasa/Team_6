@@ -546,3 +546,8 @@ void CRenderer::SetUpViewPort(CCamera::SCREEN_ID id)
 	// ビューポート設定
 	pDevice->SetViewport(&view_port);
 }
+
+void CRenderer::SetIsUseMovie(bool bUse)
+{
+	 m_bIsUseMovie = bUse;
+}

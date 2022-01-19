@@ -34,5 +34,6 @@ public:
 	void Update(void);			// XVˆ—
 	void Draw(void);			// •`‰æˆ—
 private:
+	bool m_bIsPlayedMovie;
 };
 #endif
