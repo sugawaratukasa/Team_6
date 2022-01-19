@@ -600,6 +600,9 @@
     <ClCompile Include="pad_texture.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
+    <ClCompile Include="jailer_notice.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h">
@@ -1132,6 +1135,9 @@
     </ClInclude>
     <ClInclude Include="pad_texture.h">
       <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="jailer_notice.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

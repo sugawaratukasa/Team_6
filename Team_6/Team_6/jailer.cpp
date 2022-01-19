@@ -21,6 +21,7 @@
 #include "jailer_emotion.h"
 #include "jailer_LostTargetState.h"
 #include "jailer_return_routeState.h"
+#include "jailer_notice.h"
 //=============================================================================
 //マクロ定義
 //=============================================================================
@@ -834,6 +835,6 @@ void CJailer::SetNotice(const D3DXVECTOR3 pos)
 		//通報された場所までのルートを作成
 		m_posDest = m_pSpot->SearchNoticeRoute(GetPos(), pos);
 
-		//ChangeState(CJailer_Notice::GetInstance());
+		ChangeState(CJailer_Notice::GetInstance());
 	}
 }
