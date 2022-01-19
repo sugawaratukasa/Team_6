@@ -14,6 +14,11 @@
 #include "manager.h"
 
 //=============================================================================
+//マクロ定義
+//=============================================================================
+#define EMOTION_OUT_TIME 600	//表示しなくなる時間
+
+//=============================================================================
 //コンストラクタ
 //=============================================================================
 CJailer_Emotion::CJailer_Emotion()
@@ -87,6 +92,7 @@ void CJailer_Emotion::Update(void)
 {
 	//基底クラスの更新
 	CBillboard::Update();
+
 	if (m_bIsAutoOut)
 	{
 		AutoOut();
@@ -110,8 +116,10 @@ void CJailer_Emotion::Draw(void)
 //=============================================================================
 void CJailer_Emotion::SetPosition(D3DXVECTOR3 Pos)
 {
+	//高さを修正する
 	Pos.y = m_fCorrectionPos;
 
+	//位置の設定
 	SetPos(Pos);
 }
 
@@ -143,6 +151,9 @@ void CJailer_Emotion::SetEmotion(const EMOTION_TYPE emotion)
 	}
 }
 
+//=============================================================================
+//エモートの自動フェードアウト
+//=============================================================================
 void CJailer_Emotion::AutoOut(void)
 {
 	if (m_eEmotionType == EMOTION_TYPE_NONE)
@@ -150,12 +161,15 @@ void CJailer_Emotion::AutoOut(void)
 		return;
 	}
 
+	//タイムのカウント
 	m_nOutTime++;
 
-	if (m_nOutTime >= 600)
+	if (m_nOutTime >= EMOTION_OUT_TIME)
 	{
+		//状態をNONE
 		SetEmotion(EMOTION_TYPE_NONE);
 
+		//タイマーをクリア
 		m_nOutTime = ZERO_INT;
 	}
 }

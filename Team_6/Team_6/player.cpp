@@ -40,6 +40,7 @@
 #include "duct_collision.h"
 #include "textlog.h"
 #include "security_camera_collision.h"
+#include "player_action_ui.h"
 //=============================================================================
 // マクロ定義
 // Author : Nikaido Taichi
@@ -90,7 +91,13 @@ CPlayer::CPlayer(PRIORITY Priority) : CCharacter(Priority)
 	{
 		m_pItem[nCount] = nullptr;							// アイテムポインタ
 	}
-
+	m_pAction_UI	= nullptr;
+	m_bInteract		= false;
+	m_bGetItem		= false;
+	m_InteractPos	= ZeroVector3;
+	m_InteractSize	= ZeroVector3;
+	m_ItemPos		= ZeroVector3;
+	m_ItemSize		= ZeroVector3;
 }
 
 //=============================================================================
@@ -119,6 +126,8 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// スピード設定
 	SetSpeed(PLAYER_SPEED);
 
+	// アクションUI生成
+	m_pAction_UI = CPlayer_Action_UI::Create(m_Type);
 	return S_OK;
 }
 
@@ -135,6 +144,15 @@ void CPlayer::Uninit(void)
 	{
 		// UIポインタの終了処理関数呼び出し
 		m_pUI->Uninit();
+	}
+	// !nullcheck
+	if (m_pAction_UI != nullptr)
+	{
+		// 破棄
+		m_pAction_UI->Uninit();
+
+		// nullptr代入
+		m_pAction_UI = nullptr;
 	}
 }
 
@@ -183,6 +201,15 @@ void CPlayer::Update(void)
 			// アイテムの更新処理関数呼び出し
 			m_pItem[nCount]->Update();
 		}
+	}
+	// !nullcheck
+	if (m_pAction_UI != nullptr)
+	{
+		// 更新
+		m_pAction_UI->Update();
+
+		// UI生成処理
+		Action_UI_Create();
 	}
 }
 
@@ -559,6 +586,21 @@ void CPlayer::DoorOpen(int nPlayer)
 					// 扉がロック状態の場合
 					if (((CDoor_Collision*)pScene)->GetLock() == true)
 					{
+						// falseの場合
+						if (m_bInteract == false)
+						{
+							// 位置代入
+							m_InteractPos = ObjPos;
+
+							// サイズ代入
+							m_InteractSize = ObjSize;
+
+							// trueの場合
+							m_bInteract = true;
+
+							// UI生成判定設定
+							m_pAction_UI->SetInteract(m_bInteract);
+						}
 						// キーボード取得
 						CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 						// パッド取得
@@ -580,7 +622,14 @@ void CPlayer::DoorOpen(int nPlayer)
 								nPlayer == 1 && pKeyboard->GetTrigger(DIK_P) ||
 								nPlayer == 0 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A,0) ||
 								nPlayer == 1 && pJoypad->GetJoystickTrigger(CInputJoypad::JOY_BUTTON_A, 1))
+							
 							{
+								// trueの場合
+								if (m_bInteract == true)
+								{
+									// falseに
+									m_bInteract = false;
+								}
 								// 牢屋のドアの場合
 								if (nDoorType == CDoor_Collision::TYPE_ELECTRICAL_ROOM)
 								{
@@ -661,6 +710,22 @@ void CPlayer::Item_DuctPass(int nPlayer)
 				// 立方体の判定
 				if (CCollision::CollisionRectangleAndRectangle(pos, DuctPos, size, DuctSize) == true)
 				{
+					// falseの場合
+					if (m_bInteract == false)
+					{
+						// 位置代入
+						m_InteractPos = DuctPos;
+
+						// サイズ代入
+						m_InteractSize = DuctSize;
+
+						// trueの場合
+						m_bInteract = true;
+
+						// UI生成判定設定
+						m_pAction_UI->SetInteract(m_bInteract);
+					}
+
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 					// パッド取得
@@ -762,6 +827,22 @@ void CPlayer::UseSecurity_Cam(int nPlayer)
 				// 立方体の判定
 				if (CCollision::CollisionRectangleAndRectangle(pos, Security_Cam_Col_Pos, size, Security_Cam_Col_Size) == true)
 				{
+					// falseの場合
+					if (m_bInteract == false)
+					{
+						// 位置代入
+						m_InteractPos = Security_Cam_Col_Pos;
+						
+						// サイズ代入
+						m_InteractSize = Security_Cam_Col_Size;
+
+						// trueの場合
+						m_bInteract = true;
+
+						// UI生成判定設定
+						m_pAction_UI->SetInteract(m_bInteract);
+					}
+
 					// キーボード取得
 					CInputKeyboard *pKeyboard = CManager::GetKeyboard();
 					// パッド取得
@@ -781,4 +862,61 @@ void CPlayer::UseSecurity_Cam(int nPlayer)
 			}
 		}
 	}
+}
+//=============================================================================
+// UI生成処理関数
+// Author : SugawaraTsukasa
+//=============================================================================
+void CPlayer::Action_UI_Create(void)
+{
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// サイズ取得
+	D3DXVECTOR3 size = GetSize();
+
+	// trueの場合
+	if (m_bInteract == true)
+	{
+		// 判定の外にいる場合
+		if (CCollision::CollisionRectangleAndRectangle(pos, m_InteractPos, size, m_InteractSize) == false)
+		{
+			// falseに
+			m_bInteract = false;
+		}
+	}
+	else
+	{
+		// UI生成処理判定設定
+		m_pAction_UI->SetInteract(m_bInteract);
+	}
+	// trueの場合
+	if (m_bGetItem == true)
+	{
+		// 判定の外にいる場合
+		if (CCollision::CollisionRectangleAndRectangle(pos, m_ItemPos, size, m_ItemSize) == false)
+		{
+			// falseに
+			m_bGetItem = false;
+		}
+	}
+	else
+	{
+		// UI生成処理判定設定
+		m_pAction_UI->SetInteract(m_bInteract);
+	}
+}
+//=============================================================================
+// アイテムを取得できるかを設定する処理
+// Author : SugawaraTsukasa
+//=============================================================================
+void CPlayer::SetbItemGet(bool bItemGet,D3DXVECTOR3 pos, D3DXVECTOR3 size)
+{
+	// 代入
+	m_bGetItem	= bItemGet;
+	m_ItemPos	= pos;
+	m_ItemSize	= size;
+
+	// UI生成判定設定
+	m_pAction_UI->SetbItemGet(m_bGetItem);
 }

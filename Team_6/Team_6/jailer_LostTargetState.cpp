@@ -76,7 +76,7 @@ void CJailer_LostTarget::Init(CJailer * pJailer, CJailerView * pJailerView)
 	pJailer->SetGuardBaseDir();		//Œ©‰ñ‚·Û‚ÌŠî€Œü‚«‚ÌÝ’è
 	pJailerView->CautionJailer(false);
 	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_QUESTION);
-	pJailer->SetReceiptNotice(true);	//’Ê•ñ‚ðŽó‚¯‚é‚æ‚¤‚É‚·‚é
+	pJailer->SetIsReceiptNotice(true);	//’Ê•ñ‚ðŽó‚¯‚é‚æ‚¤‚É‚·‚é
 }
 
 //=============================================================================

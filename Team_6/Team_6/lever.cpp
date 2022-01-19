@@ -142,3 +142,11 @@ void CLever::Open(int nPlayer)
 	// true‚É
 	m_pLever_Handle->SetDown(true);
 }
+//=============================================================================
+// ƒhƒA‚ªŠJ‚¢‚½Ž–‚ðÝ’è‚·‚éˆ—ŠÖ”
+// Author : Sugawara Tsukasa
+//=============================================================================
+void CLever::SetOpen(bool bOpen)
+{
+	m_pLever_Handle->SetOpen(bOpen);
+}

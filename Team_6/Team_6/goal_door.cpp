@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "resource_manager.h"
 #include "jailer_door_collision.h"
+#include "textlog.h"
 //=============================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -20,6 +21,7 @@
 #define COLLISION_SIZE2	(D3DXVECTOR3(25.0f,330.0f,180.0f))	// サイズ
 #define ROT_90			(D3DXToRadian(89.0f))				// 向き
 #define MOVE_Y			(10.0f)								// 移動
+#define LEVER_COUNT		(150)								// レバーカウント
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -34,7 +36,6 @@ CGoal_Door::CGoal_Door(PRIORITY Priority)
 // デストラクタ
 // Author : Sugawara Tsukasa
 //=============================================================================
-
 CGoal_Door::~CGoal_Door()
 {
 }
@@ -135,9 +136,9 @@ void CGoal_Door::Update(void)
 		Open();
 	}
 	// レバーとも下がっていない場合
-	else
+	if (bDown1 == false && bDown2 == false)
 	{
-		// 開く
+		// 閉じる
 		Close();
 	}
 }

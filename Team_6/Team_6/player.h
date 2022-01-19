@@ -13,7 +13,7 @@
 #include "character.h"
 #include "model_anime.h"
 #include "item_object.h"
-
+#include "player_action_ui.h"
 
 //=============================================================================
 // マクロ定義
@@ -36,7 +36,7 @@ class CItemGetUI;
 class CItem;
 
 class CPlayerItemUI;
-
+class CPlayer_Action_UI;
 //=============================================================================
 // プレイヤークラス
 //=============================================================================
@@ -86,8 +86,9 @@ public:
 	virtual void PrisonWarp(void) = 0;								// 独房ワープ処理
 	virtual void SetbGuidCreate(CItemObject::ITEM_OBJECT_LIST Type) = 0;							// アイテム説明テクスチャ生成処理
 	void DoorOpen(int nPlayer);										// 扉を開く処理
-	void Item_DuctPass(int nPlayer);										// ダクトアイテム受け渡し
+	void Item_DuctPass(int nPlayer);								// ダクトアイテム受け渡し
 	void UseSecurity_Cam(int nPlayer);								// 監視カメラの使用処理
+	void Action_UI_Create(void);
 	//=============================================================================
 	//　Set関数
 	//=============================================================================
@@ -98,6 +99,8 @@ public:
 	void SetbGoal(bool bGoal) { m_bGoal = bGoal; }										// ゴール状態設定
 	void SetbIncapacitated(bool bIncapacitated) { m_bIncapacitated = bIncapacitated; }	// 行動不能状態設定
 	void SetbItemGuidCreate(bool bGuid) { m_bGuidCreate = bGuid; }						// アイテム説明テクスチャの生成状態
+	void SetbItemGet(bool bItemGet, D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	void SetType(TYPE type) { m_Type = type; }
 	//=============================================================================
 	//　Get関数
 	//=============================================================================
@@ -109,6 +112,7 @@ public:
 	int &GetIncapacitatedTimeCount(void) { return m_nIncapacitatedTimeCount; }    // 行動不能カウント取得
 	bool GetbGuidCreate(void) { return m_bGuidCreate; }			// アイテム説明テクスチャの生成状態取得関数
 	TYPE GetType(void) { return m_Type; }
+	bool bGetItem(void) { return m_bGetItem; }
 private:
 
 	int m_nItemCount;						// アイテムの所持数
@@ -120,9 +124,16 @@ private:
 	bool m_bItempCreate[ITEM_MAX];			// アイテムポインタ生成したか
 	bool m_bUICreate[ITEM_MAX];				// UI生成状態
 	bool m_bGuidCreate;
+	bool m_bInteract;						// ドアの判定
+	bool m_bGetItem;						// アイテム
 	TYPE m_Type;
 	CItemGetUI * m_pItemGetUI[ITEM_MAX];	// UIのポインタ
 	CPlayerItemUI * m_pUI;					// UIポインタ
 	CItem * m_pItem[3];						// アイテムポインタ
+	CPlayer_Action_UI *m_pAction_UI;		// アクションUI
+	D3DXVECTOR3 m_InteractPos;				// インタラクト位置
+	D3DXVECTOR3 m_InteractSize;				// インタラクトサイズ
+	D3DXVECTOR3 m_ItemPos;					// アイテム位置
+	D3DXVECTOR3 m_ItemSize;					// アイテムサイズ
 };
 #endif

@@ -45,7 +45,7 @@ void CChaseState::Init(CJailer *pJailer, CJailerView *pJailerView)
 	pFog->SetFogState(CFog::FOG_WARNING);
 
 	//’ÇÕ’†‚Í’Ê•ñ‚ðŽó‚¯•t‚¯‚È‚¢
-	pJailer->SetReceiptNotice(false);
+	pJailer->SetIsReceiptNotice(false);
 
 	pJailer->GetEmotion()->SetEmotion(CJailer_Emotion::EMOTION_TYPE_ANGER);
 }

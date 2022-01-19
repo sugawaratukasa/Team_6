@@ -329,6 +329,4 @@ void CGame::CreateJailer(void)
 		//ŠÅç‚Ì¶¬
 		m_apJailer[nCntJailer] = CJailer::Create(nCntJailer);
 	}
-
-
 }

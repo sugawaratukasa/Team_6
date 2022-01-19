@@ -61,9 +61,6 @@
     <Filter Include="Object\Map_Floor">
       <UniqueIdentifier>{00ffe3c4-3c95-4219-9d89-46c8128c7954}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CaveatBer">
-      <UniqueIdentifier>{e7960032-f8b5-4348-862f-2954a4420b01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CaveatBar">
       <UniqueIdentifier>{2af707df-bc28-4349-9ede-558df381ef35}</UniqueIdentifier>
     </Filter>
@@ -450,9 +447,6 @@
     <ClCompile Include="select_item_flame.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
-    <ClCompile Include="spot_polygon.cpp">
-      <Filter>Jailer</Filter>
-    </ClCompile>
     <ClCompile Include="storage_door.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -579,9 +573,6 @@
     <ClCompile Include="clear_time_bg.cpp">
       <Filter>Mode</Filter>
     </ClCompile>
-    <ClCompile Include="caveatbar.cpp">
-      <Filter>CaveatBer</Filter>
-    </ClCompile>
     <ClCompile Include="jailer_emotion.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
@@ -594,6 +585,12 @@
     <ClCompile Include="caveatmark.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="lever_manager.cpp">
+      <Filter>new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="player_action_ui.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
     <ClCompile Include="keyboard_texture.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
@@ -601,7 +598,10 @@
       <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="jailer_notice.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Jailer</Filter>
+    </ClCompile>
+    <ClCompile Include="caveatbar.cpp">
+      <Filter>CaveatBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -992,9 +992,6 @@
     <ClInclude Include="select_item_flame.h">
       <Filter>Texture</Filter>
     </ClInclude>
-    <ClInclude Include="spot_polygon.h">
-      <Filter>Jailer</Filter>
-    </ClInclude>
     <ClInclude Include="storage_door.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -1130,6 +1127,12 @@
     <ClInclude Include="caveatmark.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="lever_manager.h">
+      <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="player_action_ui.h">
+      <Filter>UI</Filter>
+    </ClInclude>
     <ClInclude Include="keyboard_texture.h">
       <Filter>Texture</Filter>
     </ClInclude>
@@ -1137,7 +1140,7 @@
       <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="jailer_notice.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Jailer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

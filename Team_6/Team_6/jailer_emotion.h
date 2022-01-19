@@ -49,22 +49,21 @@ public:
 	void Uninit(void);									//終了処理
 	void Update(void);									//更新処理
 	void Draw(void);									//描画処理
-	
 
-	void SetPosition(D3DXVECTOR3 Pos);					//位置設定処理
-	void SetEmotion(const EMOTION_TYPE emotion);		//タイプ設定処理
-	void SetCorrectionPos(const float fCorrection) { m_fCorrectionPos = fCorrection; }
-	void SetAutoOut(bool bIsUpdate) { m_bIsAutoOut = bIsUpdate; }
+	void SetPosition(D3DXVECTOR3 Pos);													//位置設定処理
+	void SetEmotion(const EMOTION_TYPE emotion);										//タイプ設定処理
+	void SetCorrectionPos(const float fCorrection) { m_fCorrectionPos = fCorrection; }	//高さの補正値の設定
+	void SetAutoOut(bool bIsUpdate) { m_bIsAutoOut = bIsUpdate; }						//自動フェードアウトするかどうか
 
 private:
-	void AutoOut(void);
+	void AutoOut(void);	//自動フェードアウト処理
 
 	//=========================================================================
 	//メンバ変数宣言
 	//=========================================================================
-	EMOTION_TYPE m_eEmotionType;
-	float m_fCorrectionPos;	//高さの補正値
-	bool m_bIsAutoOut;
-	int m_nOutTime;
+	EMOTION_TYPE m_eEmotionType;	//エモーションの種類
+	float m_fCorrectionPos;			//高さの補正値
+	bool m_bIsAutoOut;				//自動フェードアウトするかどうか
+	int m_nOutTime;					//タイマー
 };
 #endif // !JAILER_EMOTION

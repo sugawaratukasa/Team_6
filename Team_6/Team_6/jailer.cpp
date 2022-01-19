@@ -22,6 +22,7 @@
 #include "jailer_LostTargetState.h"
 #include "jailer_return_routeState.h"
 #include "jailer_notice.h"
+
 //=============================================================================
 //マクロ定義
 //=============================================================================
@@ -167,10 +168,6 @@ void CJailer::Update(void)
 	//回転処理
 	Rotation();
 	
-	IsHitPlayer();
-
-	CheckMapCollision();
-
 	m_pSpot->Update();
 
 	//状態処理の更新
@@ -181,6 +178,7 @@ void CJailer::Update(void)
 	
 	if (m_pEmotion)
 	{
+		//エモートクラスの更新
 		m_pEmotion->SetPosition(pos);
 	}
 
@@ -189,6 +187,12 @@ void CJailer::Update(void)
 		m_pView->SetRotation(GetRot());									//扇の向きの設定
 		m_pView->SetPosition(D3DXVECTOR3(pos.x, VIEW_POS_Y, pos.z));	//扇の位置の設定
 	}
+
+	//マップとの当たり判定
+	CheckMapCollision();
+
+	//プレイヤーとの当たり判定
+	IsHitPlayer();
 }
 
 //=============================================================================
@@ -292,6 +296,7 @@ void CJailer::Patrol(void)
 	}
 	else
 	{
+		//周囲を見回す
 		TurnAround();
 	}
 }
@@ -402,6 +407,9 @@ void CJailer::GuardSurrounding(void)
 	TurnAround();
 }
 
+//=============================================================================
+// 通報
+//=============================================================================
 void CJailer::Notice(void)
 {
 	AddTime(1);
@@ -428,8 +436,6 @@ void CJailer::Notice(void)
 	//アイドルモーション再生
 	SetMotion(JAILER_MOTION::JAILER_MOTION_MOVE);
 
-	
-
 	//移動方向のベクトルの正規化
 	D3DXVec3Normalize(&nor, &m_distance);
 
@@ -453,17 +459,6 @@ void CJailer::Notice(void)
 			return;
 		}
 	}
-}
-
-//=============================================================================
-//攻撃処理
-//=============================================================================
-void CJailer::Attack(void)
-{
-}
-
-void CJailer::Damage(void)
-{
 }
 
 //=============================================================================
@@ -734,7 +729,6 @@ void CJailer::CheckMapCollision(void)
 			}
 		}
 	}
-
 	
 	//スタック対策
 	if (m_bHitMap == true)
@@ -813,11 +807,13 @@ void CJailer::SetGuardBaseDir(void)
 	//向きの設定
 	m_GuardBaseDir = rot;
 
+	//左へ向くようにする
 	m_eAroud = AROUND_CONFIRMATION_LEFT;
 
 	//向きの目的値設定
 	m_rotDest.y = m_GuardBaseDir.y - GUARD_ROT_ANGLE;
 
+	//移動量と速度を0にする
 	SetSpeed(ZERO_FLOAT);
 	SetMove(ZeroVector3);
 }
@@ -827,6 +823,7 @@ void CJailer::SetGuardBaseDir(void)
 //=============================================================================
 void CJailer::SetNotice(const D3DXVECTOR3 pos)
 {
+	//通報を受けれる状態なら
 	if (m_bIsReceiptNotice == true)
 	{
 		//通報を受けないようにする
@@ -835,6 +832,7 @@ void CJailer::SetNotice(const D3DXVECTOR3 pos)
 		//通報された場所までのルートを作成
 		m_posDest = m_pSpot->SearchNoticeRoute(GetPos(), pos);
 
+		//通報された状態へ移行
 		ChangeState(CJailer_Notice::GetInstance());
 	}
 }
