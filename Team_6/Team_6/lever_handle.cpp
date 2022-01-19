@@ -15,7 +15,7 @@
 //=============================================================================
 #define DOWN_Y		(40.0f)	// レバーの下がる位置7
 #define MOVE_Y		(2.0f)	// 移動
-#define UP_COUNT	(50000000)	// カウント
+#define UP_COUNT	(150)	// カウント
 //=============================================================================
 // コンストラクタ
 // Author : Sugawara Tsukasa
@@ -24,6 +24,7 @@ CLever_Handle::CLever_Handle(PRIORITY Priority) : CModel(Priority)
 {
 	m_InitPos = ZeroVector3;
 	m_bDown = false;
+	m_bOpen = false;
 	m_nDownCnt = ZERO_INT;
 }
 //=============================================================================
@@ -107,18 +108,22 @@ void CLever_Handle::Update(void)
 	{
 		// 下がる処理
 		Down();
-
-		// インクリメント
-		m_nDownCnt++;
-
-		// レバーの上がるカウントよりも大きくなった場合
-		if (m_nDownCnt >= UP_COUNT)
+		
+		// 扉が開いていない場合
+		if (m_bOpen == false)
 		{
-			// 0に
-			m_nDownCnt = ZERO_INT;
+			// インクリメント
+			m_nDownCnt++;
 
-			// 上がっている状態に
-			m_bDown = false;
+			// レバーの上がるカウントよりも大きくなった場合
+			if (m_nDownCnt > UP_COUNT)
+			{
+				// 0に
+				m_nDownCnt = ZERO_INT;
+
+				// 上がっている状態に
+				m_bDown = false;
+			}
 		}
 	}
 	// レバーが上げられている場合

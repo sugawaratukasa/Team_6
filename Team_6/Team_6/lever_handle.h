@@ -32,6 +32,7 @@ public:
 	// Set関数
 	//======================================
 	void SetDown(bool bDown) { m_bDown = bDown; }	// 下げられているか設定する
+	void SetOpen(bool bOpen) { m_bOpen = bOpen; }	// ドアが開いているか設定する
 	//======================================
 	// Get関数
 	//======================================
@@ -39,6 +40,7 @@ public:
 private:
 	D3DXVECTOR3 m_InitPos;	// 初期位置
 	bool m_bDown;			// 下げらているか判定する
+	bool m_bOpen;			// ドアが開いているか
 	int m_nDownCnt;			// レバーの下げられているカウント		
 };
 #endif

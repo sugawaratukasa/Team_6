@@ -90,6 +90,8 @@ CPlayer1 * CPlayer1::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //=============================================================================
 HRESULT CPlayer1::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
+	// ƒ^ƒCƒvÝ’è
+	SetType(PLAYER_1);
 	// CXfileŽæ“¾
 	CXfile *pXfile = CManager::GetResourceManager()->GetXfileClass();
 

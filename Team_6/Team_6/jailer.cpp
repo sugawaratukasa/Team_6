@@ -19,7 +19,7 @@
 #include "Jalier_MoveState.h"
 #include "object.h"
 #include "jailer_emotion.h"
-#include "jailer_notice.h"
+//#include "jailer_notice.h"
 #include "jailer_LostTargetState.h"
 #include "jailer_return_routeState.h"
 //=============================================================================
@@ -835,6 +835,6 @@ void CJailer::SetNotice(const D3DXVECTOR3 pos)
 		//’Ê•ñ‚³‚ê‚½êŠ‚Ü‚Å‚Ìƒ‹[ƒg‚ðì¬
 		m_posDest = m_pSpot->SearchNoticeRoute(GetPos(), pos);
 
-		ChangeState(CJailer_Notice::GetInstance());
+		//ChangeState(CJailer_Notice::GetInstance());
 	}
 }

@@ -591,11 +591,14 @@
     <ClCompile Include="jailer_door.cpp">
       <Filter>Jailer</Filter>
     </ClCompile>
-    <ClCompile Include="jailer_notice.cpp">
-      <Filter>Jailer</Filter>
-    </ClCompile>
     <ClCompile Include="caveatmark.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lever_manager.cpp">
+      <Filter>new map obj</Filter>
+    </ClCompile>
+    <ClCompile Include="player_action_ui.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1121,11 +1124,14 @@
     <ClInclude Include="jailer_door.h">
       <Filter>Jailer</Filter>
     </ClInclude>
-    <ClInclude Include="jailer_notice.h">
-      <Filter>Jailer</Filter>
-    </ClInclude>
     <ClInclude Include="caveatmark.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lever_manager.h">
+      <Filter>new map obj</Filter>
+    </ClInclude>
+    <ClInclude Include="player_action_ui.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

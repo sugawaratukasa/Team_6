@@ -112,14 +112,35 @@ void CItemObject::Collision(void)
 			PlayerPosition[nCount] = apPlayer[nCount]->GetPos();
 			// プレイヤーのサイズを取得する
 			PlayerSize[nCount] = apPlayer[nCount]->GetSize();
+
+			// 判定内にいるか
+			bool bGet = false;
 			// アイテムとプレイヤーの矩形型の当たり判定
 			if (CCollision::CollisionRectangleAndRectangle(m_Position, PlayerPosition[nCount], COLLISION_SIZE, PlayerSize[nCount]) == true)
 			{
+				// falseの場合
+				if (bGet == false)
+				{
+					// trueに
+					bGet = true;
+
+					// アイテム取得できる状態を設定
+					apPlayer[nCount]->SetbItemGet(bGet, m_Position, COLLISION_SIZE);
+				}
 				if (nCount == CPlayer::PLAYER_1 && pKeyboard->GetTrigger(DIK_V) ||
 					nCount == CPlayer::PLAYER_1 &&pJoypad->GetJoystickRelease(CInputJoypad::JOY_BUTTON_X, 0) ||
 					nCount == CPlayer::PLAYER_2 && pKeyboard->GetTrigger(DIK_H) ||
 					nCount == CPlayer::PLAYER_2 && pJoypad->GetJoystickRelease(CInputJoypad::JOY_BUTTON_X, 1))
 				{
+					// trueの場合
+					if (bGet == true)
+					{
+						// trueに
+						bGet = false;
+
+						// アイテム取得できる状態を設定
+						apPlayer[nCount]->SetbItemGet(bGet, m_Position, COLLISION_SIZE);
+					}
 					if (apPlayer[nCount]->GetItemCount() < MAX_ITEM && apPlayer[nCount]->GetbGuidCreate() == false)
 					{
 						// プレイヤーにアイテムを設定する

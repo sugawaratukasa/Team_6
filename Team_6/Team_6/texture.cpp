@@ -128,6 +128,8 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/caveat.png" },
 		{ "data/Texture/Question.png" },
 		{ "data/Texture/Anger.png" },
+		{ "data/Texture/Interaction.png" },
+		{ "data/Texture/pick_up.png" },
 	};
 
 	// 分割テクスチャ

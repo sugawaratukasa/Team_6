@@ -47,6 +47,7 @@
 #include "bookbox.h"
 #include "security_camera_collision.h"
 #include "Camera_Security.h"
+#include "lever_manager.h"
 //========================================================================
 // マクロ定義
 // Author : Sugawara Tsukasa
@@ -114,6 +115,9 @@ HRESULT CMap::Init(void)
 	// 監視カメラ判定の生成
 	CSecurity_Camera_Collision::Create(SECURITY_CAM_COL_POS_1, ZeroVector3);
 	CSecurity_Camera_Collision::Create(SECURITY_CAM_COL_POS_2, ZeroVector3);
+
+	// レバーマネージャー生成
+	CLever_Manager::Create(m_pLever1, m_pLever2);
 	return S_OK;
 }
 //========================================================================

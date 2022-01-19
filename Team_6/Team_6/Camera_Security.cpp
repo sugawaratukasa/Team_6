@@ -192,7 +192,7 @@ void CCameraSecurity::SearchPlayer(void)
 		D3DXVECTOR3 pos = m_pView->GetDetectionPos();
 
 		//ŠÅŽç‚É’Ê•ñ
-		pJailer->SetNotice(pos);
+		//pJailer->SetNotice(pos);
 	}
 }
 

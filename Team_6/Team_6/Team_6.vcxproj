@@ -175,8 +175,8 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_collision_box.cpp" />
     <ClCompile Include="clear_time_bg.cpp" />
+    <ClCompile Include="lever_manager.cpp" />
     <ClCompile Include="jailer_emotion.cpp" />
-    <ClCompile Include="jailer_notice.cpp" />
     <ClCompile Include="mode_clear_time.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="control_room_door.cpp" />
@@ -291,6 +291,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_1.cpp" />
     <ClCompile Include="player_2.cpp" />
+    <ClCompile Include="player_action_ui.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="prison_cell_door.cpp" />
     <ClCompile Include="prison_door_collision.cpp" />
@@ -359,7 +360,7 @@
     <ClInclude Include="character_collision_box.h" />
     <ClInclude Include="clear_time_bg.h" />
     <ClInclude Include="jailer_emotion.h" />
-    <ClInclude Include="jailer_notice.h" />
+    <ClInclude Include="lever_manager.h" />
     <ClInclude Include="mode_clear_time.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="control_room_door.h" />
@@ -476,6 +477,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_1.h" />
     <ClInclude Include="player_2.h" />
+    <ClInclude Include="player_action_ui.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="prison_cell_door.h" />
     <ClInclude Include="prison_door_collision.h" />
