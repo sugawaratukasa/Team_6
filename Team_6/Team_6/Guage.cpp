@@ -284,9 +284,9 @@ void CGauge::CalcTime(void)
   
     m_fAngle = D3DXToRadian(TIMER_ANGLE * m_fRatio);
 
-    if (m_fAngle >= D3DXToRadian(360))
+    if (m_fAngle >= D3DXToRadian(180))
     {
-        m_fAngle = 0.0f;
+        m_fAngle = D3DXToRadian(180);
     }
 
     // タイムオーバー時の処理
