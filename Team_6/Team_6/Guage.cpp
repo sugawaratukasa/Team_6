@@ -284,15 +284,16 @@ void CGauge::CalcTime(void)
   
     m_fAngle = D3DXToRadian(TIMER_ANGLE * m_fRatio);
 
-    if (m_fAngle >= D3DXToRadian(360))
+    if (m_fAngle >= D3DXToRadian(180))
     {
-        m_fAngle = 0.0f;
+        m_fAngle = D3DXToRadian(180);
     }
 
     // タイムオーバー時の処理
     if (m_fRatio >= 1.0f)
     {
         OnTimerOver();
+		m_fRatio = 1.0f;
     }
 }
 
@@ -301,7 +302,6 @@ void CGauge::CalcTime(void)
 //=============================================================================
 void CGauge::OnTimerOver(void)
 {
-
     // 時間切れ
     CFade *pFade = CManager::GetFade();
     CFade::FADE_MODE mode = CManager::GetFade()->GetFade();

@@ -37,7 +37,7 @@ public:
 	void ReSetStateStencil(void);				// ステンシル情報リセット
 	void SetUpViewPort(CCamera::SCREEN_ID id);
 	void SetIsUseSecCam(bool bUse) { m_bUseSecCam = bUse; }
-	void SetIsUseMovie(bool bUse) { m_bIsUseMovie = bUse; }
+	void SetIsUseMovie(bool bUse);
 
 	LPDIRECT3DDEVICE9 GetDevice(void);			// デバイス情報
 	bool GetIsUseSecCam(void) { return m_bUseSecCam; }
