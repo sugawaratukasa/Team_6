@@ -903,7 +903,7 @@ void CPlayer::Action_UI_Create(void)
 	else
 	{
 		// UI¶¬ˆ—”»’èÝ’è
-		m_pAction_UI->SetInteract(m_bInteract);
+		m_pAction_UI->SetbItemGet(m_bGetItem);
 	}
 }
 //=============================================================================
