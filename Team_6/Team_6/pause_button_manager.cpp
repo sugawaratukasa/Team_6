@@ -240,8 +240,6 @@ void CPauseButtonManager::InitCreateAll(void)
 	m_apButton[BUTTON_QUIT_GAME] = CQuitGameButton::Create(START_BUTTON_POSITION, SIZE);
 	//タイトルに戻るボタン
 	m_apButton[BUTTON_BACK_TO_TITLE] = CBackToTitleButton::Create(RANKING_BUTTON_POSITION, SIZE);
-	//操作説明ボタン
-	m_apButton[BUTTON_GUID] = CGuidButton::Create(EXIT_BUTTON_POSITION, SIZE);
 	if (m_pPauseLogo == nullptr)
 	{
 		m_pPauseLogo = CPauseLogoTexture::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 5, 0.0f), D3DXVECTOR3(400.0f, 100.0f, 0.0f));

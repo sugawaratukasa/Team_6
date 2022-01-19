@@ -176,7 +176,7 @@
     <ClCompile Include="character_collision_box.cpp" />
     <ClCompile Include="clear_time_bg.cpp" />
     <ClCompile Include="jailer_emotion.cpp" />
-    <ClCompile Include="jailer_notice.cpp" />
+    <ClCompile Include="keyboard_texture.cpp" />
     <ClCompile Include="mode_clear_time.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="control_room_door.cpp" />
@@ -280,6 +280,7 @@
     <ClCompile Include="object_wall.cpp" />
     <ClCompile Include="object_wood_chair.cpp" />
     <ClCompile Include="object_wood_desk.cpp" />
+    <ClCompile Include="pad_texture.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particle_emitter.cpp" />
     <ClCompile Include="particle_manager.cpp" />
@@ -359,7 +360,7 @@
     <ClInclude Include="character_collision_box.h" />
     <ClInclude Include="clear_time_bg.h" />
     <ClInclude Include="jailer_emotion.h" />
-    <ClInclude Include="jailer_notice.h" />
+    <ClInclude Include="keyboard_texture.h" />
     <ClInclude Include="mode_clear_time.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="control_room_door.h" />
@@ -465,6 +466,7 @@
     <ClInclude Include="object_wood_box.h" />
     <ClInclude Include="object_wood_chair.h" />
     <ClInclude Include="object_wood_desk.h" />
+    <ClInclude Include="pad_texture.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particle_emitter.h" />
     <ClInclude Include="particle_manager.h" />
