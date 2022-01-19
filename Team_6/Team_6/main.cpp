@@ -10,6 +10,7 @@
 //=============================================================================
 #include "main.h"
 #include "manager.h"
+#include "resource_icon.h"
 
 //=============================================================================
 // É}ÉNÉçíËã`
@@ -43,12 +44,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		0,
 		0,
 		hInstance,
-		NULL,
+		LoadIcon(hInstance,MAKEINTRESOURCE(IDI_ICON1)),
 		LoadCursor(NULL, IDC_ARROW),
 		(HBRUSH)(COLOR_WINDOW + 1),
 		NULL,
 		CLASS_NAME,
-		NULL
+		LoadIcon(hInstance,MAKEINTRESOURCE(IDI_ICON1))
 	};
 
 	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };

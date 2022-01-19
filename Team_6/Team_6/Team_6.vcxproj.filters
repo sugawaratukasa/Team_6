@@ -1142,5 +1142,18 @@
     <ClInclude Include="jailer_notice.h">
       <Filter>Jailer</Filter>
     </ClInclude>
+    <ClInclude Include="resource_icon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Team_6.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\Icon\Icon_P.L.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
 </Project>

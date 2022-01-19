@@ -490,6 +490,7 @@
     <ClInclude Include="ranking.h" />
     <ClInclude Include="ranking_bg.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="resource_icon.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
@@ -519,6 +520,12 @@
     <ClInclude Include="ui_player2_item.h" />
     <ClInclude Include="ui_player_item.h" />
     <ClInclude Include="xfile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Team_6.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\Icon\Icon_P.L.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
