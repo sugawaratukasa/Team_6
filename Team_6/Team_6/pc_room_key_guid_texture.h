@@ -26,7 +26,7 @@
 class CPCRoomKeyGuidTexture : public CScene2D
 {
 public:
-	CPCRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_TEXTURE);						// コンストラクタ
+	CPCRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_GUID_TEXTURE);						// コンストラクタ
 	~CPCRoomKeyGuidTexture();													// デストラクタ
 	static CPCRoomKeyGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);							// 初期化処理

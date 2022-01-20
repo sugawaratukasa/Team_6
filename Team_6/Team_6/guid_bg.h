@@ -26,7 +26,7 @@
 class CGuidBG :public CScene2D
 {
 public:
-	CGuidBG(PRIORITY Priority = PRIORITY_UI);
+	CGuidBG(PRIORITY Priority = PRIORITY_GUID_TEXTURE);
 	~CGuidBG();
 	static CGuidBG * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);

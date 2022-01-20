@@ -26,7 +26,7 @@
 class CMapGuidTexture : public CScene2D
 {
 public:
-	CMapGuidTexture(PRIORITY Priority = PRIORITY_TEXTURE);						// コンストラクタ
+	CMapGuidTexture(PRIORITY Priority = PRIORITY_GUID_TEXTURE);						// コンストラクタ
 	~CMapGuidTexture();														// デストラクタ
 	static CMapGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);		// 生成処理関数
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);						// 初期化処理

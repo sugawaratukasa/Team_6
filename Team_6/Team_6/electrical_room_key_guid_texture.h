@@ -26,7 +26,7 @@
 class CElectricalRoomKeyGuidTexture : public CScene2D
 {
 public:
-	CElectricalRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_TEXTURE);						// コンストラクタ
+	CElectricalRoomKeyGuidTexture(PRIORITY Priority = PRIORITY_GUID_TEXTURE);						// コンストラクタ
 	~CElectricalRoomKeyGuidTexture();													// デストラクタ
 	static CElectricalRoomKeyGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);									// 初期化処理

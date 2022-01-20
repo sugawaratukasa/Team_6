@@ -43,6 +43,7 @@ public:
 		PRIORITY_BUTTON,			// ƒ{ƒ^ƒ“
 		PRIORITY_FADE,				// FADE
 		PRIORITY_TEXTURE,
+		PRIORITY_GUID_TEXTURE,
 		PRIORITY_MAX				// —Dæ‡ˆÊ‚ÌÅ‘å”
 	};
 

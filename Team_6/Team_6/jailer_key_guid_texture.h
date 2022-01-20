@@ -26,7 +26,7 @@
 class CJailerKeyGuidTexture : public CScene2D
 {
 public:
-	CJailerKeyGuidTexture(PRIORITY Priority = PRIORITY_TEXTURE);						// コンストラクタ
+	CJailerKeyGuidTexture(PRIORITY Priority = PRIORITY_GUID_TEXTURE);						// コンストラクタ
 	~CJailerKeyGuidTexture();													// デストラクタ
 	static CJailerKeyGuidTexture * Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);	// 生成処理関数
 	HRESULT Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);							// 初期化処理
