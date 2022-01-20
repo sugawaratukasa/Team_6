@@ -24,7 +24,7 @@
 //=============================================================================
 // マクロ定義
 //=============================================================================
-#define TRANSITION_WAIT_LENGTH	(300) // 動画再生までのフレーム数
+#define TRANSITION_WAIT_LENGTH	(900) // 動画再生までのフレーム数
 
 //=============================================================================
 // コンストラクタ
@@ -55,6 +55,7 @@ HRESULT CTitle::Init(void)
 
 	CSound * pSound = GET_SOUND_PTR;
 	pSound->CSound::Play(CSound::SOUND_BGM_TITLE);
+	m_bIsPlayingBGM = true;
 	return S_OK;
 }
 
@@ -79,9 +80,16 @@ void CTitle::Uninit(void)
 void CTitle::Update(void)
 {
 	CRenderer *pRenderer = CManager::GetRenderer();
+	CSound * pSound = GET_SOUND_PTR;
+
 	// 動画開始までのカウンターを加算
 	if (!pRenderer->GetIsUseMovie())
 	{
+		if (!m_bIsPlayingBGM)
+		{
+			pSound->CSound::Play(CSound::SOUND_BGM_TITLE);
+			m_bIsPlayingBGM = true;
+		}
 
 		if (m_pTitleButtonManager != nullptr)
 		{
@@ -101,6 +109,8 @@ void CTitle::Update(void)
 		CMovie *pMovie = CManager::GetMovie();
 		pMovie->ChangeMovie(L"./data/Movie/op_movie_1.avi",false);
 		pMovie->Play();
+		pSound->StopAll();
+		m_bIsPlayingBGM = false;
 	}
 }
 
