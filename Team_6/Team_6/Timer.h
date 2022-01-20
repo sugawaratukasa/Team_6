@@ -25,7 +25,7 @@
 //*****************************************************************************
 #define TIMER_POS D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 30.0f, 0.0f)
 #define TIMER_SIZE D3DXVECTOR3(250.0f, 250.0f, 250.0f)
-#define TIMER_MINIT 1
+#define TIMER_MINIT 7
 #define TIMER_LENGTH (60 * TIMER_MINIT)
 #define TIMER_ANGLE 180.0f
 #define TIMER_NUM_POS D3DXVECTOR3(SCREEN_WIDTH / 2.0f, 40.0f, 0.0f)

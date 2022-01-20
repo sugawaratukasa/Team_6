@@ -97,7 +97,6 @@ void CMode_Ranking::Update(void)
 			{
 				// ‰æ–Ê‘JˆÚ
 				ModeTransition();
-				m_bIsPlayedMovie = false;
 			}
 		}
 	}

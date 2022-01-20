@@ -20,7 +20,7 @@
 #define PLAYER1_POS_2	(D3DXVECTOR3(SCREEN_WIDTH / 4.0f,SCREEN_HEIGHT / 2.0f + 150,0.0f))
 #define PLAYER2_POS_1	(D3DXVECTOR3(SCREEN_WIDTH / 1.3f,SCREEN_HEIGHT / 2.0f + 100.0f,0.0f))
 #define PLAYER2_POS_2	(D3DXVECTOR3(SCREEN_WIDTH / 1.3f,SCREEN_HEIGHT / 2.0f + 150.0f,0.0f))
-#define SIZE_2D	(D3DXVECTOR3(300.0f, 50.0f,0.0f))
+#define SIZE_2D	(D3DXVECTOR3(361.0f, 87.0f,0.0f))
 #define COL		(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 //=============================================================================
 // コンストラクタ
