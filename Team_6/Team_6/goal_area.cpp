@@ -139,7 +139,7 @@ void CGoalArea::Goal(void)
 		{
 			// ‘JˆÚ
 			CFade *pFade = CManager::GetFade();
-			pFade->SetFade(CManager::MODE_TYPE_RANKING_RESULT);
+			pFade->SetFade(CManager::MODE_TYPE_CLEAR_TIME);
 			// ƒS[ƒ‹ó‘Ô‚ğtrue‚É‚·‚é
 			m_bGoal = true;
 		}

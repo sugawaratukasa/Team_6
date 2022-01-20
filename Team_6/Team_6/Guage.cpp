@@ -343,7 +343,7 @@ void CGauge::WriteText(void)
     FILE * pFile;
 
     // ファイルの書き出し
-    pFile = fopen("Player_Time.txt", "w");
+    pFile = fopen("data/Text/Time/Player_Time.txt", "w");
 
     // ファイルが空じゃないか
     if (pFile != NULL)

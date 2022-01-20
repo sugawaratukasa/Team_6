@@ -134,7 +134,7 @@ void CMode_Clear_Time::ReadPlayerFile(void)
 {
 	FILE * pFile;
 	// ファイルの読み込み
-	pFile = fopen("Player_Time.txt", "r");
+	pFile = fopen("data/Text/Time/Player_Time.txt", "r");
 
 	// ファイルが空じゃないか
 	if (pFile != NULL)
