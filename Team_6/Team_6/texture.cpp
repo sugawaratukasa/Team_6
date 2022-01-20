@@ -93,7 +93,7 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/baton_guid_texture.png" },
 		{ "data/Texture/map_guid_texture.png" },
 		{ "data/Texture/pause_logo.png" },
-		{ "data/Texture/black.png" },
+		{ "data/Texture/imprisonment.png" },
 		{ "data/Texture/log_01_player1.png" },
 		{ "data/Texture/log_01_player2.png" },
 		{ "data/Texture/control_key.png" },
@@ -132,6 +132,7 @@ HRESULT CTexture::SetTextureName(void)
 		{ "data/Texture/pad.png" },
 		{ "data/Texture/Interaction.png" },
 		{ "data/Texture/pick_up.png" },
+		{ "data/Texture/imprisonment.png" },
 	};
 
 	// 分割テクスチャ
