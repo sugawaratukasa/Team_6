@@ -49,7 +49,7 @@ void CGameOver::Update(void)
 	else if (!m_bIsPlayedMovie)
 	{
 		CMovie *pMovie = CManager::GetMovie();
-		pMovie->ChangeMovie(L"./data/Movie/MovieClear.avi", false);
+		pMovie->ChangeMovie(L"./data/Movie/MovieGameOver.avi", false);
 		pMovie->Play();
 		m_bIsPlayedMovie = true;
 	}
