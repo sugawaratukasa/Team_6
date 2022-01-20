@@ -885,6 +885,7 @@ void CPlayer::Action_UI_Create(void)
 			m_bInteract = false;
 		}
 	}
+	// false‚Ìê‡
 	else
 	{
 		// UI¶¬ˆ—”»’èİ’è
@@ -900,6 +901,7 @@ void CPlayer::Action_UI_Create(void)
 			m_bGetItem = false;
 		}
 	}
+	// false‚Ìê‡
 	else
 	{
 		// UI¶¬ˆ—”»’èİ’è
