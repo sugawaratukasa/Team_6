@@ -39,7 +39,7 @@ HRESULT CBlackTexture::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	CScene2D::Init(pos, size);
 	// テクスチャの設定
 	CTexture *pTexture = CManager::GetResourceManager()->GetTextureClass();
-	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_NUM_BLACK_FILL));
+	BindTexture(pTexture->GetTexture(CTexture::TEXTURE_IMPRISONMENT));
 	return S_OK;
 }
 

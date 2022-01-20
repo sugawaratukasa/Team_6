@@ -20,9 +20,9 @@
 #define JAILER_DEFAULT_LENGTH (580.0f)					//長さのデフォルト値
 #define JAILER_CAUTION_LENGTH JAILER_DEFAULT_LENGTH * 1.2f		//警戒時の長さ
 #define JAILER_CENTER_ANGLE (55.0f)
-#define CAMERA_DEFAULT_LENGTH (240.0f)					//長さのデフォルト値
+#define CAMERA_DEFAULT_LENGTH (400.0f)					//長さのデフォルト値
 #define CAMERA_CAUTION_LENGTH CAMERA_DEFAULT_LENGTH * 1.5f		//警戒時の長さ
-#define CAMERA_CENTER_ANGLE (40.0f)
+#define CAMERA_CENTER_ANGLE (45.0f)
 
 //=============================================================================
 //静的メンバ変数

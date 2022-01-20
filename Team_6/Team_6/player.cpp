@@ -614,7 +614,6 @@ void CPlayer::DoorOpen(int nPlayer)
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == true && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
 							m_abGetItem[ITEM_KEY_PC_ROOM] == true && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
-							m_abGetItem[ITEM_BATON] == true && nDoorType == CDoor_Collision::TYPE_SWITCH ||
 							nDoorType == CDoor_Collision::TYPE_LEVER)
 						{
 							// Fが押された場合
@@ -647,8 +646,7 @@ void CPlayer::DoorOpen(int nPlayer)
 							m_abGetItem[ITEM_KEY_STORAGE] == false && nDoorType == CDoor_Collision::TYPE_STORAGE ||
 							m_abGetItem[ITEM_KEY_JAILER_ROOM] == false && nDoorType == CDoor_Collision::TYPE_JAILER_ROOM ||
 							m_abGetItem[ITEM_KEY_CONTROL_ROOM] == false && nDoorType == CDoor_Collision::TYPE_CONTROL_ROOM ||
-							m_abGetItem[ITEM_KEY_PC_ROOM] == false && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM ||
-							m_abGetItem[ITEM_BATON] == false && nDoorType == CDoor_Collision::TYPE_SWITCH)
+							m_abGetItem[ITEM_KEY_PC_ROOM] == false && nDoorType == CDoor_Collision::TYPE_CAMERA_ROOM)
 						{
 							// Fが押された場合
 							if (nPlayer == 0 && pKeyboard->GetTrigger(DIK_F) ||
@@ -855,6 +853,9 @@ void CPlayer::UseSecurity_Cam(int nPlayer)
 					{
 						// カメラ使用処理
 						((CSecurity_Camera_Collision*)pScene)->CameraUse(nPlayer);
+						
+						// 位置設定
+						SetPos(Security_Cam_Col_Pos);
 					}
 				}
 				// 次のポインタ取得
